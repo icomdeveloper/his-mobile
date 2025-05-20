@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:his/core/utils/app_colors.dart';
 
 class CustomDotsIndicator extends StatelessWidget {
   const CustomDotsIndicator({
@@ -31,9 +32,9 @@ class CustomDotsIndicator extends StatelessWidget {
           Color(0xffADADAD),
         ], // Inactive dot colors
         activeColors: [
-          Color(0xff063E8E),
-          Color(0xff063E8E),
-          Color(0xff063E8E),
+          AppColors.primaryColor,
+          AppColors.primaryColor,
+          AppColors.primaryColor,
         ], // Àctive dot colors
       ),
     );

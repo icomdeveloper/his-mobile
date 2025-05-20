@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:his/core/utils/app_colors.dart';
+import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/utils/assets.dart';
+
+class FeaturedVideoCardWidget extends StatelessWidget {
+  const FeaturedVideoCardWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      child: Stack(children: [
+        Image.asset(
+          Assets.assetsImagesDoctestimage,
+          fit: BoxFit.fill,
+        ),
+        Positioned(
+          right: 0,
+          left: 0,
+          bottom: 0,
+          top: 0,
+          child: Center(
+            child: CircleAvatar(
+              radius: 34.r,
+              backgroundColor: Colors.white,
+              child: CircleAvatar(
+                  radius: 28.r,
+                  backgroundColor: AppColors.primaryColor,
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
+                    size: 32.sp,
+                  )),
+            ),
+          ),
+        ),
+        Positioned(
+          right: 12.w,
+          top: 12.h,
+          child: SvgPicture.asset(
+            Assets.assetsImagesBookmarked,
+            colorFilter:
+                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+          ),
+        ),
+        Positioned(
+          right: 12.w,
+          bottom: 12.h,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Text(
+                '10:14',
+                style: Styles.regularRoboto12.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+}
