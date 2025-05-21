@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_video_card_widget.dart';
 
@@ -24,8 +25,7 @@ class FeaturedVideosItem extends StatelessWidget {
           'Lorem ipsum dolor sit amet consectetur. Ut elit tempus faucibus vitae sit. Eleifend ac euismod placerat a eu. Gravida lacus commodo neque ut.',
           overflow: TextOverflow.ellipsis,
           maxLines: 3,
-          style:
-              Styles.regularRoboto12.copyWith(color: const Color(0xffADADAD)),
+          style: Styles.regularRoboto12.copyWith(color: AppColors.grey),
         ),
       ]),
     );

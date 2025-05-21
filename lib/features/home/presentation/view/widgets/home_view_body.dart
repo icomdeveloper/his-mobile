@@ -10,86 +10,94 @@ import 'package:his/features/home/presentation/view/widgets/recently_added_slive
 import 'recommended_videos_sliver_grid.dart';
 
 class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({super.key});
-
+  const HomeViewBody({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      slivers: [
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 12.h,
-              ),
-              const CustomTextField(),
-            ],
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 12.h,
-              ),
-              const Text('Featured Videos', style: Styles.semiBoldRoboto20),
-              SizedBox(
-                height: 12.h,
-              ),
-            ],
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: 320.h,
-              ),
-              child: const FeaturedVideosPageView()),
-        ),
-        SliverToBoxAdapter(
-          child: SizedBox(
-            height: 12.h,
-          ),
-        ),
-        SliverToBoxAdapter(
-            child: Row(
-          children: [
-            const Text('Recommended Videos', style: Styles.semiBoldRoboto20),
-            const Spacer(),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RecommendedVideosView.routeName);
-              },
-              child: Text('See All',
-                  style: Styles.regularRoboto12
-                      .copyWith(color: AppColors.primaryColor)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: CustomScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 12.h,
+                ),
+                const CustomTextField(
+                  hintText: 'Search..',
+                ),
+              ],
             ),
-          ],
-        )),
-        SliverToBoxAdapter(
-          child: SizedBox(
-            height: 12.h,
           ),
-        ),
-        const RecommendedVideosSliverGrid(),
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 12.h,
+                ),
+                const Text('Featured Videos', style: Styles.semiBoldRoboto20),
+                SizedBox(
+                  height: 12.h,
+                ),
+              ],
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 320.h,
+                ),
+                child: const FeaturedVideosPageView()),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 12.h,
+            ),
+          ),
+          SliverToBoxAdapter(
+              child: Row(
             children: [
-              SizedBox(
-                height: 32.h,
-              ),
-              const Text('Recently Added', style: Styles.semiBoldRoboto20),
-              SizedBox(
-                height: 12.h,
+              const Text('Recommended Videos', style: Styles.semiBoldRoboto20),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const RecommendedVideosView(),
+                  ));
+                },
+                child: Text('See All',
+                    style: Styles.regularRoboto12
+                        .copyWith(color: AppColors.primaryColor)),
               ),
             ],
+          )),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 12.h,
+            ),
           ),
-        ),
-        const RecentlyAddedSliverList(),
-      ],
+          const RecommendedVideosSliverGrid(),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 32.h,
+                ),
+                const Text('Recently Added', style: Styles.semiBoldRoboto20),
+                SizedBox(
+                  height: 12.h,
+                ),
+              ],
+            ),
+          ),
+          const RecentlyAddedSliverList(),
+        ],
+      ),
     );
   }
 }

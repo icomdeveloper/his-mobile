@@ -6,8 +6,9 @@ import 'package:his/core/utils/assets.dart';
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
+    required this.hintText,
   });
-
+  final String hintText;
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -25,7 +26,7 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
-      hintText: 'Search..',
+      hintText: hintText,
       hintStyle:
           Styles.regularRoboto12.copyWith(color: const Color(0xff999999)),
     ));

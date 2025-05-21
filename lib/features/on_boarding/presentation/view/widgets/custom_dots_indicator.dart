@@ -27,9 +27,9 @@ class CustomDotsIndicator extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(32)),
         ),
         colors: [
-          Color(0xffADADAD),
-          Color(0xffADADAD),
-          Color(0xffADADAD),
+          AppColors.grey,
+          AppColors.grey,
+          AppColors.grey,
         ], // Inactive dot colors
         activeColors: [
           AppColors.primaryColor,

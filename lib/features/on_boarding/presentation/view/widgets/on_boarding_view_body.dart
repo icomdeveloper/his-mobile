@@ -56,7 +56,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
               child: Text(
                 'Skip',
                 style: Styles.semiBoldPoppins14.copyWith(
-                    color: const Color(0xffADADAD),
+                    color: AppColors.grey,
                     decoration: TextDecoration.underline),
               ),
             ),
