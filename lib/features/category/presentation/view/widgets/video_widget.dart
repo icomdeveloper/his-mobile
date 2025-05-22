@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 
 class VideoWidget extends StatefulWidget {
   const VideoWidget({super.key});
@@ -14,6 +15,26 @@ class VideoWidget extends StatefulWidget {
 
 class _VideoWidgetState extends State<VideoWidget> {
   bool showComments = false;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,42 +82,42 @@ class _VideoWidgetState extends State<VideoWidget> {
           ),
         ),
         SizedBox(height: 8.h),
-        Row(
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 320.w),
-              child: const Text(
-                'feugiat ullamcorper suspendisse amet.',
-                style: Styles.semiBoldPoppins14,
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              showComments = !showComments;
+              if (showComments) {
+                _scrollToBottom();
+              }
+            });
+          },
+          child: Row(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 320.w),
+                child: const Text(
+                  'feugiat ullamcorper suspendisse amet.',
+                  style: Styles.semiBoldPoppins14,
+                ),
               ),
-            ),
-            const Spacer(),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  showComments = !showComments;
-                });
-              },
-              child: CircleAvatar(
+              const Spacer(),
+              CircleAvatar(
                 backgroundColor: const Color(0xffEDEDED),
                 radius: 10.r,
                 child: SvgPicture.asset(showComments
                     ? Assets.assetsImagesArrowUp
                     : Assets.assetsImagesArrowDown),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const Divider(),
         if (showComments) ...[
-          Row(children: [
-            CircleAvatar(
-              backgroundImage:
-                  const NetworkImage('https://i.pravatar.cc/300?img=1'),
-              radius: 20.r,
-            ),
-            SizedBox(width: 12.w),
-          ])
+          SizedBox(
+            height: 234.h,
+            child: CommentsListView(controller: _scrollController),
+          ),
+          const Divider(),
         ]
       ],
     );

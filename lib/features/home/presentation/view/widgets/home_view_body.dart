@@ -49,7 +49,7 @@ class HomeViewBody extends StatelessWidget {
           SliverToBoxAdapter(
             child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: 320.h,
+                  maxHeight: MediaQuery.of(context).size.height * 0.36,
                 ),
                 child: const FeaturedVideosPageView()),
           ),

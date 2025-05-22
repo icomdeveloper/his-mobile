@@ -34,18 +34,18 @@ class CategoryViewBody extends StatelessWidget {
                 width: double.infinity,
                 child: const CategoriesList()),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 24,
+                  height: 24.h,
                 ),
-                Text(
+                const Text(
                   'Recently Added',
                   style: Styles.semiBoldRoboto20,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
               ],

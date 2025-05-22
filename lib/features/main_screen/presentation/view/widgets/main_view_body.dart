@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
@@ -28,7 +29,7 @@ class _MainViewBodyState extends State<MainViewBody> {
 
     List<Widget> screens = [
       HomeView(navigatorKey: navigatorKeys[0]!),
-      const CategoryView(),
+      CategoryView(navigatorKey: navigatorKeys[1]!),
       const Center(
         child: Text('Bookmarks'),
       ),
@@ -53,22 +54,15 @@ class _MainViewBodyState extends State<MainViewBody> {
           final canPop = await Navigator.maybePop(
               navigatorKeys[indexStack.currentIndex]!.currentState!.context);
 
-          return Future.value(
-              !canPop); // Return true to prevent pop, false to allow
+          if (!canPop) {
+            // If we can't pop (we're at root), ask if user wants to exit
+            SystemNavigator.pop(); // Exit the app
+            return Future.value(true); // We handled it ourselves
+          }
+          return Future.value(false); // Allow normal pop
         },
         child: IndexedStack(index: indexStack.currentIndex, children: screens),
       )),
     );
   }
-
-  // Widget _buildTabNavigator(Widget child) {
-  //   return Navigator(
-  //     onGenerateRoute: (RouteSettings settings) {
-  //       return MaterialPageRoute(
-  //         builder: (_) => child,
-  //         settings: settings,
-  //       );
-  //     },
-  //   );
-  // }
 }
