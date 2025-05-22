@@ -34,6 +34,14 @@ class Assets {
   /// assets/images/home.svg
   static const String assetsImagesHome = "assets/images/home.svg";
 
+  /// Assets for assetsImagesLink
+  /// assets/images/link.svg
+  static const String assetsImagesLink = "assets/images/link.svg";
+
+  /// Assets for assetsImagesMoreVert
+  /// assets/images/more_vert.svg
+  static const String assetsImagesMoreVert = "assets/images/more_vert.svg";
+
   /// Assets for assetsImagesOnBoarding1
   /// assets/images/on_boarding1.svg
   static const String assetsImagesOnBoarding1 = "assets/images/on_boarding1.svg";

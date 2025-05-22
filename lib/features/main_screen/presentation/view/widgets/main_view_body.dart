@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
+import 'package:his/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar.dart';
@@ -30,9 +31,7 @@ class _MainViewBodyState extends State<MainViewBody> {
     List<Widget> screens = [
       HomeView(navigatorKey: navigatorKeys[0]!),
       CategoryView(navigatorKey: navigatorKeys[1]!),
-      const Center(
-        child: Text('Bookmarks'),
-      ),
+      BookmarksView(navigatorKey: navigatorKeys[2]!),
       const Center(
         child: Text('Profile'),
       ),

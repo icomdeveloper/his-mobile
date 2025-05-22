@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/services/app_routes.dart';
-import 'package:his/features/main_screen/presentation/view/main_view.dart';
 
 import 'features/on_boarding/presentation/view/on_boarding_view.dart';
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => const MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: onGenerateRoute,
-        initialRoute: MainView.routeName,
+        initialRoute: OnBoardingView.routeName,
       ),
     );
   }

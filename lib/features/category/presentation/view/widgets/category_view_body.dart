@@ -32,7 +32,17 @@ class CategoryViewBody extends StatelessWidget {
             child: SizedBox(
                 height: 32.h,
                 width: double.infinity,
-                child: const CategoriesList()),
+                child: CategoriesList(
+                  onItemTapped: (value) {},
+                  categoryList: const [
+                    '2025',
+                    '2024',
+                    '2023',
+                    '2022',
+                    '2021',
+                    '2020',
+                  ],
+                )),
           ),
           SliverToBoxAdapter(
             child: Column(

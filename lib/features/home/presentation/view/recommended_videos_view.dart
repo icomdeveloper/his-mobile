@@ -27,7 +27,7 @@ class RecommendedVideosView extends StatelessWidget {
       ),
       body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
-        child: RecommendedVideosList(),
+        child: CustomScrollView(slivers: [RecommendedVideosList()]),
       ),
     );
   }

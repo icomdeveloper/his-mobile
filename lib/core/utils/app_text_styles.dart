@@ -16,6 +16,16 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
     fontFamily: 'Roboto',
   );
+  static const regularRoboto10 = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Roboto',
+  );
+  static const semiBoldRoboto10 = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Roboto',
+  );
   static const semiBoldPoppins14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w600,

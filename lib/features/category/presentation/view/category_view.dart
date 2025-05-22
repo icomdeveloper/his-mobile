@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/features/category/presentation/view/widgets/category_view_body.dart';
 
 class CategoryView extends StatelessWidget {
@@ -13,12 +13,7 @@ class CategoryView extends StatelessWidget {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Categories',
-                  style: Styles.semiBoldRoboto20,
-                ),
-              ),
+              appBar: buildAppBar(title: 'Categories'),
               body: const CategoryViewBody()),
         );
       },
