@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/main_screen/data/model/nav_bar_model.dart';
@@ -39,9 +40,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     final isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     return Container(
-      height: isPortrait
-          ? mediaQuery.size.height * 0.1
-          : mediaQuery.size.height * 0.2,
+      height: isPortrait ? 85.h : mediaQuery.size.height * 0.2,
       width: double.infinity,
       decoration: const BoxDecoration(
         boxShadow: [

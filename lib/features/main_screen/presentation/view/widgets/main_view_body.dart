@@ -7,6 +7,7 @@ import 'package:his/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar.dart';
+import 'package:his/features/profile/presentation/view/profile_view.dart';
 import 'package:provider/provider.dart';
 
 class MainViewBody extends StatefulWidget {
@@ -32,9 +33,7 @@ class _MainViewBodyState extends State<MainViewBody> {
       HomeView(navigatorKey: navigatorKeys[0]!),
       CategoryView(navigatorKey: navigatorKeys[1]!),
       BookmarksView(navigatorKey: navigatorKeys[2]!),
-      const Center(
-        child: Text('Profile'),
-      ),
+      ProfileView(navigatorKey: navigatorKeys[3]!),
     ];
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(
@@ -43,8 +42,7 @@ class _MainViewBodyState extends State<MainViewBody> {
           setState(() {});
         },
       ),
-      body: SafeArea(
-          child: PopScope(
+      body: PopScope(
         canPop: false, // Prevents default back button behavior
         onPopInvokedWithResult: (bool didPop, _) async {
           if (didPop) return Future.value(true);
@@ -61,7 +59,7 @@ class _MainViewBodyState extends State<MainViewBody> {
           return Future.value(false); // Allow normal pop
         },
         child: IndexedStack(index: indexStack.currentIndex, children: screens),
-      )),
+      ),
     );
   }
 }

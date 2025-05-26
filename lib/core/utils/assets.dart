@@ -63,12 +63,16 @@ class Assets {
   static const String assetsImagesProfile = "assets/images/profile.svg";
 
   /// Assets for assetsImagesProfileBackground
-  /// assets/images/profile_background.svg
-  static const String assetsImagesProfileBackground = "assets/images/profile_background.svg";
+  /// assets/images/profile_background.png
+  static const String assetsImagesProfileBackground = "assets/images/profile_background.png";
 
   /// Assets for assetsImagesSearch
   /// assets/images/search.svg
   static const String assetsImagesSearch = "assets/images/search.svg";
+
+  /// Assets for assetsImagesSend
+  /// assets/images/Send.svg
+  static const String assetsImagesSend = "assets/images/Send.svg";
 
   /// Assets for assetsImagesSplash
   /// assets/images/splash.png

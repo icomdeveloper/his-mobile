@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
           return MaterialPageRoute(
             settings: settings,
             builder: (BuildContext context) {
-              return const Scaffold(body: HomeViewBody());
+              return const Scaffold(body: SafeArea(child: HomeViewBody()));
             },
           );
         });
