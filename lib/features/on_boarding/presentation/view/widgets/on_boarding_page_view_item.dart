@@ -17,7 +17,10 @@ class OnBoardingPageViewItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 320, child: SvgPicture.asset(image)),
+        SizedBox(
+            width: 328,
+            child: AspectRatio(
+                aspectRatio: 328 / 320, child: SvgPicture.asset(image))),
         const SizedBox(
           height: 64,
         ),

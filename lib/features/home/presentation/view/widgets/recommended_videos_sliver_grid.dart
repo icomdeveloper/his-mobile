@@ -8,11 +8,14 @@ class RecommendedVideosSliverGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isPortrait = mediaQuery.orientation == Orientation.portrait;
+
     return SliverGrid.builder(
         itemCount: 4,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 165 / 180,
+          childAspectRatio: isPortrait ? 165 / 180 : 500 / 400,
           crossAxisSpacing: 12,
           mainAxisSpacing: 24,
         ),

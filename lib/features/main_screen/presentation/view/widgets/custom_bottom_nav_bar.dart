@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/main_screen/data/model/nav_bar_model.dart';
@@ -14,11 +13,35 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+  final List<NavBarModel> navigationBarList = [
+    const NavBarModel(
+      title: 'Home',
+      image: Assets.assetsImagesHome,
+    ),
+    const NavBarModel(
+      title: 'Category',
+      image: Assets.assetsImagesCategories,
+    ),
+    const NavBarModel(
+      title: 'Bookmarks',
+      image: Assets.assetsImagesBookmarked,
+    ),
+    const NavBarModel(
+      title: 'Profile',
+      image: Assets.assetsImagesProfile,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     var selectedIndex = Provider.of<IndexStackProvider>(context);
+    final mediaQuery = MediaQuery.of(context);
+    final isPortrait = mediaQuery.orientation == Orientation.portrait;
+
     return Container(
-      height: 80.h,
+      height: isPortrait
+          ? mediaQuery.size.height * 0.1
+          : mediaQuery.size.height * 0.2,
       width: double.infinity,
       decoration: const BoxDecoration(
         boxShadow: [
@@ -62,22 +85,3 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     );
   }
 }
-
-List<NavBarModel> navigationBarList = [
-  const NavBarModel(
-    title: 'Home',
-    image: Assets.assetsImagesHome,
-  ),
-  const NavBarModel(
-    title: 'Category',
-    image: Assets.assetsImagesCategories,
-  ),
-  const NavBarModel(
-    title: 'Bookmarks',
-    image: Assets.assetsImagesBookmarked,
-  ),
-  const NavBarModel(
-    title: 'Profile',
-    image: Assets.assetsImagesProfile,
-  ),
-];

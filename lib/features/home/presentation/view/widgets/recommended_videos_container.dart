@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -32,25 +31,25 @@ class RecommendedVideosContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 right: 0,
                 left: 0,
                 bottom: 0,
                 top: 0,
                 child: Center(
                   child: CircleAvatar(
-                      radius: 21.r,
+                      radius: 21,
                       backgroundColor: AppColors.primaryColor,
                       child: Icon(
                         Icons.play_arrow,
                         color: Colors.white,
-                        size: 32.sp,
+                        size: 32,
                       )),
                 ),
               ),
               Positioned(
-                right: 12.w,
-                top: 12.h,
+                right: 12,
+                top: 12,
                 child: SvgPicture.asset(
                   Assets.assetsImagesBookmarked,
                   colorFilter: const ColorFilter.mode(
@@ -58,8 +57,8 @@ class RecommendedVideosContainer extends StatelessWidget {
                 ),
               ),
               Positioned(
-                right: 13.w,
-                bottom: 8.h,
+                right: 13,
+                bottom: 8,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.9),

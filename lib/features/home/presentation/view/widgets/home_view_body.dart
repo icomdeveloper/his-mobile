@@ -15,6 +15,9 @@ class HomeViewBody extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isPortrait = mediaQuery.orientation == Orientation.portrait;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: CustomScrollView(
@@ -49,7 +52,9 @@ class HomeViewBody extends StatelessWidget {
           SliverToBoxAdapter(
             child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.36,
+                  maxHeight: isPortrait
+                      ? mediaQuery.size.height * 0.36
+                      : mediaQuery.size.height * 0.7,
                 ),
                 child: const FeaturedVideosPageView()),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -19,29 +18,29 @@ class FeaturedVideoCardWidget extends StatelessWidget {
           Assets.assetsImagesDoctestimage,
           fit: BoxFit.fill,
         ),
-        Positioned(
+        const Positioned(
           right: 0,
           left: 0,
           bottom: 0,
           top: 0,
           child: Center(
             child: CircleAvatar(
-              radius: 34.r,
+              radius: 34,
               backgroundColor: Colors.white,
               child: CircleAvatar(
-                  radius: 28.r,
+                  radius: 28,
                   backgroundColor: AppColors.primaryColor,
                   child: Icon(
                     Icons.play_arrow,
                     color: Colors.white,
-                    size: 32.sp,
+                    size: 32,
                   )),
             ),
           ),
         ),
         Positioned(
-          right: 12.w,
-          top: 12.h,
+          right: 12,
+          top: 12,
           child: SvgPicture.asset(
             Assets.assetsImagesBookmarked,
             colorFilter:
@@ -49,8 +48,8 @@ class FeaturedVideoCardWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: 12.w,
-          bottom: 12.h,
+          right: 12,
+          bottom: 12,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.8),

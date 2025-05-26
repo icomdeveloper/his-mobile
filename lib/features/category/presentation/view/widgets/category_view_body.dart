@@ -6,14 +6,22 @@ import 'package:his/features/category/presentation/view/widgets/category_recentl
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 
-class CategoryViewBody extends StatelessWidget {
+class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
 
+  @override
+  State<CategoryViewBody> createState() => _CategoryViewBodyState();
+}
+
+class _CategoryViewBodyState extends State<CategoryViewBody> {
+  bool showComments = false;
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: CustomScrollView(
+        controller: _scrollController,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           const SliverToBoxAdapter(
@@ -30,7 +38,7 @@ class CategoryViewBody extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-                height: 32.h,
+                height: 32,
                 width: double.infinity,
                 child: CategoriesList(
                   onItemTapped: (value) {},
@@ -63,7 +71,7 @@ class CategoryViewBody extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 250.h,
+              height: 250,
               child: ListView.separated(
                 separatorBuilder: (context, index) => const SizedBox(width: 12),
                 scrollDirection: Axis.horizontal,
@@ -77,8 +85,18 @@ class CategoryViewBody extends StatelessWidget {
           SliverToBoxAdapter(
             child: SizedBox(height: 24.h),
           ),
-          const SliverToBoxAdapter(
-            child: VideoWidget(),
+          SliverToBoxAdapter(
+            child: VideoWidget(
+              onTap: () {
+                setState(() {
+                  showComments = !showComments;
+                  if (showComments) {
+                    _scrollToBottom();
+                  }
+                });
+              },
+              showComments: showComments,
+            ),
           ),
           SliverToBoxAdapter(
             child: SizedBox(height: 24.h),
@@ -86,5 +104,17 @@ class CategoryViewBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 }

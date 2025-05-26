@@ -24,9 +24,9 @@ class RecentlyBookMarksWidget extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 97.w,
+            width: 97,
             child: AspectRatio(
-              aspectRatio: 97.w / 102.h,
+              aspectRatio: 97 / 102,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12.r),
@@ -40,8 +40,7 @@ class RecentlyBookMarksWidget extends StatelessWidget {
           const SizedBox(width: 12),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth:
-                  MediaQuery.of(context).size.width - (97.w + 12 + 48 + 50),
+              maxWidth: MediaQuery.of(context).size.width - (97 + 12 + 48 + 50),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

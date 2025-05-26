@@ -27,25 +27,25 @@ class RecommendedVideoCardWidget extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
             ),
-            Positioned(
+            const Positioned(
               right: 0,
               left: 0,
               bottom: 0,
               top: 0,
               child: Center(
                 child: CircleAvatar(
-                    radius: 21.r,
+                    radius: 21,
                     backgroundColor: AppColors.primaryColor,
                     child: Icon(
                       Icons.play_arrow,
                       color: Colors.white,
-                      size: 20.sp,
+                      size: 20,
                     )),
               ),
             ),
             Positioned(
-              right: 8.w,
-              top: 8.h,
+              right: 8,
+              top: 8,
               child: SvgPicture.asset(
                 Assets.assetsImagesBookmarked,
                 colorFilter: const ColorFilter.mode(
@@ -53,8 +53,8 @@ class RecommendedVideoCardWidget extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: 8.w,
-              bottom: 8.h,
+              right: 8,
+              bottom: 8,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.8),

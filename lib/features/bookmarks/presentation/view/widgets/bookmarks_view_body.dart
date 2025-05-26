@@ -35,7 +35,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-                height: 32.h,
+                height: 32,
                 width: double.infinity,
                 child: CategoriesList(
                   categoryList: const [
