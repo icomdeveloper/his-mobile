@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
-import 'package:his/features/home/presentation/view/recommended_videos_view.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos_page_view.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_sliver_list.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 
 import 'recommended_videos_sliver_grid.dart';
 
@@ -71,7 +71,7 @@ class HomeViewBody extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const RecommendedVideosView(),
+                    builder: (context) => const LoginView(),
                   ));
                 },
                 child: Text('See All',

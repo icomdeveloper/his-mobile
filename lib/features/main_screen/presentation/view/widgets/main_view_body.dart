@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
 import 'package:his/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar.dart';
 import 'package:his/features/profile/presentation/view/profile_view.dart';
 import 'package:provider/provider.dart';
@@ -36,18 +35,19 @@ class _MainViewBodyState extends State<MainViewBody> {
       ProfileView(navigatorKey: navigatorKeys[3]!),
     ];
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavBar(
-        onItemTapped: (value) {
-          indexStack.setIndex(value);
-          setState(() {});
-        },
-      ),
+      bottomNavigationBar: _shouldShowNavBar(context)
+          ? CustomBottomNavBar(
+              onItemTapped: (value) {
+                indexStack.setIndex(value);
+                setState(() {});
+              },
+            )
+          : null,
       body: PopScope(
         canPop: false, // Prevents default back button behavior
         onPopInvokedWithResult: (bool didPop, _) async {
           if (didPop) return Future.value(true);
 
-          log('On Pop invoked ${navigatorKeys[indexStack.currentIndex]!.currentState!.context.widget}');
           final canPop = await Navigator.maybePop(
               navigatorKeys[indexStack.currentIndex]!.currentState!.context);
 
@@ -58,8 +58,42 @@ class _MainViewBodyState extends State<MainViewBody> {
           }
           return Future.value(false); // Allow normal pop
         },
-        child: IndexedStack(index: indexStack.currentIndex, children: screens),
+        child: LazyIndexedStack(
+          initializedScreens: indexStack.initializedScreens,
+          index: indexStack.currentIndex,
+          children: screens,
+        ),
       ),
+    );
+  }
+
+  bool _shouldShowNavBar(BuildContext context) {
+    final currentRoute = ModalRoute.of(context)?.settings.name;
+    // Add routes where you want to hide the navbar
+    final hideNavBarRoutes = [LoginView.routeName];
+    return !hideNavBarRoutes.contains(currentRoute);
+  }
+}
+
+class LazyIndexedStack extends StatelessWidget {
+  final int index;
+  final List<Widget> children;
+  final List<bool> initializedScreens;
+
+  const LazyIndexedStack({
+    super.key,
+    required this.index,
+    required this.children,
+    required this.initializedScreens,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(
+      index: index,
+      children: List.generate(children.length, (i) {
+        return initializedScreens[i] ? children[i] : const SizedBox.shrink();
+      }),
     );
   }
 }

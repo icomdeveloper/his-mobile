@@ -38,6 +38,10 @@ class Assets {
   /// assets/images/home.svg
   static const String assetsImagesHome = "assets/images/home.svg";
 
+  /// Assets for assetsImagesIcons8NoInternet64
+  /// assets/images/icons8-no-internet-64.png
+  static const String assetsImagesIcons8NoInternet64 = "assets/images/icons8-no-internet-64.png";
+
   /// Assets for assetsImagesLink
   /// assets/images/link.svg
   static const String assetsImagesLink = "assets/images/link.svg";

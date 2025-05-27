@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -127,7 +128,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
             maintainInteractivity: true,
             child: CustomTextButton(
               onPressed: () {
-                Prefs.setBool('isOnBoardingSeen', true);
+                Prefs.setBool(PrefsKeys.isOnBoardingSeen, true);
                 Navigator.pushReplacementNamed(context, MainView.routeName);
               },
               text: 'Get Started',
