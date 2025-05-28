@@ -5,7 +5,10 @@ sealed class LoginState {}
 
 final class LoginInitial extends LoginState {}
 
-final class LoginSuccess extends LoginState {}
+final class LoginSuccess extends LoginState {
+  final UserData userData;
+  LoginSuccess({required this.userData});
+}
 
 final class LoginLoading extends LoginState {}
 

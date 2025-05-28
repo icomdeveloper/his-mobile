@@ -1,8 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:his/constants.dart';
+import 'package:his/core/services/shared_preferences.dart';
+import 'package:his/core/utils/api_endpoints.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
-import 'package:his/features/authentication/presentation/cubits/cubit/login_cubit.dart';
+import 'package:his/features/authentication/presentation/cubits/login_cubit/login_cubit.dart';
+import 'package:his/features/authentication/presentation/view/register_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
 
 class LoginViewBody extends StatefulWidget {
@@ -67,6 +73,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         backgroundColor: Colors.green,
                         content: Text('Login Success'),
                       ));
+                      Prefs.setString(
+                          PrefsKeys.userName, state.userData.user!.username!);
+                      Prefs.setString(
+                          PrefsKeys.email, state.userData.user!.email!);
+                      Prefs.setString(
+                          PrefsKeys.name, state.userData.user!.name!);
                     }
                   },
                   builder: (context, state) {
@@ -86,6 +98,31 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           );
                   },
                 ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Center(
+                  child: Text.rich(TextSpan(
+                    text: 'Don\'t have an account ? ',
+                    style: Styles.mediumRoboto12,
+                    children: [
+                      TextSpan(
+                        text: 'Register Now',
+                        style: Styles.mediumRoboto12.copyWith(
+                          color: AppColors.primaryColor,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterView(),
+                                ));
+                          },
+                      ),
+                    ],
+                  )),
+                )
               ],
             ),
           ),

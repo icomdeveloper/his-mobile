@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/constants.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -100,24 +102,24 @@ class ProfileViewBody extends StatelessWidget {
             ),
             color: Color(0xFFFFF8F8),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProfileDataWidget(
-                  data: 'Loremipsum19',
+                  data: Prefs.getString(PrefsKeys.name) ?? '',
+                  title: 'Name',
+                ),
+                const SizedBox(height: 14),
+                ProfileDataWidget(
+                  data: Prefs.getString(PrefsKeys.userName) ?? '',
                   title: 'Username',
                 ),
-                SizedBox(height: 14),
+                const SizedBox(height: 14),
                 ProfileDataWidget(
-                  data: 'Loremipsumdolor@his.org',
+                  data: Prefs.getString(PrefsKeys.email) ?? '',
                   title: 'Email',
-                ),
-                SizedBox(height: 14),
-                ProfileDataWidget(
-                  data: '010299300225',
-                  title: 'Phone Number',
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:his/core/utils/app_text_styles.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -25,10 +26,11 @@ class CustomTextFormField extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           enabledBorder: buildBorder(),
           border: buildBorder(),
           focusedBorder: buildBorder(),
+          hintStyle: Styles.regularRoboto12,
           hintText: hintText),
     );
   }

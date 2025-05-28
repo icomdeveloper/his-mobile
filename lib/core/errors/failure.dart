@@ -38,13 +38,15 @@ class ServerFailure extends Failure {
     }
   }
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
-    if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return ServerFailure(errMesage: response['error']['message']);
+    if (statusCode == 400 || statusCode == 403) {
+      return ServerFailure(errMesage: response['error']);
+    } else if (statusCode == 401) {
+      return ServerFailure(errMesage: 'Your are not authorized!');
     } else if (statusCode == 404) {
       return ServerFailure(errMesage: 'Your request not found !');
     } else if (statusCode == 500) {
       return ServerFailure(
-        errMesage: 'Internal server error , please try later',
+        errMesage: response['message'],
       );
     } else {
       return ServerFailure(

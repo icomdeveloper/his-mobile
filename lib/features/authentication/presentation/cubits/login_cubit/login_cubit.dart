@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/features/authentication/data/models/login_model.dart';
-import 'package:his/features/authentication/data/repo/login_repo.dart';
+import 'package:his/features/authentication/data/models/user_data/user_data.dart';
+import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this.loginRepo) : super(LoginInitial());
-  final LoginRepo loginRepo;
+  LoginCubit(this.authRepo) : super(LoginInitial());
+  final AuthRepo authRepo;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -21,9 +22,9 @@ class LoginCubit extends Cubit<LoginState> {
       password: passwordController.text,
     );
 
-    var result = await loginRepo.login(loginModel: loginModel);
+    var result = await authRepo.login(loginModel: loginModel);
     log('Step1 ==>$result');
-    result.fold((error) => emit(LoginFailure(message: error.message)),
-        (success) => emit(LoginSuccess()));
+    result.fold((error) => emit(LoginFailure(message: error.errMesage)),
+        (success) => emit(LoginSuccess(userData: success)));
   }
 }
