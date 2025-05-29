@@ -8,14 +8,17 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     required this.textInputType,
     required this.controller,
+    this.suffixIcon,
   });
   final String hintText;
   final bool obscureText;
   final TextInputType textInputType;
   final TextEditingController controller;
+  final IconButton? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscuringCharacter: '*',
       controller: controller,
       keyboardType: textInputType,
       obscureText: obscureText,
@@ -26,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           enabledBorder: buildBorder(),
           border: buildBorder(),

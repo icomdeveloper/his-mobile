@@ -17,6 +17,7 @@ class RegisterViewBody extends StatefulWidget {
 class _LoginViewBodyState extends State<RegisterViewBody> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  bool isPasswordVisible = true;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -78,6 +79,19 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         context.read<RegisterCubit>().passwordController,
                     hintText: 'Password',
                     textInputType: TextInputType.visiblePassword,
+                    obscureText: isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 24,
@@ -91,6 +105,19 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         context.read<RegisterCubit>().confirmPasswordController,
                     hintText: 'Confirm Password',
                     textInputType: TextInputType.visiblePassword,
+                    obscureText: isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 24,
@@ -120,6 +147,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                           backgroundColor: Colors.green,
                           content: Text(state.registerSuccessModel.success),
                         ));
+                        Navigator.pop(context);
                       }
                     },
                     builder: (context, state) {

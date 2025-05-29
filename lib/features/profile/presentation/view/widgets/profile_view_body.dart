@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:his/constants.dart';
-import 'package:his/core/services/shared_preferences.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -108,17 +107,17 @@ class ProfileViewBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProfileDataWidget(
-                  data: Prefs.getString(PrefsKeys.name) ?? '',
+                  data: getUserData().user?.name ?? '',
                   title: 'Name',
                 ),
                 const SizedBox(height: 14),
                 ProfileDataWidget(
-                  data: Prefs.getString(PrefsKeys.userName) ?? '',
+                  data: getUserData().user?.username ?? '',
                   title: 'Username',
                 ),
                 const SizedBox(height: 14),
                 ProfileDataWidget(
-                  data: Prefs.getString(PrefsKeys.email) ?? '',
+                  data: getUserData().user?.email ?? '',
                   title: 'Email',
                 ),
               ],

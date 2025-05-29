@@ -1,9 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:his/constants.dart';
-import 'package:his/core/services/shared_preferences.dart';
-import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
@@ -21,6 +18,8 @@ class LoginViewBody extends StatefulWidget {
 class _LoginViewBodyState extends State<LoginViewBody> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  bool isPasswordVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -53,10 +52,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   style: Styles.semiBoldPoppins14,
                 ),
                 CustomTextFormField(
-                  controller: context.read<LoginCubit>().passwordController,
-                  hintText: 'Password',
-                  textInputType: TextInputType.visiblePassword,
-                ),
+                    controller: context.read<LoginCubit>().passwordController,
+                    hintText: 'Password',
+                    textInputType: TextInputType.visiblePassword,
+                    obscureText: isPasswordVisible,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                      icon: isPasswordVisible
+                          ? const Icon(Icons.visibility_off_outlined)
+                          : const Icon(Icons.visibility_outlined),
+                    )),
                 const SizedBox(
                   height: 60,
                 ),
@@ -73,12 +82,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         backgroundColor: Colors.green,
                         content: Text('Login Success'),
                       ));
-                      Prefs.setString(
-                          PrefsKeys.userName, state.userData.user!.username!);
-                      Prefs.setString(
-                          PrefsKeys.email, state.userData.user!.email!);
-                      Prefs.setString(
-                          PrefsKeys.name, state.userData.user!.name!);
                     }
                   },
                   builder: (context, state) {
@@ -103,7 +106,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ),
                 Center(
                   child: Text.rich(TextSpan(
-                    text: 'Don\'t have an account ? ',
+                    text: 'Don\'t have an account? ',
                     style: Styles.mediumRoboto12,
                     children: [
                       TextSpan(

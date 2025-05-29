@@ -27,4 +27,9 @@ class LoginCubit extends Cubit<LoginState> {
     result.fold((error) => emit(LoginFailure(message: error.errMesage)),
         (success) => emit(LoginSuccess(userData: success)));
   }
+
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+  }
 }
