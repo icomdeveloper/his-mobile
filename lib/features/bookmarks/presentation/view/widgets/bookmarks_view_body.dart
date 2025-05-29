@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/bookmarks/presentation/view/widgets/articles_sliver_list.dart';
-import 'package:his/features/bookmarks/presentation/view/widgets/recently_bookmarks_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/home/presentation/view/widgets/recommended_videos_list.dart';
@@ -39,10 +38,8 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 width: double.infinity,
                 child: CategoriesList(
                   categoryList: const [
-                    'All',
-                    'Recently Bookmarks',
-                    'Articles',
                     'Videos',
+                    'Articles',
                   ],
                   onItemTapped: (int value) {
                     setState(() {
@@ -51,29 +48,29 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                   },
                 )),
           ),
-          index == 0 || index == 1
-              ? SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 24.h,
-                      ),
-                      const Text(
-                        'Recently Bookmarks',
-                        style: Styles.semiBoldRoboto20,
-                      ),
-                      SizedBox(
-                        height: 12.h,
-                      ),
-                    ],
-                  ),
-                )
-              : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          index == 0 || index == 1
-              ? const RecentlyBookMarksSliverList()
-              : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          index == 0 || index == 3
+          // index == 0 || index == 1
+          //     ? SliverToBoxAdapter(
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             SizedBox(
+          //               height: 24.h,
+          //             ),
+          //             const Text(
+          //               'Recently Bookmarks',
+          //               style: Styles.semiBoldRoboto20,
+          //             ),
+          //             SizedBox(
+          //               height: 12.h,
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     : const SliverToBoxAdapter(child: SizedBox.shrink()),
+          // index == 0 || index == 1
+          //     ? const RecentlyBookMarksSliverList()
+          //     : const SliverToBoxAdapter(child: SizedBox.shrink()),
+          index == 0
               ? SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,10 +89,10 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                   ),
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          index == 0 || index == 3
+          index == 0
               ? const RecommendedVideosList()
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          index == 0 || index == 2
+          index == 1
               ? SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +111,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                   ),
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          index == 0 || index == 2
+          index == 1
               ? const ArticlesSliverList()
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           const SliverToBoxAdapter(

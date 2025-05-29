@@ -19,37 +19,41 @@ class _CategoriesListState extends State<CategoriesList> {
       scrollDirection: Axis.horizontal,
       itemCount: widget.categoryList.length,
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              side: BorderSide(
-                color: index == selectedIndex
-                    ? Colors.transparent
-                    : const Color(0xffEDEDED),
-                width: 1,
+        return GestureDetector(
+          onTap: () {
+            widget.onItemTapped(index);
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              decoration: ShapeDecoration(
+                color: selectedIndex == index
+                    ? AppColors.primaryColor
+                    : Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22),
+                    side: BorderSide(
+                      width: 1,
+                      color: selectedIndex == index
+                          ? Colors.transparent
+                          : const Color(0xffEDEDED),
+                    )),
               ),
-              backgroundColor: index == selectedIndex
-                  ? AppColors.primaryColor
-                  : Colors.transparent,
-            ),
-            onPressed: () {
-              setState(() {
-                if (selectedIndex == index) {
-                  return;
-                } else {
-                  selectedIndex = index;
-                }
-                widget.onItemTapped(index);
-              });
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: index == selectedIndex ? 18 : 12),
-              child: Text(
-                widget.categoryList[index],
-                style: Styles.regularRoboto12.copyWith(
-                  color: index == selectedIndex ? Colors.white : AppColors.grey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: index == selectedIndex ? 24 : 16, vertical: 8),
+                child: Text(
+                  widget.categoryList[index],
+                  textAlign: TextAlign.center,
+                  style: Styles.regularRoboto12.copyWith(
+                    color:
+                        index == selectedIndex ? Colors.white : AppColors.grey,
+                  ),
                 ),
               ),
             ),

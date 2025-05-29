@@ -99,7 +99,7 @@ class ProfileViewBody extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40), topRight: Radius.circular(40)),
             ),
-            color: Color(0xFFFFF8F8),
+            color: Colors.white,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),

@@ -129,35 +129,35 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
   const VideoWidget({
     super.key,
-    required this.showComments,
-    this.onTap,
   });
-  final bool showComments;
-  final void Function()? onTap;
+
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
 
 class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController videoPlayerController;
-
+  bool showDetails = false;
   late ChewieController chewieController;
   late ScrollController _scrollController;
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _scrollToBottom();
     videoPlayerController = VideoPlayerController.contentUri(
       Uri.parse(
           'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),
@@ -187,41 +187,90 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AspectRatio(
-            aspectRatio: 16 / 9,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Chewie(controller: chewieController))),
-        SizedBox(height: 8.h),
-        GestureDetector(
-          onTap: () {
-            widget.onTap!();
-            _scrollToBottom();
-          },
-          child: Row(
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 320.w),
-                child: const Text(
-                  'feugiat ullamcorper suspendisse amet.',
-                  style: Styles.semiBoldPoppins14,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Chewie(controller: chewieController))),
+          SizedBox(height: 8.h),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                showDetails = !showDetails;
+              });
+            },
+            child: Row(
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 320.w),
+                  child: const Text(
+                    'feugiat ullamcorper suspendisse amet.',
+                    style: Styles.semiBoldPoppins14,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              CircleAvatar(
-                backgroundColor: const Color(0xffEDEDED),
-                radius: 10.r,
-                child: SvgPicture.asset(widget.showComments
-                    ? Assets.assetsImagesArrowUp
-                    : Assets.assetsImagesArrowDown),
-              ),
-            ],
+                const Spacer(),
+                CircleAvatar(
+                  backgroundColor: const Color(0xffEDEDED),
+                  radius: 10.r,
+                  child: SvgPicture.asset(showDetails
+                      ? Assets.assetsImagesArrowUp
+                      : Assets.assetsImagesArrowDown),
+                ),
+              ],
+            ),
           ),
-        ),
-        const Divider(),
-        if (widget.showComments) ...[
+          if (showDetails) ...[
+            Animate(
+              effects: [
+                MoveEffect(
+                  duration: 500.ms,
+                ),
+                FadeEffect(
+                  duration: 500.ms,
+                ),
+              ],
+              child: Column(
+                children: [
+                  Text(
+                    'Lorem ipsum dolor sit amet consectetur. Sed cursus purus. Lorem ipsum dolor sit amet consectetur. Sed cursus purus.',
+                    style:
+                        Styles.regularRoboto12.copyWith(color: AppColors.grey),
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.visibility_outlined,
+                          color: AppColors.grey),
+                      SizedBox(width: 8.w),
+                      Text(
+                        '22.3k views',
+                        style: Styles.regularRoboto12
+                            .copyWith(color: AppColors.grey),
+                      ),
+                      const SizedBox(width: 40),
+                      SizedBox(
+                        width: 12.w,
+                        child: SvgPicture.asset(
+                          Assets.assetsImagesBookmarked,
+                          colorFilter: const ColorFilter.mode(
+                              AppColors.grey, BlendMode.srcIn),
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        '1.648 Saved',
+                        style: Styles.regularRoboto12
+                            .copyWith(color: AppColors.grey),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+          const Divider(),
           SizedBox(
             height: 250.h,
             child: CommentsListView(controller: _scrollController),
@@ -229,8 +278,8 @@ class _VideoWidgetState extends State<VideoWidget> {
           const SizedBox(height: 12),
           const CommentTextField(),
           const SizedBox(height: 30),
-        ]
-      ],
+        ],
+      ),
     );
   }
 
@@ -244,56 +293,5 @@ class _VideoWidgetState extends State<VideoWidget> {
         );
       }
     });
-  }
-}
-
-class CommentTextField extends StatelessWidget {
-  const CommentTextField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        fillColor: const Color(0xffF7F7F7),
-        filled: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-        enabledBorder: buildBorder(),
-        border: buildBorder(),
-        focusedBorder: buildBorder(),
-        prefixIcon: SizedBox(
-          height: 15,
-          width: 15,
-          child: Center(
-              child: CircleAvatar(
-            backgroundColor: AppColors.grey,
-            radius: 12.r,
-            child: const Icon(
-              Icons.more_horiz_outlined,
-              size: 18,
-              color: Color(0xffDADADA),
-            ),
-          )),
-        ),
-        suffixIcon: SizedBox(
-          height: 15,
-          width: 15,
-          child: Center(
-              child: CircleAvatar(
-            backgroundColor: AppColors.primaryColor,
-            radius: 14.r,
-            child: SvgPicture.asset(Assets.assetsImagesSend),
-          )),
-        ),
-        hintText: 'Write your message',
-        hintStyle:
-            Styles.regularRoboto12.copyWith(color: const Color(0xff999999)),
-      ),
-    );
-  }
-
-  OutlineInputBorder buildBorder() {
-    return const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(38)),
-        borderSide: BorderSide(width: 1, color: Color(0xffEDEDED)));
   }
 }

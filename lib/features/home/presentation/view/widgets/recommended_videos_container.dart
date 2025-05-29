@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/home/presentation/view/video_view.dart';
 
 class RecommendedVideosContainer extends StatelessWidget {
   const RecommendedVideosContainer({super.key});
@@ -19,15 +20,22 @@ class RecommendedVideosContainer extends StatelessWidget {
         children: [
           Stack(
             children: [
-              AspectRatio(
-                aspectRatio: 342 / 112,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12)),
-                  child: Image.asset(
-                    Assets.assetsImagesDoctestimage,
-                    fit: BoxFit.fill,
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const VideoView();
+                  }));
+                },
+                child: AspectRatio(
+                  aspectRatio: 342 / 112,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12)),
+                    child: Image.asset(
+                      Assets.assetsImagesDoctestimage,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),

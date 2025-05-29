@@ -13,6 +13,7 @@ class OnBoradingPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
+      physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.horizontal,
       controller: controller,
       children: const [

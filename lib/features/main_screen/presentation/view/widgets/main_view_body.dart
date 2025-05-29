@@ -35,6 +35,7 @@ class _MainViewBodyState extends State<MainViewBody> {
       ProfileView(navigatorKey: navigatorKeys[3]!),
     ];
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: _shouldShowNavBar(context)
           ? CustomBottomNavBar(
               onItemTapped: (value) {

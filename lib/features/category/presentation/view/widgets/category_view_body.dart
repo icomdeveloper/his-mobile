@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
-import 'package:his/features/category/presentation/view/widgets/category_recently_added_item.dart';
-import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
+
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
+import 'package:his/features/home/presentation/view/widgets/recommended_videos_list.dart';
 
 class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
@@ -14,6 +14,15 @@ class CategoryViewBody extends StatefulWidget {
 }
 
 class _CategoryViewBodyState extends State<CategoryViewBody> {
+  List<String> categoryList = const [
+    '2025',
+    '2024',
+    '2023',
+    '2022',
+    '2021',
+    '2020',
+  ];
+  String selectedCategory = '2025';
   bool showComments = false;
   final ScrollController _scrollController = ScrollController();
   @override
@@ -41,15 +50,12 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                 height: 32,
                 width: double.infinity,
                 child: CategoriesList(
-                  onItemTapped: (value) {},
-                  categoryList: const [
-                    '2025',
-                    '2024',
-                    '2023',
-                    '2022',
-                    '2021',
-                    '2020',
-                  ],
+                  onItemTapped: (value) {
+                    setState(() {
+                      selectedCategory = categoryList[value];
+                    });
+                  },
+                  categoryList: categoryList,
                 )),
           ),
           SliverToBoxAdapter(
@@ -57,50 +63,69 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 24.h,
+                  height: 32.h,
                 ),
-                const Text(
-                  'Recently Added',
+                Text(
+                  '$selectedCategory\'s Videos',
                   style: Styles.semiBoldRoboto20,
                 ),
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: 12.h,
                 ),
               ],
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 250,
-              child: ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(width: 12),
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return const CategoryRecentlyAddedItem();
-                },
-              ),
-            ),
-          ),
+
+          const RecommendedVideosList(),
+          // SliverToBoxAdapter(
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       SizedBox(
+          //         height: 24.h,
+          //       ),
+          //       const Text(
+          //         'Recently Added',
+          //         style: Styles.semiBoldRoboto20,
+          //       ),
+          //       const SizedBox(
+          //         height: 12,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SliverToBoxAdapter(
+          //   child: SizedBox(
+          //     height: 250,
+          //     child: ListView.separated(
+          //       separatorBuilder: (context, index) => const SizedBox(width: 12),
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: 10,
+          //       itemBuilder: (context, index) {
+          //         return const CategoryRecentlyAddedItem();
+          //       },
+          //     ),
+          //   ),
+          // ),
           SliverToBoxAdapter(
             child: SizedBox(height: 24.h),
           ),
-          SliverToBoxAdapter(
-            child: VideoWidget(
-              onTap: () {
-                setState(() {
-                  showComments = !showComments;
-                  if (showComments) {
-                    _scrollToBottom();
-                  }
-                });
-              },
-              showComments: showComments,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 24.h),
-          ),
+          // SliverToBoxAdapter(
+          //   child: VideoWidget(
+          //     onTap: () {
+          //       setState(() {
+          //         showComments = !showComments;
+          //         if (showComments) {
+          //           _scrollToBottom();
+          //         }
+          //       });
+          //     },
+          //     showComments: showComments,
+          //   ),
+          // ),
+          // SliverToBoxAdapter(
+          //   child: SizedBox(height: 24.h),
+          // ),
         ],
       ),
     );

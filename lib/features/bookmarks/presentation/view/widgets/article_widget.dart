@@ -21,7 +21,9 @@ class ArticleWidget extends StatelessWidget {
             BoxShadow(
               color: Color(0x11000000),
               blurRadius: 6.10,
-            ),
+              offset: Offset(0, 0),
+              spreadRadius: 0,
+            )
           ]),
       child: Padding(
         padding: const EdgeInsets.all(24),

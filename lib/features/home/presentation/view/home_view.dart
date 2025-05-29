@@ -15,26 +15,27 @@ class HomeView extends StatelessWidget {
             settings: settings,
             builder: (BuildContext context) {
               return Scaffold(
+                  backgroundColor: Colors.white,
                   body: SafeArea(
-                child: OfflineBuilder(
-                  connectivityBuilder: (
-                    BuildContext context,
-                    List<ConnectivityResult> connectivity,
-                    Widget child,
-                  ) {
-                    final bool connected =
-                        !connectivity.contains(ConnectivityResult.none);
-                    if (connected) {
-                      return const HomeViewBody();
-                    } else {
-                      return buildOfflineWidget();
-                    }
-                  },
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              ));
+                    child: OfflineBuilder(
+                      connectivityBuilder: (
+                        BuildContext context,
+                        List<ConnectivityResult> connectivity,
+                        Widget child,
+                      ) {
+                        final bool connected =
+                            !connectivity.contains(ConnectivityResult.none);
+                        if (connected) {
+                          return const HomeViewBody();
+                        } else {
+                          return buildOfflineWidget();
+                        }
+                      },
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ));
             },
           );
         });

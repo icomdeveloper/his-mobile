@@ -66,7 +66,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             int index = entry.key;
             var model = entry.value;
             return Expanded(
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   selectedIndex.setIndex(index);
                   widget.onItemTapped(index);

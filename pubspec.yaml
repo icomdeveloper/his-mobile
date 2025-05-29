@@ -36,6 +36,7 @@ dependencies:
   dots_indicator: ^4.0.1
   flutter:
     sdk: flutter
+  flutter_animate: ^4.5.2
   flutter_bloc: ^9.1.1
   flutter_native_splash: 2.4.4
   flutter_offline: ^5.0.0

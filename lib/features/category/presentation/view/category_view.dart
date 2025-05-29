@@ -15,6 +15,7 @@ class CategoryView extends StatelessWidget {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => Scaffold(
+            backgroundColor: Colors.white,
             appBar: buildAppBar(title: 'Categories'),
             body: OfflineBuilder(
               connectivityBuilder: (
