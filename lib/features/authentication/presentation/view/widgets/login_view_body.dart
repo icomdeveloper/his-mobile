@@ -7,11 +7,12 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
-import 'package:his/features/authentication/presentation/cubits/login_cubit/login_cubit.dart';
+import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/register_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
 import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
+import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class LoginViewBody extends StatefulWidget {
@@ -79,7 +80,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   prefixIcon: SvgPicture.asset(
                     Assets.assetsImagesMail,
                   ),
-                  controller: context.read<LoginCubit>().usernameController,
+                  controller: context.read<AuthCubit>().usernameController,
                   hintText: 'Email Address',
                   textInputType: TextInputType.text,
                 ),
@@ -95,7 +96,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ),
                 CustomTextFormField(
                     prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
-                    controller: context.read<LoginCubit>().passwordController,
+                    controller: context.read<AuthCubit>().passwordController,
                     hintText: 'Password',
                     textInputType: TextInputType.visiblePassword,
                     obscureText: isPasswordVisible,
@@ -118,7 +119,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 26,
                 ),
-                BlocConsumer<LoginCubit, LoginState>(
+                BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is LoginFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -131,6 +132,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         backgroundColor: Colors.green,
                         content: Text('Login Success'),
                       ));
+                      Navigator.pushReplacementNamed(
+                        context,
+                        MainView.routeName,
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -141,7 +146,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 formKey.currentState!.save();
-                                context.read<LoginCubit>().login();
+                                context
+                                    .read<AuthCubit>()
+                                    .loginWithEmailAndPassword();
                               } else {
                                 autovalidateMode = AutovalidateMode.always;
                                 setState(() {});
@@ -157,14 +164,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 12,
                 ),
-                const SocialAuthButton(
+                SocialAuthButton(
+                  onPressed: () {
+                    context.read<AuthCubit>().signInWithGoogle();
+                  },
                   image: Assets.assetsImagesGoogle,
                   text: 'Continue with Google',
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-                const SocialAuthButton(
+                SocialAuthButton(
+                  onPressed: () {
+                    // context.read<AuthCubit>().signInWithApple();
+                  },
                   image: Assets.assetsImagesApple,
                   text: 'Continue with Apple',
                 ),

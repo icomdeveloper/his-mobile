@@ -14,6 +14,10 @@ class Assets {
   /// assets/images/arrow_down.svg
   static const String assetsImagesArrowDown = "assets/images/arrow_down.svg";
 
+  /// Assets for assetsImagesArrowForward
+  /// assets/images/arrow_forward.svg
+  static const String assetsImagesArrowForward = "assets/images/arrow_forward.svg";
+
   /// Assets for assetsImagesArrowUp
   /// assets/images/arrow_up.svg
   static const String assetsImagesArrowUp = "assets/images/arrow_up.svg";
@@ -29,6 +33,10 @@ class Assets {
   /// Assets for assetsImagesCheckicon
   /// assets/images/checkicon.svg
   static const String assetsImagesCheckicon = "assets/images/checkicon.svg";
+
+  /// Assets for assetsImagesDelete
+  /// assets/images/delete.svg
+  static const String assetsImagesDelete = "assets/images/delete.svg";
 
   /// Assets for assetsImagesDoctestimage
   /// assets/images/doctestimage.png
@@ -57,6 +65,10 @@ class Assets {
   /// Assets for assetsImagesLogo
   /// assets/images/logo.svg
   static const String assetsImagesLogo = "assets/images/logo.svg";
+
+  /// Assets for assetsImagesLogout
+  /// assets/images/logout.svg
+  static const String assetsImagesLogout = "assets/images/logout.svg";
 
   /// Assets for assetsImagesMail
   /// assets/images/mail.svg
@@ -109,6 +121,10 @@ class Assets {
   /// Assets for assetsImagesVideoCategory
   /// assets/images/video_category.svg
   static const String assetsImagesVideoCategory = "assets/images/video_category.svg";
+
+  /// Assets for assetsImagesVideoIcon
+  /// assets/images/video_icon.svg
+  static const String assetsImagesVideoIcon = "assets/images/video_icon.svg";
 
   /// Assets for assetsImagesVideoTest
   /// assets/images/video_test.png

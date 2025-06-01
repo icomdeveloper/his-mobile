@@ -5,7 +5,7 @@ import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
-import 'package:his/features/main_screen/presentation/view/main_view.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/on_boarding/presentation/view/widgets/arrow_container.dart';
 import 'package:his/features/on_boarding/presentation/view/widgets/custom_dots_indicator.dart';
 import 'package:his/features/on_boarding/presentation/view/widgets/on_boarding_page_view.dart';
@@ -129,7 +129,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
             child: CustomTextButton(
               onPressed: () {
                 Prefs.setBool(PrefsKeys.isOnBoardingSeen, true);
-                Navigator.pushReplacementNamed(context, MainView.routeName);
+                Navigator.pushReplacementNamed(context, LoginView.routeName);
               },
               text: 'Get Started',
             ),

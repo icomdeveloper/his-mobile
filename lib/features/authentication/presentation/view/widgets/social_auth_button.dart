@@ -3,13 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
 class SocialAuthButton extends StatelessWidget {
-  const SocialAuthButton({super.key, required this.text, required this.image});
+  const SocialAuthButton(
+      {super.key, required this.text, required this.image, this.onPressed});
   final String text;
   final String image;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 14),
         backgroundColor: Colors.white,

@@ -1,20 +1,25 @@
-import 'user.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+
+import 'user_info.dart';
 
 class UserData {
   String? message;
-  User? user;
-
-  UserData({this.message, this.user});
+  UserInfo? userInfo;
+  UserData({this.message, this.userInfo});
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         message: json['message'] as String?,
-        user: json['user'] == null
+        userInfo: json['user'] == null
             ? null
-            : User.fromJson(json['user'] as Map<String, dynamic>),
+            : UserInfo.fromJson(json['user'] as Map<String, dynamic>),
       );
 
+  factory UserData.fromFirebase(auth.User user) => UserData(
+        message: '',
+        userInfo: UserInfo.fromFirebase(user),
+      );
   Map<String, dynamic> toJson() => {
         'message': message,
-        'user': user?.toJson(),
+        'user': userInfo?.toJson(),
       };
 }

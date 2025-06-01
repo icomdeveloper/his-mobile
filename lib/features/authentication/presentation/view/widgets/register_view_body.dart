@@ -7,7 +7,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
-import 'package:his/features/authentication/presentation/cubits/register_cubit/register_cubit.dart';
+import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
 import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
@@ -74,8 +74,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   CustomTextFormField(
-                    controller:
-                        context.read<RegisterCubit>().usernameController,
+                    controller: context.read<AuthCubit>().usernameController,
                     hintText: 'Username',
                     textInputType: TextInputType.name,
                     prefixIcon: SvgPicture.asset(
@@ -90,7 +89,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   CustomTextFormField(
-                    controller: context.read<RegisterCubit>().emailController,
+                    controller: context.read<AuthCubit>().emailController,
                     hintText: 'Email Address',
                     textInputType: TextInputType.emailAddress,
                     prefixIcon: SvgPicture.asset(
@@ -105,7 +104,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   CustomTextFormField(
-                      controller: context.read<RegisterCubit>().phoneController,
+                      controller: context.read<AuthCubit>().phoneController,
                       hintText: 'Phone Number',
                       textInputType: TextInputType.phone,
                       prefixIcon: SvgPicture.asset(
@@ -120,7 +119,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   // ),
                   // CustomTextFormField(
                   //   controller:
-                  //       context.read<RegisterCubit>().passwordController,
+                  //       context.read<AuthCubit>().passwordController,
                   //   hintText: 'Password',
                   //   textInputType: TextInputType.visiblePassword,
                   //   obscureText: isPasswordVisible,
@@ -146,7 +145,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   // ),
                   // CustomTextFormField(
                   //   controller:
-                  //       context.read<RegisterCubit>().confirmPasswordController,
+                  //       context.read<AuthCubit>().confirmPasswordController,
                   //   hintText: 'Confirm Password',
                   //   textInputType: TextInputType.visiblePassword,
                   //   obscureText: isPasswordVisible,
@@ -171,14 +170,14 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   //   style: Styles.semiBoldPoppins14,
                   // ),
                   // CustomTextFormField(
-                  //   controller: context.read<RegisterCubit>().phoneController,
+                  //   controller: context.read<AuthCubit>().phoneController,
                   //   hintText: 'Phone Number',
                   //   textInputType: TextInputType.number,
                   // ),
                   const SizedBox(
                     height: 26,
                   ),
-                  BlocConsumer<RegisterCubit, RegisterState>(
+                  BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
                       if (state is RegisterFailure) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -202,7 +201,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
-                                  context.read<RegisterCubit>().register();
+                                  context.read<AuthCubit>().register();
                                 } else {
                                   autovalidateMode = AutovalidateMode.always;
                                   setState(() {});
@@ -218,14 +217,20 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 12,
                   ),
-                  const SocialAuthButton(
+                  SocialAuthButton(
+                    onPressed: () {
+                      // context.read<AuthCubit>().signInWithGoogle();
+                    },
                     image: Assets.assetsImagesGoogle,
                     text: 'Continue with Google',
                   ),
                   const SizedBox(
                     height: 12,
                   ),
-                  const SocialAuthButton(
+                  SocialAuthButton(
+                    onPressed: () {
+                      // context.read<AuthCubit>().signInWithApple();
+                    },
                     image: Assets.assetsImagesApple,
                     text: 'Continue with Apple',
                   ),

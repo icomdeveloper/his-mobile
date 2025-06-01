@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,12 +9,15 @@ import 'package:his/core/services/custom_bloc_observer.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
-import 'package:his/features/main_screen/presentation/view/main_view.dart';
+import 'package:his/firebase_options.dart';
 
 import 'features/on_boarding/presentation/view/on_boarding_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Lock orientation before running the app
   await SystemChrome.setPreferredOrientations([

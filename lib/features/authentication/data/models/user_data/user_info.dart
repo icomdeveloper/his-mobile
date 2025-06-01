@@ -1,4 +1,6 @@
-class User {
+import 'package:firebase_auth/firebase_auth.dart';
+
+class UserInfo {
   int? id;
   String? name;
   String? email;
@@ -10,7 +12,7 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  User({
+  UserInfo({
     this.id,
     this.name,
     this.email,
@@ -23,7 +25,7 @@ class User {
     this.updatedAt,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory UserInfo.fromJson(Map<String, dynamic> json) => UserInfo(
         id: json['id'] as int?,
         name: json['name'] as String?,
         email: json['email'] as String?,
@@ -40,6 +42,18 @@ class User {
             : DateTime.parse(json['updated_at'] as String),
       );
 
+  factory UserInfo.fromFirebase(User user) => UserInfo(
+        id: user.uid.hashCode,
+        name: user.displayName ?? '',
+        email: user.email ?? '',
+        username: user.displayName ?? '',
+        deviceId: '',
+        emailVerifiedAt: '',
+        isReviewer: '',
+        role: '',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

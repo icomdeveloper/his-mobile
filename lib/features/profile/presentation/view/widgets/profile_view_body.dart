@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/features/profile/presentation/view/widgets/profile_data_widget.dart';
+import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
+import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
 
 class ProfileViewBody extends StatelessWidget {
   const ProfileViewBody({super.key});
@@ -17,12 +19,6 @@ class ProfileViewBody extends StatelessWidget {
         height: 250.h,
         decoration: const BoxDecoration(
           color: AppColors.primaryColor,
-          image: DecorationImage(
-            image: AssetImage(
-              Assets.assetsImagesProfileBackground,
-            ),
-            fit: BoxFit.fill,
-          ),
         ),
         child: Padding(
           padding: EdgeInsets.only(top: 50.h, left: 20.w, right: 20.w),
@@ -70,6 +66,7 @@ class ProfileViewBody extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Lorem ipsum dolor',
@@ -79,10 +76,27 @@ class ProfileViewBody extends StatelessWidget {
                     Text(
                       'Loremipsumdolor@his.org',
                       style:
-                          Styles.regularRoboto12.copyWith(color: Colors.white),
+                          Styles.regularPoppins12.copyWith(color: Colors.white),
                     ),
                   ],
                 ),
+                const Spacer(),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size(50.w, 25.h),
+                      maximumSize: Size(60.w, 35.h),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      'Edit',
+                      style: Styles.regularRoboto12
+                          .copyWith(color: AppColors.primaryColor),
+                    ))
               ])
             ],
           ),
@@ -106,19 +120,50 @@ class ProfileViewBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProfileDataWidget(
-                  data: getUserData().user?.name ?? '',
-                  title: 'Name',
+                const Text(
+                  'Account',
+                  style: Styles.semiBoldPoppins16,
                 ),
-                const SizedBox(height: 14),
-                ProfileDataWidget(
-                  data: getUserData().user?.username ?? '',
+                UserDataListTile(
+                  title: 'Phone Number',
+                  subTitle: getUserData().userInfo?.email ?? '',
+                  image: Assets.assetsImagesPhone,
+                ),
+                UserDataListTile(
                   title: 'Username',
+                  subTitle: getUserData().userInfo?.username ?? '',
+                  image: Assets.assetsImagesProfile,
                 ),
-                const SizedBox(height: 14),
-                ProfileDataWidget(
-                  data: getUserData().user?.email ?? '',
-                  title: 'Email',
+                SizedBox(height: 13.h),
+                UserDataRowWidget(
+                  title: 'Change Password',
+                  image: Assets.assetsImagesPassword,
+                  trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
+                ),
+                const SizedBox(height: 32),
+                const Text(
+                  'Content',
+                  style: Styles.semiBoldPoppins16,
+                ),
+                SizedBox(height: 12.h),
+                const UserDataRowWidget(
+                  title: 'My Videos',
+                  image: Assets.assetsImagesVideoIcon,
+                ),
+                const SizedBox(height: 32),
+                const Text(
+                  'Settings',
+                  style: Styles.semiBoldPoppins16,
+                ),
+                SizedBox(height: 12.h),
+                const UserDataRowWidget(
+                  title: 'Delete Account',
+                  image: Assets.assetsImagesDelete,
+                ),
+                SizedBox(height: 12.h),
+                const UserDataRowWidget(
+                  title: 'Logout',
+                  image: Assets.assetsImagesLogout,
                 ),
               ],
             ),
