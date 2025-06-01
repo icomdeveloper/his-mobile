@@ -36,6 +36,11 @@ abstract class Styles {
     fontWeight: FontWeight.w500,
     fontFamily: 'Roboto',
   );
+  static const mediumRoboto14 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'Roboto',
+  );
   static const semiBoldRoboto20 = TextStyle(
     color: Colors.black,
     fontSize: 20,
@@ -46,5 +51,11 @@ abstract class Styles {
     fontSize: 12,
     fontWeight: FontWeight.w600,
     fontFamily: 'Roboto',
+  );
+  static const semiBoldInter14 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Inter',
+    color: Color(0xff1A1C1E),
   );
 }

@@ -11,6 +11,7 @@ class CustomTextButton extends StatelessWidget {
   });
   final String text;
   final void Function()? onPressed;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,15 +20,28 @@ class CustomTextButton extends StatelessWidget {
       child: TextButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
-            elevation: 5,
+            shadowColor: const Color(0xFF6C7278),
+            elevation: 3,
             backgroundColor: AppColors.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.black.withOpacity(0.2), width: 1),
             ),
           ),
-          child: Text(
-            text,
-            style: Styles.regularRoboto12.copyWith(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                text,
+                style: Styles.mediumRoboto14.copyWith(color: Colors.white),
+              ),
+              const SizedBox(width: 13),
+              const Icon(
+                Icons.arrow_forward_rounded,
+                size: 18,
+                color: Colors.white,
+              )
+            ],
           )),
     );
   }
