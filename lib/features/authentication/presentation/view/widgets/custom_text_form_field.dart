@@ -48,7 +48,11 @@ class CustomTextFormField extends StatelessWidget {
                   ),
                 ),
                 Transform.rotate(
-                    angle: 90 * 3.14 / 180, child: const Icon(Icons.remove)),
+                    angle: 90 * 3.14 / 180,
+                    child: const Icon(
+                      Icons.remove,
+                      size: 18,
+                    )),
               ],
             ),
           ),

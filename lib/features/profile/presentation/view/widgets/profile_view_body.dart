@@ -5,6 +5,8 @@ import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/profile/presentation/view/change_password_view.dart';
+import 'package:his/features/profile/presentation/view/my_videos_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
 
@@ -16,7 +18,7 @@ class ProfileViewBody extends StatelessWidget {
     return Stack(clipBehavior: Clip.none, children: [
       Container(
         width: double.infinity,
-        height: 250.h,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           color: AppColors.primaryColor,
         ),
@@ -139,6 +141,23 @@ class ProfileViewBody extends StatelessWidget {
                   title: 'Change Password',
                   image: Assets.assetsImagesPassword,
                   trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
+                  trailingOnTap: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => const ChangePasswordView(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 32),
                 const Text(
@@ -146,9 +165,22 @@ class ProfileViewBody extends StatelessWidget {
                   style: Styles.semiBoldPoppins16,
                 ),
                 SizedBox(height: 12.h),
-                const UserDataRowWidget(
+                UserDataRowWidget(
                   title: 'My Videos',
                   image: Assets.assetsImagesVideoIcon,
+                  trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
+                  trailingOnTap: () => Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const MyVideosView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 32),
                 const Text(
@@ -156,9 +188,55 @@ class ProfileViewBody extends StatelessWidget {
                   style: Styles.semiBoldPoppins16,
                 ),
                 SizedBox(height: 12.h),
-                const UserDataRowWidget(
-                  title: 'Delete Account',
-                  image: Assets.assetsImagesDelete,
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        actionsAlignment: MainAxisAlignment.spaceBetween,
+                        title: const Text(
+                          'Are you sure you want to delete your account ?',
+                          style: Styles.semiBoldRoboto20,
+                        ),
+                        content: const Text(
+                          'Deleting your account will permanently remove all your data, including your profile, posts, and any other information associated with your account .',
+                          style: Styles.regularPoppins14,
+                        ),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 35.w, vertical: 10.h),
+                                side: const BorderSide(
+                                    color: Color(0xFFD60000), width: 1)),
+                            onPressed: null,
+                            child: Text(
+                              'Cancel',
+                              style: Styles.regularPoppins14
+                                  .copyWith(color: const Color(0xFFD60000)),
+                            ),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 35.w, vertical: 10.h),
+                              backgroundColor: const Color(0xFFD60000),
+                            ),
+                            onPressed: null,
+                            child: Text(
+                              'Delete',
+                              style: Styles.regularPoppins14
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: const UserDataRowWidget(
+                    title: 'Delete Account',
+                    image: Assets.assetsImagesDelete,
+                  ),
                 ),
                 SizedBox(height: 12.h),
                 const UserDataRowWidget(

@@ -4,7 +4,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
-import 'package:his/features/home/presentation/view/widgets/recommended_videos_list.dart';
+import 'package:his/features/home/presentation/view/widgets/video_card_list.dart';
 
 class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
@@ -76,7 +76,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
             ),
           ),
 
-          const RecommendedVideosList(),
+          const VideoCardList(),
           // SliverToBoxAdapter(
           //   child: Column(
           //     crossAxisAlignment: CrossAxisAlignment.start,

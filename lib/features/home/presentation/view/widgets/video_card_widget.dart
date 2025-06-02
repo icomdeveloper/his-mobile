@@ -5,9 +5,13 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 
-class RecommendedVideosContainer extends StatelessWidget {
-  const RecommendedVideosContainer({super.key});
-
+class VideoCardWidget extends StatelessWidget {
+  const VideoCardWidget(
+      {super.key,
+      this.isBookmarkAppeared = true,
+      this.isDescriptionAppeared = true});
+  final bool isBookmarkAppeared;
+  final bool isDescriptionAppeared;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,9 +26,18 @@ class RecommendedVideosContainer extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const VideoView();
-                  }));
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const VideoView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    ),
+                  );
                 },
                 child: AspectRatio(
                   aspectRatio: 342 / 112,
@@ -63,15 +76,17 @@ class RecommendedVideosContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                right: 12,
-                top: 12,
-                child: SvgPicture.asset(
-                  Assets.assetsImagesBookmarked,
-                  colorFilter: const ColorFilter.mode(
-                      AppColors.primaryColor, BlendMode.srcIn),
-                ),
-              ),
+              isBookmarkAppeared
+                  ? Positioned(
+                      right: 12,
+                      top: 12,
+                      child: SvgPicture.asset(
+                        Assets.assetsImagesBookmarked,
+                        colorFilter: const ColorFilter.mode(
+                            AppColors.primaryColor, BlendMode.srcIn),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               Positioned(
                 right: 13,
                 bottom: 8,
@@ -93,23 +108,25 @@ class RecommendedVideosContainer extends StatelessWidget {
               ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.all(12),
+          Padding(
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Lorem ipsum dolor sit amet consectetur, Et in non nulla sed mi felis cursus .',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: Styles.semiBoldPoppins14,
                 ),
-                Text(
-                  'Lorem ipsum dolor sit amet consectetur. Lacus condimentum hendrerit euismod donec feugiat eu placerat. Cursus sed pellentesque lobortis auctor .',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                  style: Styles.regularRoboto12,
-                ),
+                isDescriptionAppeared
+                    ? const Text(
+                        'Lorem ipsum dolor sit amet consectetur. Lacus condimentum hendrerit euismod donec feugiat eu placerat. Cursus sed pellentesque lobortis auctor .',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: Styles.regularRoboto12,
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

@@ -9,16 +9,19 @@ class UserDataListTile extends StatelessWidget {
     required this.title,
     this.subTitle,
     required this.image,
+    this.imageColor = AppColors.primaryColor,
+    this.padding,
   });
   final String title, image;
   final String? subTitle;
-
+  final Color imageColor;
+  final double? padding;
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(padding ?? 8),
           decoration: const ShapeDecoration(
             color: AppColors.lightPrimaryColor,
             shape: RoundedRectangleBorder(
@@ -31,8 +34,8 @@ class UserDataListTile extends StatelessWidget {
               aspectRatio: 1,
               child: SvgPicture.asset(
                 image,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primaryColor,
+                colorFilter: ColorFilter.mode(
+                  imageColor,
                   BlendMode.srcIn,
                 ),
               ),

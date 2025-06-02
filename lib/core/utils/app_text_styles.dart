@@ -7,6 +7,11 @@ abstract class Styles {
     fontWeight: FontWeight.w600,
     fontFamily: 'Poppins',
   );
+  static const regularPoppins14 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Poppins',
+  );
   static const regularRoboto12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,

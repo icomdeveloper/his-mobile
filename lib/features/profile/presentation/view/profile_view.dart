@@ -15,6 +15,7 @@ class ProfileView extends StatelessWidget {
           settings: settings,
           builder: (BuildContext context) {
             return Scaffold(
+              backgroundColor: Colors.white,
               body: OfflineBuilder(
                 connectivityBuilder: (
                   BuildContext context,

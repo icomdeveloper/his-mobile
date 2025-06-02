@@ -16,7 +16,8 @@ class CategoryView extends StatelessWidget {
           settings: settings,
           builder: (context) => Scaffold(
             backgroundColor: Colors.white,
-            appBar: buildAppBar(title: 'Categories'),
+            appBar: buildAppBar(context,
+                title: 'Categories', showBackButton: false, centerTitle: false),
             body: OfflineBuilder(
               connectivityBuilder: (
                 BuildContext context,

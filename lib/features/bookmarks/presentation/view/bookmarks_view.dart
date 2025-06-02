@@ -17,7 +17,10 @@ class BookmarksView extends StatelessWidget {
           builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: Colors.white,
-              appBar: buildAppBar(title: 'My Bookmarks'),
+              appBar: buildAppBar(context,
+                  title: 'My Bookmarks',
+                  centerTitle: false,
+                  showBackButton: false),
               body: OfflineBuilder(
                 connectivityBuilder: (
                   BuildContext context,
