@@ -9,25 +9,25 @@ class OrDividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Divider(
             height: 1,
-            color: Color(0xffEDEDED),
+            color: AppColors.lightGrey,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             'Or',
-            style: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+            style: Styles.regularRoboto12,
           ),
         ),
-        const Expanded(
+        Expanded(
           child: Divider(
             height: 1,
-            color: Color(0xffEDEDED),
+            color: AppColors.lightGrey,
           ),
         ),
       ],

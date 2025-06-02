@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
 import 'recommended_video_card_widget.dart';
@@ -22,11 +21,11 @@ class RecommendedVideosWidget extends StatelessWidget {
           style: Styles.semiBoldRoboto12,
         ),
         SizedBox(height: 4.h),
-        Text(
+        const Text(
           'Basic structure and function',
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          style: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+          style: Styles.regularRoboto12,
         )
       ],
     );

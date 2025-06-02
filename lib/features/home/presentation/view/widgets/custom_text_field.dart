@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
@@ -35,6 +36,6 @@ class CustomTextField extends StatelessWidget {
   OutlineInputBorder buildBorder() {
     return const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(14)),
-        borderSide: BorderSide(width: 1, color: Color(0xffEDEDED)));
+        borderSide: BorderSide(width: 1, color: AppColors.lightGrey));
   }
 }

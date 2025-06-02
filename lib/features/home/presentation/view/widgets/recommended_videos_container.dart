@@ -14,7 +14,7 @@ class RecommendedVideosContainer extends StatelessWidget {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: const BorderSide(color: Color(0xffEDEDED), width: 1)),
+            side: const BorderSide(color: AppColors.lightGrey, width: 1)),
       ),
       child: Column(
         children: [
@@ -39,20 +39,28 @@ class RecommendedVideosContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 right: 0,
                 left: 0,
                 bottom: 0,
                 top: 0,
-                child: Center(
-                  child: CircleAvatar(
-                      radius: 21,
-                      backgroundColor: AppColors.primaryColor,
-                      child: Icon(
-                        Icons.play_arrow,
-                        color: Colors.white,
-                        size: 32,
-                      )),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const VideoView();
+                    }));
+                  },
+                  child: const Center(
+                    child: CircleAvatar(
+                        radius: 21,
+                        backgroundColor: AppColors.primaryColor,
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                          size: 32,
+                        )),
+                  ),
                 ),
               ),
               Positioned(
@@ -85,12 +93,12 @@ class RecommendedVideosContainer extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(12),
+          const Padding(
+            padding: EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Lorem ipsum dolor sit amet consectetur, Et in non nulla sed mi felis cursus .',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
@@ -100,7 +108,7 @@ class RecommendedVideosContainer extends StatelessWidget {
                   'Lorem ipsum dolor sit amet consectetur. Lacus condimentum hendrerit euismod donec feugiat eu placerat. Cursus sed pellentesque lobortis auctor .',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
-                  style: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+                  style: Styles.regularRoboto12,
                 ),
               ],
             ),

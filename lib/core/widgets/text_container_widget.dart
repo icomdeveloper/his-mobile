@@ -14,7 +14,7 @@ class TextContainerWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: const Color(0xffF1F9FA),
+        color: AppColors.lightPrimaryColor,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(

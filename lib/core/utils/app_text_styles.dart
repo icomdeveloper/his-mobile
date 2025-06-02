@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:his/core/utils/app_colors.dart';
 
 abstract class Styles {
   static const semiBoldPoppins24 = TextStyle(
@@ -9,6 +10,7 @@ abstract class Styles {
   static const regularRoboto12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
+    color: AppColors.grey,
     fontFamily: 'Roboto',
   );
   static const regularRoboto8 = TextStyle(

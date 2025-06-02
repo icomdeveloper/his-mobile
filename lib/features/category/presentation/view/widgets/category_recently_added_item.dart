@@ -16,7 +16,7 @@ class CategoryRecentlyAddedItem extends StatelessWidget {
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: const BorderSide(color: Color(0xffEDEDED), width: 1)),
+              side: const BorderSide(color: AppColors.lightGrey, width: 1)),
         ),
         child: Column(
           children: [
@@ -43,12 +43,11 @@ class CategoryRecentlyAddedItem extends StatelessWidget {
                     maxLines: 3,
                     style: Styles.semiBoldPoppins14,
                   ),
-                  Text(
+                  const Text(
                     'Lorem ipsum dolor sit amet consectetur. In neque quisque .',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style:
-                        Styles.regularRoboto12.copyWith(color: AppColors.grey),
+                    style: Styles.regularRoboto12,
                   ),
                   const Divider(),
                   Row(

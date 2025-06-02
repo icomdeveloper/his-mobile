@@ -41,7 +41,7 @@ class _CategoriesListState extends State<CategoriesList> {
                       width: 1,
                       color: selectedIndex == index
                           ? Colors.transparent
-                          : const Color(0xffEDEDED),
+                          : AppColors.lightGrey,
                     )),
               ),
               child: Padding(

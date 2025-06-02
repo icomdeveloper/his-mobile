@@ -18,7 +18,7 @@ class RecentlyBookMarksWidget extends StatelessWidget {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: Color(0xffEDEDED), width: 1),
+          side: const BorderSide(color: AppColors.lightGrey, width: 1),
         ),
       ),
       child: Row(

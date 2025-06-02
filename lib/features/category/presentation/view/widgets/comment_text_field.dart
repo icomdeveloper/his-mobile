@@ -52,6 +52,6 @@ class CommentTextField extends StatelessWidget {
   OutlineInputBorder buildBorder() {
     return const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(38)),
-        borderSide: BorderSide(width: 1, color: Color(0xffEDEDED)));
+        borderSide: BorderSide(width: 1, color: AppColors.lightGrey));
   }
 }

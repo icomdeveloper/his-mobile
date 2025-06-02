@@ -22,7 +22,7 @@ class UserDataRowWidget extends StatelessWidget {
         Container(
             padding: const EdgeInsets.all(8),
             decoration: const ShapeDecoration(
-              color: Color(0xffF1F9FA),
+              color: AppColors.lightPrimaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),

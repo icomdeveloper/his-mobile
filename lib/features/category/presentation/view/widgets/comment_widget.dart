@@ -40,9 +40,9 @@ class CommentWidget extends StatelessWidget {
               ),
             ],
           ),
-          Text(
+          const Text(
             'Lorem ipsum dolor sit amet consectetur. Sed cursus purus.',
-            style: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+            style: Styles.regularRoboto12,
           ),
         ]),
       ),

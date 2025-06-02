@@ -63,10 +63,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     ]),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 268.w),
-                  child: Text(
+                  child: const Text(
                     'Log in to stay connected and explore expert videos and articles ',
-                    style:
-                        Styles.regularRoboto12.copyWith(color: AppColors.grey),
+                    style: Styles.regularRoboto12,
                   ),
                 ),
                 const SizedBox(

@@ -102,7 +102,7 @@
 //               ),
 //               const Spacer(),
 //               CircleAvatar(
-//                 backgroundColor: const Color(0xffEDEDED),
+//                 backgroundColor: const AppColors.lightGrey,
 //                 radius: 10.r,
 //                 child: SvgPicture.asset(showComments
 //                     ? Assets.assetsImagesArrowUp
@@ -213,7 +213,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                 ),
                 const Spacer(),
                 CircleAvatar(
-                  backgroundColor: const Color(0xffEDEDED),
+                  backgroundColor: AppColors.lightGrey,
                   radius: 10.r,
                   child: SvgPicture.asset(showDetails
                       ? Assets.assetsImagesArrowUp
@@ -234,10 +234,9 @@ class _VideoWidgetState extends State<VideoWidget> {
               ],
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Lorem ipsum dolor sit amet consectetur. Sed cursus purus. Lorem ipsum dolor sit amet consectetur. Sed cursus purus.',
-                    style:
-                        Styles.regularRoboto12.copyWith(color: AppColors.grey),
+                    style: Styles.regularRoboto12,
                   ),
                   Row(
                     children: [

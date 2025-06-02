@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
@@ -58,7 +57,7 @@ class CustomTextFormField extends StatelessWidget {
           enabledBorder: buildBorder(),
           border: buildBorder(),
           focusedBorder: buildBorder(),
-          hintStyle: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+          hintStyle: Styles.regularRoboto12,
           hintText: hintText),
     );
   }
