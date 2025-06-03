@@ -22,7 +22,7 @@ class CustomTextField extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
           enabledBorder: buildBorder(),
           border: buildBorder(),
-          focusedBorder: buildBorder(),
+          focusedBorder: buildBorder(color: AppColors.primaryColor),
           prefixIcon: isSearch
               ? SizedBox(
                   height: 15,
@@ -40,9 +40,9 @@ class CustomTextField extends StatelessWidget {
         ));
   }
 
-  OutlineInputBorder buildBorder() {
-    return const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(14)),
-        borderSide: BorderSide(width: 1, color: AppColors.lightGrey));
+  OutlineInputBorder buildBorder({Color? color}) {
+    return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(width: 1, color: color ?? AppColors.lightGrey));
   }
 }

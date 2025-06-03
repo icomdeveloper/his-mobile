@@ -71,12 +71,12 @@ class ProfileViewBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lorem ipsum dolor',
+                      getUserData().userInfo?.name ?? '',
                       style: Styles.semiBoldPoppins14
                           .copyWith(color: Colors.white),
                     ),
                     Text(
-                      'Loremipsumdolor@his.org',
+                      getUserData().userInfo?.email ?? '',
                       style:
                           Styles.regularPoppins12.copyWith(color: Colors.white),
                     ),
@@ -141,7 +141,7 @@ class ProfileViewBody extends StatelessWidget {
                   title: 'Change Password',
                   image: Assets.assetsImagesPassword,
                   trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
-                  trailingOnTap: () {
+                  onTap: () {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
@@ -169,7 +169,7 @@ class ProfileViewBody extends StatelessWidget {
                   title: 'My Videos',
                   image: Assets.assetsImagesVideoIcon,
                   trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
-                  trailingOnTap: () => Navigator.push(
+                  onTap: () => Navigator.push(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (_, __, ___) => const MyVideosView(),

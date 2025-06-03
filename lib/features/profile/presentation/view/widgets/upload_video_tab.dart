@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +11,23 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 
-class UploadVideoTab extends StatelessWidget {
+class UploadVideoTab extends StatefulWidget {
   const UploadVideoTab({super.key});
+
+  @override
+  State<UploadVideoTab> createState() => _UploadVideoTabState();
+}
+
+class _UploadVideoTabState extends State<UploadVideoTab> {
+  PlatformFile? file;
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result == null) return;
+    setState(() {
+      file = result.files.first;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,31 +45,55 @@ class UploadVideoTab extends StatelessWidget {
               dashPattern: const [5, 5],
               child: Container(
                   width: MediaQuery.of(context).size.width - 48 - 10,
-                  padding: EdgeInsets.symmetric(vertical: 40.h),
                   decoration: const ShapeDecoration(
                       color: AppColors.lightPrimaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       )),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset(Assets.assetsImagesUpload),
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                          text: 'Drag & drop files or ',
-                          style: Styles.semiBoldPoppins14
-                              .copyWith(color: const Color(0xff0F0F0F)),
-                        ),
-                        TextSpan(
-                          text: 'Browse',
-                          style: Styles.semiBoldPoppins14
-                              .copyWith(color: AppColors.primaryColor),
-                        )
-                      ])),
-                      Text('Supported formates: JPEG, PNG, PDF',
-                          style: Styles.regularRoboto10
-                              .copyWith(color: const Color(0xff7B7B7B)))
-                    ],
+                  child: InkWell(
+                    onTap: () async {
+                      await selectFile();
+                    },
+                    child: file == null || file?.extension == 'pdf'
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(vertical: 40.h),
+                            child: file?.extension == 'pdf'
+                                ? Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 30.h),
+                                    child:
+                                        Center(child: Text(file?.name ?? '')),
+                                  )
+                                : Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                          Assets.assetsImagesUpload),
+                                      Text.rich(TextSpan(children: [
+                                        TextSpan(
+                                          text: 'Drag & drop files or ',
+                                          style: Styles.semiBoldPoppins14
+                                              .copyWith(
+                                                  color:
+                                                      const Color(0xff0F0F0F)),
+                                        ),
+                                        TextSpan(
+                                          text: 'Browse',
+                                          style: Styles.semiBoldPoppins14
+                                              .copyWith(
+                                                  color:
+                                                      AppColors.primaryColor),
+                                        )
+                                      ])),
+                                      Text('Supported formates: JPEG, PNG, PDF',
+                                          style: Styles.regularRoboto10
+                                              .copyWith(
+                                                  color:
+                                                      const Color(0xff7B7B7B)))
+                                    ],
+                                  ),
+                          )
+                        : Image.file(File(file?.path ?? ''),
+                            width: double.infinity, fit: BoxFit.fill),
                   )),
             ),
           ),
@@ -77,12 +119,61 @@ class UploadVideoTab extends StatelessWidget {
             maxLines: 7,
           ),
           const SizedBox(height: 12),
-          Text(
-            'Uploading - 1/1 files',
-            style: Styles.semiBoldPoppins14.copyWith(color: AppColors.grey),
-          ),
+          file == null
+              ? const SizedBox.shrink()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Uploading - 1/1 files',
+                      style: Styles.semiBoldPoppins14
+                          .copyWith(color: AppColors.grey),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            side: const BorderSide(
+                              width: 1,
+                              color: AppColors.lightGrey,
+                            )),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              file?.name ?? '',
+                              style: Styles.regularRoboto12
+                                  .copyWith(color: const Color(0xff0F0F0F)),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  file = null;
+                                });
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: AppColors.lightGrey,
+                                radius: 8,
+                                child: Icon(
+                                  Icons.close,
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
           const SizedBox(height: 24),
           CustomTextButton(text: 'Upload file', onPressed: () {}),
+          const SizedBox(height: 30),
         ],
       ),
     );

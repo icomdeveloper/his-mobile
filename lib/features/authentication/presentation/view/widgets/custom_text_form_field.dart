@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
@@ -60,15 +61,15 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           enabledBorder: buildBorder(),
           border: buildBorder(),
-          focusedBorder: buildBorder(),
+          focusedBorder: buildBorder(color: AppColors.primaryColor),
           hintStyle: Styles.regularRoboto12,
           hintText: hintText),
     );
   }
 
-  OutlineInputBorder buildBorder() {
-    return const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(width: 1, color: Color(0xffEDEDED)));
+  OutlineInputBorder buildBorder({Color? color}) {
+    return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderSide: BorderSide(width: 1, color: color ?? AppColors.lightGrey));
   }
 }

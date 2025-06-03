@@ -11,6 +11,7 @@ import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_
 import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
 import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
+import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class RegisterViewBody extends StatefulWidget {
@@ -47,17 +48,20 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 32,
                   ),
-                  GradientText('Don\'t have an account , Create Now !',
-                      style: Styles.semiBoldPoppins24,
-                      gradientType: GradientType.linear,
-                      stops: const [
-                        0.26,
-                        1
-                      ],
-                      colors: const [
-                        AppColors.primaryColor,
-                        Color(0xff263238),
-                      ]),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 320.w),
+                    child: GradientText('Don\'t have an account , Create Now !',
+                        style: Styles.semiBoldPoppins24,
+                        gradientType: GradientType.linear,
+                        stops: const [
+                          0.26,
+                          1
+                        ],
+                        colors: const [
+                          AppColors.primaryColor,
+                          Color(0xff263238),
+                        ]),
+                  ),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 268.w),
                     child: Text(
@@ -185,6 +189,12 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                           content: Text(state.message),
                         ));
                       }
+                      if (state is LoginFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(state.message),
+                        ));
+                      }
                       if (state is RegisterSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.green,
@@ -192,9 +202,15 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         ));
                         Navigator.pop(context);
                       }
+                      if (state is LoginSuccess) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          MainView.routeName,
+                        );
+                      }
                     },
                     builder: (context, state) {
-                      return state is RegisterLoading
+                      return state is RegisterLoading || state is LoginLoading
                           ? const Center(child: CircularProgressIndicator())
                           : CustomTextButton(
                               text: 'Register',
@@ -219,7 +235,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   ),
                   SocialAuthButton(
                     onPressed: () {
-                      // context.read<AuthCubit>().signInWithGoogle();
+                      context.read<AuthCubit>().signInWithGoogle();
                     },
                     image: Assets.assetsImagesGoogle,
                     text: 'Continue with Google',

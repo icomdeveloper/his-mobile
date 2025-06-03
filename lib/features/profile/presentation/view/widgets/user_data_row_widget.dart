@@ -10,45 +10,43 @@ class UserDataRowWidget extends StatelessWidget {
     required this.title,
     required this.image,
     this.trailing,
-    this.trailingOnTap,
+    this.onTap,
   });
   final String title;
   final String image;
   final Widget? trailing;
-  final void Function()? trailingOnTap;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Container(
-          padding: const EdgeInsets.all(8),
-          decoration: const ShapeDecoration(
-            color: AppColors.lightPrimaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-          ),
-          child: SizedBox(
-            width: 18,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: SvgPicture.asset(
-                image,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primaryColor,
-                  BlendMode.srcIn,
-                ),
+    return InkWell(
+      onTap: onTap,
+      child: Row(children: [
+        Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const ShapeDecoration(
+              color: AppColors.lightPrimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
             ),
-          )),
-      SizedBox(width: 12.w),
-      Text(title, style: Styles.regularPoppins16),
-      const Spacer(),
-      trailing != null
-          ? IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: trailingOnTap,
-              icon: trailing!)
-          : const SizedBox.shrink(),
-    ]);
+            child: SizedBox(
+              width: 18,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: SvgPicture.asset(
+                  image,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.primaryColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+            )),
+        SizedBox(width: 12.w),
+        Text(title, style: Styles.regularPoppins16),
+        const Spacer(),
+        trailing ?? const SizedBox.shrink(),
+      ]),
+    );
   }
 }

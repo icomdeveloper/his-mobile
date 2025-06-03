@@ -50,17 +50,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 32,
                 ),
-                GradientText('Sign in to your account , Login Now !',
-                    style: Styles.semiBoldPoppins24,
-                    gradientType: GradientType.linear,
-                    stops: const [
-                      0.26,
-                      1
-                    ],
-                    colors: const [
-                      AppColors.primaryColor,
-                      Color(0xff263238),
-                    ]),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 320.w),
+                  child: GradientText('Sign in to your account , Login Now !',
+                      style: Styles.semiBoldPoppins24,
+                      gradientType: GradientType.linear,
+                      stops: const [
+                        0.26,
+                        1
+                      ],
+                      colors: const [
+                        AppColors.primaryColor,
+                        Color(0xff263238),
+                      ]),
+                ),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 268.w),
                   child: const Text(

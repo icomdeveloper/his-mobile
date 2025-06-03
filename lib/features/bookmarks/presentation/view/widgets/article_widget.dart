@@ -32,7 +32,7 @@ class ArticleWidget extends StatelessWidget {
             aspectRatio: 294 / 68,
             child: Image.asset(
               Assets.assetsImagesDoctestimage,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           Row(
