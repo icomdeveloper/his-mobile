@@ -127,6 +127,7 @@
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -153,15 +154,23 @@ class _VideoWidgetState extends State<VideoWidget> {
   bool showDetails = false;
   late ChewieController chewieController;
   late ScrollController _scrollController;
+
+  String url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollToBottom();
-    videoPlayerController = VideoPlayerController.contentUri(
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      videoPlayerController = VideoPlayerController.contentUri( Uri.parse(url));
+    } else {
+      // Use another supported constructor (e.g., fromNetwork, fromFile)
+      videoPlayerController = VideoPlayerController.network(url);
+    }
+      /* videoPlayerController = VideoPlayerController.contentUri(
       Uri.parse(
           'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),
-    );
+    );*/
     chewieController = ChewieController(
       placeholder: Center(
         child: Image.asset(Assets.assetsImagesDoctestimage),

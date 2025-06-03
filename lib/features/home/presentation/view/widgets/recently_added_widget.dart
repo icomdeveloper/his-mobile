@@ -26,7 +26,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.asset(Assets.assetsImagesDoctestimage,
-                            fit: BoxFit.fill),
+                            fit: BoxFit.cover),
                       ),
                     ),
                     Positioned(

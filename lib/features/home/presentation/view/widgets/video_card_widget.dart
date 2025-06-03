@@ -47,7 +47,7 @@ class VideoCardWidget extends StatelessWidget {
                         topRight: Radius.circular(12)),
                     child: Image.asset(
                       Assets.assetsImagesDoctestimage,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),

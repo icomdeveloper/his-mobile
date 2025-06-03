@@ -20,6 +20,22 @@
 		<string>$(FLUTTER_BUILD_NAME)</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
+		<key>NSAppTransportSecurity</key>
+        <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        </dict>
+        	<key>NSPhotoLibraryAddUsageDescription</key>
+        	<string>WKA app needs access to your photo library to use images for your profile </string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>WKA app needs access to your photo library to use images for your profile </string>
+        <key>UIApplicationSupportsIndirectInputEvents</key>
+        <true/>
+        <key>UIBackgroundModes</key>
+        <array>
+        	<string>fetch</string>
+        	<string>remote-notification</string>
+        </array>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
