@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
@@ -14,6 +15,8 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     this.suffixIcon,
     this.prefixIcon,
+    this.validator,
+    this.maxLength,
   });
   final String hintText;
   final bool obscureText;
@@ -21,19 +24,24 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final IconButton? suffixIcon;
   final Widget? prefixIcon;
+  final String? Function(String?)? validator;
+  final int? maxLength;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscuringCharacter: '*',
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(maxLength), // Max 10 characters
+      ],
       controller: controller,
       keyboardType: textInputType,
       obscureText: obscureText,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'This Field is required';
-        }
-        return null;
-      },
+      validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return 'This Field is required';
+            }
+            return null;
+          },
       decoration: InputDecoration(
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 24),

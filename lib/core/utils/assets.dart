@@ -2,13 +2,9 @@
 class Assets {
   Assets._();
   
-  /// Assets for assetsImagesAdroid12Splash
-  /// assets/images/adroid12_splash.png
-  static const String assetsImagesAdroid12Splash = "assets/images/adroid12_splash.png";
-
-  /// Assets for assetsImagesAppIcon
-  /// assets/images/app_icon.png
-  static const String assetsImagesAppIcon = "assets/images/app_icon.png";
+  /// Assets for assetsImagesAppLogo
+  /// assets/images/app_logo.svg
+  static const String assetsImagesAppLogo = "assets/images/app_logo.svg";
 
   /// Assets for assetsImagesApple
   /// assets/images/apple.svg
@@ -133,10 +129,6 @@ class Assets {
   /// Assets for assetsImagesSend
   /// assets/images/Send.svg
   static const String assetsImagesSend = "assets/images/Send.svg";
-
-  /// Assets for assetsImagesSplash
-  /// assets/images/splash.png
-  static const String assetsImagesSplash = "assets/images/splash.png";
 
   /// Assets for assetsImagesTime
   /// assets/images/time.svg

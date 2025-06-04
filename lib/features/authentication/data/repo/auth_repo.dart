@@ -11,7 +11,7 @@ import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/authentication/data/models/login_model.dart';
 import 'package:his/features/authentication/data/models/register_model.dart';
-import 'package:his/features/authentication/data/models/register_success_model.dart';
+import 'package:his/features/authentication/data/models/register_success_model/register_success_model.dart';
 import 'package:his/features/authentication/data/models/user_data/user_data.dart';
 
 class AuthRepo {

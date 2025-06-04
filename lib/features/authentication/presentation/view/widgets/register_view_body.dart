@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -25,6 +26,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   bool isPasswordVisible = true;
+  bool isConfirmPasswordVisible = true;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,12 +43,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                      width: 79.w,
-                      child: AspectRatio(
-                          aspectRatio: 79.w / 39.h,
-                          child: SvgPicture.asset(Assets.assetsImagesLogo))),
-                  const SizedBox(
-                    height: 32,
+                    height: 37.h,
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 320.w),
@@ -73,13 +70,19 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 32,
                   ),
-                  const Text('Username', style: Styles.semiBoldRoboto12),
+                  const Text('Name', style: Styles.semiBoldRoboto12),
                   const SizedBox(
                     height: 4,
                   ),
                   CustomTextFormField(
-                    controller: context.read<AuthCubit>().usernameController,
-                    hintText: 'Username',
+                    validator: (name) {
+                      if (name == null || name.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                    controller: context.read<AuthCubit>().nameController,
+                    hintText: 'Name',
                     textInputType: TextInputType.name,
                     prefixIcon: SvgPicture.asset(
                       Assets.assetsImagesProfile,
@@ -93,6 +96,15 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   CustomTextFormField(
+                    validator: (email) {
+                      if (email == null || email.isEmpty) {
+                        return 'Please enter an email address';
+                      } else if (!isValidEmail(email)) {
+                        return 'Please enter a valid email address';
+                      } else {
+                        return null;
+                      }
+                    },
                     controller: context.read<AuthCubit>().emailController,
                     hintText: 'Email Address',
                     textInputType: TextInputType.emailAddress,
@@ -103,81 +115,137 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 14,
                   ),
+                  const Text('Username', style: Styles.semiBoldRoboto12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  CustomTextFormField(
+                      validator: (username) {
+                        if (username == null || username.isEmpty) {
+                          return 'Please enter a username';
+                        }
+                        return null;
+                      },
+                      controller: context.read<AuthCubit>().usernameController,
+                      hintText: 'Username',
+                      textInputType: TextInputType.text,
+                      prefixIcon: SvgPicture.asset(
+                        Assets.assetsImagesProfile,
+                      )),
+                  const SizedBox(
+                    height: 14,
+                  ),
                   const Text('Phone Number', style: Styles.semiBoldRoboto12),
                   const SizedBox(
                     height: 4,
                   ),
                   CustomTextFormField(
-                      controller: context.read<AuthCubit>().phoneController,
-                      hintText: 'Phone Number',
-                      textInputType: TextInputType.phone,
+                    controller: context.read<AuthCubit>().phoneController,
+                    maxLength: 15,
+                    validator: (phone) {
+                      if (phone == null || phone.isEmpty) {
+                        return 'Please enter your phone number';
+                      } else if (!isValidPhoneNumber(phone)) {
+                        return 'Please enter a valid phone number';
+                      } else {
+                        return null;
+                      }
+                    },
+                    hintText: 'Phone Number',
+                    textInputType: TextInputType.phone,
+                    prefixIcon: SvgPicture.asset(
+                      Assets.assetsImagesPhone,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text('Password', style: Styles.semiBoldRoboto12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  CustomTextFormField(
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        return 'Please enter a password';
+                      } else {
+                        return validatePassword(password);
+                      }
+                    },
+                    controller: context.read<AuthCubit>().passwordController,
+                    hintText: 'Password',
+                    textInputType: TextInputType.visiblePassword,
+                    obscureText: isPasswordVisible,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                      icon: isPasswordVisible
+                          ? const Icon(
+                              Icons.visibility_off_outlined,
+                              size: 18,
+                            )
+                          : const Icon(
+                              Icons.visibility_outlined,
+                              size: 18,
+                            ),
+                    ),
+                    prefixIcon: SvgPicture.asset(
+                      Assets.assetsImagesPassword,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text('Confirm Password',
+                      style: Styles.semiBoldRoboto12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  CustomTextFormField(
+                      validator: (confirmPassword) {
+                        if (confirmPassword == null ||
+                            confirmPassword.isEmpty) {
+                          return 'Please confirm your password';
+                        } else {
+                          if (confirmPassword ==
+                              context
+                                  .read<AuthCubit>()
+                                  .passwordController
+                                  .text) {
+                            return null;
+                          } else {
+                            return 'Passwords do not match';
+                          }
+                        }
+                      },
+                      controller:
+                          context.read<AuthCubit>().confirmPasswordController,
+                      hintText: 'Confirm Password',
+                      textInputType: TextInputType.visiblePassword,
+                      obscureText: isConfirmPasswordVisible,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isConfirmPasswordVisible =
+                                !isConfirmPasswordVisible;
+                          });
+                        },
+                        icon: isConfirmPasswordVisible
+                            ? const Icon(
+                                Icons.visibility_off_outlined,
+                                size: 18,
+                              )
+                            : const Icon(
+                                Icons.visibility_outlined,
+                                size: 18,
+                              ),
+                      ),
                       prefixIcon: SvgPicture.asset(
-                        Assets.assetsImagesPhone,
+                        Assets.assetsImagesPassword,
                       )),
-                  // const SizedBox(
-                  //   height: 24,
-                  // ),
-                  // const Text(
-                  //   'password',
-                  //   style: Styles.semiBoldPoppins14,
-                  // ),
-                  // CustomTextFormField(
-                  //   controller:
-                  //       context.read<AuthCubit>().passwordController,
-                  //   hintText: 'Password',
-                  //   textInputType: TextInputType.visiblePassword,
-                  //   obscureText: isPasswordVisible,
-                  //   suffixIcon: IconButton(
-                  //     icon: Icon(
-                  //       isPasswordVisible
-                  //           ? Icons.visibility
-                  //           : Icons.visibility_off,
-                  //     ),
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         isPasswordVisible = !isPasswordVisible;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 24,
-                  // ),
-                  // const Text(
-                  //   'Confirm Password',
-                  //   style: Styles.semiBoldPoppins14,
-                  // ),
-                  // CustomTextFormField(
-                  //   controller:
-                  //       context.read<AuthCubit>().confirmPasswordController,
-                  //   hintText: 'Confirm Password',
-                  //   textInputType: TextInputType.visiblePassword,
-                  //   obscureText: isPasswordVisible,
-                  //   suffixIcon: IconButton(
-                  //     icon: Icon(
-                  //       isPasswordVisible
-                  //           ? Icons.visibility
-                  //           : Icons.visibility_off,
-                  //     ),
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         isPasswordVisible = !isPasswordVisible;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 24,
-                  // ),
-                  // const Text(
-                  //   'Phone Number',
-                  //   style: Styles.semiBoldPoppins14,
-                  // ),
-                  // CustomTextFormField(
-                  //   controller: context.read<AuthCubit>().phoneController,
-                  //   hintText: 'Phone Number',
-                  //   textInputType: TextInputType.number,
-                  // ),
                   const SizedBox(
                     height: 26,
                   ),
@@ -198,7 +266,8 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                       if (state is RegisterSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.green,
-                          content: Text(state.registerSuccessModel.success),
+                          content:
+                              Text(state.registerSuccessModel.message ?? ''),
                         ));
                         Navigator.pop(context);
                       }
@@ -272,6 +341,9 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 37.h,
                   ),
                 ],
               ),

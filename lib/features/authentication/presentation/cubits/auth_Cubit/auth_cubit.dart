@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/features/authentication/data/models/login_model.dart';
 import 'package:his/features/authentication/data/models/register_model.dart';
-import 'package:his/features/authentication/data/models/register_success_model.dart';
+import 'package:his/features/authentication/data/models/register_success_model/register_success_model.dart';
 import 'package:his/features/authentication/data/models/user_data/user_data.dart';
 import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:meta/meta.dart';
@@ -41,10 +41,8 @@ class AuthCubit extends Cubit<AuthState> {
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,
       email: emailController.text,
-      id: '3',
       name: nameController.text,
       phone: phoneController.text,
-      role: 'user',
     );
 
     var result = await authRepo.register(registerModel: registerModel);

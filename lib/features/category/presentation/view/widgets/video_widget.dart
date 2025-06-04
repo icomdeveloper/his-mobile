@@ -155,19 +155,20 @@ class _VideoWidgetState extends State<VideoWidget> {
   late ChewieController chewieController;
   late ScrollController _scrollController;
 
-  String url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  String url =
+      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollToBottom();
     if (defaultTargetPlatform == TargetPlatform.android) {
-      videoPlayerController = VideoPlayerController.contentUri( Uri.parse(url));
+      videoPlayerController = VideoPlayerController.contentUri(Uri.parse(url));
     } else {
       // Use another supported constructor (e.g., fromNetwork, fromFile)
       videoPlayerController = VideoPlayerController.network(url);
     }
-      /* videoPlayerController = VideoPlayerController.contentUri(
+    /* videoPlayerController = VideoPlayerController.contentUri(
       Uri.parse(
           'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),
     );*/

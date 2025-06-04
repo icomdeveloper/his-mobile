@@ -43,10 +43,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    width: 79.w,
+                    width: 98.2.w,
                     child: AspectRatio(
-                        aspectRatio: 79.w / 39.h,
-                        child: SvgPicture.asset(Assets.assetsImagesLogo))),
+                        aspectRatio: 98.2.w / 70.86.h,
+                        child: SvgPicture.asset(Assets.assetsImagesAppLogo))),
                 const SizedBox(
                   height: 32,
                 ),
@@ -74,16 +74,22 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 32,
                 ),
-                const Text('Email Address', style: Styles.semiBoldRoboto12),
+                const Text('Username', style: Styles.semiBoldRoboto12),
                 const SizedBox(
                   height: 4,
                 ),
                 CustomTextFormField(
+                  validator: (username) {
+                    if (username == null || username.isEmpty) {
+                      return 'Please enter your username';
+                    }
+                    return null;
+                  },
                   prefixIcon: SvgPicture.asset(
-                    Assets.assetsImagesMail,
+                    Assets.assetsImagesProfile,
                   ),
                   controller: context.read<AuthCubit>().usernameController,
-                  hintText: 'Email Address',
+                  hintText: 'Username',
                   textInputType: TextInputType.text,
                 ),
                 const SizedBox(
@@ -97,6 +103,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   height: 4,
                 ),
                 CustomTextFormField(
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        return 'Please enter your password';
+                      } else {
+                        return null;
+                      }
+                    },
                     prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
                     controller: context.read<AuthCubit>().passwordController,
                     hintText: 'Password',

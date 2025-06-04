@@ -6,7 +6,6 @@ class RegisterModel {
   final String username;
   final String password;
   final String confirmPassword;
-  final String id;
   final String role;
   final String phone;
 
@@ -16,8 +15,7 @@ class RegisterModel {
       required this.username,
       required this.password,
       required this.confirmPassword,
-      required this.id,
-      required this.role,
+      this.role = 'user',
       required this.phone});
   toJson() {
     return {
@@ -26,7 +24,6 @@ class RegisterModel {
       ApiEndpoints.userName: username,
       ApiEndpoints.password: password,
       ApiEndpoints.passwordConfirmation: confirmPassword,
-      ApiEndpoints.id: id,
       ApiEndpoints.role: role,
       ApiEndpoints.phone: phone,
     };

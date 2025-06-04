@@ -6,13 +6,16 @@ class FeaturedVideosPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
+    return PageView.builder(
+      padEnds: true,
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4),
+          child: FeaturedVideosItem(),
+        );
+      },
       scrollDirection: Axis.horizontal,
-      children: const [
-        FeaturedVideosItem(),
-        FeaturedVideosItem(),
-        FeaturedVideosItem(),
-      ],
     );
   }
 }
