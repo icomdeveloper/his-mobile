@@ -11,7 +11,6 @@ class ApprovedVideoCardWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         VideoCardWidget(
-          isBookmarkAppeared: false,
           isDescriptionAppeared: false,
         ),
         SizedBox(height: 12),

@@ -8,10 +8,13 @@ import 'package:his/features/home/presentation/view/video_view.dart';
 class VideoCardWidget extends StatelessWidget {
   const VideoCardWidget(
       {super.key,
-      this.isBookmarkAppeared = true,
-      this.isDescriptionAppeared = true});
-  final bool isBookmarkAppeared;
+      this.isDescriptionAppeared = true,
+      this.iconImage,
+      this.onIconTap});
+
   final bool isDescriptionAppeared;
+  final String? iconImage;
+  final void Function()? onIconTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,14 +79,17 @@ class VideoCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              isBookmarkAppeared
+              iconImage != null
                   ? Positioned(
                       right: 12,
                       top: 12,
-                      child: SvgPicture.asset(
-                        Assets.assetsImagesBookmarked,
-                        colorFilter: const ColorFilter.mode(
-                            AppColors.primaryColor, BlendMode.srcIn),
+                      child: InkWell(
+                        onTap: onIconTap,
+                        child: SvgPicture.asset(
+                          iconImage!,
+                          colorFilter: const ColorFilter.mode(
+                              AppColors.primaryColor, BlendMode.srcIn),
+                        ),
                       ),
                     )
                   : const SizedBox.shrink(),

@@ -74,6 +74,10 @@ class Assets {
   /// assets/images/icons8-no-internet-64.png
   static const String assetsImagesIcons8NoInternet64 = "assets/images/icons8-no-internet-64.png";
 
+  /// Assets for assetsImagesInfo
+  /// assets/images/info.svg
+  static const String assetsImagesInfo = "assets/images/info.svg";
+
   /// Assets for assetsImagesLink
   /// assets/images/link.svg
   static const String assetsImagesLink = "assets/images/link.svg";
@@ -153,6 +157,10 @@ class Assets {
   /// Assets for assetsImagesUpload
   /// assets/images/upload.svg
   static const String assetsImagesUpload = "assets/images/upload.svg";
+
+  /// Assets for assetsImagesUploadVideo
+  /// assets/images/upload_video.svg
+  static const String assetsImagesUploadVideo = "assets/images/upload_video.svg";
 
   /// Assets for assetsImagesVideoCategory
   /// assets/images/video_category.svg

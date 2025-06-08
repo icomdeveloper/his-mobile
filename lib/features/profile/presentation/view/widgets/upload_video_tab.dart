@@ -20,12 +20,17 @@ class UploadVideoTab extends StatefulWidget {
 
 class _UploadVideoTabState extends State<UploadVideoTab> {
   PlatformFile? file;
+  bool isSelecting = false;
   Future selectFile() async {
+    setState(() {
+      isSelecting = true;
+    });
     final result = await FilePicker.platform.pickFiles();
 
     if (result == null) return;
     setState(() {
       file = result.files.first;
+      isSelecting = false;
     });
   }
 
@@ -54,46 +59,71 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     onTap: () async {
                       await selectFile();
                     },
-                    child: file == null
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(vertical: 40.h),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(Assets.assetsImagesUpload),
-                                Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Drag & drop files or ',
-                                    style: Styles.semiBoldPoppins14.copyWith(
-                                        color: const Color(0xff0F0F0F)),
-                                  ),
-                                  TextSpan(
-                                    text: 'Browse',
-                                    style: Styles.semiBoldPoppins14.copyWith(
-                                        color: AppColors.primaryColor),
-                                  )
-                                ])),
-                                Text('Supported formates: JPEG, PNG, PDF',
-                                    style: Styles.regularRoboto10.copyWith(
-                                        color: const Color(0xff7B7B7B)))
-                              ],
+                    child: isSelecting
+                        ? Center(
+                            child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 65.h, horizontal: 65.w),
+                            child: const CircularProgressIndicator(
+                              color: AppColors.primaryColor,
                             ),
-                          )
-                        : file?.extension == 'doc' || file?.extension == 'pdf'
+                          ))
+                        : file == null
                             ? Padding(
                                 padding: EdgeInsets.symmetric(vertical: 40.h),
                                 child: Column(
                                   children: [
-                                    SvgPicture.asset(
-                                        Assets.assetsImagesDocument),
-                                    Text(
-                                      file?.name ?? '',
-                                      style: Styles.semiBoldPoppins14,
-                                    )
+                                    SvgPicture.asset(Assets.assetsImagesUpload),
+                                    Text.rich(TextSpan(children: [
+                                      TextSpan(
+                                        text: 'Drag & drop files or ',
+                                        style: Styles.semiBoldPoppins14
+                                            .copyWith(
+                                                color: const Color(0xff0F0F0F)),
+                                      ),
+                                      TextSpan(
+                                        text: 'Browse',
+                                        style: Styles.semiBoldPoppins14
+                                            .copyWith(
+                                                color: AppColors.primaryColor),
+                                      )
+                                    ])),
+                                    Text('Supported formates: JPEG, PNG, PDF',
+                                        style: Styles.regularRoboto10.copyWith(
+                                            color: const Color(0xff7B7B7B)))
                                   ],
                                 ),
                               )
-                            : Image.file(File(file?.path ?? ''),
-                                width: double.infinity, fit: BoxFit.cover),
+                            : file?.extension == 'doc' ||
+                                    file?.extension == 'pdf' ||
+                                    file?.extension == 'mp4'
+                                ? Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 40.h),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                            width: 50.w,
+                                            child: AspectRatio(
+                                                aspectRatio: 1,
+                                                child: SvgPicture.asset(file
+                                                                ?.extension ==
+                                                            'doc' ||
+                                                        file?.extension == 'pdf'
+                                                    ? Assets
+                                                        .assetsImagesDocument
+                                                    : Assets
+                                                        .assetsImagesUploadVideo))),
+                                        SizedBox(height: 16.h),
+                                        Text(
+                                          file?.name ?? '',
+                                          style: Styles.semiBoldPoppins14,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : Image.file(File(file?.path ?? ''),
+                                    width: double.infinity, fit: BoxFit.cover),
                   )),
             ),
           ),
