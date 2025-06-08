@@ -54,46 +54,46 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     onTap: () async {
                       await selectFile();
                     },
-                    child: file == null || file?.extension == 'pdf'
+                    child: file == null
                         ? Padding(
                             padding: EdgeInsets.symmetric(vertical: 40.h),
-                            child: file?.extension == 'pdf'
-                                ? Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 30.h),
-                                    child:
-                                        Center(child: Text(file?.name ?? '')),
-                                  )
-                                : Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                          Assets.assetsImagesUpload),
-                                      Text.rich(TextSpan(children: [
-                                        TextSpan(
-                                          text: 'Drag & drop files or ',
-                                          style: Styles.semiBoldPoppins14
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff0F0F0F)),
-                                        ),
-                                        TextSpan(
-                                          text: 'Browse',
-                                          style: Styles.semiBoldPoppins14
-                                              .copyWith(
-                                                  color:
-                                                      AppColors.primaryColor),
-                                        )
-                                      ])),
-                                      Text('Supported formates: JPEG, PNG, PDF',
-                                          style: Styles.regularRoboto10
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff7B7B7B)))
-                                    ],
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(Assets.assetsImagesUpload),
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: 'Drag & drop files or ',
+                                    style: Styles.semiBoldPoppins14.copyWith(
+                                        color: const Color(0xff0F0F0F)),
                                   ),
+                                  TextSpan(
+                                    text: 'Browse',
+                                    style: Styles.semiBoldPoppins14.copyWith(
+                                        color: AppColors.primaryColor),
+                                  )
+                                ])),
+                                Text('Supported formates: JPEG, PNG, PDF',
+                                    style: Styles.regularRoboto10.copyWith(
+                                        color: const Color(0xff7B7B7B)))
+                              ],
+                            ),
                           )
-                        : Image.file(File(file?.path ?? ''),
-                            width: double.infinity, fit: BoxFit.fill),
+                        : file?.extension == 'doc' || file?.extension == 'pdf'
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(vertical: 40.h),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                        Assets.assetsImagesDocument),
+                                    Text(
+                                      file?.name ?? '',
+                                      style: Styles.semiBoldPoppins14,
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Image.file(File(file?.path ?? ''),
+                                width: double.infinity, fit: BoxFit.cover),
                   )),
             ),
           ),
@@ -144,11 +144,14 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              file?.name ?? '',
-                              style: Styles.regularRoboto12
-                                  .copyWith(color: const Color(0xff0F0F0F)),
+                            Flexible(
+                              child: Text(
+                                file?.name ?? '',
+                                style: Styles.regularRoboto12
+                                    .copyWith(color: const Color(0xff0F0F0F)),
+                              ),
                             ),
+                            const SizedBox(width: 8),
                             InkWell(
                               onTap: () {
                                 setState(() {

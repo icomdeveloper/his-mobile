@@ -19,11 +19,14 @@ class ProfileViewBody extends StatelessWidget {
       Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         decoration: const BoxDecoration(
           color: AppColors.primaryColor,
         ),
         child: Padding(
-          padding: EdgeInsets.only(top: 50.h, left: 20.w, right: 20.w),
+          padding: EdgeInsets.only(
+            top: 50.h,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -67,22 +70,28 @@ class ProfileViewBody extends StatelessWidget {
                   ],
                 ),
                 SizedBox(width: 12.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      getUserData().userInfo?.name ?? '',
-                      style: Styles.semiBoldPoppins14
-                          .copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      getUserData().userInfo?.email ?? '',
-                      style:
-                          Styles.regularPoppins12.copyWith(color: Colors.white),
-                    ),
-                  ],
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        getUserData().userInfo?.name ?? '',
+                        overflow: TextOverflow.clip,
+                        maxLines: 3,
+                        style: Styles.semiBoldPoppins14
+                            .copyWith(color: Colors.white),
+                      ),
+                      Text(
+                        getUserData().userInfo?.email ?? '',
+                        style: Styles.regularPoppins12
+                            .copyWith(color: Colors.white),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 12),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,

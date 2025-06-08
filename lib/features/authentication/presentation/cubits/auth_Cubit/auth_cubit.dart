@@ -24,7 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> loginWithEmailAndPassword() async {
     emit(LoginLoading());
     LoginModel loginModel = LoginModel(
-      userName: usernameController.text,
+      login: emailController.text,
       password: passwordController.text,
     );
 

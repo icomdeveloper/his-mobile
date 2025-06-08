@@ -2,6 +2,14 @@
 class Assets {
   Assets._();
   
+  /// Assets for assetsImagesAndroid12Splash
+  /// assets/images/android12_splash.png
+  static const String assetsImagesAndroid12Splash = "assets/images/android12_splash.png";
+
+  /// Assets for assetsImagesAppIcon
+  /// assets/images/app_icon.png
+  static const String assetsImagesAppIcon = "assets/images/app_icon.png";
+
   /// Assets for assetsImagesAppLogo
   /// assets/images/app_logo.svg
   static const String assetsImagesAppLogo = "assets/images/app_logo.svg";
@@ -41,6 +49,10 @@ class Assets {
   /// Assets for assetsImagesDoctestimage
   /// assets/images/doctestimage.png
   static const String assetsImagesDoctestimage = "assets/images/doctestimage.png";
+
+  /// Assets for assetsImagesDocument
+  /// assets/images/document.svg
+  static const String assetsImagesDocument = "assets/images/document.svg";
 
   /// Assets for assetsImagesEmail
   /// assets/images/email.svg
@@ -129,6 +141,10 @@ class Assets {
   /// Assets for assetsImagesSend
   /// assets/images/Send.svg
   static const String assetsImagesSend = "assets/images/Send.svg";
+
+  /// Assets for assetsImagesSplashScreen
+  /// assets/images/Splash_Screen.png
+  static const String assetsImagesSplashScreen = "assets/images/Splash_Screen.png";
 
   /// Assets for assetsImagesTime
   /// assets/images/time.svg

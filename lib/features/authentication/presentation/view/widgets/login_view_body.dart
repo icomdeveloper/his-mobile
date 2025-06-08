@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -30,9 +31,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height * 0.95,
+          minHeight: MediaQuery.of(context).size.height,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -74,23 +76,28 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 32,
                 ),
-                const Text('Username', style: Styles.semiBoldRoboto12),
+                const Text('Email Address / Phone Number',
+                    style: Styles.semiBoldRoboto12),
                 const SizedBox(
                   height: 4,
                 ),
                 CustomTextFormField(
-                  validator: (username) {
-                    if (username == null || username.isEmpty) {
-                      return 'Please enter your username';
+                  validator: (email) {
+                    if (email == null || email.isEmpty) {
+                      return 'Please enter an email address or phone number';
+                    } else if (isValidEmail(email) ||
+                        isValidPhoneNumber(email)) {
+                      return null;
+                    } else {
+                      return 'Please enter a valid email address or phone number';
                     }
-                    return null;
                   },
                   prefixIcon: SvgPicture.asset(
                     Assets.assetsImagesProfile,
                   ),
-                  controller: context.read<AuthCubit>().usernameController,
-                  hintText: 'Username',
-                  textInputType: TextInputType.text,
+                  controller: context.read<AuthCubit>().emailController,
+                  hintText: 'Email Address',
+                  textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(
                   height: 14,
