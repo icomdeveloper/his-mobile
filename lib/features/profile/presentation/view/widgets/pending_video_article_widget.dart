@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/bookmarks/presentation/view/widgets/article_widget.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_widget.dart';
@@ -21,7 +23,11 @@ class PendingVideosArticlesWidget extends StatelessWidget {
                     backgroundColor: Colors.white,
                     builder: (context) => const PendingVideoBottomSheet());
               },
-              iconImage: Assets.assetsImagesInfo,
+              topRightIcon: SvgPicture.asset(
+                Assets.assetsImagesInfo,
+                colorFilter: const ColorFilter.mode(
+                    AppColors.primaryColor, BlendMode.srcIn),
+              ),
               isDescriptionAppeared: false,
             )
           : const ArticleWidget(),

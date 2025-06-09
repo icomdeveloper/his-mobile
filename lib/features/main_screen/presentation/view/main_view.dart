@@ -9,7 +9,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => IndexStackProvider(),
+      create: (_) => IndexStackProvider(),
       child: const MainViewBody(),
     );
   }

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
+import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -14,6 +17,7 @@ import 'package:his/features/authentication/presentation/view/widgets/custom_tex
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
 import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class LoginViewBody extends StatefulWidget {
@@ -154,6 +158,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         backgroundColor: Colors.green,
                         content: Text('Login Success'),
                       ));
+                      Prefs.setBool(PrefsKeys.isLoggedIn, true);
+                      Provider.of<NavBarVisibilityProvider>(context,
+                              listen: false)
+                          .show();
                       Navigator.pushReplacementNamed(
                         context,
                         MainView.routeName,

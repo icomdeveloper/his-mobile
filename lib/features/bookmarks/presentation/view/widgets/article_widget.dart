@@ -6,9 +6,15 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/text_container_widget.dart';
 
-class ArticleWidget extends StatelessWidget {
+class ArticleWidget extends StatefulWidget {
   const ArticleWidget({super.key});
 
+  @override
+  State<ArticleWidget> createState() => _ArticleWidgetState();
+}
+
+class _ArticleWidgetState extends State<ArticleWidget> {
+  bool isBookmarked = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,9 +57,15 @@ class ArticleWidget extends StatelessWidget {
                   icon: const Icon(Icons.share_outlined,
                       color: AppColors.primaryColor, size: 18)),
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.bookmark_border_outlined,
+                  onPressed: () {
+                    setState(() {
+                      isBookmarked = !isBookmarked;
+                    });
+                  },
+                  icon: Icon(
+                    isBookmarked
+                        ? Icons.bookmark
+                        : Icons.bookmark_border_outlined,
                     color: AppColors.primaryColor,
                     size: 18,
                   )),

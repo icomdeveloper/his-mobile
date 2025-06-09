@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/main_screen/data/model/nav_bar_model.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar_items.dart';
 import 'package:provider/provider.dart';
@@ -68,9 +71,13 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             return Expanded(
               child: InkWell(
                 onTap: () {
-                  selectedIndex.setIndex(index);
-                  widget.onItemTapped(index);
-                  setState(() {});
+                  if (Prefs.getBool(PrefsKeys.isLoggedIn)) {
+                    widget.onItemTapped(index);
+                    selectedIndex.setIndex(index);
+                    setState(() {});
+                  } else {
+                    Navigator.pushNamed(context, LoginView.routeName);
+                  }
                 },
                 child: CustomBottomNavBarItems(
                   isActive: index == selectedIndex.currentIndex,

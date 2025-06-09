@@ -34,6 +34,10 @@ class Assets {
   /// assets/images/bookmarked.svg
   static const String assetsImagesBookmarked = "assets/images/bookmarked.svg";
 
+  /// Assets for assetsImagesBookmarkedFilled
+  /// assets/images/bookmarked_filled.svg
+  static const String assetsImagesBookmarkedFilled = "assets/images/bookmarked_filled.svg";
+
   /// Assets for assetsImagesCategories
   /// assets/images/categories.svg
   static const String assetsImagesCategories = "assets/images/categories.svg";

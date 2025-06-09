@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
+import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
 import 'package:his/features/bookmarks/presentation/view/bookmarks_view.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
-import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar.dart';
 import 'package:his/features/profile/presentation/view/profile_view.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class MainViewBody extends StatefulWidget {
 }
 
 class _MainViewBodyState extends State<MainViewBody> {
-  Map<int, GlobalKey> navigatorKeys = {
+  final Map<int, GlobalKey> navigatorKeys = {
     0: GlobalKey(),
     1: GlobalKey(),
     2: GlobalKey(),
@@ -28,7 +28,7 @@ class _MainViewBodyState extends State<MainViewBody> {
   Widget build(BuildContext context) {
     final indexStack = Provider.of<IndexStackProvider>(context);
 
-    List<Widget> screens = [
+    final List<Widget> screens = [
       HomeView(navigatorKey: navigatorKeys[0]!),
       CategoryView(navigatorKey: navigatorKeys[1]!),
       BookmarksView(navigatorKey: navigatorKeys[2]!),
@@ -36,14 +36,18 @@ class _MainViewBodyState extends State<MainViewBody> {
     ];
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: _shouldShowNavBar(context)
-          ? CustomBottomNavBar(
-              onItemTapped: (value) {
-                indexStack.setIndex(value);
-                setState(() {});
-              },
-            )
-          : null,
+      bottomNavigationBar: Consumer<NavBarVisibilityProvider>(
+        builder: (context, provider, _) {
+          return provider.isVisible
+              ? CustomBottomNavBar(
+                  onItemTapped: (value) {
+                    indexStack.setIndex(value);
+                    setState(() {});
+                  },
+                )
+              : const SizedBox.shrink();
+        },
+      ),
       body: PopScope(
         canPop: false, // Prevents default back button behavior
         onPopInvokedWithResult: (bool didPop, _) async {
@@ -66,13 +70,6 @@ class _MainViewBodyState extends State<MainViewBody> {
         ),
       ),
     );
-  }
-
-  bool _shouldShowNavBar(BuildContext context) {
-    final currentRoute = ModalRoute.of(context)?.settings.name;
-    // Add routes where you want to hide the navbar
-    final hideNavBarRoutes = [LoginView.routeName];
-    return !hideNavBarRoutes.contains(currentRoute);
   }
 }
 

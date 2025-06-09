@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 
-class VideoCardWidget extends StatelessWidget {
+class VideoCardWidget extends StatefulWidget {
   const VideoCardWidget(
       {super.key,
       this.isDescriptionAppeared = true,
-      this.iconImage,
+      this.topRightIcon,
       this.onIconTap});
 
   final bool isDescriptionAppeared;
-  final String? iconImage;
+  final Widget? topRightIcon;
   final void Function()? onIconTap;
+
+  @override
+  State<VideoCardWidget> createState() => _VideoCardWidgetState();
+}
+
+class _VideoCardWidgetState extends State<VideoCardWidget> {
+  bool isBookmark = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,20 +87,43 @@ class VideoCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              iconImage != null
+              widget.topRightIcon != null
                   ? Positioned(
                       right: 12,
                       top: 12,
                       child: InkWell(
-                        onTap: onIconTap,
-                        child: SvgPicture.asset(
-                          iconImage!,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.primaryColor, BlendMode.srcIn),
-                        ),
+                        onTap: widget.onIconTap,
+                        child: widget.topRightIcon,
                       ),
                     )
-                  : const SizedBox.shrink(),
+                  : Positioned(
+                      right: 12,
+                      top: 12,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isBookmark = !isBookmark;
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 13,
+                          backgroundColor: Colors.white,
+                          child: SizedBox(
+                            width: 11.w,
+                            child: AspectRatio(
+                              aspectRatio: 11 / 14,
+                              child: SvgPicture.asset(
+                                isBookmark
+                                    ? Assets.assetsImagesBookmarkedFilled
+                                    : Assets.assetsImagesBookmarked,
+                                colorFilter: const ColorFilter.mode(
+                                    AppColors.primaryColor, BlendMode.srcIn),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
               Positioned(
                 right: 13,
                 bottom: 8,
@@ -125,7 +156,7 @@ class VideoCardWidget extends StatelessWidget {
                   maxLines: 3,
                   style: Styles.semiBoldPoppins14,
                 ),
-                isDescriptionAppeared
+                widget.isDescriptionAppeared
                     ? const Text(
                         'Lorem ipsum dolor sit amet consectetur. Lacus condimentum hendrerit euismod donec feugiat eu placerat. Cursus sed pellentesque lobortis auctor .',
                         overflow: TextOverflow.ellipsis,
