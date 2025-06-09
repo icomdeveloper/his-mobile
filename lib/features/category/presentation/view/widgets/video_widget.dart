@@ -138,6 +138,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
+import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -236,10 +237,10 @@ class _VideoWidgetState extends State<VideoWidget> {
             Animate(
               effects: [
                 MoveEffect(
-                  duration: 500.ms,
+                  duration: 300.ms,
                 ),
                 FadeEffect(
-                  duration: 500.ms,
+                  duration: 300.ms,
                 ),
               ],
               child: Column(
@@ -279,7 +280,30 @@ class _VideoWidgetState extends State<VideoWidget> {
               ),
             ),
           ],
-          const Divider(),
+          const Divider(
+            color: AppColors.lightGrey,
+          ),
+          const UserDataListTile(
+            title: 'Document',
+            image: Assets.assetsImagesDocument,
+            subTitle: 'PDF',
+            padding: 12,
+          ),
+          const Divider(
+            color: AppColors.lightGrey,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Comments',
+                style: Styles.semiBoldPoppins14,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          ),
           SizedBox(
             height: 250.h,
             child: CommentsListView(controller: _scrollController),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:his/core/utils/app_colors.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/utils/assets.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget({
@@ -10,42 +11,46 @@ class CommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      CircleAvatar(
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      isThreeLine: true,
+      leading: CircleAvatar(
         backgroundImage: const NetworkImage('https://i.pravatar.cc/300?img=1'),
         radius: 20.r,
       ),
-      SizedBox(width: 12.w),
-      Container(
-        padding: const EdgeInsets.all(12),
-        constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width - 48 - 12.w - 20.r * 2),
-        decoration: ShapeDecoration(
-            color: const Color(0xffF7F7F7),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12))),
-        child: Column(children: [
+      title: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Mustafa Kamel',
+            style: Styles.semiBoldRoboto12,
+          ),
+          Text('3 Minutes ago', style: Styles.regularRoboto12)
+        ],
+      ),
+      subtitle: Column(
+        children: [
+          const Text(
+            'Lorem ipsum dolor sit amet consectetur. Neque dolor nulla sit non feugiat dictumst cras condimentum dignissim.',
+            style: Styles.regularRoboto12,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
-              const Text(
-                'Mustafa Kamel',
-                style: Styles.semiBoldRoboto12,
-              ),
+              SvgPicture.asset(Assets.assetsImagesReply),
               const SizedBox(
-                width: 12,
+                width: 8,
               ),
-              CircleAvatar(
-                radius: 4.r,
-                backgroundColor: AppColors.primaryColor,
+              const Text(
+                'Reply',
+                style: Styles.regularRoboto12,
               ),
             ],
           ),
-          const Text(
-            'Lorem ipsum dolor sit amet consectetur. Sed cursus purus.',
-            style: Styles.regularRoboto12,
-          ),
-        ]),
+        ],
       ),
-    ]);
+    );
   }
 }

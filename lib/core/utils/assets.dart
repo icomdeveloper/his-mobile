@@ -138,6 +138,10 @@ class Assets {
   /// assets/images/profile_background.png
   static const String assetsImagesProfileBackground = "assets/images/profile_background.png";
 
+  /// Assets for assetsImagesReply
+  /// assets/images/reply.svg
+  static const String assetsImagesReply = "assets/images/reply.svg";
+
   /// Assets for assetsImagesSearch
   /// assets/images/search.svg
   static const String assetsImagesSearch = "assets/images/search.svg";

@@ -27,7 +27,12 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
     });
     final result = await FilePicker.platform.pickFiles();
 
-    if (result == null) return;
+    if (result == null) {
+      setState(() {
+        isSelecting = false;
+      });
+      return;
+    }
     setState(() {
       file = result.files.first;
       isSelecting = false;

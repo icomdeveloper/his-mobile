@@ -20,6 +20,7 @@ class UserDataListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
+      minTileHeight: 50,
       leading: Container(
           padding: EdgeInsets.all(padding ?? 8),
           decoration: const ShapeDecoration(
