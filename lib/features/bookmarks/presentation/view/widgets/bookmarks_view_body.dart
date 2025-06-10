@@ -48,28 +48,6 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                   },
                 )),
           ),
-          // index == 0 || index == 1
-          //     ? SliverToBoxAdapter(
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             SizedBox(
-          //               height: 24.h,
-          //             ),
-          //             const Text(
-          //               'Recently Bookmarks',
-          //               style: Styles.semiBoldRoboto20,
-          //             ),
-          //             SizedBox(
-          //               height: 12.h,
-          //             ),
-          //           ],
-          //         ),
-          //       )
-          //     : const SliverToBoxAdapter(child: SizedBox.shrink()),
-          // index == 0 || index == 1
-          //     ? const RecentlyBookMarksSliverList()
-          //     : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 0
               ? SliverToBoxAdapter(
                   child: Column(
@@ -90,7 +68,9 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 0
-              ? const VideoCardList()
+              ? const VideoCardList(
+                  isBookmark: true,
+                )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 1
               ? SliverToBoxAdapter(

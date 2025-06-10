@@ -13,4 +13,6 @@ abstract class ApiEndpoints {
   static const String role = 'role';
   static const String id = 'device_id';
   static const String passwordConfirmation = 'password_confirmation';
+
+  static const String showMedia = 'media/show';
 }

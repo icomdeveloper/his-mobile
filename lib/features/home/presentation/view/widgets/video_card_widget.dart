@@ -7,22 +7,31 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 
 class VideoCardWidget extends StatefulWidget {
-  const VideoCardWidget(
-      {super.key,
-      this.isDescriptionAppeared = true,
-      this.topRightIcon,
-      this.onIconTap});
-
+  const VideoCardWidget({
+    super.key,
+    this.isDescriptionAppeared = true,
+    this.topRightIcon,
+    this.onIconTap,
+    this.isbookmark = false,
+  });
   final bool isDescriptionAppeared;
   final Widget? topRightIcon;
   final void Function()? onIconTap;
+  final bool isbookmark;
 
   @override
   State<VideoCardWidget> createState() => _VideoCardWidgetState();
 }
 
 class _VideoCardWidgetState extends State<VideoCardWidget> {
-  bool isBookmark = false;
+  late bool isBookmark;
+  @override
+  void initState() {
+    isBookmark = widget.isbookmark;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

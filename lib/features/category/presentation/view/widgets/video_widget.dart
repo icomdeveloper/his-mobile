@@ -153,8 +153,9 @@ class VideoWidget extends StatefulWidget {
 class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController videoPlayerController;
   bool showDetails = false;
-  late ChewieController chewieController;
+  ChewieController? chewieController;
   late ScrollController _scrollController;
+  bool started = false;
 
   String url =
       'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
@@ -173,10 +174,11 @@ class _VideoWidgetState extends State<VideoWidget> {
       Uri.parse(
           'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),
     );*/
+  }
+
+  initChewieController() {
     chewieController = ChewieController(
-      placeholder: Center(
-        child: Image.asset(Assets.assetsImagesDoctestimage),
-      ),
+      autoPlay: true,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.portraitUp,
       ],
@@ -192,7 +194,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void dispose() {
     videoPlayerController.dispose();
-    chewieController.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
@@ -205,7 +207,39 @@ class _VideoWidgetState extends State<VideoWidget> {
               aspectRatio: 16 / 9,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Chewie(controller: chewieController))),
+                  child: started
+                      ? Chewie(controller: chewieController!)
+                      : Container(
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                    AssetImage(Assets.assetsImagesDoctestimage),
+                                fit: BoxFit.cover),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              initChewieController();
+                              setState(() {
+                                started = true;
+                              });
+                            },
+                            icon: const CircleAvatar(
+                              child: Center(
+                                child: CircleAvatar(
+                                  radius: 34,
+                                  backgroundColor: Colors.white,
+                                  child: CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: AppColors.primaryColor,
+                                      child: Icon(
+                                        Icons.play_arrow,
+                                        color: Colors.white,
+                                        size: 32,
+                                      )),
+                                ),
+                              ),
+                            ),
+                          )))),
           SizedBox(height: 8.h),
           GestureDetector(
             onTap: () {

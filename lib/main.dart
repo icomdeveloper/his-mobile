@@ -29,6 +29,7 @@ void main() async {
   await Prefs.init();
   Bloc.observer = CustomBlocObserver();
   setupGetIt();
+  // Prefs.setBool(PrefsKeys.isLoggedIn, false);
   runApp(const MyApp());
 }
 

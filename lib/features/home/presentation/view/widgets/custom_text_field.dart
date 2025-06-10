@@ -16,7 +16,13 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'This Field is required';
+          }
+          return null;
+        },
         maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
@@ -40,14 +46,6 @@ class CustomTextField extends StatelessWidget {
         ));
   }
 
-/*************  ✨ Windsurf Command ⭐  *************/
-  /// Creates a border with a specified color and default styling.
-  ///
-  /// If [color] is provided, it will be used for the border's color.
-  /// Otherwise, it defaults to [AppColors.lightGrey].
-  /// The border has a fixed width of 1 and a circular radius of 14.
-
-  /// *****  7ce90289-ffa4-4208-abf5-30d07294eb95  ******
   OutlineInputBorder buildBorder({Color? color}) {
     return OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(14)),

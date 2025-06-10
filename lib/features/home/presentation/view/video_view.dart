@@ -4,8 +4,9 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 
 class VideoView extends StatelessWidget {
-  const VideoView({super.key});
-
+  const VideoView({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(

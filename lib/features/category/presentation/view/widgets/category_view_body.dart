@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
+import 'package:his/features/category/presentation/cubit/get_media_cubit.dart';
 
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_list.dart';
@@ -76,7 +78,19 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
             ),
           ),
 
-          const VideoCardList(),
+          BlocBuilder<GetMediaCubit, GetMediaState>(
+            builder: (context, state) {
+              if (state is GetMediaSuccess) {
+                return const VideoCardList();
+              } else if (state is GetMediaFailure) {
+                return SliverToBoxAdapter(
+                    child: Center(child: Text(state.message)));
+              } else {
+                return const SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()));
+              }
+            },
+          ),
           // SliverToBoxAdapter(
           //   child: Column(
           //     crossAxisAlignment: CrossAxisAlignment.start,
