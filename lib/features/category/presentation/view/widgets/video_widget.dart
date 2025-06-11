@@ -1,129 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:flutter_svg/svg.dart';
-// import 'package:his/core/utils/app_colors.dart';
-// import 'package:his/core/utils/app_text_styles.dart';
-// import 'package:his/core/utils/assets.dart';
-// import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
-
-// class VideoWidget extends StatefulWidget {
-//   const VideoWidget({super.key});
-
-//   @override
-//   State<VideoWidget> createState() => _VideoWidgetState();
-// }
-
-// class _VideoWidgetState extends State<VideoWidget> {
-//   bool showComments = false;
-//   final ScrollController _scrollController = ScrollController();
-
-//   @override
-//   void dispose() {
-//     _scrollController.dispose();
-//     super.dispose();
-//   }
-
-//   void _scrollToBottom() {
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
-//       if (_scrollController.hasClients) {
-//         _scrollController.animateTo(
-//           _scrollController.position.maxScrollExtent,
-//           duration: const Duration(milliseconds: 300),
-//           curve: Curves.easeOut,
-//         );
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Container(
-//           decoration: ShapeDecoration(
-//               color: AppColors.primaryColor,
-//               shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(12))),
-//           child: Column(
-//             children: [
-//               ClipRRect(
-//                   borderRadius: const BorderRadius.only(
-//                       topLeft: Radius.circular(12),
-//                       topRight: Radius.circular(12)),
-//                   child: Image.asset(Assets.assetsImagesVideoTest)),
-//               Container(
-//                 height: 44.h,
-//                 decoration: ShapeDecoration(
-//                   color: AppColors.primaryColor,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(12),
-//                   ),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 20),
-//                   child: Row(
-//                     children: [
-//                       Text(
-//                         '17:34 / 59:32',
-//                         style: Styles.regularRoboto12
-//                             .copyWith(color: Colors.white),
-//                       ),
-//                       const Spacer(),
-//                       SvgPicture.asset(Assets.assetsImagesVolumeUp),
-//                       SizedBox(width: 27.w),
-//                       SvgPicture.asset(Assets.assetsImagesFilter),
-//                       SizedBox(width: 27.w),
-//                       SvgPicture.asset(Assets.assetsImagesVideoCategory),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//         SizedBox(height: 8.h),
-//         GestureDetector(
-//           onTap: () {
-//             setState(() {
-//               showComments = !showComments;
-//               if (showComments) {
-//                 _scrollToBottom();
-//               }
-//             });
-//           },
-//           child: Row(
-//             children: [
-//               ConstrainedBox(
-//                 constraints: BoxConstraints(maxWidth: 320.w),
-//                 child: const Text(
-//                   'feugiat ullamcorper suspendisse amet.',
-//                   style: Styles.semiBoldPoppins14,
-//                 ),
-//               ),
-//               const Spacer(),
-//               CircleAvatar(
-//                 backgroundColor: const AppColors.lightGrey,
-//                 radius: 10.r,
-//                 child: SvgPicture.asset(showComments
-//                     ? Assets.assetsImagesArrowUp
-//                     : Assets.assetsImagesArrowDown),
-//               ),
-//             ],
-//           ),
-//         ),
-//         const Divider(),
-//         if (showComments) ...[
-//           SizedBox(
-//             height: 234.h,
-//             child: CommentsListView(controller: _scrollController),
-//           ),
-//           const Divider(),
-//         ]
-//       ],
-//     );
-//   }
-// }
-
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
@@ -131,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
@@ -138,6 +13,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
+import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:video_player/video_player.dart';
 
@@ -156,6 +32,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   ChewieController? chewieController;
   late ScrollController _scrollController;
   bool started = false;
+  double ratingValue = 3;
 
   String url =
       'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
@@ -202,6 +79,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
               aspectRatio: 16 / 9,
@@ -326,12 +204,55 @@ class _VideoWidgetState extends State<VideoWidget> {
           const Divider(
             color: AppColors.lightGrey,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          const SizedBox(height: 12),
+          Text(
+            'Admin Rating (1-5)',
+            style: Styles.semiBoldPoppins14
+                .copyWith(color: const Color(0xff1C1C0D)),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          RatingStars(
+            valueLabelVisibility: false,
+            value: ratingValue,
+            onValueChanged: (v) {
+              setState(() {
+                ratingValue = v;
+              });
+            },
+            starBuilder: (index, color) => Icon(
+              Icons.star_sharp,
+              color: color,
+            ),
+            starCount: 5,
+            starSize: 27,
+            starSpacing: 5,
+            maxValue: 5,
+            animationDuration: const Duration(milliseconds: 400),
+            starOffColor: AppColors.lightGrey,
+            starColor: const Color(0xFFE0B610),
+          ),
+          const Divider(
+            color: AppColors.lightGrey,
+            thickness: 1,
+            height: 24,
+          ),
+          const LikesAndCommentsWidget(),
+          const SizedBox(height: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Comments',
                 style: Styles.semiBoldPoppins14,
+              ),
+              Text(
+                '46 Comments',
+                style: Styles.regularRoboto12.copyWith(
+                  color: AppColors.primaryColor,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ],
           ),
@@ -339,7 +260,7 @@ class _VideoWidgetState extends State<VideoWidget> {
             height: 12,
           ),
           SizedBox(
-            height: 250.h,
+            height: 350.h,
             child: CommentsListView(controller: _scrollController),
           ),
           const SizedBox(height: 12),

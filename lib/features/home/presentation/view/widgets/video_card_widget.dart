@@ -5,6 +5,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
+import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 
 class VideoCardWidget extends StatefulWidget {
   const VideoCardWidget({
@@ -155,7 +156,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding:
+                const EdgeInsets.only(left: 24, right: 24, top: 4, bottom: 14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -173,6 +175,11 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                         style: Styles.regularRoboto12,
                       )
                     : const SizedBox.shrink(),
+                const Divider(
+                  color: AppColors.lightGrey,
+                  height: 24,
+                ),
+                const LikesAndCommentsWidget(),
               ],
             ),
           ),

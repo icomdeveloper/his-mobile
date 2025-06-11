@@ -3,12 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 
-class CommentWidget extends StatelessWidget {
+class CommentWidget extends StatefulWidget {
   const CommentWidget({
     super.key,
   });
 
+  @override
+  State<CommentWidget> createState() => _CommentWidgetState();
+}
+
+class _CommentWidgetState extends State<CommentWidget> {
+  bool showReplyTextField = false;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -37,18 +44,31 @@ class CommentWidget extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              SvgPicture.asset(Assets.assetsImagesReply),
-              const SizedBox(
-                width: 8,
-              ),
-              const Text(
-                'Reply',
-                style: Styles.regularRoboto12,
-              ),
-            ],
+          InkWell(
+            onTap: () {
+              setState(() {
+                showReplyTextField = !showReplyTextField;
+              });
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(Assets.assetsImagesReply),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Text(
+                  'Reply',
+                  style: Styles.regularRoboto12,
+                ),
+              ],
+            ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          showReplyTextField
+              ? const CommentTextField()
+              : const SizedBox.shrink(),
         ],
       ),
     );

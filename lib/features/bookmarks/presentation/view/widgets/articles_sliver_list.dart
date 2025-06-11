@@ -10,7 +10,7 @@ class ArticlesSliverList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.separated(
       separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemCount: 4,
+      itemCount: 2,
       itemBuilder: (context, index) => const ArticleWidget(),
     );
   }

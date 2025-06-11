@@ -48,10 +48,10 @@ class HomeViewBody extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: CarouselSlider.builder(
-              itemCount: 4,
+              itemCount: 3,
               options: CarouselOptions(
                 viewportFraction: 1,
-                height: mediaQuery.size.height * 0.38,
+                height: mediaQuery.size.height * 0.42,
                 autoPlay: true,
               ),
               itemBuilder: (context, index, realIndex) {
