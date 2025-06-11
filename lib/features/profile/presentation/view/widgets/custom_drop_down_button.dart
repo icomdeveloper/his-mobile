@@ -4,20 +4,21 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
 class CustomDropDownButton extends StatefulWidget {
-  const CustomDropDownButton({super.key, required this.onChanged});
-  final ValueChanged<String> onChanged;
+  const CustomDropDownButton({
+    super.key,
+  });
   @override
   State<CustomDropDownButton> createState() => _CustomDropDown2State();
 }
 
 class _CustomDropDown2State extends State<CustomDropDownButton> {
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-  ];
-  String? selectedValue;
+  final List<DropDownItemWidget> items = List.generate(
+      authors.length,
+      (index) => DropDownItemWidget(
+            image: authors[index]['image'],
+            name: authors[index]['name'],
+          ));
+  DropDownItemWidget? selectedValue;
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -29,35 +30,42 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
-      child: DropdownButton2<String>(
+      child: DropdownButtonFormField2<DropDownItemWidget>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        decoration: const InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 0),
+          ),
+        ),
+        validator: (value) => value == null ? 'please select an author' : null,
+        selectedItemBuilder: (context) => items
+            .map((item) => Row(
+                  children: [
+                    Text(item.name, style: Styles.regularRoboto12),
+                  ],
+                ))
+            .toList(),
         iconStyleData: const IconStyleData(
           iconEnabledColor: AppColors.primaryColor,
         ),
         isExpanded: true,
-        hint: Padding(
-          padding: const EdgeInsets.only(left: 16),
+        hint: const Padding(
+          padding: EdgeInsets.only(left: 16),
           child: Text(
-            'Select Item',
-            style:
-                Styles.regularRoboto12.copyWith(color: const Color(0xff999999)),
+            'Search for author',
+            style: Styles.regularRoboto12,
           ),
         ),
         items: items
             .map((item) => DropdownMenuItem(
                   value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
+                  child: item,
                 ))
             .toList(),
         value: selectedValue,
         onChanged: (value) {
           setState(() {
             selectedValue = value;
-            widget.onChanged(value!);
           });
         },
         buttonStyleData: const ButtonStyleData(
@@ -67,7 +75,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
             borderRadius: BorderRadius.all(Radius.circular(14)),
           ),
           padding: EdgeInsets.symmetric(horizontal: 8),
-          height: 40,
+          height: 50,
           width: double.infinity,
         ),
         dropdownStyleData: const DropdownStyleData(
@@ -98,7 +106,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                hintText: 'Search for an item...',
+                hintText: 'Search for author...',
                 hintStyle: Styles.regularRoboto12
                     .copyWith(color: const Color(0xff999999)),
                 border: OutlineInputBorder(
@@ -108,7 +116,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
             ),
           ),
           searchMatchFn: (item, searchValue) {
-            return item.value.toString().contains(searchValue);
+            return item.value!.name.toString().contains(searchValue);
           },
         ),
         //This to clear the search value when you close the menu
@@ -121,3 +129,44 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
     );
   }
 }
+
+class DropDownItemWidget extends StatelessWidget {
+  const DropDownItemWidget(
+      {super.key, required this.image, required this.name});
+  final String image, name;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(image),
+          radius: 20,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          name,
+          style: Styles.regularRoboto12,
+        ),
+      ],
+    );
+  }
+}
+
+const List<Map<String, dynamic>> authors = [
+  {
+    'name': 'Mustafa Kamel',
+    'image': 'https://i.pravatar.cc/300?img=1',
+  },
+  {
+    'name': 'Ali Osama',
+    'image': 'https://i.pravatar.cc/300?img=2',
+  },
+  {
+    'name': 'Ibrahim Mohamed',
+    'image': 'https://i.pravatar.cc/300?img=3',
+  },
+  {
+    'name': 'Karim Salah',
+    'image': 'https://i.pravatar.cc/300?img=4',
+  },
+];

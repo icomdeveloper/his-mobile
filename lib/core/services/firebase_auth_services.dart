@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,7 +17,7 @@ class FirebaseAuthServices {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
+    log('Token==>${credential.accessToken}');
     // Once signed in, return the UserCredential
     return (await (FirebaseAuth.instance.signInWithCredential(credential)))
         .user!;

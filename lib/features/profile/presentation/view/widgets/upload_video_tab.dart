@@ -8,6 +8,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
+import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -19,11 +20,10 @@ class UploadVideoTab extends StatefulWidget {
 }
 
 class _UploadVideoTabState extends State<UploadVideoTab> {
-  PlatformFile? file;
+  PlatformFile? videoFile, thumbnailFile, pdfFile;
   bool isSelecting = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? category;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,9 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                         )),
                     child: InkWell(
                         onTap: () async {
-                          await selectFile();
+                          setState(() => isSelecting = true);
+                          videoFile = await selectFile(type: FileType.video);
+                          setState(() => isSelecting = false);
                         },
                         child: isSelecting
                             ? Center(
@@ -61,7 +63,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                   color: AppColors.primaryColor,
                                 ),
                               ))
-                            : file == null
+                            : videoFile == null
                                 ? Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 40.h),
@@ -106,7 +108,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                                     .assetsImagesUploadVideo))),
                                         SizedBox(height: 16.h),
                                         Text(
-                                          file?.name ?? '',
+                                          videoFile?.name ?? '',
                                           style: Styles.semiBoldPoppins14,
                                         )
                                       ],
@@ -116,18 +118,53 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Select category',
+              'Upload image',
               style: Styles.semiBoldPoppins14,
             ),
-            const SizedBox(height: 4),
-            CustomDropDownButton(
-              onChanged: (value) {
-                setState(() {
-                  category = value;
-                });
-              },
+            const SizedBox(
+              height: 4,
+            ),
+            CustomTextField(
+              hintText: 'Select your image ',
+              controller:
+                  TextEditingController(text: thumbnailFile?.name ?? ''),
+              isSearch: false,
+              readOnly: true,
+              suffixIcon: ChooseFileButton(
+                onTapped: () async {
+                  thumbnailFile = await selectFile(type: FileType.image);
+                },
+              ),
             ),
             const SizedBox(height: 12),
+            const Text(
+              'Upload PDF',
+              style: Styles.semiBoldPoppins14,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            CustomTextField(
+              hintText: 'Select your PDF ',
+              isSearch: false,
+              readOnly: true,
+              controller: TextEditingController(text: pdfFile?.name ?? ''),
+              suffixIcon: ChooseFileButton(
+                onTapped: () async {
+                  pdfFile = await selectFile(
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf', 'doc', 'docx']);
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Select Author',
+              style: Styles.semiBoldPoppins14,
+            ),
+            // const SizedBox(height: 4),
+            const CustomDropDownButton(),
+            // const SizedBox(height: 12),
             const Text(
               'Title',
               style: Styles.semiBoldPoppins14,
@@ -149,7 +186,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               maxLines: 7,
             ),
             const SizedBox(height: 12),
-            file == null
+            videoFile == null
                 ? const SizedBox.shrink()
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +213,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  file?.name ?? '',
+                                  videoFile?.name ?? '',
                                   style: Styles.regularRoboto12
                                       .copyWith(color: const Color(0xff0F0F0F)),
                                 ),
@@ -185,7 +222,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                               InkWell(
                                 onTap: () {
                                   setState(() {
-                                    file = null;
+                                    videoFile = null;
                                   });
                                 },
                                 child: const CircleAvatar(
@@ -208,23 +245,8 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
             CustomTextButton(
                 text: 'Upload file',
                 onPressed: () {
-                  if (file == null) {
-                    if (category == null) {
-                      Fluttertoast.showToast(
-                        msg: 'Please select your video and category',
-                        toastLength: Toast.LENGTH_SHORT,
-                      );
-                    } else {
-                      Fluttertoast.showToast(
-                        msg: 'Please select your video',
-                        toastLength: Toast.LENGTH_SHORT,
-                      );
-                    }
-                  } else if (category == null) {
-                    Fluttertoast.showToast(
-                      msg: 'Please select category',
-                      toastLength: Toast.LENGTH_SHORT,
-                    );
+                  if (videoFile == null) {
+                    Fluttertoast.showToast(msg: 'Please select a video file');
                   }
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
@@ -241,23 +263,17 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
     );
   }
 
-  Future selectFile() async {
-    setState(() {
-      isSelecting = true;
-    });
+  Future selectFile(
+      {required FileType type, List<String>? allowedExtensions}) async {
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.video,
+      type: type,
+      allowedExtensions: allowedExtensions,
     );
 
     if (result == null) {
-      setState(() {
-        isSelecting = false;
-      });
       return;
     }
-    setState(() {
-      file = result.files.first;
-      isSelecting = false;
-    });
+    setState(() {});
+    return result.files.first;
   }
 }
