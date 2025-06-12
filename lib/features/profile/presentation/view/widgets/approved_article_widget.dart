@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:his/core/utils/app_text_styles.dart';
-import 'package:his/features/bookmarks/presentation/view/widgets/article_widget.dart';
+import 'package:his/features/home/presentation/view/widgets/article_widget.dart';
 
 class ApprovedArticleWidget extends StatelessWidget {
   const ApprovedArticleWidget({super.key});

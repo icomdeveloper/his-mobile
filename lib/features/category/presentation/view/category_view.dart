@@ -6,7 +6,7 @@ import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
 import 'package:his/features/category/presentation/view/widgets/category_view_body.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
-import 'package:his/features/category/presentation/cubit/get_media_cubit.dart';
+import 'package:his/features/category/presentation/cubits/get_media_cubit/get_media_cubit.dart';
 
 class CategoryView extends StatelessWidget {
   const CategoryView({super.key, required this.navigatorKey});

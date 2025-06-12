@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:his/features/bookmarks/presentation/view/widgets/article_widget.dart';
+import 'package:his/features/home/presentation/view/widgets/article_widget.dart';
 
 class ArticlesSliverList extends StatelessWidget {
   const ArticlesSliverList({

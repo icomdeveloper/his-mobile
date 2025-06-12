@@ -6,11 +6,13 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
 class CommentTextField extends StatelessWidget {
-  const CommentTextField({super.key});
-
+  const CommentTextField({super.key, required this.controller, this.onTap});
+  final TextEditingController controller;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         fillColor: const Color(0xffF7F7F7),
         filled: true,
@@ -32,15 +34,18 @@ class CommentTextField extends StatelessWidget {
             ),
           )),
         ),
-        suffixIcon: SizedBox(
-          height: 15,
-          width: 15,
-          child: Center(
-              child: CircleAvatar(
-            backgroundColor: AppColors.primaryColor,
-            radius: 14.r,
-            child: SvgPicture.asset(Assets.assetsImagesSend),
-          )),
+        suffixIcon: InkWell(
+          onTap: onTap,
+          child: SizedBox(
+            height: 15,
+            width: 15,
+            child: Center(
+                child: CircleAvatar(
+              backgroundColor: AppColors.primaryColor,
+              radius: 14.r,
+              child: SvgPicture.asset(Assets.assetsImagesSend),
+            )),
+          ),
         ),
         hintText: 'Write your message',
         hintStyle:

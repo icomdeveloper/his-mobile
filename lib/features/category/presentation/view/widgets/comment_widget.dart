@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({
@@ -66,9 +65,9 @@ class _CommentWidgetState extends State<CommentWidget> {
           const SizedBox(
             height: 10,
           ),
-          showReplyTextField
-              ? const CommentTextField()
-              : const SizedBox.shrink(),
+          // showReplyTextField
+          //     ? const CommentTextField()
+          //     : const SizedBox.shrink(),
         ],
       ),
     );

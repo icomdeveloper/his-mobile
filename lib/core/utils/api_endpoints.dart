@@ -11,8 +11,12 @@ abstract class ApiEndpoints {
   static const String phone = 'phone';
 
   static const String role = 'role';
-  static const String id = 'device_id';
   static const String passwordConfirmation = 'password_confirmation';
 
   static const String showMedia = 'media/show';
+  static const String mediaId = 'media_id';
+  static const String userId = 'user_id';
+  static const String parentId = 'parent_id';
+  static const String content = 'content';
+  static const String comments = 'comments';
 }

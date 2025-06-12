@@ -5,12 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
@@ -264,7 +266,12 @@ class _VideoWidgetState extends State<VideoWidget> {
             child: CommentsListView(controller: _scrollController),
           ),
           const SizedBox(height: 12),
-          const CommentTextField(),
+          CommentTextField(
+            controller: context.read<CommentsCubit>().commentController,
+            onTap: () {
+              context.read<CommentsCubit>().addComment(1);
+            },
+          ),
           const SizedBox(height: 30),
         ],
       ),
