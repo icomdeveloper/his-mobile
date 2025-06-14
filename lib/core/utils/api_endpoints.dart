@@ -19,4 +19,14 @@ abstract class ApiEndpoints {
   static const String parentId = 'parent_id';
   static const String content = 'content';
   static const String comments = 'comments';
+
+  static const String uploadVideo = 'media/store';
+  static const String categoryId = 'category_id';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String file = 'file';
+  static const String thumbnail = 'thumbnail_path';
+
+  static const String isFeatured = 'is_featured';
+  static const String pdf = 'pdf';
 }

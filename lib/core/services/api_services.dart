@@ -6,10 +6,12 @@ class ApiServices {
 
   ApiServices({required this.dio});
   Future postMethod(
-      {required String endPoint, required Map<String, dynamic> data}) async {
+      {required String endPoint,
+      required Map<String, dynamic> data,
+      bool isFormData = false}) async {
     final response = await dio.post(
       '$baseUrl$endPoint',
-      data: data,
+      data: isFormData ? FormData.fromMap(data) : data,
     );
     return response.data;
   }

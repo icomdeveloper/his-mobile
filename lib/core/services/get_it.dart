@@ -5,6 +5,7 @@ import 'package:his/core/services/firebase_auth_services.dart';
 import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
+import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -18,6 +19,8 @@ void setupGetIt() {
       ShowMediaRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<CommentRepo>(
       CommentRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<UploadVideoRepo>(
+      UploadVideoRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

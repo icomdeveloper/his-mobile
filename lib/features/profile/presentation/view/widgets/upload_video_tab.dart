@@ -1,13 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
+import 'package:his/features/profile/data/model/upload_video_model.dart';
+import 'package:his/features/profile/presentation/cubit/upload_media_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -25,6 +29,14 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
   bool isSelecting = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,8 +216,9 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               style: Styles.semiBoldPoppins14,
             ),
             const SizedBox(height: 4),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Write your title here ..',
+              controller: titleController,
               isSearch: false,
             ),
             const SizedBox(height: 12),
@@ -214,10 +227,11 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               style: Styles.semiBoldPoppins14,
             ),
             const SizedBox(height: 4),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Write your description here ..',
               isSearch: false,
               maxLines: 7,
+              controller: descriptionController,
             ),
             const SizedBox(height: 12),
             videoFile == null
@@ -284,6 +298,17 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                   }
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
+                    UploadVideoModel uploadVideoModel = UploadVideoModel(
+                        userId: getUserData().userInfo!.id!,
+                        categoryId: 1,
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        videoFile: videoFile!,
+                        thumbnailFile: thumbnailFile!,
+                        pdfFile: pdfFile);
+                    context
+                        .read<UploadMediaCubit>()
+                        .uploadVideo(uploadVideoModel: uploadVideoModel);
                   } else {
                     setState(() {
                       autovalidateMode = AutovalidateMode.always;
