@@ -11,6 +11,7 @@ import 'package:his/features/home/presentation/view/widgets/custom_text_field.da
 import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:his/features/profile/presentation/view/widgets/date_drop_down_button.dart';
 
 class UploadVideoTab extends StatefulWidget {
   const UploadVideoTab({super.key});
@@ -164,7 +165,40 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
             ),
             // const SizedBox(height: 4),
             const CustomDropDownButton(),
-            // const SizedBox(height: 12),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select Year',
+                      style: Styles.semiBoldPoppins14,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    DateDropDownButton(),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select month',
+                      style: Styles.semiBoldPoppins14,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    DateDropDownButton(
+                      isMonth: true,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
             const Text(
               'Title',
               style: Styles.semiBoldPoppins14,

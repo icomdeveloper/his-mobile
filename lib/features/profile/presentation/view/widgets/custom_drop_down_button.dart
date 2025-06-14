@@ -46,7 +46,11 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
                 ))
             .toList(),
         iconStyleData: const IconStyleData(
-          iconEnabledColor: AppColors.primaryColor,
+          icon: Icon(
+            Icons.keyboard_arrow_down_outlined,
+          ),
+          iconSize: 16,
+          iconEnabledColor: AppColors.grey,
         ),
         isExpanded: true,
         hint: const Padding(
