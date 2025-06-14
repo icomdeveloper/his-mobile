@@ -29,4 +29,6 @@ abstract class ApiEndpoints {
 
   static const String isFeatured = 'is_featured';
   static const String pdf = 'pdf';
+
+  static const String recentlyAdded = 'media/recently_Added';
 }

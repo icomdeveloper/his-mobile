@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/home/presentation/cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos_item.dart';
@@ -118,7 +120,32 @@ class HomeViewBody extends StatelessWidget {
               ],
             ),
           ),
-          const RecentlyAddedSliverList(),
+          BlocBuilder<RecentlyAddedCubit, RecentlyAddedState>(
+            builder: (context, state) {
+              if (state is RecentlyAddedSuccess) {
+                return RecentlyAddedSliverList(
+                  recentlyAdded: state.mediaList,
+                );
+              }
+              if (state is RecentlyAddedFailure) {
+                return SliverToBoxAdapter(
+                    child: Column(
+                  children: [
+                    Center(child: Text(state.errMessage)),
+                    const SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ));
+              } else {
+                return const SliverToBoxAdapter(
+                    child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Center(child: CircularProgressIndicator()),
+                ));
+              }
+            },
+          ),
         ],
       ),
     );
