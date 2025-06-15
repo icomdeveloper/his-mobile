@@ -20,6 +20,8 @@ abstract class ApiEndpoints {
   static const String content = 'content';
   static const String comments = 'comments';
 
+  static const String reply = 'comments/reply';
+
   static const String uploadVideo = 'media/store';
   static const String categoryId = 'category_id';
   static const String title = 'title';
@@ -31,4 +33,8 @@ abstract class ApiEndpoints {
   static const String pdf = 'pdf';
 
   static const String recentlyAdded = 'media/recently_Added';
+
+  static const String googleLogin = 'login/google';
+
+  static const String googleIdToken = 'id_token';
 }

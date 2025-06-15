@@ -11,17 +11,32 @@ class CommentsCubit extends Cubit<CommentsState> {
   CommentsCubit(this.commentRepo) : super(CommentsInitial());
   final CommentRepo commentRepo;
   TextEditingController commentController = TextEditingController();
-  Future<void> addComment(int mediaId, {int? parentId}) async {
+  TextEditingController replyController = TextEditingController();
+
+  Future<void> addComment({required int mediaId}) async {
     emit(AddCommentLoading());
     final comment = CommentModel(
       mediaId: mediaId,
       userId: getUserData().userInfo!.id!,
-      parentId: parentId,
       content: commentController.text,
     );
     commentController.clear();
     final result = await commentRepo.addComment(comment: comment);
     result.fold((error) => emit(AddCommentsFailure(message: error.errMesage)),
         (r) => emit(AddCommentSuccess()));
+  }
+
+  Future<void> addReply({required int mediaId, required int parentId}) async {
+    emit(AddReplyLoading());
+    final comment = CommentModel(
+      mediaId: mediaId,
+      userId: getUserData().userInfo!.id!,
+      parentId: parentId,
+      content: replyController.text,
+    );
+    replyController.clear();
+    final result = await commentRepo.addComment(comment: comment);
+    result.fold((error) => emit(AddReplyFailure(message: error.errMesage)),
+        (r) => emit(AddReplytSuccess()));
   }
 }

@@ -48,10 +48,16 @@ class AuthRepo {
 
   Future<Either<ServerFailure, UserData>> signInWithGoogle() async {
     try {
-      User user = await firebaseAuthServices.signInWithGoogle();
-      UserData userModel = UserData.fromFirebase(user);
-      await saveUserData(user: userModel);
-      return right(userModel);
+      UserCredential user = await firebaseAuthServices.signInWithGoogle();
+
+      var data = await apiServices.postMethod(
+          endPoint: ApiEndpoints.googleLogin,
+          data: {ApiEndpoints.googleIdToken: user.credential!.accessToken});
+
+      await saveUserData(user: UserData.fromJson(data));
+      return right(UserData.fromJson(data));
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));
     }

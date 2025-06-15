@@ -13,3 +13,12 @@ final class AddCommentsFailure extends CommentsState {
 }
 
 final class AddCommentSuccess extends CommentsState {}
+
+final class AddReplyLoading extends CommentsState {}
+
+final class AddReplyFailure extends CommentsState {
+  final String message;
+  AddReplyFailure({required this.message});
+}
+
+final class AddReplytSuccess extends CommentsState {}

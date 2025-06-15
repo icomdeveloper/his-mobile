@@ -15,8 +15,6 @@ class HomeViewBody extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: CustomScrollView(
@@ -53,8 +51,9 @@ class HomeViewBody extends StatelessWidget {
               itemCount: 3,
               options: CarouselOptions(
                 viewportFraction: 1,
-                height: mediaQuery.size.height * 0.42,
+                aspectRatio: 0.95,
                 autoPlay: true,
+                // height: mediaQuery.size.height * 0.42,
               ),
               itemBuilder: (context, index, realIndex) {
                 return const Padding(

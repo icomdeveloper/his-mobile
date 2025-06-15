@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({
@@ -50,6 +53,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               });
             },
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SvgPicture.asset(Assets.assetsImagesReply),
                 const SizedBox(
@@ -65,9 +69,15 @@ class _CommentWidgetState extends State<CommentWidget> {
           const SizedBox(
             height: 10,
           ),
-          // showReplyTextField
-          //     ? const CommentTextField()
-          //     : const SizedBox.shrink(),
+          showReplyTextField
+              ? CommentTextField(
+                  controller: context.read<CommentsCubit>().replyController,
+                  onTap: () {
+                    context
+                        .read<CommentsCubit>()
+                        .addReply(mediaId: 1, parentId: 1);
+                  })
+              : const SizedBox.shrink(),
         ],
       ),
     );

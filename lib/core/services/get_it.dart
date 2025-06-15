@@ -28,8 +28,6 @@ void setupGetIt() {
 
 Dio setupDio() {
   Dio dio = Dio();
-  dio.options.connectTimeout = const Duration(seconds: 40);
-  dio.options.sendTimeout = const Duration(seconds: 40);
 
   dio.interceptors.add(
     LogInterceptor(

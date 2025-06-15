@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -34,7 +34,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   ChewieController? chewieController;
   late ScrollController _scrollController;
   bool started = false;
-  double ratingValue = 3;
+  // double ratingValue = 3;
 
   String url =
       'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
@@ -207,39 +207,39 @@ class _VideoWidgetState extends State<VideoWidget> {
             color: AppColors.lightGrey,
           ),
           const SizedBox(height: 12),
-          Text(
-            'Admin Rating (1-5)',
-            style: Styles.semiBoldPoppins14
-                .copyWith(color: const Color(0xff1C1C0D)),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          RatingStars(
-            valueLabelVisibility: false,
-            value: ratingValue,
-            onValueChanged: (v) {
-              setState(() {
-                ratingValue = v;
-              });
-            },
-            starBuilder: (index, color) => Icon(
-              Icons.star_sharp,
-              color: color,
-            ),
-            starCount: 5,
-            starSize: 27,
-            starSpacing: 5,
-            maxValue: 5,
-            animationDuration: const Duration(milliseconds: 400),
-            starOffColor: AppColors.lightGrey,
-            starColor: const Color(0xFFE0B610),
-          ),
-          const Divider(
-            color: AppColors.lightGrey,
-            thickness: 1,
-            height: 24,
-          ),
+          // Text(
+          //   'Admin Rating (1-5)',
+          //   style: Styles.semiBoldPoppins14
+          //       .copyWith(color: const Color(0xff1C1C0D)),
+          // ),
+          // const SizedBox(
+          //   height: 12,
+          // ),
+          // RatingStars(
+          //   valueLabelVisibility: false,
+          //   value: ratingValue,
+          //   onValueChanged: (v) {
+          //     setState(() {
+          //       ratingValue = v;
+          //     });
+          //   },
+          //   starBuilder: (index, color) => Icon(
+          //     Icons.star_sharp,
+          //     color: color,
+          //   ),
+          //   starCount: 5,
+          //   starSize: 27,
+          //   starSpacing: 5,
+          //   maxValue: 5,
+          //   animationDuration: const Duration(milliseconds: 400),
+          //   starOffColor: AppColors.lightGrey,
+          //   starColor: const Color(0xFFE0B610),
+          // ),
+          // const Divider(
+          //   color: AppColors.lightGrey,
+          //   thickness: 1,
+          //   height: 24,
+          // ),
           const LikesAndCommentsWidget(),
           const SizedBox(height: 14),
           Row(
@@ -266,11 +266,18 @@ class _VideoWidgetState extends State<VideoWidget> {
             child: CommentsListView(controller: _scrollController),
           ),
           const SizedBox(height: 12),
-          CommentTextField(
-            controller: context.read<CommentsCubit>().commentController,
-            onTap: () {
-              context.read<CommentsCubit>().addComment(1);
+          BlocListener<CommentsCubit, CommentsState>(
+            listener: (context, state) {
+              if (state is AddCommentsFailure) {
+                Fluttertoast.showToast(msg: state.message);
+              }
             },
+            child: CommentTextField(
+              controller: context.read<CommentsCubit>().commentController,
+              onTap: () {
+                context.read<CommentsCubit>().addComment(mediaId: 1);
+              },
+            ),
           ),
           const SizedBox(height: 30),
         ],
@@ -284,7 +291,7 @@ class _VideoWidgetState extends State<VideoWidget> {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
+          curve: Curves.easeIn,
         );
       }
     });

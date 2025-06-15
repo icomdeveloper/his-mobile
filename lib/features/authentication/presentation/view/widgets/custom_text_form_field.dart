@@ -29,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       inputFormatters: [
         LengthLimitingTextInputFormatter(maxLength), // Max 10 characters
       ],

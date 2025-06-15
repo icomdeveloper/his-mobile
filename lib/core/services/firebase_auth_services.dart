@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServices {
-  Future<User> signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -17,10 +15,9 @@ class FirebaseAuthServices {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    log('Token==>${credential.accessToken}');
+
     // Once signed in, return the UserCredential
-    return (await (FirebaseAuth.instance.signInWithCredential(credential)))
-        .user!;
+    return (await (FirebaseAuth.instance.signInWithCredential(credential)));
   }
 
   // /// Generates a cryptographically secure random nonce, to be included in a

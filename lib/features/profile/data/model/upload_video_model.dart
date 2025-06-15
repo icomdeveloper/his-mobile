@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 
@@ -6,9 +8,9 @@ class UploadVideoModel {
   final int categoryId;
   final String title;
   final String description;
-  final PlatformFile videoFile;
-  final PlatformFile thumbnailFile;
-  final PlatformFile? pdfFile;
+  final File videoFile;
+  final File thumbnailFile;
+  final File? pdfFile;
   final bool? isFeatured;
 
   UploadVideoModel(

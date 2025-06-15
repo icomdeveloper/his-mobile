@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -290,31 +292,49 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     ],
                   ),
             const SizedBox(height: 24),
-            CustomTextButton(
-                text: 'Upload file',
-                onPressed: () {
-                  if (videoFile == null) {
-                    Fluttertoast.showToast(msg: 'Please select a video file');
-                  }
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    UploadVideoModel uploadVideoModel = UploadVideoModel(
-                        userId: getUserData().userInfo!.id!,
-                        categoryId: 1,
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        videoFile: videoFile!,
-                        thumbnailFile: thumbnailFile!,
-                        pdfFile: pdfFile);
-                    context
-                        .read<UploadMediaCubit>()
-                        .uploadVideo(uploadVideoModel: uploadVideoModel);
-                  } else {
-                    setState(() {
-                      autovalidateMode = AutovalidateMode.always;
-                    });
-                  }
-                }),
+            BlocConsumer<UploadMediaCubit, UploadMediaState>(
+              listener: (context, state) {
+                if (state is UploadMediaSuccess) {
+                  Fluttertoast.showToast(
+                      msg: 'Video uploaded successfully',
+                      backgroundColor: Colors.green);
+                }
+                if (state is UploadMediaFailure) {
+                  Fluttertoast.showToast(msg: state.message);
+                }
+              },
+              builder: (context, state) {
+                return state is UploadMediaLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomTextButton(
+                        text: 'Upload file',
+                        onPressed: () {
+                          if (videoFile == null) {
+                            Fluttertoast.showToast(
+                                msg: 'Please select a video file');
+                          }
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            UploadVideoModel uploadVideoModel =
+                                UploadVideoModel(
+                                    userId: getUserData().userInfo!.id!,
+                                    categoryId: 1,
+                                    title: titleController.text,
+                                    description: descriptionController.text,
+                                    videoFile: platformFileToFile(videoFile!)!,
+                                    thumbnailFile:
+                                        platformFileToFile(thumbnailFile!)!,
+                                    pdfFile: platformFileToFile(pdfFile!)!);
+                            context.read<UploadMediaCubit>().uploadVideo(
+                                uploadVideoModel: uploadVideoModel);
+                          } else {
+                            setState(() {
+                              autovalidateMode = AutovalidateMode.always;
+                            });
+                          }
+                        });
+              },
+            ),
             const SizedBox(height: 30),
           ],
         ),
@@ -335,4 +355,9 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
     setState(() {});
     return result.files.first;
   }
+}
+
+File? platformFileToFile(PlatformFile platformFile) {
+  if (platformFile.path == null) return null; // Not available on web
+  return File(platformFile.path!);
 }
