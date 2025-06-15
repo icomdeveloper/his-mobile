@@ -7,8 +7,9 @@ class MediaModel {
   String? description;
   String? filePath;
   String? pdf;
-  dynamic thumbnailPath;
+  String? thumbnailPath;
   String? status;
+  String? duration;
   int? isFeatured;
   int? isRecommended;
   DateTime? createdAt;
@@ -29,6 +30,7 @@ class MediaModel {
     this.isRecommended,
     this.createdAt,
     this.updatedAt,
+    this.duration,
   });
 
   factory MediaModel.fromJson(Map<String, dynamic> json) => MediaModel(
@@ -40,7 +42,8 @@ class MediaModel {
         description: json['description'] as String?,
         filePath: json['file_path'] as String?,
         pdf: json['pdf'] as String?,
-        thumbnailPath: json['thumbnail_path'] as dynamic,
+        duration: json['duration'] as String?,
+        thumbnailPath: json['thumbnail_path'] as String,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
         isRecommended: json['is_recommended'] as int?,
@@ -61,6 +64,7 @@ class MediaModel {
         'description': description,
         'file_path': filePath,
         'pdf': pdf,
+        'duration': duration,
         'thumbnail_path': thumbnailPath,
         'status': status,
         'is_featured': isFeatured,

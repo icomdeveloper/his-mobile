@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
@@ -22,8 +25,9 @@ import 'package:video_player/video_player.dart';
 class VideoWidget extends StatefulWidget {
   const VideoWidget({
     super.key,
+    this.mediaModel,
   });
-
+  final MediaModel? mediaModel;
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
@@ -36,11 +40,10 @@ class _VideoWidgetState extends State<VideoWidget> {
   bool started = false;
   // double ratingValue = 3;
 
-  String url =
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
   @override
   void initState() {
     super.initState();
+    String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
     _scrollController = ScrollController();
     _scrollToBottom();
     if (defaultTargetPlatform == TargetPlatform.android) {
@@ -89,37 +92,47 @@ class _VideoWidgetState extends State<VideoWidget> {
                   borderRadius: BorderRadius.circular(12),
                   child: started
                       ? Chewie(controller: chewieController!)
-                      : Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    AssetImage(Assets.assetsImagesDoctestimage),
-                                fit: BoxFit.cover),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              initChewieController();
-                              setState(() {
-                                started = true;
-                              });
-                            },
-                            icon: const CircleAvatar(
-                              child: Center(
-                                child: CircleAvatar(
-                                  radius: 34,
-                                  backgroundColor: Colors.white,
-                                  child: CircleAvatar(
-                                      radius: 28,
-                                      backgroundColor: AppColors.primaryColor,
-                                      child: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.white,
-                                        size: 32,
-                                      )),
+                      : Stack(
+                          children: [
+                            Positioned.fill(
+                              child: CachedNetworkImage(
+                                imageUrl: widget.mediaModel!.thumbnailPath!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: IconButton(
+                                onPressed: () {
+                                  initChewieController();
+                                  setState(() {
+                                    started = true;
+                                  });
+                                },
+                                icon: const CircleAvatar(
+                                  child: Center(
+                                    child: CircleAvatar(
+                                      radius: 34,
+                                      backgroundColor: Colors.white,
+                                      child: CircleAvatar(
+                                          radius: 28,
+                                          backgroundColor:
+                                              AppColors.primaryColor,
+                                          child: Icon(
+                                            Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 32,
+                                          )),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          )))),
+                          ],
+                        ))),
           SizedBox(height: 8.h),
           GestureDetector(
             onTap: () {
@@ -131,8 +144,8 @@ class _VideoWidgetState extends State<VideoWidget> {
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 320.w),
-                  child: const Text(
-                    'feugiat ullamcorper suspendisse amet.',
+                  child: Text(
+                    widget.mediaModel?.title ?? '',
                     style: Styles.semiBoldPoppins14,
                   ),
                 ),
@@ -159,8 +172,8 @@ class _VideoWidgetState extends State<VideoWidget> {
               ],
               child: Column(
                 children: [
-                  const Text(
-                    'Lorem ipsum dolor sit amet consectetur. Sed cursus purus. Lorem ipsum dolor sit amet consectetur. Sed cursus purus.',
+                  Text(
+                    widget.mediaModel?.description ?? '',
                     style: Styles.regularRoboto12,
                   ),
                   Row(
@@ -169,7 +182,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                           color: AppColors.grey),
                       SizedBox(width: 8.w),
                       Text(
-                        '22.3k views',
+                        '${widget.mediaModel?.views ?? 0} views',
                         style: Styles.regularRoboto12
                             .copyWith(color: AppColors.grey),
                       ),
@@ -275,7 +288,9 @@ class _VideoWidgetState extends State<VideoWidget> {
             child: CommentTextField(
               controller: context.read<CommentsCubit>().commentController,
               onTap: () {
-                context.read<CommentsCubit>().addComment(mediaId: 1);
+                context
+                    .read<CommentsCubit>()
+                    .addComment(mediaId: widget.mediaModel!.id!);
               },
             ),
           ),

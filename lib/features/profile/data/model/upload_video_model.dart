@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 
 class UploadVideoModel {

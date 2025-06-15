@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
@@ -10,7 +11,9 @@ import 'package:his/features/category/presentation/view/widgets/video_widget.dar
 class VideoView extends StatelessWidget {
   const VideoView({
     super.key,
+    this.mediaModel,
   });
+  final MediaModel? mediaModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +32,8 @@ class VideoView extends StatelessWidget {
             size: 18,
           ),
         ),
-        title: const Text(
-          'Lorem ipsum dolor sit amet',
+        title: Text(
+          mediaModel!.title!,
           style: Styles.semiBoldRoboto20,
         ),
       ),
@@ -38,7 +41,7 @@ class VideoView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: BlocProvider(
           create: (context) => CommentsCubit(getIt<CommentRepo>()),
-          child: const VideoWidget(),
+          child: VideoWidget(mediaModel: mediaModel),
         ),
       ),
     );

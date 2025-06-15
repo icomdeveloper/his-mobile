@@ -10,7 +10,9 @@ class RecentlyAddedSliverList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.builder(
       itemCount: recentlyAdded.length,
-      itemBuilder: (_, index) => const RecentlyAddedWidget(),
+      itemBuilder: (_, index) => RecentlyAddedWidget(
+        mediaModel: recentlyAdded[index],
+      ),
     );
   }
 }
