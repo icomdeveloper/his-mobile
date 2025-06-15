@@ -115,7 +115,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'May 10 , 2025 . 9.2K Views ',
+                      '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , 9.2K Views ',
                       style: Styles.semiBoldRoboto12.copyWith(
                         color: const Color(0xff999999),
                       ),
