@@ -11,9 +11,9 @@ import 'package:his/features/category/presentation/view/widgets/video_widget.dar
 class VideoView extends StatelessWidget {
   const VideoView({
     super.key,
-    this.mediaModel,
+    required this.mediaModel,
   });
-  final MediaModel? mediaModel;
+  final MediaModel mediaModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class VideoView extends StatelessWidget {
           ),
         ),
         title: Text(
-          mediaModel!.title!,
+          mediaModel.title ?? "",
           style: Styles.semiBoldRoboto20,
         ),
       ),

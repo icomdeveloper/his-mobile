@@ -37,4 +37,5 @@ abstract class ApiEndpoints {
   static const String googleLogin = 'login/google';
 
   static const String googleIdToken = 'id_token';
+  static const String featuredVideos = 'media/featured';
 }

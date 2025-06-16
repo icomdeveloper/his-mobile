@@ -1,13 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_text_styles.dart';
-import 'package:his/features/home/presentation/cubit/recently_added_cubit.dart';
+import 'package:his/features/home/data/repo/featured_videos_repo.dart';
+import 'package:his/features/home/data/repo/recently_added_repo.dart';
+import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
+import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
-import 'package:his/features/home/presentation/view/widgets/featured_videos_item.dart';
-import 'package:his/features/home/presentation/view/widgets/recently_added_sliver_list.dart';
+import 'package:his/features/home/presentation/view/widgets/featured_videos_bloc_builder.dart';
+import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({
@@ -47,20 +50,11 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
-            child: CarouselSlider.builder(
-              itemCount: 3,
-              options: CarouselOptions(
-                viewportFraction: 1,
-                aspectRatio: 0.95,
-                autoPlay: true,
-                // height: mediaQuery.size.height * 0.42,
-              ),
-              itemBuilder: (context, index, realIndex) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: FeaturedVideosItem(),
-                );
-              },
+            child: BlocProvider(
+              create: (context) =>
+                  FeaturedVideosCubit(getIt<FeaturedVideosRepo>())
+                    ..getFeaturedVideos(),
+              child: const FeaturedVideosBlocBuilder(),
             ),
           ),
           SliverToBoxAdapter(
@@ -82,29 +76,6 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
           const ArticlesSliverList(),
-          // SliverToBoxAdapter(
-          //     child: Row(
-          //   children: [
-          //     // const Text('Recommended Videos', style: Styles.semiBoldRoboto20),
-          //     const Spacer(),
-          //     GestureDetector(
-          //       onTap: () {
-          //         Navigator.of(context).push(MaterialPageRoute(
-          //           builder: (context) => const LoginView(),
-          //         ));
-          //       },
-          //       child: Text('See All',
-          //           style: Styles.regularRoboto12
-          //               .copyWith(color: AppColors.primaryColor)),
-          //     ),
-          //   ],
-          // )),
-          // SliverToBoxAdapter(
-          //   child: SizedBox(
-          //     height: 12.h,
-          //   ),
-          // ),
-          // const RecommendedVideosSliverGrid(),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,31 +90,10 @@ class HomeViewBody extends StatelessWidget {
               ],
             ),
           ),
-          BlocBuilder<RecentlyAddedCubit, RecentlyAddedState>(
-            builder: (context, state) {
-              if (state is RecentlyAddedSuccess) {
-                return RecentlyAddedSliverList(
-                  recentlyAdded: state.mediaList,
-                );
-              }
-              if (state is RecentlyAddedFailure) {
-                return SliverToBoxAdapter(
-                    child: Column(
-                  children: [
-                    Center(child: Text(state.errMessage)),
-                    const SizedBox(
-                      height: 50,
-                    )
-                  ],
-                ));
-              } else {
-                return const SliverToBoxAdapter(
-                    child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                ));
-              }
-            },
+          BlocProvider(
+            create: (context) => RecentlyAddedCubit(getIt<RecentlyAddedRepo>())
+              ..getRecentlyAddedVideos(),
+            child: const RecentlyAddedBlocBuilder(),
           ),
         ],
       ),

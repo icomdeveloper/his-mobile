@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 import 'package:his/features/category/presentation/cubits/get_media_cubit/get_media_cubit.dart';
+import 'package:his/features/category/presentation/view/widgets/video_card_list_bloc_builder.dart';
 
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
-import 'package:his/features/home/presentation/view/widgets/video_card_list.dart';
 
 class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
@@ -77,83 +79,16 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
               ],
             ),
           ),
-
-          BlocBuilder<GetMediaCubit, GetMediaState>(
-            builder: (context, state) {
-              if (state is GetMediaSuccess) {
-                return const VideoCardList();
-              } else if (state is GetMediaFailure) {
-                return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)));
-              } else {
-                return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            },
+          BlocProvider(
+            create: (context) =>
+                GetMediaCubit(getIt<ShowMediaRepo>())..getMedia(),
+            child: const VideoCardListBlocBuilder(),
           ),
-          // SliverToBoxAdapter(
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       SizedBox(
-          //         height: 24.h,
-          //       ),
-          //       const Text(
-          //         'Recently Added',
-          //         style: Styles.semiBoldRoboto20,
-          //       ),
-          //       const SizedBox(
-          //         height: 12,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // SliverToBoxAdapter(
-          //   child: SizedBox(
-          //     height: 250,
-          //     child: ListView.separated(
-          //       separatorBuilder: (context, index) => const SizedBox(width: 12),
-          //       scrollDirection: Axis.horizontal,
-          //       itemCount: 10,
-          //       itemBuilder: (context, index) {
-          //         return const CategoryRecentlyAddedItem();
-          //       },
-          //     ),
-          //   ),
-          // ),
           SliverToBoxAdapter(
             child: SizedBox(height: 24.h),
           ),
-          // SliverToBoxAdapter(
-          //   child: VideoWidget(
-          //     onTap: () {
-          //       setState(() {
-          //         showComments = !showComments;
-          //         if (showComments) {
-          //           _scrollToBottom();
-          //         }
-          //       });
-          //     },
-          //     showComments: showComments,
-          //   ),
-          // ),
-          // SliverToBoxAdapter(
-          //   child: SizedBox(height: 24.h),
-          // ),
         ],
       ),
     );
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
   }
 }

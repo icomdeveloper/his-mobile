@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 
@@ -14,11 +16,13 @@ class VideoCardWidget extends StatefulWidget {
     this.topRightIcon,
     this.onIconTap,
     this.isbookmark = false,
+    required this.mediaModel,
   });
   final bool isDescriptionAppeared;
   final Widget? topRightIcon;
   final void Function()? onIconTap;
   final bool isbookmark;
+  final MediaModel mediaModel;
 
   @override
   State<VideoCardWidget> createState() => _VideoCardWidgetState();
@@ -50,7 +54,9 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   Navigator.push(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const VideoView(),
+                      pageBuilder: (_, __, ___) => VideoView(
+                        mediaModel: widget.mediaModel,
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               FadeTransition(
@@ -66,8 +72,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12)),
-                    child: Image.asset(
-                      Assets.assetsImagesDoctestimage,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.mediaModel.thumbnailPath!,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -82,7 +88,9 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return const VideoView();
+                      return VideoView(
+                        mediaModel: widget.mediaModel,
+                      );
                     }));
                   },
                   child: const Center(
@@ -161,15 +169,15 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Lorem ipsum dolor sit amet consectetur, Et in non nulla sed mi felis cursus .',
+                Text(
+                  widget.mediaModel.title!,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: Styles.semiBoldPoppins14,
                 ),
                 widget.isDescriptionAppeared
-                    ? const Text(
-                        'Lorem ipsum dolor sit amet consectetur. Lacus condimentum hendrerit euismod donec feugiat eu placerat. Cursus sed pellentesque lobortis auctor .',
+                    ? Text(
+                        widget.mediaModel.description!,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                         style: Styles.regularRoboto12,

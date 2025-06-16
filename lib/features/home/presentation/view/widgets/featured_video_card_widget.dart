@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/services/shared_preferences.dart';
@@ -6,11 +8,12 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
+import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 
 class FeaturedVideoCardWidget extends StatefulWidget {
-  const FeaturedVideoCardWidget({super.key});
-
+  const FeaturedVideoCardWidget({super.key, required this.mediaModel});
+  final MediaModel mediaModel;
   @override
   State<FeaturedVideoCardWidget> createState() =>
       _FeaturedVideoCardWidgetState();
@@ -25,9 +28,15 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: Stack(children: [
-        Image.asset(
-          Assets.assetsImagesDoctestimage,
-          fit: BoxFit.fill,
+        SizedBox(
+          height: 192.h,
+          child: AspectRatio(
+            aspectRatio: 342 / 192,
+            child: CachedNetworkImage(
+              imageUrl: widget.mediaModel.thumbnailPath!,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
         Positioned(
           right: 0,
@@ -53,7 +62,9 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => const VideoView(),
+                    pageBuilder: (_, __, ___) => VideoView(
+                      mediaModel: widget.mediaModel,
+                    ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) =>
                             FadeTransition(

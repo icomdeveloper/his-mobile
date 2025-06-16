@@ -4,7 +4,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
-import 'package:his/features/home/presentation/view/widgets/video_card_list.dart';
+import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
 
 class BookmarksViewBody extends StatefulWidget {
   const BookmarksViewBody({super.key});
@@ -68,7 +68,8 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 0
-              ? const VideoCardList(
+              ? const VideoCardSliverList(
+                  mediaList: [],
                   isBookmark: true,
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
