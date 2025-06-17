@@ -55,6 +55,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                 width: double.infinity,
                 child: CategoriesList(
                   onItemTapped: (value) {
+                    if (value == categoryList.indexOf(selectedCategory)) return;
                     setState(() {
                       selectedCategory = categoryList[value];
                     });

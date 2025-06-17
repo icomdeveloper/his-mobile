@@ -28,10 +28,7 @@ class ServerFailure extends Failure {
         return ServerFailure(errMesage: 'Connection error');
 
       case DioExceptionType.unknown:
-        if (dioException.message!.contains('SocketException')) {
-          return ServerFailure(errMesage: 'No internet connection');
-        }
-        return ServerFailure(errMesage: 'Unexcpected error');
+        return ServerFailure(errMesage: 'No internet connection');
 
       case DioExceptionType.badCertificate:
         return ServerFailure(errMesage: 'Bad certificate');
@@ -46,11 +43,11 @@ class ServerFailure extends Failure {
       return ServerFailure(errMesage: 'Your request not found !');
     } else if (statusCode == 500) {
       return ServerFailure(
-        errMesage: response['message'],
+        errMesage: ' Something went wrong , Tap to try again',
       );
     } else {
       return ServerFailure(
-        errMesage: 'Oops!! there was an error , Please try again',
+        errMesage: 'Oops!! there was an error , Tap to try again',
       );
     }
   }

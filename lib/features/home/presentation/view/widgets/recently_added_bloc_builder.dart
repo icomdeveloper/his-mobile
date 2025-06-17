@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/helpers/dummy_media.dart';
+import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_sliver_list.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -21,14 +22,16 @@ class RecentlyAddedBlocBuilder extends StatelessWidget {
         }
         if (state is RecentlyAddedFailure) {
           return SliverToBoxAdapter(
-              child: Column(
-            children: [
-              Center(child: Text(state.errMessage)),
-              const SizedBox(
-                height: 50,
-              )
-            ],
-          ));
+              child: SizedBox(
+                  height: 150,
+                  child: CustomErrorWidget(
+                    errorMessage: state.errMessage,
+                    onTap: () {
+                      context
+                          .read<RecentlyAddedCubit>()
+                          .getRecentlyAddedVideos();
+                    },
+                  )));
         } else {
           return Skeletonizer.sliver(
               child: RecentlyAddedSliverList(

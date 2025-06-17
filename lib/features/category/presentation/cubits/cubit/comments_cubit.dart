@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/features/category/data/model/comment_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'comments_state.dart';
 

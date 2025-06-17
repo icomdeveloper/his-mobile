@@ -23,7 +23,8 @@ class FeaturedVideosItem extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding:
+              const EdgeInsets.only(left: 24, right: 24, top: 4, bottom: 14),
           child: Column(
             children: [
               Text(
@@ -44,9 +45,6 @@ class FeaturedVideosItem extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               const LikesAndCommentsWidget(),
-              const SizedBox(
-                height: 8,
-              )
             ],
           ),
         )

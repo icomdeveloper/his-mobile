@@ -42,6 +42,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                     'Articles',
                   ],
                   onItemTapped: (int value) {
+                    if (value == index) return;
                     setState(() {
                       index = value;
                     });

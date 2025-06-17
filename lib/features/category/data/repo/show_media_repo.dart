@@ -22,7 +22,8 @@ class ShowMediaRepo {
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
-      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+      return left(
+          ServerFailure(errMesage: 'Something went wrong , Tap to try again'));
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/dummy_media.dart';
+import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -19,11 +21,9 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
           return CarouselSlider.builder(
             itemCount: state.mediaList.length,
             options: CarouselOptions(
-              viewportFraction: 1,
-              aspectRatio: 0.95,
-              autoPlay: true,
-              // height: mediaQuery.size.height * 0.42,
-            ),
+                viewportFraction: 1,
+                autoPlay: true,
+                aspectRatio: 342.w / 371.h),
             itemBuilder: (context, index, realIndex) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -35,16 +35,26 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
           );
         }
         if (state is FeaturedVideosFailure) {
-          return Center(child: Text(state.errMessage));
+          return SizedBox(
+            height: 200.h,
+            child: AspectRatio(
+              aspectRatio: 342.w / 371.h,
+              child: CustomErrorWidget(
+                errorMessage: state.errMessage,
+                onTap: () {
+                  context.read<FeaturedVideosCubit>().getFeaturedVideos();
+                },
+              ),
+            ),
+          );
         } else {
           return Skeletonizer(
               child: CarouselSlider.builder(
             itemCount: dummyMediaList.length,
             options: CarouselOptions(
               viewportFraction: 1,
-              aspectRatio: 0.95,
+              aspectRatio: 342.w / 371.h,
               autoPlay: true,
-              // height: mediaQuery.size.height * 0.42,
             ),
             itemBuilder: (context, index, realIndex) {
               return Padding(

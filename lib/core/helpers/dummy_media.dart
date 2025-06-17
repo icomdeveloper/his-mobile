@@ -5,7 +5,7 @@ MediaModel dummyMedia = MediaModel(
   title:
       'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',
   description:
-      'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription',
+      'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription',
   filePath:
       'https://drive.google.com/file/d/1HYY3HTLQWD6rAMLhZUeTdip5z0Xr24XY/preview',
   pdf: 'pdf',
