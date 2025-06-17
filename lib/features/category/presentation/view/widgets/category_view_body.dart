@@ -82,7 +82,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
           ),
           BlocProvider(
             create: (context) =>
-                GetMediaCubit(getIt<ShowMediaRepo>())..getMedia(),
+                GetMediaCubit(getIt<ShowMediaRepo>())..getVideos(),
             child: const VideoCardListBlocBuilder(),
           ),
           SliverToBoxAdapter(

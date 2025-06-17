@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
+import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_articles_cubit.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
-import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
+import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
@@ -75,7 +77,11 @@ class HomeViewBody extends StatelessWidget {
               ],
             ),
           ),
-          const ArticlesSliverList(),
+          BlocProvider(
+            create: (context) =>
+                GetArticlesCubit(getIt<ShowMediaRepo>())..getArticles(),
+            child: const ArticleListBlocBuilder(),
+          ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

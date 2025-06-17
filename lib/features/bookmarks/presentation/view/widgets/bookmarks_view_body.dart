@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
@@ -94,7 +95,9 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 1
-              ? const ArticlesSliverList()
+              ? ArticlesSliverList(
+                  articleList: dummyArticleList,
+                )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           const SliverToBoxAdapter(
               child: SizedBox(

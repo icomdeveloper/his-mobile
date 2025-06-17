@@ -8,11 +8,12 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/text_container_widget.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
+import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/article_view.dart';
 
 class ArticleWidget extends StatefulWidget {
-  const ArticleWidget({super.key});
-
+  const ArticleWidget({super.key, required this.articleModel});
+  final ArticleModel articleModel;
   @override
   State<ArticleWidget> createState() => _ArticleWidgetState();
 }
@@ -106,12 +107,12 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                     )),
               ],
             ),
-            const Text(
-              'Essential Vitamins for Male Reproductive Health .',
+            Text(
+              widget.articleModel.title!,
               style: Styles.semiBoldPoppins14,
             ),
             Text(
-              'Lorem ipsum dolor sit amet consectetur. Dolor quis nullam et id sapien vulputate tempus tellus. Euismod tortor rutrum nibh lacus. Sit hendrerit libero felis quis magna pretium turpis aliquet et.',
+              widget.articleModel.description!,
               style: Styles.regularRoboto10.copyWith(color: AppColors.grey),
             ),
             const SizedBox(
@@ -124,7 +125,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                   width: 8,
                 ),
                 Text(
-                  'Loremipsumdolorsitametconsectetur ',
+                  widget.articleModel.hyperlink ?? '',
                   style: Styles.regularRoboto10
                       .copyWith(color: const Color(0xff2463B6)),
                 ),

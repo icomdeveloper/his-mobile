@@ -32,7 +32,9 @@ class PendingVideosArticlesWidget extends StatelessWidget {
               ),
               isDescriptionAppeared: false,
             )
-          : const ArticleWidget(),
+          : ArticleWidget(
+              articleModel: dummyArticle,
+            ),
       itemCount: 2,
     );
   }

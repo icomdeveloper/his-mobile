@@ -8,9 +8,9 @@ part 'get_media_state.dart';
 class GetMediaCubit extends Cubit<GetMediaState> {
   GetMediaCubit(this.showMediaRepo) : super(GetMediaInitial());
   final ShowMediaRepo showMediaRepo;
-  Future<void> getMedia() async {
+  Future<void> getVideos() async {
     emit(GetMediaLoading());
-    var result = await showMediaRepo.showMedia();
+    var result = await showMediaRepo.showVideos();
     result.fold((error) => emit(GetMediaFailure(message: error.errMesage)),
         (success) => emit(GetMediaSuccess(mediaList: success)));
   }

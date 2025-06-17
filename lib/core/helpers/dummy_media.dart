@@ -1,6 +1,7 @@
 import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/home/data/models/article_model.dart';
 
-MediaModel dummyMedia = MediaModel(
+final MediaModel dummyMedia = MediaModel(
   id: 0,
   title:
       'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',
@@ -22,4 +23,27 @@ MediaModel dummyMedia = MediaModel(
   userId: 0,
 );
 
-List<MediaModel> dummyMediaList = [dummyMedia, dummyMedia, dummyMedia];
+final List<MediaModel> dummyMediaList = [dummyMedia, dummyMedia, dummyMedia];
+
+final ArticleModel dummyArticle = ArticleModel(
+  id: 0,
+  title:
+      'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',
+  description:
+      'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription',
+  image:
+      'https://images.squarespace-cdn.com/content/v1/60f1a490a90ed8713c41c36c/1629223610791-LCBJG5451DRKX4WOB4SP/37-design-powers-url-structure.jpeg',
+  pdf: 'pdf',
+  hyperlink: 'hyperlinkhyperlinkhyperlinkhyperlink',
+  isFeatured: "0",
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
+  categoryId: 0,
+  userId: 0,
+);
+
+final List<ArticleModel> dummyArticleList = [
+  dummyArticle,
+  dummyArticle,
+  dummyArticle
+];

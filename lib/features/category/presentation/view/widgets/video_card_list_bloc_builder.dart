@@ -26,7 +26,7 @@ class VideoCardListBlocBuilder extends StatelessWidget {
             child: CustomErrorWidget(
               errorMessage: state.message,
               onTap: () {
-                context.read<GetMediaCubit>().getMedia();
+                context.read<GetMediaCubit>().getVideos();
               },
             ),
           ));
