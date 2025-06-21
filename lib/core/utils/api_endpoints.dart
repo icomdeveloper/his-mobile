@@ -18,7 +18,7 @@ abstract class ApiEndpoints {
   static const String userId = 'user_id';
   static const String parentId = 'parent_id';
   static const String content = 'content';
-  static const String comments = 'comments';
+  static const String addComment = 'comments';
 
   static const String reply = 'comments/reply';
 
@@ -39,4 +39,7 @@ abstract class ApiEndpoints {
   static const String googleIdToken = 'id_token';
   static const String featuredVideos = 'media/featured';
   static const String showArticles = 'article/show';
+  static const String getMediaComments = 'comments/media';
+
+  static const String resetPassword = 'password/reset';
 }

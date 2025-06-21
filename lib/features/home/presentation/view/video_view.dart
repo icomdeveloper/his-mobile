@@ -5,7 +5,8 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
-import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 
 class VideoView extends StatelessWidget {
@@ -39,8 +40,16 @@ class VideoView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: BlocProvider(
-          create: (context) => CommentsCubit(getIt<CommentRepo>()),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => CommentsCubit(getIt<CommentRepo>()),
+            ),
+            BlocProvider(
+              create: (context) => GetCommentsCubit(getIt<CommentRepo>())
+                ..getComments(mediaId: 1),
+            ),
+          ],
           child: VideoWidget(mediaModel: mediaModel),
         ),
       ),

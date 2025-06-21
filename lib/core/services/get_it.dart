@@ -7,6 +7,7 @@ import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
+import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 
 GetIt getIt = GetIt.instance;
@@ -27,6 +28,8 @@ void setupGetIt() {
       RecentlyAddedRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<FeaturedVideosRepo>(
       FeaturedVideosRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<ResetPasswordRepo>(
+      ResetPasswordRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

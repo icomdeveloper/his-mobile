@@ -13,7 +13,7 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
 import 'package:his/features/profile/data/model/upload_video_model.dart';
-import 'package:his/features/profile/presentation/cubit/upload_media_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';

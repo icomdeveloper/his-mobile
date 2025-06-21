@@ -2,83 +2,104 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
+import 'package:his/features/authentication/data/models/user_data/user_information.dart';
+import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
+import 'package:his/features/category/presentation/view/widgets/replies_list_view_widget.dart';
+import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({
     super.key,
+    required this.comment,
   });
+  final CommentsModel comment;
   @override
   State<CommentWidget> createState() => _CommentWidgetState();
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      isThreeLine: true,
-      leading: CircleAvatar(
-        backgroundImage: const NetworkImage('https://i.pravatar.cc/300?img=1'),
-        radius: 20.r,
-      ),
-      title: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Mustafa Kamel',
-            style: Styles.semiBoldRoboto12,
+    final UserInformation userInformation = widget.comment.user!;
+    return Column(
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          isThreeLine: true,
+          leading: CircleAvatar(
+            backgroundImage:
+                const NetworkImage('https://i.pravatar.cc/300?img=1'),
+            radius: 20.r,
           ),
-          Text('3 Minutes ago', style: Styles.regularRoboto12)
-        ],
-      ),
-      subtitle: Column(
-        children: [
-          const Text(
-            'Lorem ipsum dolor sit amet consectetur. Neque dolor nulla sit non feugiat dictumst cras condimentum dignissim.',
-            style: Styles.regularRoboto12,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                userInformation.name!,
+                style: Styles.semiBoldRoboto12,
+              ),
+              Text(getRelativeTime(widget.comment.createdAt!),
+                  style: Styles.regularRoboto12)
+            ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                showReplyTextField = !showReplyTextField;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(Assets.assetsImagesReply),
-                const SizedBox(
-                  width: 8,
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.comment.content!,
+                style: Styles.regularRoboto12,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    showReplyTextField = !showReplyTextField;
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(Assets.assetsImagesReply),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text(
+                      'Reply',
+                      style: Styles.regularRoboto12,
+                    ),
+                  ],
                 ),
-                const Text(
-                  'Reply',
-                  style: Styles.regularRoboto12,
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              widget.comment.replies?.isEmpty ?? true
+                  ? const SizedBox.shrink()
+                  : RepliesListViewWidget(
+                      replies: widget.comment.replies,
+                    ),
+              showReplyTextField
+                  ? CommentTextField(
+                      autofocus: true,
+                      controller: context.read<CommentsCubit>().replyController,
+                      onTap: () {
+                        context
+                            .read<CommentsCubit>()
+                            .addReply(mediaId: 1, parentId: 18);
+                      })
+                  : const SizedBox.shrink(),
+            ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          showReplyTextField
-              ? CommentTextField(
-                  controller: context.read<CommentsCubit>().replyController,
-                  onTap: () {
-                    context
-                        .read<CommentsCubit>()
-                        .addReply(mediaId: 1, parentId: 1);
-                  })
-              : const SizedBox.shrink(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
+import 'package:his/features/profile/data/repo/reset_password_repo.dart';
+import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
 import 'package:his/features/profile/presentation/view/my_videos_view.dart';
 import 'package:his/features/profile/presentation/view/help_center_view.dart';
@@ -143,7 +147,7 @@ class ProfileViewBody extends StatelessWidget {
                   ),
                   UserDataListTile(
                     title: 'Phone Number',
-                    subTitle: getUserData().userInfo?.email ?? '',
+                    subTitle: getUserData().userInfo?.phone ?? '',
                     image: Assets.assetsImagesPhone,
                   ),
                   UserDataListTile(
@@ -160,8 +164,11 @@ class ProfileViewBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) =>
-                              const ChangePasswordView(),
+                          pageBuilder: (_, __, ___) => BlocProvider(
+                            create: (context) =>
+                                ResetPasswordCubit(getIt<ResetPasswordRepo>()),
+                            child: const ChangePasswordView(),
+                          ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) =>
                                   SlideTransition(

@@ -15,9 +15,10 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
-import 'package:his/features/category/presentation/cubits/cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
-import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
+import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:video_player/video_player.dart';
@@ -36,7 +37,6 @@ class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController videoPlayerController;
   bool showDetails = false;
   ChewieController? chewieController;
-  late ScrollController _scrollController;
   bool started = false;
   // double ratingValue = 3;
 
@@ -44,8 +44,6 @@ class _VideoWidgetState extends State<VideoWidget> {
   void initState() {
     super.initState();
     String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
-    _scrollController = ScrollController();
-    _scrollToBottom();
     if (defaultTargetPlatform == TargetPlatform.android) {
       videoPlayerController = VideoPlayerController.contentUri(Uri.parse(url));
     } else {
@@ -255,42 +253,32 @@ class _VideoWidgetState extends State<VideoWidget> {
           // ),
           const LikesAndCommentsWidget(),
           const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Comments',
-                style: Styles.semiBoldPoppins14,
-              ),
-              Text(
-                '46 Comments',
-                style: Styles.regularRoboto12.copyWith(
-                  color: AppColors.primaryColor,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          SizedBox(
-            height: 350.h,
-            child: CommentsListView(controller: _scrollController),
-          ),
+
+          const CommentListViewBlocBuilder(),
           const SizedBox(height: 12),
           BlocListener<CommentsCubit, CommentsState>(
             listener: (context, state) {
               if (state is AddCommentsFailure) {
                 Fluttertoast.showToast(msg: state.message);
               }
+              if (state is AddCommentSuccess) {
+                context.read<GetCommentsCubit>().getComments(mediaId: 1);
+              }
+              if (state is AddReplytSuccess) {
+                context.read<GetCommentsCubit>().getComments(mediaId: 1);
+              }
             },
             child: CommentTextField(
               controller: context.read<CommentsCubit>().commentController,
               onTap: () {
-                context
+                if (context
                     .read<CommentsCubit>()
-                    .addComment(mediaId: widget.mediaModel!.id!);
+                    .commentController
+                    .text
+                    .isEmpty) {
+                  return;
+                }
+                context.read<CommentsCubit>().addComment(mediaId: 1);
               },
             ),
           ),
@@ -298,17 +286,5 @@ class _VideoWidgetState extends State<VideoWidget> {
         ],
       ),
     );
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      }
-    });
   }
 }

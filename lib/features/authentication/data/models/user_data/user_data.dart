@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-import 'user_info.dart';
+import 'user_information.dart';
 
 class UserData {
   String? message;
-  UserInfo? userInfo;
+  UserInformation? userInfo;
   String? token;
   UserData({this.message, this.userInfo, this.token});
 
@@ -12,13 +12,13 @@ class UserData {
         message: json['message'] as String?,
         userInfo: json['user'] == null
             ? null
-            : UserInfo.fromJson(json['user'] as Map<String, dynamic>),
+            : UserInformation.fromJson(json['user'] as Map<String, dynamic>),
         token: json['token'] as String?,
       );
 
   factory UserData.fromFirebase(auth.User user) => UserData(
         message: '',
-        userInfo: UserInfo.fromFirebase(user),
+        userInfo: UserInformation.fromFirebase(user),
         token: '',
       );
   Map<String, dynamic> toJson() =>

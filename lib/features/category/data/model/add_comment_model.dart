@@ -1,12 +1,12 @@
 import 'package:his/core/utils/api_endpoints.dart';
 
-class CommentModel {
+class AddCommentModel {
   final int mediaId;
   final int userId;
   final int? parentId;
   final String content;
 
-  const CommentModel({
+  const AddCommentModel({
     required this.mediaId,
     required this.userId,
     this.parentId,

@@ -12,7 +12,10 @@ final class AddCommentsFailure extends CommentsState {
   AddCommentsFailure({required this.message});
 }
 
-final class AddCommentSuccess extends CommentsState {}
+final class AddCommentSuccess extends CommentsState {
+  final CommentsModel comment;
+  AddCommentSuccess({required this.comment});
+}
 
 final class AddReplyLoading extends CommentsState {}
 

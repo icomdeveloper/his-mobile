@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/core/helpers/get_user_data.dart';
-import 'package:his/features/category/data/model/comment_model.dart';
+import 'package:his/features/category/data/model/add_comment_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
+import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 
 part 'comments_state.dart';
 
@@ -14,7 +15,7 @@ class CommentsCubit extends Cubit<CommentsState> {
 
   Future<void> addComment({required int mediaId}) async {
     emit(AddCommentLoading());
-    final comment = CommentModel(
+    final comment = AddCommentModel(
       mediaId: mediaId,
       userId: getUserData().userInfo!.id!,
       content: commentController.text,
@@ -22,12 +23,12 @@ class CommentsCubit extends Cubit<CommentsState> {
     commentController.clear();
     final result = await commentRepo.addComment(comment: comment);
     result.fold((error) => emit(AddCommentsFailure(message: error.errMesage)),
-        (r) => emit(AddCommentSuccess()));
+        (comment) => emit(AddCommentSuccess(comment: comment)));
   }
 
   Future<void> addReply({required int mediaId, required int parentId}) async {
     emit(AddReplyLoading());
-    final comment = CommentModel(
+    final comment = AddCommentModel(
       mediaId: mediaId,
       userId: getUserData().userInfo!.id!,
       parentId: parentId,

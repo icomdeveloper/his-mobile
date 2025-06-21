@@ -8,7 +8,6 @@ class LikesAndCommentsWidget extends StatefulWidget {
   const LikesAndCommentsWidget({
     super.key,
   });
-
   @override
   State<LikesAndCommentsWidget> createState() => _LikesAndCommentsWidgetState();
 }

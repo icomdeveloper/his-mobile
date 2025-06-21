@@ -6,12 +6,18 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
 class CommentTextField extends StatelessWidget {
-  const CommentTextField({super.key, required this.controller, this.onTap});
+  const CommentTextField(
+      {super.key,
+      required this.controller,
+      this.onTap,
+      this.autofocus = false});
   final TextEditingController controller;
   final void Function()? onTap;
+  final bool autofocus;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofocus: autofocus,
       controller: controller,
       decoration: InputDecoration(
         fillColor: const Color(0xffF7F7F7),

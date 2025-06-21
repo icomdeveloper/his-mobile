@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ApiServices {
-  final String baseUrl = 'http://192.168.5.81:8000/api/';
+  final String baseUrl = 'http://192.168.5.69:8000/api/';
   final Dio dio;
 
   ApiServices({required this.dio});
@@ -18,6 +18,18 @@ class ApiServices {
 
   Future getMethod({required String endPoint}) async {
     final response = await dio.get('$baseUrl$endPoint');
+    return response.data;
+  }
+
+  Future getCommentMethod(
+      {required String endPoint,
+      required int mediaId,
+      bool isArticle = false}) async {
+    String parameterName = 'media_id';
+    if (isArticle) {
+      parameterName = 'article_id';
+    }
+    final response = await dio.get('$baseUrl$endPoint?$parameterName=$mediaId');
     return response.data;
   }
 }
