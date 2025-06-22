@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -43,7 +42,8 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
-    String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
+    String url =
+        'https://drive.google.com/uc?export=view&id=1EG9kvc0mp1PPZ6JDum6D6pl3t3MVXFbm';
     if (defaultTargetPlatform == TargetPlatform.android) {
       videoPlayerController = VideoPlayerController.contentUri(Uri.parse(url));
     } else {
@@ -254,7 +254,9 @@ class _VideoWidgetState extends State<VideoWidget> {
           const LikesAndCommentsWidget(),
           const SizedBox(height: 14),
 
-          const CommentListViewBlocBuilder(),
+          CommentListViewBlocBuilder(
+            mediaId: widget.mediaModel!.id!,
+          ),
           const SizedBox(height: 12),
           BlocListener<CommentsCubit, CommentsState>(
             listener: (context, state) {
@@ -262,10 +264,14 @@ class _VideoWidgetState extends State<VideoWidget> {
                 Fluttertoast.showToast(msg: state.message);
               }
               if (state is AddCommentSuccess) {
-                context.read<GetCommentsCubit>().getComments(mediaId: 1);
+                context
+                    .read<GetCommentsCubit>()
+                    .getComments(mediaId: widget.mediaModel!.id!);
               }
               if (state is AddReplytSuccess) {
-                context.read<GetCommentsCubit>().getComments(mediaId: 1);
+                context
+                    .read<GetCommentsCubit>()
+                    .getComments(mediaId: widget.mediaModel!.id!);
               }
             },
             child: CommentTextField(
@@ -278,7 +284,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                     .isEmpty) {
                   return;
                 }
-                context.read<CommentsCubit>().addComment(mediaId: 1);
+                context
+                    .read<CommentsCubit>()
+                    .addComment(mediaId: widget.mediaModel!.id!);
               },
             ),
           ),

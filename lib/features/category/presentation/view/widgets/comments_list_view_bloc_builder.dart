@@ -10,15 +10,16 @@ import 'package:skeletonizer/skeletonizer.dart';
 class CommentListViewBlocBuilder extends StatelessWidget {
   const CommentListViewBlocBuilder({
     super.key,
+    required this.mediaId,
   });
-
+  final int mediaId;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCommentsCubit, GetCommentsState>(
       builder: (context, state) {
         if (state is GetCommentsSuccess) {
           return SizedBox(
-            height: 350.h,
+            height: state.comments.isEmpty ? 80.h : 350.h,
             child: CommentsListView(
               comments: state.comments,
             ),
@@ -29,7 +30,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
             child: CustomErrorWidget(
               errorMessage: state.message,
               onTap: () {
-                context.read<GetCommentsCubit>().getComments(mediaId: 1);
+                context.read<GetCommentsCubit>().getComments(mediaId: mediaId);
               },
             ),
           );

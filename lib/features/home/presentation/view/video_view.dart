@@ -47,7 +47,7 @@ class VideoView extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => GetCommentsCubit(getIt<CommentRepo>())
-                ..getComments(mediaId: 1),
+                ..getComments(mediaId: mediaModel.id!),
             ),
           ],
           child: VideoWidget(mediaModel: mediaModel),

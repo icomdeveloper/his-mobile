@@ -114,6 +114,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
             Text(
               widget.articleModel.description!,
               style: Styles.regularRoboto10.copyWith(color: AppColors.grey),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(
               height: 8,

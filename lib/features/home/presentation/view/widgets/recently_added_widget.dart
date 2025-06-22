@@ -114,12 +114,14 @@ class RecentlyAddedWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , 9.2K Views ',
-                      style: Styles.semiBoldRoboto12.copyWith(
-                        color: const Color(0xff999999),
-                      ),
-                    ),
+                    mediaModel.createdAt != null
+                        ? Text(
+                            '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , 9.2K Views ',
+                            style: Styles.semiBoldRoboto12.copyWith(
+                              color: const Color(0xff999999),
+                            ),
+                          )
+                        : const Text(''),
                   ],
                 ),
               ),

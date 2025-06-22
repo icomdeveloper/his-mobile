@@ -91,9 +91,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                       autofocus: true,
                       controller: context.read<CommentsCubit>().replyController,
                       onTap: () {
-                        context
-                            .read<CommentsCubit>()
-                            .addReply(mediaId: 1, parentId: 18);
+                        context.read<CommentsCubit>().addReply(
+                            mediaId: widget.comment.mediaId!,
+                            parentId: widget.comment.id!);
                       })
                   : const SizedBox.shrink(),
             ],
