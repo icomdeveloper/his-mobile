@@ -47,7 +47,6 @@ final ArticleModel dummyArticle = ArticleModel(
 final List<ArticleModel> dummyArticleList = [
   dummyArticle,
   dummyArticle,
-  dummyArticle
 ];
 final CommentsModel dummyComment = CommentsModel(
   id: 0,

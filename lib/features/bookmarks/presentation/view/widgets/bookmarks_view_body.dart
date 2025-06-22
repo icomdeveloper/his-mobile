@@ -4,7 +4,7 @@ import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
-import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
+import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
 
 class BookmarksViewBody extends StatefulWidget {
@@ -26,7 +26,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
           const SliverToBoxAdapter(
             child: Column(
               children: [
-                CustomTextField(hintText: 'Search in Bookmark'),
+                CustomTextFormField(hintText: 'Search in Bookmark'),
                 SizedBox(
                   height: 14,
                 ),

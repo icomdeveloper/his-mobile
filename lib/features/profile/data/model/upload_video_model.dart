@@ -7,9 +7,10 @@ class UploadVideoModel {
   final int categoryId;
   final String title;
   final String description;
-  final File videoFile;
+  final File? videoFile;
   final File thumbnailFile;
   final File? pdfFile;
+  final File? imageFile;
   final bool? isFeatured;
 
   UploadVideoModel(
@@ -18,6 +19,7 @@ class UploadVideoModel {
       required this.title,
       required this.description,
       required this.videoFile,
+      this.imageFile,
       required this.thumbnailFile,
       this.pdfFile,
       this.isFeatured});
@@ -28,6 +30,8 @@ class UploadVideoModel {
         ApiEndpoints.description: description,
         ApiEndpoints.file: videoFile,
         ApiEndpoints.thumbnail: thumbnailFile,
-        ApiEndpoints.pdf: pdfFile
+        ApiEndpoints.pdf: pdfFile,
+        ApiEndpoints.isFeatured: isFeatured,
+        ApiEndpoints.imagePath: imageFile
       };
 }

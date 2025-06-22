@@ -12,7 +12,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
-import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
 import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
@@ -79,7 +79,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                     validator: (name) {
                       if (name == null || name.isEmpty) {
                         return 'Please enter your name';
@@ -100,7 +100,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                     validator: (email) {
                       if (email == null || email.isEmpty) {
                         return 'Please enter an email address';
@@ -124,7 +124,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                       validator: (username) {
                         if (username == null || username.isEmpty) {
                           return 'Please enter a username';
@@ -144,7 +144,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                     controller: context.read<AuthCubit>().phoneController,
                     maxLength: 15,
                     validator: (phone) {
@@ -169,7 +169,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                     validator: (password) {
                       if (password == null || password.isEmpty) {
                         return 'Please enter a password';
@@ -209,7 +209,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 4,
                   ),
-                  CustomTextFormField(
+                  AuthenticationTextFormField(
                       validator: (confirmPassword) {
                         if (confirmPassword == null ||
                             confirmPassword.isEmpty) {

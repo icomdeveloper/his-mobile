@@ -13,6 +13,7 @@ import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
+import 'package:his/features/profile/presentation/view/edit_profile_view.dart';
 import 'package:his/features/profile/presentation/view/my_videos_view.dart';
 import 'package:his/features/profile/presentation/view/help_center_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
@@ -111,7 +112,25 @@ class ProfileViewBody extends StatelessWidget {
                           borderRadius: BorderRadius.circular(32),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                pageBuilder:
+                                    (_, animation, secondaryAnimation) =>
+                                        const EditProfileView(),
+                                transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) =>
+                                    SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    ),
+                                transitionDuration:
+                                    const Duration(milliseconds: 300)));
+                      },
                       child: Text(
                         'Edit',
                         style: Styles.regularRoboto12
@@ -178,6 +197,7 @@ class ProfileViewBody extends StatelessWidget {
                             ).animate(animation),
                             child: child,
                           ),
+                          transitionDuration: const Duration(milliseconds: 300),
                         ),
                       );
                     },
@@ -202,6 +222,7 @@ class ProfileViewBody extends StatelessWidget {
                           opacity: animation,
                           child: child,
                         ),
+                        transitionDuration: const Duration(milliseconds: 500),
                       ),
                     ),
                   ),

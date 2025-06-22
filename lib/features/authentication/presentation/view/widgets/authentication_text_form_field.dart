@@ -6,8 +6,8 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
+class AuthenticationTextFormField extends StatelessWidget {
+  const AuthenticationTextFormField({
     super.key,
     required this.hintText,
     this.obscureText = false,

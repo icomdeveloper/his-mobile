@@ -29,6 +29,8 @@ abstract class ApiEndpoints {
   static const String file = 'file';
   static const String thumbnail = 'thumbnail_path';
 
+  static const String imagePath = 'image_path';
+
   static const String isFeatured = 'is_featured';
   static const String pdf = 'pdf';
 

@@ -10,7 +10,7 @@ import 'package:his/features/home/presentation/cubits/featured_videos_cubit/feat
 import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_articles_cubit.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
-import 'package:his/features/home/presentation/view/widgets/custom_text_field.dart';
+import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
 
@@ -31,7 +31,7 @@ class HomeViewBody extends StatelessWidget {
                 SizedBox(
                   height: 12.h,
                 ),
-                const CustomTextField(
+                const CustomTextFormField(
                   hintText: 'Search..',
                 ),
               ],

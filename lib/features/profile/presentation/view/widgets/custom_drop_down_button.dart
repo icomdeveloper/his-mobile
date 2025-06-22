@@ -18,7 +18,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
             image: authors[index]['image'],
             name: authors[index]['name'],
           ));
-  DropDownItemWidget? selectedValue;
+  List<DropDownItemWidget> selectedItems = [];
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -32,19 +32,24 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField2<DropDownItemWidget>(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: const InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: 0),
-          ),
+        decoration: InputDecoration(
+          border: buildBorder(),
+          enabledBorder: buildBorder(),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         ),
         validator: (value) => value == null ? 'please select an author' : null,
-        selectedItemBuilder: (context) => items
-            .map((item) => Row(
-                  children: [
-                    Text(item.name, style: Styles.regularRoboto12),
-                  ],
-                ))
-            .toList(),
+        selectedItemBuilder: (context) {
+          return items.map(
+            (item) {
+              return Text(
+                selectedItems.map((e) => e.name).join(', '),
+                style: Styles.semiBoldRoboto12,
+                maxLines: 1,
+              );
+            },
+          ).toList();
+        },
         iconStyleData: const IconStyleData(
           icon: Icon(
             Icons.keyboard_arrow_down_outlined,
@@ -53,38 +58,41 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
           iconEnabledColor: AppColors.grey,
         ),
         isExpanded: true,
-        hint: const Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: Text(
-            'Search for author',
-            style: Styles.regularRoboto12,
-          ),
+        hint: const Text(
+          'Search for author',
+          style: Styles.regularRoboto12,
         ),
-        items: items
-            .map((item) => DropdownMenuItem(
-                  value: item,
+        items: items.map((item) {
+          return DropdownMenuItem(
+            value: item,
+            //disable default onTap to avoid closing menu when selecting an item
+            enabled: false,
+            child: StatefulBuilder(
+              builder: (context, menuSetState) {
+                final isSelected = selectedItems.contains(item);
+                return InkWell(
+                  onTap: () {
+                    isSelected
+                        ? selectedItems.remove(item)
+                        : selectedItems.add(item);
+                    //This rebuilds the StatefulWidget to update the button's text
+                    setState(() {});
+                    //This rebuilds the dropdownMenu Widget to update the check mark
+                    menuSetState(() {});
+                  },
                   child: item,
-                ))
-            .toList(),
-        value: selectedValue,
-        onChanged: (value) {
-          setState(() {
-            selectedValue = value;
-          });
-        },
-        buttonStyleData: const ButtonStyleData(
-          decoration: BoxDecoration(
-            border: Border.fromBorderSide(
-                BorderSide(color: AppColors.lightGrey, width: 1)),
-            borderRadius: BorderRadius.all(Radius.circular(14)),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          height: 50,
-          width: double.infinity,
-        ),
+                );
+              },
+            ),
+          );
+        }).toList(),
+
+        value: selectedItems.isEmpty ? null : selectedItems.last,
+        onChanged: (value) {},
         dropdownStyleData: const DropdownStyleData(
           maxHeight: 200,
         ),
+
         menuItemStyleData: const MenuItemStyleData(
           padding: EdgeInsets.symmetric(horizontal: 16),
           height: 40,
@@ -132,6 +140,13 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
       ),
     );
   }
+
+  OutlineInputBorder buildBorder() {
+    return const OutlineInputBorder(
+      borderSide: BorderSide(color: AppColors.lightGrey, width: 1),
+      borderRadius: BorderRadius.all(Radius.circular(14)),
+    );
+  }
 }
 
 class DropDownItemWidget extends StatelessWidget {
@@ -140,18 +155,21 @@ class DropDownItemWidget extends StatelessWidget {
   final String image, name;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(image),
-          radius: 20,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          name,
-          style: Styles.regularRoboto12,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: NetworkImage(image),
+            radius: 20,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            name,
+            style: Styles.regularRoboto12,
+          ),
+        ],
+      ),
     );
   }
 }

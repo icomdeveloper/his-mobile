@@ -5,7 +5,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
-import 'package:his/features/authentication/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 
 class ChangePasswordView extends StatelessWidget {
@@ -27,7 +27,7 @@ class ChangePasswordView extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                CustomTextFormField(
+                AuthenticationTextFormField(
                   controller: context
                       .read<ResetPasswordCubit>()
                       .currentPasswordController,
@@ -47,7 +47,7 @@ class ChangePasswordView extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                CustomTextFormField(
+                AuthenticationTextFormField(
                   controller:
                       context.read<ResetPasswordCubit>().newPasswordController,
                   prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
@@ -64,7 +64,7 @@ class ChangePasswordView extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                CustomTextFormField(
+                AuthenticationTextFormField(
                   controller: context
                       .read<ResetPasswordCubit>()
                       .confirmPasswordController,
