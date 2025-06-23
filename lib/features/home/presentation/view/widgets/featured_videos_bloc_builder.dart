@@ -12,12 +12,14 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
   const FeaturedVideosBlocBuilder({
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FeaturedVideosCubit, FeaturedVideosState>(
       builder: (context, state) {
         if (state is FeaturedVideosSuccess) {
+          if (state.mediaList.isEmpty) {
+            return const SizedBox.shrink();
+          }
           return CarouselSlider.builder(
             itemCount: state.mediaList.length,
             options: CarouselOptions(

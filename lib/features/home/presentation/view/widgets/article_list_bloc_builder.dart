@@ -10,13 +10,21 @@ import 'package:skeletonizer/skeletonizer.dart';
 class ArticleListBlocBuilder extends StatelessWidget {
   const ArticleListBlocBuilder({
     super.key,
+    this.onEmptyList,
   });
+  final VoidCallback? onEmptyList;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetArticlesCubit, GetArticlesState>(
       builder: (context, state) {
         if (state is GetArticlesSuccess) {
+          if (state.articleList.isEmpty) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              onEmptyList?.call();
+            });
+            return const SliverToBoxAdapter(child: SizedBox.shrink());
+          }
           return ArticlesSliverList(
             articleList: state.articleList,
           );

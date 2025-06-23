@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -33,7 +34,8 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
           child: AspectRatio(
             aspectRatio: 342 / 192,
             child: CachedNetworkImage(
-              imageUrl: widget.mediaModel.thumbnailPath!,
+              imageUrl: convertDrivePreviewToDirectImage(
+                  widget.mediaModel.thumbnailPath!),
               fit: BoxFit.cover,
             ),
           ),

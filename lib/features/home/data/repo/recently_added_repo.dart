@@ -15,7 +15,7 @@ class RecentlyAddedRepo {
     try {
       final data =
           await apiServices.getMethod(endPoint: ApiEndpoints.recentlyAdded);
-      List<dynamic> mediaData = data['data'];
+      List<dynamic> mediaData = data['data'][0]['media'];
 
       List<MediaModel> list =
           mediaData.map((e) => MediaModel.fromJson(e)).toList();

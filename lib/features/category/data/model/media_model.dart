@@ -14,6 +14,9 @@ class MediaModel {
   int? isRecommended;
   DateTime? createdAt;
   DateTime? updatedAt;
+  int? commentsCount;
+  int? likesCount;
+  String? image;
 
   MediaModel({
     this.id,
@@ -31,6 +34,9 @@ class MediaModel {
     this.createdAt,
     this.updatedAt,
     this.duration,
+    this.commentsCount,
+    this.likesCount,
+    this.image,
   });
 
   factory MediaModel.fromJson(Map<String, dynamic> json) => MediaModel(
@@ -44,6 +50,9 @@ class MediaModel {
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
+        image: json['image_path'] as String?,
+        commentsCount: json['comments_count'] as int?,
+        likesCount: json['likes_count'] as int?,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
         isRecommended: json['is_recommended'] as int?,
@@ -66,6 +75,9 @@ class MediaModel {
         'pdf': pdf,
         'duration': duration,
         'thumbnail_path': thumbnailPath,
+        'image_path': image,
+        'comments_count': commentsCount,
+        'likes_count': likesCount,
         'status': status,
         'is_featured': isFeatured,
         'is_recommended': isRecommended,

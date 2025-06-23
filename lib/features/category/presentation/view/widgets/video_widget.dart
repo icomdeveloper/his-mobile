@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -42,8 +43,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
-    String url =
-        'https://drive.google.com/uc?export=view&id=1EG9kvc0mp1PPZ6JDum6D6pl3t3MVXFbm';
+    String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
     if (defaultTargetPlatform == TargetPlatform.android) {
       videoPlayerController = VideoPlayerController.contentUri(Uri.parse(url));
     } else {
@@ -94,7 +94,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                           children: [
                             Positioned.fill(
                               child: CachedNetworkImage(
-                                imageUrl: widget.mediaModel!.thumbnailPath!,
+                                imageUrl: convertDrivePreviewToDirectImage(
+                                    widget.mediaModel!.thumbnailPath!),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -251,7 +252,10 @@ class _VideoWidgetState extends State<VideoWidget> {
           //   thickness: 1,
           //   height: 24,
           // ),
-          const LikesAndCommentsWidget(),
+          LikesAndCommentsWidget(
+            numberOfComments: widget.mediaModel?.commentsCount ?? 0,
+            numberOfLikes: widget.mediaModel?.likesCount ?? 0,
+          ),
           const SizedBox(height: 14),
 
           CommentListViewBlocBuilder(

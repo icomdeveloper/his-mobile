@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -73,7 +74,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12)),
                     child: CachedNetworkImage(
-                      imageUrl: widget.mediaModel.thumbnailPath!,
+                      imageUrl: convertDrivePreviewToDirectImage(
+                          widget.mediaModel.thumbnailPath!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -177,7 +179,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                 ),
                 widget.isDescriptionAppeared
                     ? Text(
-                        widget.mediaModel.description!,
+                        widget.mediaModel.description ?? "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                         style: Styles.regularRoboto12,
@@ -187,7 +189,10 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   color: AppColors.lightGrey,
                   height: 24,
                 ),
-                const LikesAndCommentsWidget(),
+                LikesAndCommentsWidget(
+                  numberOfComments: widget.mediaModel.commentsCount ?? 0,
+                  numberOfLikes: widget.mediaModel.likesCount ?? 0,
+                ),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -62,7 +63,8 @@ class RecentlyAddedWidget extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: CachedNetworkImage(
-                              imageUrl: mediaModel.thumbnailPath ?? '',
+                              imageUrl: convertDrivePreviewToDirectImage(
+                                  mediaModel.thumbnailPath!),
                               fit: BoxFit.cover,
                             )),
                       ),

@@ -11,13 +11,20 @@ import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_art
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
-import 'package:his/features/home/presentation/view/widgets/featured_videos_bloc_builder.dart';
+import 'package:his/features/home/presentation/view/widgets/featured_videos.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
 
-class HomeViewBody extends StatelessWidget {
+class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
     super.key,
   });
+
+  @override
+  State<HomeViewBody> createState() => _HomeViewBodyState();
+}
+
+class _HomeViewBodyState extends State<HomeViewBody> {
+  bool _showArticleHeader = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,49 +45,37 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 12.h,
-                ),
-                const Text('Featured Videos', style: Styles.semiBoldRoboto20),
-                SizedBox(
-                  height: 12.h,
-                ),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
             child: BlocProvider(
               create: (context) =>
                   FeaturedVideosCubit(getIt<FeaturedVideosRepo>())
                     ..getFeaturedVideos(),
-              child: const FeaturedVideosBlocBuilder(),
+              child: const FeaturedVideos(),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 12.h,
+          if (_showArticleHeader)
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 12.h,
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 32.h,
-                ),
-                const Text('Articles', style: Styles.semiBoldRoboto20),
-                SizedBox(
-                  height: 12.h,
-                ),
-              ],
+          if (_showArticleHeader)
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Articles', style: Styles.semiBoldRoboto20),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                ],
+              ),
             ),
-          ),
           BlocProvider(
             create: (context) =>
                 GetArticlesCubit(getIt<ShowMediaRepo>())..getArticles(),
-            child: const ArticleListBlocBuilder(),
+            child: ArticleListBlocBuilder(
+              onEmptyList: () => setState(() => _showArticleHeader = false),
+            ),
           ),
           SliverToBoxAdapter(
             child: Column(

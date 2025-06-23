@@ -44,7 +44,10 @@ class FeaturedVideosItem extends StatelessWidget {
                 color: AppColors.lightGrey,
               ),
               const SizedBox(height: 8),
-              const LikesAndCommentsWidget(),
+              LikesAndCommentsWidget(
+                numberOfComments: mediaModel.commentsCount ?? 0,
+                numberOfLikes: mediaModel.likesCount ?? 0,
+              ),
             ],
           ),
         )
