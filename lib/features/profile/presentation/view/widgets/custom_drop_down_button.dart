@@ -2,11 +2,16 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/profile/data/model/author_model.dart';
+import 'package:his/features/profile/presentation/view/widgets/drop_down_item.dart';
 
 class CustomDropDownButton extends StatefulWidget {
   const CustomDropDownButton({
     super.key,
+    this.authorsList,
   });
+  @override
+  final ValueChanged<List<String>>? authorsList;
   @override
   State<CustomDropDownButton> createState() => _CustomDropDown2State();
 }
@@ -15,8 +20,8 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
   final List<DropDownItemWidget> items = List.generate(
       authors.length,
       (index) => DropDownItemWidget(
-            image: authors[index]['image'],
-            name: authors[index]['name'],
+            image: authors[index].image!,
+            name: authors[index].name!,
           ));
   List<DropDownItemWidget> selectedItems = [];
   final TextEditingController textEditingController = TextEditingController();
@@ -72,10 +77,14 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
                 final isSelected = selectedItems.contains(item);
                 return InkWell(
                   onTap: () {
-                    isSelected
-                        ? selectedItems.remove(item)
-                        : selectedItems.add(item);
-                    //This rebuilds the StatefulWidget to update the button's text
+                    if (isSelected) {
+                      selectedItems.remove(item);
+                    } else {
+                      selectedItems.add(item);
+                    }
+                    widget.authorsList!(
+                        selectedItems.map((e) => e.name).toList());
+
                     setState(() {});
                     //This rebuilds the dropdownMenu Widget to update the check mark
                     menuSetState(() {});
@@ -149,46 +158,12 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
   }
 }
 
-class DropDownItemWidget extends StatelessWidget {
-  const DropDownItemWidget(
-      {super.key, required this.image, required this.name});
-  final String image, name;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(image),
-            radius: 20,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            name,
-            style: Styles.regularRoboto12,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-const List<Map<String, dynamic>> authors = [
-  {
-    'name': 'Mustafa Kamel',
-    'image': 'https://i.pravatar.cc/300?img=1',
-  },
-  {
-    'name': 'Ali Osama',
-    'image': 'https://i.pravatar.cc/300?img=2',
-  },
-  {
-    'name': 'Ibrahim Mohamed',
-    'image': 'https://i.pravatar.cc/300?img=3',
-  },
-  {
-    'name': 'Karim Salah',
-    'image': 'https://i.pravatar.cc/300?img=4',
-  },
+final List<AuthorModel> authors = [
+  AuthorModel(
+      name: 'John Doe', image: 'https://randomuser.me/api/portraits/men/1.jpg'),
+  AuthorModel(name: 'Mustafa Kamel', image: 'https://i.pravatar.cc/300?img=1'),
+  AuthorModel(name: 'Ali Osama', image: 'https://i.pravatar.cc/300?img=2'),
+  AuthorModel(
+      name: 'Ibrahim Mohamed', image: 'https://i.pravatar.cc/300?img=3'),
+  AuthorModel(name: 'Karim Salah', image: 'https://i.pravatar.cc/300?img=4'),
 ];

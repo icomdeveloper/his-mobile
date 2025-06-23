@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -29,6 +30,7 @@ class UploadVideoTab extends StatefulWidget {
 
 class _UploadVideoTabState extends State<UploadVideoTab> {
   PlatformFile? videoFile, thumbnailFile, pdfFile, imageFile;
+  List<String> authors = [];
   bool isSelecting = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -239,7 +241,11 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               style: Styles.semiBoldPoppins14,
             ),
             const SizedBox(height: 4),
-            const CustomDropDownButton(),
+            CustomDropDownButton(
+              authorsList: (value) {
+                authors = value;
+              },
+            ),
             const SizedBox(height: 12),
             const Text(
               'Title',
@@ -337,6 +343,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     : CustomTextButton(
                         text: 'Upload file',
                         onPressed: () {
+                          log("authors ==>$authors");
                           if (videoFile == null) {
                             Fluttertoast.showToast(
                                 msg: 'Please select a video file');

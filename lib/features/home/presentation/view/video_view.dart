@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
@@ -19,25 +20,7 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.grey,
-            size: 18,
-          ),
-        ),
-        title: Text(
-          mediaModel.title ?? "",
-          style: Styles.semiBoldRoboto20,
-        ),
-      ),
+      appBar: buildAppBar(context, title: mediaModel.title ?? ""),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: MultiBlocProvider(
