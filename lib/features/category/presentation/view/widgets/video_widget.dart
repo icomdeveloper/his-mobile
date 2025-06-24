@@ -20,6 +20,7 @@ import 'package:his/features/category/presentation/view/widgets/comment_text_fie
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
+import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:video_player/video_player.dart';
 
@@ -210,10 +211,19 @@ class _VideoWidgetState extends State<VideoWidget> {
             color: AppColors.lightGrey,
           ),
           widget.mediaModel?.pdf != null
-              ? const PDFAndImageContainer(
-                  title: 'Document',
-                  subTitle: 'PDF',
-                  trailingIcon: Assets.assetsImagesPdfView,
+              ? InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                PdfView(url: widget.mediaModel!.pdf!)));
+                  },
+                  child: const PDFAndImageContainer(
+                    title: 'Document',
+                    subTitle: 'PDF',
+                    trailingIcon: Assets.assetsImagesPdfView,
+                  ),
                 )
               : const SizedBox.shrink(),
           const SizedBox(
@@ -276,7 +286,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                 Fluttertoast.showToast(msg: state.message);
               }
               if (state is AddCommentSuccess) {
-                commentsList.add(state.comment);
+                setState(() {
+                  commentsList.add(state.comment);
+                });
                 //   context
                 //       .read<GetCommentsCubit>()
                 //       .getComments(mediaId: widget.mediaModel!.id!);

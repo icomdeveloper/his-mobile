@@ -19,6 +19,15 @@ class RepliesListViewWidget extends StatefulWidget {
 class _RepliesListViewWidgetState extends State<RepliesListViewWidget> {
   bool showMoreReplies = false;
   @override
+  void initState() {
+    repliesList.clear();
+    for (var reply in widget.replies!) {
+      repliesList.add(reply);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (widget.replies != null && widget.replies!.isNotEmpty)
@@ -48,3 +57,5 @@ class _RepliesListViewWidgetState extends State<RepliesListViewWidget> {
     ]);
   }
 }
+
+List<ReplyModel> repliesList = [];
