@@ -41,11 +41,13 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
             height: 200.h,
             child: AspectRatio(
               aspectRatio: 342.w / 371.h,
-              child: CustomErrorWidget(
-                errorMessage: state.errMessage,
-                onTap: () {
-                  context.read<FeaturedVideosCubit>().getFeaturedVideos();
-                },
+              child: Center(
+                child: CustomErrorWidget(
+                  errorMessage: state.errMessage,
+                  onTap: () {
+                    context.read<FeaturedVideosCubit>().getFeaturedVideos();
+                  },
+                ),
               ),
             ),
           );

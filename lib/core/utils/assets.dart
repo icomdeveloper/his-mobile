@@ -86,6 +86,10 @@ class Assets {
   /// assets/images/icons8-no-internet-64.png
   static const String assetsImagesIcons8NoInternet64 = "assets/images/icons8-no-internet-64.png";
 
+  /// Assets for assetsImagesImageView
+  /// assets/images/image_view.svg
+  static const String assetsImagesImageView = "assets/images/image_view.svg";
+
   /// Assets for assetsImagesInfo
   /// assets/images/info.svg
   static const String assetsImagesInfo = "assets/images/info.svg";
@@ -129,6 +133,10 @@ class Assets {
   /// Assets for assetsImagesPassword
   /// assets/images/password.svg
   static const String assetsImagesPassword = "assets/images/password.svg";
+
+  /// Assets for assetsImagesPdfView
+  /// assets/images/pdf_view.svg
+  static const String assetsImagesPdfView = "assets/images/pdf_view.svg";
 
   /// Assets for assetsImagesPencil
   /// assets/images/pencil.svg

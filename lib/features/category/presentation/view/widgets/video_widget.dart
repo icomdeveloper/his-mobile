@@ -16,11 +16,11 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
-import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
+import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
+import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
-import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -209,15 +209,23 @@ class _VideoWidgetState extends State<VideoWidget> {
           const Divider(
             color: AppColors.lightGrey,
           ),
-          const UserDataListTile(
-            title: 'Document',
-            image: Assets.assetsImagesDocument,
-            subTitle: 'PDF',
-            padding: 12,
+          widget.mediaModel?.pdf != null
+              ? const PDFAndImageContainer(
+                  title: 'Document',
+                  subTitle: 'PDF',
+                  trailingIcon: Assets.assetsImagesPdfView,
+                )
+              : const SizedBox.shrink(),
+          const SizedBox(
+            height: 12,
           ),
-          const Divider(
-            color: AppColors.lightGrey,
-          ),
+          widget.mediaModel?.image != null
+              ? const PDFAndImageContainer(
+                  title: 'Image',
+                  subTitle: 'image',
+                  trailingIcon: Assets.assetsImagesImageView,
+                )
+              : const SizedBox.shrink(),
           const SizedBox(height: 12),
           // Text(
           //   'Admin Rating (1-5)',
@@ -268,14 +276,15 @@ class _VideoWidgetState extends State<VideoWidget> {
                 Fluttertoast.showToast(msg: state.message);
               }
               if (state is AddCommentSuccess) {
-                context
-                    .read<GetCommentsCubit>()
-                    .getComments(mediaId: widget.mediaModel!.id!);
+                commentsList.add(state.comment);
+                //   context
+                //       .read<GetCommentsCubit>()
+                //       .getComments(mediaId: widget.mediaModel!.id!);
               }
               if (state is AddReplytSuccess) {
-                context
-                    .read<GetCommentsCubit>()
-                    .getComments(mediaId: widget.mediaModel!.id!);
+                // context
+                //     .read<GetCommentsCubit>()
+                //     .getComments(mediaId: widget.mediaModel!.id!);
               }
             },
             child: CommentTextField(

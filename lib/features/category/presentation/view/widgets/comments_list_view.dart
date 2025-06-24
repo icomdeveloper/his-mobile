@@ -5,8 +5,10 @@ import 'package:his/features/category/presentation/view/widgets/comment_widget.d
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 
 class CommentsListView extends StatefulWidget {
-  const CommentsListView({super.key, required this.comments});
+  const CommentsListView(
+      {super.key, required this.comments, this.isDummy = false});
   final List<CommentsModel> comments;
+  final bool isDummy;
 
   @override
   State<CommentsListView> createState() => _CommentsListViewState();
@@ -17,6 +19,13 @@ class _CommentsListViewState extends State<CommentsListView> {
   @override
   void initState() {
     _scrollToBottom();
+    if (!widget.isDummy) {
+      commentsList.clear();
+
+      for (var comment in widget.comments) {
+        commentsList.add(comment);
+      }
+    }
     super.initState();
   }
 
@@ -38,7 +47,7 @@ class _CommentsListViewState extends State<CommentsListView> {
               style: Styles.semiBoldPoppins14,
             ),
             Text(
-              '${widget.comments.length} Comments',
+              '${commentsList.length} Comments',
               style: Styles.regularRoboto12.copyWith(
                 color: AppColors.primaryColor,
                 decoration: TextDecoration.underline,
@@ -55,9 +64,9 @@ class _CommentsListViewState extends State<CommentsListView> {
             separatorBuilder: (context, index) => const Divider(
               color: AppColors.lightGrey,
             ),
-            itemCount: widget.comments.length,
+            itemCount: commentsList.length,
             itemBuilder: (context, index) => CommentWidget(
-              comment: widget.comments[index],
+              comment: commentsList[index],
             ),
           ),
         ),
@@ -77,3 +86,5 @@ class _CommentsListViewState extends State<CommentsListView> {
     });
   }
 }
+
+List<CommentsModel> commentsList = [];

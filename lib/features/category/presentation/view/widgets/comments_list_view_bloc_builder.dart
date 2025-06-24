@@ -39,6 +39,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               child: SizedBox(
             height: 350.h,
             child: CommentsListView(
+              isDummy: true,
               comments: dummyCommentList,
             ),
           ));

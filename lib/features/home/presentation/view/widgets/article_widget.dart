@@ -41,7 +41,9 @@ class _ArticleWidgetState extends State<ArticleWidget> {
           Navigator.push(
               context,
               PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const ArticleView(),
+                pageBuilder: (_, __, ___) => ArticleView(
+                  articleModel: widget.articleModel,
+                ),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         FadeTransition(

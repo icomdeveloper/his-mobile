@@ -11,11 +11,13 @@ class UserDataListTile extends StatelessWidget {
     required this.image,
     this.imageColor = AppColors.primaryColor,
     this.padding,
+    this.trailing,
   });
   final String title, image;
   final String? subTitle;
   final Color imageColor;
   final double? padding;
+  final Widget? trailing;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -51,6 +53,7 @@ class UserDataListTile extends StatelessWidget {
         subTitle ?? '',
         style: Styles.regularPoppins12.copyWith(color: const Color(0xff61758A)),
       ),
+      trailing: trailing,
     );
   }
 }
