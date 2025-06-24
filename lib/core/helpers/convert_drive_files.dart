@@ -4,7 +4,7 @@ String convertDrivePreviewToDirectImage(String previewUrl, {int width = 1000}) {
   final fileId = match?.group(1);
 
   if (fileId == null) {
-    throw ArgumentError('Invalid Google Drive preview URL');
+    return 'https://cdn.prod.website-files.com/6009ec8cda7f305645c9d91b/601082646d6bf4446451b0a4_6002086f72b72717ae01d954_google-doc-error-message.png';
   }
 
   // Return the direct image URL
