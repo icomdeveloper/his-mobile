@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +10,6 @@ AppBar buildAppBar(BuildContext context,
     bool showBackButton = true,
     bool centerTitle = true,
     bool isEditAppear = false}) {
-  log('isEditAppear From Appbar ==>$isEditAppear');
   return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,

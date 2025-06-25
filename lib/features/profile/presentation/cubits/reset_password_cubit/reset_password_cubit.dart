@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/features/profile/data/model/reset_password_model.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'reset_password_state.dart';
 

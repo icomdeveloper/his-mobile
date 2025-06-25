@@ -16,6 +16,18 @@ class VideoCardListBlocBuilder extends StatelessWidget {
     return BlocBuilder<GetMediaCubit, GetMediaState>(
       builder: (context, state) {
         if (state is GetMediaSuccess) {
+          if (state.mediaList.isEmpty) {
+            return SliverToBoxAdapter(
+                child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: CustomErrorWidget(
+                errorMessage: 'No videos found',
+                onTap: () {
+                  context.read<GetMediaCubit>().getVideos();
+                },
+              ),
+            ));
+          }
           return VideoCardSliverList(
             mediaList: state.mediaList,
           );

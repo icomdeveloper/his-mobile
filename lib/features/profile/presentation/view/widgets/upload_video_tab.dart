@@ -109,8 +109,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                         Text('Supported formates: videos only',
                                             style: Styles.regularRoboto10
                                                 .copyWith(
-                                                    color: const Color(
-                                                        0xff7B7B7B)))
+                                                    color: AppColors.darkGrey))
                                       ],
                                     ),
                                   )

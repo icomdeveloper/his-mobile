@@ -16,6 +16,19 @@ class RecentlyAddedBlocBuilder extends StatelessWidget {
     return BlocBuilder<RecentlyAddedCubit, RecentlyAddedState>(
       builder: (context, state) {
         if (state is RecentlyAddedSuccess) {
+          if (state.mediaList.isEmpty) {
+            return SliverToBoxAdapter(
+                child: SizedBox(
+                    height: 150,
+                    child: CustomErrorWidget(
+                      errorMessage: 'No videos found ',
+                      onTap: () {
+                        context
+                            .read<RecentlyAddedCubit>()
+                            .getRecentlyAddedVideos();
+                      },
+                    )));
+          }
           return RecentlyAddedSliverList(
             recentlyAdded: state.mediaList,
           );
