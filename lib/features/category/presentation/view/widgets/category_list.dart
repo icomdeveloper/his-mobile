@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
-class CategoriesList extends StatefulWidget {
-  const CategoriesList(
+class YearList extends StatefulWidget {
+  const YearList(
       {super.key, required this.categoryList, required this.onItemTapped});
   final List<String> categoryList;
   final ValueChanged<int> onItemTapped;
   @override
-  State<CategoriesList> createState() => _CategoriesListState();
+  State<YearList> createState() => _CategoriesListState();
 }
 
-class _CategoriesListState extends State<CategoriesList> {
+class _CategoriesListState extends State<YearList> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -57,6 +57,48 @@ class _CategoriesListState extends State<CategoriesList> {
                 ),
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MonthList extends StatefulWidget {
+  const MonthList(
+      {super.key, required this.categoryList, required this.onItemTapped});
+  final List<String> categoryList;
+  final ValueChanged<int> onItemTapped;
+  @override
+  State<MonthList> createState() => _MonthListState();
+}
+
+class _MonthListState extends State<MonthList> {
+  int selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => const SizedBox(width: 12),
+      scrollDirection: Axis.horizontal,
+      itemCount: widget.categoryList.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          customBorder: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          onTap: () {
+            widget.onItemTapped(index);
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          child: Center(
+            child: Text(widget.categoryList[index],
+                style: Styles.regularPoppins14.copyWith(
+                  color: index == selectedIndex
+                      ? AppColors.primaryColor
+                      : AppColors.grey,
+                )),
           ),
         );
       },

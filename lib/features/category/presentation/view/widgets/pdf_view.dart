@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class PdfView extends StatefulWidget {
@@ -31,6 +33,7 @@ class _PdfViewState extends State<PdfView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: buildAppBar(context, title: 'PDF', showBackButton: true),
       body: PopScope(
         canPop: true, // Prevents default back button behavior
         onPopInvokedWithResult: (bool didPop, _) async {
@@ -38,7 +41,7 @@ class _PdfViewState extends State<PdfView> {
         },
         child: Center(
             child: const PDF().cachedFromUrl(
-          "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+          convertGoogleDriveUrl(widget.url),
           errorWidget: (error) {
             log(error.toString());
             return Center(

@@ -8,9 +8,16 @@ import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 
-class ChangePasswordView extends StatelessWidget {
+class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
 
+  @override
+  State<ChangePasswordView> createState() => _ChangePasswordViewState();
+}
+
+class _ChangePasswordViewState extends State<ChangePasswordView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,96 +26,121 @@ class ChangePasswordView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Current Password', style: Styles.semiBoldPoppins14),
-                const SizedBox(
-                  height: 4,
-                ),
-                AuthenticationTextFormField(
-                  controller: context
-                      .read<ResetPasswordCubit>()
-                      .currentPasswordController,
-                  prefixIcon: SvgPicture.asset(
-                    Assets.assetsImagesPassword,
+          child: Form(
+            key: _formKey,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Current Password',
+                      style: Styles.semiBoldPoppins14),
+                  const SizedBox(
+                    height: 4,
                   ),
-                  hintText: 'Password',
-                  textInputType: TextInputType.visiblePassword,
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                const Text(
-                  'New Password',
-                  style: Styles.semiBoldPoppins14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                AuthenticationTextFormField(
-                  controller:
-                      context.read<ResetPasswordCubit>().newPasswordController,
-                  prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
-                  hintText: 'Password',
-                  textInputType: TextInputType.visiblePassword,
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                const Text(
-                  'Confirm Password',
-                  style: Styles.semiBoldPoppins14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                AuthenticationTextFormField(
-                  controller: context
-                      .read<ResetPasswordCubit>()
-                      .confirmPasswordController,
-                  prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
-                  hintText: 'Password',
-                  textInputType: TextInputType.visiblePassword,
-                ),
-                const SizedBox(
-                  height: 41,
-                ),
-                BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
-                  listener: (context, state) {
-                    if (state is ResetPasswordSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('Password updated successfully'),
-                      ));
-                      // Navigator.pushAndRemoveUntil(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const LoginView(),
-                      //     ),
-                      //     (route) => false);
-                    }
-                    if (state is ResetPasswordFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text(state.message),
-                      ));
-                    }
-                  },
-                  builder: (context, state) {
-                    return state is ResetPasswordLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : CustomTextButton(
-                            text: 'Update Password',
-                            onPressed: () {
-                              context
-                                  .read<ResetPasswordCubit>()
-                                  .resetPassword();
-                            });
-                  },
-                ),
-              ]),
+                  AuthenticationTextFormField(
+                    validator: (p0) {
+                      if (p0!.isEmpty) {
+                        return 'Please enter your current password';
+                      }
+                      return null;
+                    },
+                    controller: context
+                        .read<ResetPasswordCubit>()
+                        .currentPasswordController,
+                    prefixIcon: SvgPicture.asset(
+                      Assets.assetsImagesPassword,
+                    ),
+                    hintText: 'Password',
+                    textInputType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text(
+                    'New Password',
+                    style: Styles.semiBoldPoppins14,
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  AuthenticationTextFormField(
+                    validator: (p0) {
+                      if (p0!.isEmpty) {
+                        return 'Please enter your new password';
+                      }
+                      return null;
+                    },
+                    controller: context
+                        .read<ResetPasswordCubit>()
+                        .newPasswordController,
+                    prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
+                    hintText: 'Password',
+                    textInputType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text(
+                    'Confirm Password',
+                    style: Styles.semiBoldPoppins14,
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  AuthenticationTextFormField(
+                    validator: (p0) {
+                      if (p0!.isEmpty) {
+                        return 'Please confirm your new password';
+                      }
+                      return null;
+                    },
+                    controller: context
+                        .read<ResetPasswordCubit>()
+                        .confirmPasswordController,
+                    prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
+                    hintText: 'Password',
+                    textInputType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
+                    height: 41,
+                  ),
+                  BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
+                    listener: (context, state) {
+                      if (state is ResetPasswordSuccess) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('Password updated successfully'),
+                        ));
+                        Navigator.pop(context);
+                      }
+                      if (state is ResetPasswordFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(state.message),
+                        ));
+                      }
+                    },
+                    builder: (context, state) {
+                      return state is ResetPasswordLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : CustomTextButton(
+                              text: 'Update Password',
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    autovalidateMode = AutovalidateMode.always;
+                                  });
+                                  return;
+                                }
+                                context
+                                    .read<ResetPasswordCubit>()
+                                    .resetPassword();
+                              });
+                    },
+                  ),
+                ]),
+          ),
         ),
       ),
     );

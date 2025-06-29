@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/errors/failure.dart';
 import 'package:his/core/services/api_services.dart';
@@ -49,13 +52,21 @@ class AuthRepo {
   Future<Either<ServerFailure, UserData>> signInWithGoogle() async {
     try {
       UserCredential user = await firebaseAuthServices.signInWithGoogle();
-
+      log('Token==>${user.credential!.accessToken}');
       var data = await apiServices.postMethod(
           endPoint: ApiEndpoints.googleLogin,
           data: {ApiEndpoints.googleIdToken: user.credential!.accessToken});
 
       await saveUserData(user: UserData.fromJson(data));
       return right(UserData.fromJson(data));
+    } on FirebaseAuthException catch (e) {
+      debugPrint(
+          "FIREBASE ERROR: ${e.code} - ${e.message}"); // Critical for debugging
+      return left(ServerFailure(errMesage: e.message!));
+    } on PlatformException catch (e) {
+      debugPrint(
+          "PLATFORM ERROR: ${e.code} - ${e.message}\n${e.stacktrace}"); // Android-specific errors
+      return left(ServerFailure(errMesage: "Platform error: ${e.code}"));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

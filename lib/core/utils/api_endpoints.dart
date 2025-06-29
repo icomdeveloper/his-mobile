@@ -44,4 +44,7 @@ abstract class ApiEndpoints {
   static const String getMediaComments = 'comments/media';
 
   static const String resetPassword = 'password/reset';
+  static const String year = 'year';
+
+  static const String month = 'month';
 }

@@ -20,10 +20,10 @@ class _RepliesListViewWidgetState extends State<RepliesListViewWidget> {
   bool showMoreReplies = false;
   @override
   void initState() {
-    repliesList.clear();
-    for (var reply in widget.replies!) {
-      repliesList.add(reply);
-    }
+    // repliesList.clear();
+    // for (var reply in widget.replies!) {
+    //   repliesList[reply.parentId]!.add(reply);
+    // }
     super.initState();
   }
 
@@ -54,8 +54,11 @@ class _RepliesListViewWidgetState extends State<RepliesListViewWidget> {
             ),
           ),
         ),
+      const SizedBox(
+        height: 12,
+      )
     ]);
   }
 }
 
-List<ReplyModel> repliesList = [];
+Map<int, List<ReplyModel>> repliesList = {};

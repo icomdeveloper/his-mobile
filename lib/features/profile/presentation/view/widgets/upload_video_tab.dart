@@ -37,6 +37,8 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool isPickerActive = false;
+  String? selectedYear;
+  String? selectedMonth;
   @override
   void dispose() {
     titleController.dispose();
@@ -211,7 +213,13 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     ),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        child: const DateDropDownButton())
+                        child: DateDropDownButton(
+                          valueSelected: (value) {
+                            setState(() {
+                              selectedYear = value;
+                            });
+                          },
+                        ))
                   ],
                 ),
                 Column(
@@ -226,7 +234,12 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
-                      child: const DateDropDownButton(
+                      child: DateDropDownButton(
+                        valueSelected: (value) {
+                          setState(() {
+                            selectedMonth = value;
+                          });
+                        },
                         isMonth: true,
                       ),
                     )
@@ -352,7 +365,8 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                             UploadVideoModel uploadVideoModel =
                                 UploadVideoModel(
                                     userId: getUserData().userInfo!.id!,
-                                    categoryId: 1,
+                                    year: selectedYear!,
+                                    month: selectedMonth!,
                                     title: titleController.text,
                                     description: descriptionController.text,
                                     videoFile: videoFile == null

@@ -24,4 +24,7 @@ final class AddReplyFailure extends CommentsState {
   AddReplyFailure({required this.message});
 }
 
-final class AddReplytSuccess extends CommentsState {}
+final class AddReplytSuccess extends CommentsState {
+  final ReplyModel replyModel;
+  AddReplytSuccess({required this.replyModel});
+}

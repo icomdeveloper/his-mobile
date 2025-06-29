@@ -22,7 +22,7 @@ class UserDataRowWidget extends StatelessWidget {
       onTap: onTap,
       child: Row(children: [
         Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
             decoration: const ShapeDecoration(
               color: AppColors.lightPrimaryColor,
               shape: RoundedRectangleBorder(

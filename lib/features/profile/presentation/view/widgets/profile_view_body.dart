@@ -14,9 +14,9 @@ import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
 import 'package:his/features/profile/presentation/view/edit_profile_view.dart';
+import 'package:his/features/profile/presentation/view/my_articles_view.dart';
 import 'package:his/features/profile/presentation/view/my_videos_view.dart';
 import 'package:his/features/profile/presentation/view/help_center_view.dart';
-import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
 
 class ProfileViewBody extends StatelessWidget {
@@ -28,7 +28,7 @@ class ProfileViewBody extends StatelessWidget {
       child: Stack(clipBehavior: Clip.none, children: [
         Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.9,
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           decoration: const BoxDecoration(
             color: AppColors.primaryColor,
@@ -93,7 +93,7 @@ class ProfileViewBody extends StatelessWidget {
                         ),
                         Text(
                           getUserData().userInfo?.email ?? '',
-                          style: Styles.regularPoppins12
+                          style: Styles.regularPoppins14
                               .copyWith(color: Colors.white),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
@@ -102,51 +102,17 @@ class ProfileViewBody extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(50.w, 25.h),
-                        maximumSize: Size(60.w, 35.h),
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                                pageBuilder:
-                                    (_, animation, secondaryAnimation) =>
-                                        const EditProfileView(),
-                                transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) =>
-                                    SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).animate(animation),
-                                      child: child,
-                                    ),
-                                transitionDuration:
-                                    const Duration(milliseconds: 300)));
-                      },
-                      child: Text(
-                        'Edit',
-                        style: Styles.regularRoboto12
-                            .copyWith(color: AppColors.primaryColor),
-                      ))
                 ])
               ],
             ),
           ),
         ),
         Positioned(
-          top: 200.h,
+          top: 165.h,
           left: 0,
           right: 0,
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 165.h,
             decoration: const ShapeDecoration(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -164,17 +130,34 @@ class ProfileViewBody extends StatelessWidget {
                     'Account',
                     style: Styles.semiBoldRoboto20,
                   ),
-                  UserDataListTile(
-                    title: 'Phone Number',
-                    subTitle: getUserData().userInfo?.phone ?? '',
-                    image: Assets.assetsImagesPhone,
+                  const SizedBox(
+                    height: 12,
                   ),
-                  UserDataListTile(
-                    title: 'Username',
-                    subTitle: getUserData().userInfo?.username ?? '',
-                    image: Assets.assetsImagesProfile,
-                  ),
-                  SizedBox(height: 13.h),
+                  UserDataRowWidget(
+                      title: 'Change Profile Details',
+                      trailing:
+                          SvgPicture.asset(Assets.assetsImagesArrowForward),
+                      image: Assets.assetsImagesProfile,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                pageBuilder:
+                                    (_, animation, secondaryAnimation) =>
+                                        const EditProfileView(),
+                                transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) =>
+                                    SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    ),
+                                transitionDuration:
+                                    const Duration(milliseconds: 300)));
+                      }),
+                  const SizedBox(height: 12),
                   UserDataRowWidget(
                     title: 'Change Password',
                     image: Assets.assetsImagesPassword,
@@ -207,7 +190,7 @@ class ProfileViewBody extends StatelessWidget {
                     'Content',
                     style: Styles.semiBoldRoboto20,
                   ),
-                  SizedBox(height: 12.h),
+                  const SizedBox(height: 12),
                   UserDataRowWidget(
                     title: 'My Videos',
                     image: Assets.assetsImagesVideoIcon,
@@ -216,6 +199,25 @@ class ProfileViewBody extends StatelessWidget {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) => const MyVideosView(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                        transitionDuration: const Duration(milliseconds: 500),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  UserDataRowWidget(
+                    title: 'My Articles',
+                    image: Assets.assetsImagesCategories,
+                    trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
+                    onTap: () => Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => const MyArticlesView(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) =>
                                 FadeTransition(
@@ -337,7 +339,7 @@ class ProfileViewBody extends StatelessWidget {
                                         ))
                                   ]));
                     },
-                    title: 'Logout',
+                    title: 'Log Out',
                     image: Assets.assetsImagesLogout,
                   ),
                   const SizedBox(height: 32),

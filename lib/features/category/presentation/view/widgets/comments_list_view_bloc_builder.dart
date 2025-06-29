@@ -27,11 +27,15 @@ class CommentListViewBlocBuilder extends StatelessWidget {
         } else if (state is GetCommentsFailure) {
           return SizedBox(
             height: 80.h,
-            child: CustomErrorWidget(
-              errorMessage: state.message,
-              onTap: () {
-                context.read<GetCommentsCubit>().getComments(mediaId: mediaId);
-              },
+            child: Center(
+              child: CustomErrorWidget(
+                errorMessage: state.message,
+                onTap: () {
+                  context
+                      .read<GetCommentsCubit>()
+                      .getComments(mediaId: mediaId);
+                },
+              ),
             ),
           );
         } else {

@@ -1,3 +1,9 @@
 {
    // "dart.flutterSdkPath": "D:\\OneDrive - ICOM For Organizing and Marketing\\projects\\wka\\.fvm\\versions\\3.24.3"
+   "editor.codeActionsOnSave": {
+      "source.fixAll": "always"
+   },
+   "dart.previewFlutterUiGuides": true,
+   "dart.previewFlutterUiGuidesCustomTracking": true,
+   "dart.autoImportCompletions": true,
 }

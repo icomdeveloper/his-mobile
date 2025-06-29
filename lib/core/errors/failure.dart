@@ -16,7 +16,6 @@ class ServerFailure extends Failure {
         return ServerFailure(errMesage: 'Send timeout with API server');
       case DioExceptionType.receiveTimeout:
         return ServerFailure(errMesage: 'Receive timeout with API server');
-
       case DioExceptionType.badResponse:
         return ServerFailure.fromResponse(
           dioException.response!.statusCode,
@@ -38,13 +37,16 @@ class ServerFailure extends Failure {
     if (statusCode == 400 || statusCode == 403) {
       return ServerFailure(errMesage: response['error']);
     } else if (statusCode == 401) {
-      return ServerFailure(errMesage: 'Your are not authorized!');
+      return ServerFailure(
+          errMesage: 'Your email address or password is wrong !');
     } else if (statusCode == 404) {
       return ServerFailure(errMesage: 'Your request not found !');
     } else if (statusCode == 500) {
       return ServerFailure(
         errMesage: ' Something went wrong , Tap to try again',
       );
+    } else if (statusCode == 422) {
+      return ServerFailure(errMesage: response['message']);
     } else {
       return ServerFailure(
         errMesage: 'Oops!! there was an error , Tap to try again',

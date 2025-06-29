@@ -14,10 +14,10 @@ final MediaModel dummyMedia = MediaModel(
   pdf: 'pdf',
   duration: 'duration',
   thumbnailPath:
-      'https://drive.google.com/file/d/16Dq97iZ-gojFW6cqenBKKLjOmZgqEmr2/preview',
+      'https://cdn.prod.website-files.com/6009ec8cda7f305645c9d91b/601082646d6bf4446451b0a4_6002086f72b72717ae01d954_google-doc-error-message.png',
   image:
       'https://drive.google.com/file/d/16Dq97iZ-gojFW6cqenBKKLjOmZgqEmr2/preview',
-  status: 'status',
+  status: 'pending',
   isFeatured: 1,
   isRecommended: 1,
   createdAt: DateTime.now(),

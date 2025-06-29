@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_list_tile.dart';
@@ -11,7 +10,8 @@ class PDFAndImageContainer extends StatelessWidget {
     required this.subTitle,
     required this.trailingIcon,
   });
-  final String title, subTitle, trailingIcon;
+  final String title, subTitle;
+  final Widget? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,12 @@ class PDFAndImageContainer extends StatelessWidget {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: const BorderSide(color: AppColors.lightGrey, width: 1))),
-      child: Column(
-        children: [
-          UserDataListTile(
-            title: title,
-            image: Assets.assetsImagesDocument,
-            subTitle: subTitle,
-            padding: 12,
-            trailing: SvgPicture.asset(trailingIcon),
-          ),
-        ],
+      child: UserDataListTile(
+        title: title,
+        image: Assets.assetsImagesDocument,
+        subTitle: subTitle,
+        padding: 12,
+        trailing: trailingIcon,
       ),
     );
   }

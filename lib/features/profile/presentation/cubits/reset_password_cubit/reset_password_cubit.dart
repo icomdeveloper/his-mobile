@@ -20,7 +20,6 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
       password: newPasswordController.text,
       confirmPassword: confirmPasswordController.text,
       email: getUserData().userInfo!.email!,
-      token: getUserData().token!,
     );
     var result = await resetPasswordRepo.resetPassword(
         resetPasswordModel: resetPasswordModel);

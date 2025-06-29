@@ -9,10 +9,23 @@
       "client_info": {
         "mobilesdk_app_id": "1:839481640912:android:f8c17aeeb09c7c605e9bd5",
         "android_client_info": {
-          "package_name": "com.example.his"
+          "package_name": "com.mediacreation.his"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "839481640912-bmaqee5184bsjaa5ptcfrcniftj4cqf4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediacreation.his",
+            "certificate_hash": "089d7abf2f3ce95fa4b36f965ee5e7b2cff0f851"
+          }
+        },
+        {
+          "client_id": "839481640912-rmh0s2hjc8beqdaq2iarj6kv935vmgtn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB8_9OKDead0bVb_fO0lkMZWB1vcon0b6A"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839481640912-rmh0s2hjc8beqdaq2iarj6kv935vmgtn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839481640912-hkvbk5jgqujuvss5adbrnt5ismaqqjmm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mediacreation.his"
+              }
+            }
+          ]
         }
       }
     }

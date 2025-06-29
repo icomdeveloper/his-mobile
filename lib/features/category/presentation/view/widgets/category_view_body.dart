@@ -18,7 +18,7 @@ class CategoryViewBody extends StatefulWidget {
 }
 
 class _CategoryViewBodyState extends State<CategoryViewBody> {
-  List<String> categoryList = const [
+  List<String> yearList = const [
     '2025',
     '2024',
     '2023',
@@ -26,7 +26,22 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
     '2021',
     '2020',
   ];
-  String selectedCategory = '2025';
+  List<String> monthList = const [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  String selectedYear = '2025';
+  String selectedMonth = 'january';
   bool showComments = false;
   final ScrollController _scrollController = ScrollController();
   @override
@@ -53,14 +68,31 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
             child: SizedBox(
                 height: 32,
                 width: double.infinity,
-                child: CategoriesList(
+                child: YearList(
                   onItemTapped: (value) {
-                    if (value == categoryList.indexOf(selectedCategory)) return;
+                    if (value == yearList.indexOf(selectedYear)) return;
                     setState(() {
-                      selectedCategory = categoryList[value];
+                      selectedYear = yearList[value];
                     });
                   },
-                  categoryList: categoryList,
+                  categoryList: yearList,
+                )),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 12),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+                height: 32,
+                width: double.infinity,
+                child: MonthList(
+                  onItemTapped: (value) {
+                    if (value == monthList.indexOf(selectedMonth)) return;
+                    setState(() {
+                      selectedMonth = monthList[value];
+                    });
+                  },
+                  categoryList: monthList,
                 )),
           ),
           SliverToBoxAdapter(
@@ -71,11 +103,11 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                   height: 32.h,
                 ),
                 Text(
-                  '$selectedCategory\'s Videos',
+                  '$selectedMonth\'s Videos',
                   style: Styles.semiBoldRoboto20,
                 ),
-                SizedBox(
-                  height: 12.h,
+                const SizedBox(
+                  height: 12,
                 ),
               ],
             ),

@@ -5,8 +5,13 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
 class DateDropDownButton extends StatefulWidget {
-  const DateDropDownButton({super.key, this.isMonth = false});
+  const DateDropDownButton({
+    super.key,
+    this.isMonth = false,
+    this.valueSelected,
+  });
   final bool isMonth;
+  final ValueChanged<String?>? valueSelected;
   @override
   State<DateDropDownButton> createState() => _DateDropDownButtonState();
 }
@@ -62,6 +67,7 @@ class _DateDropDownButtonState extends State<DateDropDownButton> {
       },
       onSaved: (value) {
         selectedValue = value.toString();
+        widget.valueSelected!(selectedValue);
       },
       iconStyleData: const IconStyleData(
         icon: Icon(

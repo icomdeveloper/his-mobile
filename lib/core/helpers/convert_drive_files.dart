@@ -18,3 +18,16 @@ String getDirectVideoUrl(String previewUrl) {
 
   return 'https://drive.google.com/uc?export=view&id=$videoId';
 }
+
+String convertGoogleDriveUrl(String previewUrl) {
+  // Extract the file ID using RegExp
+  final RegExp regExp = RegExp(r'\/file\/d\/([^\/]+)');
+  final match = regExp.firstMatch(previewUrl);
+
+  if (match != null && match.groupCount >= 1) {
+    String fileId = match.group(1)!;
+    return "https://drive.google.com/uc?export=download&id=$fileId";
+  } else {
+    throw const FormatException("Invalid Google Drive URL");
+  }
+}

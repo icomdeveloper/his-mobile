@@ -5,6 +5,7 @@ import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/add_comment_model.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
+import 'package:his/features/home/data/models/comments_model/reply_model.dart';
 
 class CommentRepo {
   final ApiServices apiServices;
@@ -24,12 +25,12 @@ class CommentRepo {
     }
   }
 
-  Future<Either<ServerFailure, dynamic>> addReply(
+  Future<Either<ServerFailure, ReplyModel>> addReply(
       {required AddCommentModel reply}) async {
     try {
       var data = await apiServices.postMethod(
           endPoint: ApiEndpoints.reply, data: reply.toJson());
-      return right(data);
+      return right(ReplyModel.fromJson(data['data']));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

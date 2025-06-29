@@ -10,9 +10,17 @@ class CustomTextButton extends StatelessWidget {
     super.key,
     required this.text,
     this.onPressed,
+    this.isArrowAppear = true,
+    this.backgroundColor = AppColors.primaryColor,
+    this.textColor = Colors.white,
+    this.borderColor = Colors.black12,
   });
   final String text;
   final void Function()? onPressed;
+  final bool isArrowAppear;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +30,12 @@ class CustomTextButton extends StatelessWidget {
       child: TextButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
-            shadowColor: const Color(0xFF6C7278),
+            // shadowColor: const Color(0xFF6C7278),
             elevation: 3,
-            backgroundColor: AppColors.primaryColor,
+            backgroundColor: backgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: BorderSide(color: Colors.black.withOpacity(0.2), width: 1),
+              side: BorderSide(color: borderColor, width: 1),
             ),
           ),
           child: Row(
@@ -35,14 +43,16 @@ class CustomTextButton extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: Styles.mediumRoboto14.copyWith(color: Colors.white),
+                style: Styles.mediumRoboto14.copyWith(color: textColor),
               ),
               const SizedBox(width: 13),
-              SvgPicture.asset(
-                Assets.assetsImagesArrowForward,
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              ),
+              isArrowAppear
+                  ? SvgPicture.asset(
+                      Assets.assetsImagesArrowForward,
+                      colorFilter:
+                          const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    )
+                  : const SizedBox.shrink(),
             ],
           )),
     );

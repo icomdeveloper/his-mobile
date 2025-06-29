@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -33,10 +32,12 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
           height: 192.h,
           child: AspectRatio(
             aspectRatio: 342 / 192,
-            child: CachedNetworkImage(
-              imageUrl: convertDrivePreviewToDirectImage(
-                  widget.mediaModel.thumbnailPath!),
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CachedNetworkImage(
+                imageUrl: widget.mediaModel.thumbnailPath!,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -102,12 +103,22 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 isBookmarked = !isBookmarked;
               });
             },
-            child: SvgPicture.asset(
-              isBookmarked
-                  ? Assets.assetsImagesBookmarkedFilled
-                  : Assets.assetsImagesBookmarked,
-              colorFilter: const ColorFilter.mode(
-                  AppColors.primaryColor, BlendMode.srcIn),
+            child: CircleAvatar(
+              radius: 13,
+              backgroundColor: Colors.white,
+              child: SizedBox(
+                width: 11.w,
+                child: AspectRatio(
+                  aspectRatio: 11 / 14,
+                  child: SvgPicture.asset(
+                    isBookmarked
+                        ? Assets.assetsImagesBookmarkedFilled
+                        : Assets.assetsImagesBookmarked,
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.primaryColor, BlendMode.srcIn),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -122,7 +133,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Text(
-                '10:14',
+                widget.mediaModel.duration!,
                 style: Styles.regularRoboto12.copyWith(color: Colors.white),
               ),
             ),

@@ -57,8 +57,11 @@ class _ArticleWidgetState extends State<ArticleWidget> {
         decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+                borderRadius: BorderRadius.circular(12),
+                side: const BorderSide(
+                  color: AppColors.lightGrey,
+                  width: 0.5,
+                )),
             shadows: const [
               BoxShadow(
                 color: Color(0x11000000),
@@ -90,10 +93,6 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                       Styles.semiBoldRoboto10.copyWith(color: AppColors.grey),
                 ),
                 const Spacer(),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.share_outlined,
-                        color: AppColors.primaryColor, size: 18)),
                 IconButton(
                     onPressed: () {
                       setState(() {

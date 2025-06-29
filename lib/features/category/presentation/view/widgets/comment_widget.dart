@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/data/models/user_data/user_information.dart';
@@ -33,8 +35,8 @@ class _CommentWidgetState extends State<CommentWidget> {
           contentPadding: EdgeInsets.zero,
           isThreeLine: true,
           leading: CircleAvatar(
-            backgroundImage:
-                const NetworkImage('https://i.pravatar.cc/300?img=1'),
+            backgroundImage: const CachedNetworkImageProvider(
+                'https://i.pravatar.cc/300?img=1'),
             radius: 20.r,
           ),
           title: Row(
@@ -51,9 +53,26 @@ class _CommentWidgetState extends State<CommentWidget> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.comment.content!,
-                style: Styles.regularRoboto12,
+              Row(
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.7),
+                    child: Text(
+                      widget.comment.content!,
+                      style: Styles.regularRoboto12,
+                    ),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.favorite_border_outlined,
+                      size: 18,
+                      color: AppColors.darkGrey,
+                    ),
+                  )
+                ],
               ),
               const SizedBox(
                 height: 10,

@@ -4,6 +4,7 @@ import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/features/category/data/model/add_comment_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
+import 'package:his/features/home/data/models/comments_model/reply_model.dart';
 
 part 'comments_state.dart';
 
@@ -28,15 +29,15 @@ class CommentsCubit extends Cubit<CommentsState> {
 
   Future<void> addReply({required int mediaId, required int parentId}) async {
     emit(AddReplyLoading());
-    final comment = AddCommentModel(
+    final reply = AddCommentModel(
       mediaId: mediaId,
       userId: getUserData().userInfo!.id!,
       parentId: parentId,
       content: replyController.text,
     );
     replyController.clear();
-    final result = await commentRepo.addComment(comment: comment);
+    final result = await commentRepo.addReply(reply: reply);
     result.fold((error) => emit(AddReplyFailure(message: error.errMesage)),
-        (r) => emit(AddReplytSuccess()));
+        (reply) => emit(AddReplytSuccess(replyModel: reply)));
   }
 }

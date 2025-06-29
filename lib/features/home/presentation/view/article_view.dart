@@ -12,8 +12,7 @@ class ArticleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBar(context,
-          title: articleModel.title ?? '', centerTitle: false),
+      appBar: buildAppBar(context, title: '', centerTitle: false),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,

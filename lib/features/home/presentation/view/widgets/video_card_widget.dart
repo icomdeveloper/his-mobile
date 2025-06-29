@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -74,8 +73,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12)),
                     child: CachedNetworkImage(
-                      imageUrl: convertDrivePreviewToDirectImage(
-                          widget.mediaModel.thumbnailPath!),
+                      imageUrl: widget.mediaModel.thumbnailPath!,
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -37,7 +37,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
             child: SizedBox(
                 height: 32,
                 width: double.infinity,
-                child: CategoriesList(
+                child: YearList(
                   categoryList: const [
                     'Videos',
                     'Articles',

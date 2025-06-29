@@ -22,14 +22,18 @@ import 'package:his/features/category/presentation/view/widgets/comments_list_vi
 import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
+import 'package:his/features/profile/presentation/view/widgets/edit_video_view_body.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
   const VideoWidget({
     super.key,
     this.mediaModel,
+    this.isEdit = false,
   });
   final MediaModel? mediaModel;
+  final bool isEdit;
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
@@ -95,8 +99,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                           children: [
                             Positioned.fill(
                               child: CachedNetworkImage(
-                                imageUrl: convertDrivePreviewToDirectImage(
-                                    widget.mediaModel!.thumbnailPath!),
+                                imageUrl: widget.mediaModel!.thumbnailPath!,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -134,187 +137,215 @@ class _VideoWidgetState extends State<VideoWidget> {
                           ],
                         ))),
           SizedBox(height: 8.h),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                showDetails = !showDetails;
-              });
-            },
-            child: Row(
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 320.w),
-                  child: Text(
-                    widget.mediaModel?.title ?? '',
-                    style: Styles.semiBoldPoppins14,
-                  ),
-                ),
-                const Spacer(),
-                CircleAvatar(
-                  backgroundColor: AppColors.lightGrey,
-                  radius: 10.r,
-                  child: SvgPicture.asset(showDetails
-                      ? Assets.assetsImagesArrowUp
-                      : Assets.assetsImagesArrowDown),
-                ),
-              ],
-            ),
-          ),
-          if (showDetails) ...[
-            Animate(
-              effects: [
-                MoveEffect(
-                  duration: 300.ms,
-                ),
-                FadeEffect(
-                  duration: 300.ms,
-                ),
-              ],
-              child: Column(
-                children: [
-                  Text(
-                    widget.mediaModel?.description ?? '',
-                    style: Styles.regularRoboto12,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.visibility_outlined,
-                          color: AppColors.grey),
-                      SizedBox(width: 8.w),
-                      Text(
-                        '${widget.mediaModel?.views ?? 0} views',
-                        style: Styles.regularRoboto12
-                            .copyWith(color: AppColors.grey),
+          widget.isEdit
+              ? EditVideoViewBody(
+                  mediaModel: widget.mediaModel!,
+                )
+              : Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showDetails = !showDetails;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 320.w),
+                            child: Text(
+                              widget.mediaModel?.title ?? '',
+                              style: Styles.semiBoldPoppins14,
+                            ),
+                          ),
+                          const Spacer(),
+                          CircleAvatar(
+                            backgroundColor: AppColors.lightGrey,
+                            radius: 10.r,
+                            child: SvgPicture.asset(showDetails
+                                ? Assets.assetsImagesArrowUp
+                                : Assets.assetsImagesArrowDown),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 40),
-                      SizedBox(
-                        width: 12.w,
-                        child: SvgPicture.asset(
-                          Assets.assetsImagesBookmarked,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.grey, BlendMode.srcIn),
+                    ),
+
+                    if (showDetails) ...[
+                      Animate(
+                        effects: [
+                          MoveEffect(
+                            duration: 300.ms,
+                          ),
+                          FadeEffect(
+                            duration: 300.ms,
+                          ),
+                        ],
+                        child: Column(
+                          children: [
+                            Text(
+                              widget.mediaModel?.description ?? '',
+                              style: Styles.regularRoboto12,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.visibility_outlined,
+                                    color: AppColors.grey),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  '${widget.mediaModel?.views ?? 0} views',
+                                  style: Styles.regularRoboto12
+                                      .copyWith(color: AppColors.grey),
+                                ),
+                                const SizedBox(width: 40),
+                                SizedBox(
+                                  width: 12.w,
+                                  child: SvgPicture.asset(
+                                    Assets.assetsImagesBookmarked,
+                                    colorFilter: const ColorFilter.mode(
+                                        AppColors.grey, BlendMode.srcIn),
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  '1.648 Saved',
+                                  style: Styles.regularRoboto12
+                                      .copyWith(color: AppColors.grey),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        '1.648 Saved',
-                        style: Styles.regularRoboto12
-                            .copyWith(color: AppColors.grey),
-                      ),
                     ],
-                  )
-                ],
-              ),
-            ),
-          ],
-          const Divider(
-            color: AppColors.lightGrey,
-          ),
-          widget.mediaModel?.pdf != null
-              ? InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                PdfView(url: widget.mediaModel!.pdf!)));
-                  },
-                  child: const PDFAndImageContainer(
-                    title: 'Document',
-                    subTitle: 'PDF',
-                    trailingIcon: Assets.assetsImagesPdfView,
-                  ),
-                )
-              : const SizedBox.shrink(),
-          const SizedBox(
-            height: 12,
-          ),
-          widget.mediaModel?.image != null
-              ? const PDFAndImageContainer(
-                  title: 'Image',
-                  subTitle: 'image',
-                  trailingIcon: Assets.assetsImagesImageView,
-                )
-              : const SizedBox.shrink(),
-          const SizedBox(height: 12),
-          // Text(
-          //   'Admin Rating (1-5)',
-          //   style: Styles.semiBoldPoppins14
-          //       .copyWith(color: const Color(0xff1C1C0D)),
-          // ),
-          // const SizedBox(
-          //   height: 12,
-          // ),
-          // RatingStars(
-          //   valueLabelVisibility: false,
-          //   value: ratingValue,
-          //   onValueChanged: (v) {
-          //     setState(() {
-          //       ratingValue = v;
-          //     });
-          //   },
-          //   starBuilder: (index, color) => Icon(
-          //     Icons.star_sharp,
-          //     color: color,
-          //   ),
-          //   starCount: 5,
-          //   starSize: 27,
-          //   starSpacing: 5,
-          //   maxValue: 5,
-          //   animationDuration: const Duration(milliseconds: 400),
-          //   starOffColor: AppColors.lightGrey,
-          //   starColor: const Color(0xFFE0B610),
-          // ),
-          // const Divider(
-          //   color: AppColors.lightGrey,
-          //   thickness: 1,
-          //   height: 24,
-          // ),
-          LikesAndCommentsWidget(
-            numberOfComments: widget.mediaModel?.commentsCount ?? 0,
-            numberOfLikes: widget.mediaModel?.likesCount ?? 0,
-          ),
-          const SizedBox(height: 14),
+                    const Divider(
+                      color: AppColors.lightGrey,
+                    ),
+                    widget.mediaModel?.pdf != null
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) => PdfView(
+                                          url: widget.mediaModel!.pdf!)));
+                            },
+                            child: PDFAndImageContainer(
+                              title: 'Document',
+                              subTitle: 'PDF',
+                              trailingIcon:
+                                  SvgPicture.asset(Assets.assetsImagesPdfView),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    widget.mediaModel?.image != null
+                        ? InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: PhotoView(
+                                      imageProvider: NetworkImage(
+                                          widget.mediaModel!.image!)),
+                                ),
+                              );
+                            },
+                            child: PDFAndImageContainer(
+                              title: 'Image',
+                              subTitle: 'image',
+                              trailingIcon: SvgPicture.asset(
+                                  Assets.assetsImagesImageView),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                    const SizedBox(height: 12),
+                    // Text(
+                    //   'Admin Rating (1-5)',
+                    //   style: Styles.semiBoldPoppins14
+                    //       .copyWith(color: const Color(0xff1C1C0D)),
+                    // ),
+                    // const SizedBox(
+                    //   height: 12,
+                    // ),
+                    // RatingStars(
+                    //   valueLabelVisibility: false,
+                    //   value: ratingValue,
+                    //   onValueChanged: (v) {
+                    //     setState(() {
+                    //       ratingValue = v;
+                    //     });
+                    //   },
+                    //   starBuilder: (index, color) => Icon(
+                    //     Icons.star_sharp,
+                    //     color: color,
+                    //   ),
+                    //   starCount: 5,
+                    //   starSize: 27,
+                    //   starSpacing: 5,
+                    //   maxValue: 5,
+                    //   animationDuration: const Duration(milliseconds: 400),
+                    //   starOffColor: AppColors.lightGrey,
+                    //   starColor: const Color(0xFFE0B610),
+                    // ),
+                    // const Divider(
+                    //   color: AppColors.lightGrey,
+                    //   thickness: 1,
+                    //   height: 24,
+                    // ),
+                    LikesAndCommentsWidget(
+                      numberOfComments: widget.mediaModel?.commentsCount ?? 0,
+                      numberOfLikes: widget.mediaModel?.likesCount ?? 0,
+                    ),
+                    const SizedBox(height: 14),
 
-          CommentListViewBlocBuilder(
-            mediaId: widget.mediaModel!.id!,
-          ),
-          const SizedBox(height: 12),
-          BlocListener<CommentsCubit, CommentsState>(
-            listener: (context, state) {
-              if (state is AddCommentsFailure) {
-                Fluttertoast.showToast(msg: state.message);
-              }
-              if (state is AddCommentSuccess) {
-                setState(() {
-                  commentsList.add(state.comment);
-                });
-                //   context
-                //       .read<GetCommentsCubit>()
-                //       .getComments(mediaId: widget.mediaModel!.id!);
-              }
-              if (state is AddReplytSuccess) {
-                // context
-                //     .read<GetCommentsCubit>()
-                //     .getComments(mediaId: widget.mediaModel!.id!);
-              }
-            },
-            child: CommentTextField(
-              controller: context.read<CommentsCubit>().commentController,
-              onTap: () {
-                if (context
-                    .read<CommentsCubit>()
-                    .commentController
-                    .text
-                    .isEmpty) {
-                  return;
-                }
-                context
-                    .read<CommentsCubit>()
-                    .addComment(mediaId: widget.mediaModel!.id!);
-              },
-            ),
-          ),
+                    CommentListViewBlocBuilder(
+                      mediaId: widget.mediaModel!.id!,
+                    ),
+                    const SizedBox(height: 12),
+                    BlocListener<CommentsCubit, CommentsState>(
+                      listener: (context, state) {
+                        if (state is AddCommentsFailure) {
+                          Fluttertoast.showToast(msg: state.message);
+                        }
+                        if (state is AddCommentSuccess) {
+                          setState(() {
+                            commentsList.add(state.comment);
+                          });
+                          //   context
+                          //       .read<GetCommentsCubit>()
+                          //       .getComments(mediaId: widget.mediaModel!.id!);
+                        }
+                        if (state is AddReplytSuccess) {
+                          // setState(() {
+                          //   repliesList[state.replyModel.parentId]!.add(state.replyModel);
+                          // });
+                          // context
+                          //     .read<GetCommentsCubit>()
+                          //     .getComments(mediaId: widget.mediaModel!.id!);
+                        }
+                      },
+                      child: CommentTextField(
+                        controller:
+                            context.read<CommentsCubit>().commentController,
+                        onTap: () {
+                          if (context
+                              .read<CommentsCubit>()
+                              .commentController
+                              .text
+                              .isEmpty) {
+                            return;
+                          }
+                          context
+                              .read<CommentsCubit>()
+                              .addComment(mediaId: widget.mediaModel!.id!);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
           const SizedBox(height: 30),
         ],
       ),

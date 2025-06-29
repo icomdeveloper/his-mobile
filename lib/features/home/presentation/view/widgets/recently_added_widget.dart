@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -63,8 +62,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: CachedNetworkImage(
-                              imageUrl: convertDrivePreviewToDirectImage(
-                                  mediaModel.thumbnailPath!),
+                              imageUrl: mediaModel.thumbnailPath!,
                               fit: BoxFit.cover,
                             )),
                       ),
@@ -118,7 +116,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     const SizedBox(height: 4),
                     mediaModel.createdAt != null
                         ? Text(
-                            '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , 9.2K Views ',
+                            '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , ${mediaModel.views} Views ',
                             style: Styles.semiBoldRoboto12.copyWith(
                               color: const Color(0xff999999),
                             ),

@@ -1,4 +1,4 @@
-package com.example.his
+package com.mediacreation.his
 
 import io.flutter.embedding.android.FlutterActivity
 
