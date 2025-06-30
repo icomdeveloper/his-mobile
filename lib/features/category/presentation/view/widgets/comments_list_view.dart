@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_widget.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
+import 'package:his/features/home/presentation/cubits/comment_likes_cubit/comment_like_cubit.dart';
+
+import '../../../../home/data/repo/media_likes_repo.dart';
 
 class CommentsListView extends StatefulWidget {
   const CommentsListView(
@@ -47,7 +52,7 @@ class _CommentsListViewState extends State<CommentsListView> {
               style: Styles.semiBoldPoppins14,
             ),
             Text(
-              '${commentsList.length} Comments',
+              '${widget.comments.length} Comments',
               style: Styles.regularRoboto12.copyWith(
                 color: AppColors.primaryColor,
                 decoration: TextDecoration.underline,
@@ -58,15 +63,18 @@ class _CommentsListViewState extends State<CommentsListView> {
         const SizedBox(
           height: 12,
         ),
-        Expanded(
-          child: ListView.separated(
-            controller: controller,
-            separatorBuilder: (context, index) => const Divider(
-              color: AppColors.lightGrey,
-            ),
-            itemCount: commentsList.length,
-            itemBuilder: (context, index) => CommentWidget(
-              comment: commentsList[index],
+        BlocProvider(
+          create: (context) => CommentLikeCubit(getIt<MediaLikesRepo>()),
+          child: Expanded(
+            child: ListView.separated(
+              controller: controller,
+              separatorBuilder: (context, index) => const Divider(
+                color: AppColors.lightGrey,
+              ),
+              itemCount: commentsList.length,
+              itemBuilder: (context, index) => CommentWidget(
+                comment: commentsList[index],
+              ),
             ),
           ),
         ),

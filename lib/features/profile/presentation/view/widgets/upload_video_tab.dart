@@ -39,6 +39,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
   bool isPickerActive = false;
   String? selectedYear;
   String? selectedMonth;
+  bool isFeatured = false;
   @override
   void dispose() {
     titleController.dispose();
@@ -146,6 +147,12 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
             ),
             CustomTextFormField(
               hintText: 'Select your thumbnail image ',
+              validator: (p0) {
+                if (p0!.isEmpty || thumbnailFile == null) {
+                  return 'Please select your thumbnail image';
+                }
+                return null;
+              },
               controller:
                   TextEditingController(text: thumbnailFile?.name ?? ''),
               isSearch: false,
@@ -337,6 +344,25 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                       ),
                     ],
                   ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: isFeatured,
+                  onChanged: (Value) {
+                    setState(() {
+                      isFeatured = !isFeatured;
+                    });
+                  },
+                ),
+                const Text(
+                  'Is Featured?',
+                  style: Styles.semiBoldPoppins14,
+                )
+              ],
+            ),
             const SizedBox(height: 24),
             BlocConsumer<UploadMediaCubit, UploadMediaState>(
               listener: (context, state) {
@@ -367,6 +393,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                     userId: getUserData().userInfo!.id!,
                                     year: selectedYear!,
                                     month: selectedMonth!,
+                                    isFeatured: isFeatured ? 1 : 0,
                                     title: titleController.text,
                                     description: descriptionController.text,
                                     videoFile: videoFile == null

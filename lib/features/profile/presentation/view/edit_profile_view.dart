@@ -19,13 +19,13 @@ class EditProfileView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Username', style: Styles.semiBoldPoppins14),
+              const Text('Name', style: Styles.semiBoldPoppins14),
               const SizedBox(
                 height: 4,
               ),
               CustomTextField(
                 isSearch: false,
-                hintText: getUserData().userInfo?.username ?? '',
+                hintText: getUserData().userInfo?.name ?? '',
               ),
               const SizedBox(
                 height: 14,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
@@ -38,11 +39,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
                         return 'Please enter your current password';
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                     controller: context
                         .read<ResetPasswordCubit>()
@@ -64,11 +66,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
                         return 'Please enter your new password';
+                      } else {
+                        return validatePassword(password);
                       }
-                      return null;
                     },
                     controller: context
                         .read<ResetPasswordCubit>()
@@ -88,11 +91,20 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return 'Please confirm your new password';
+                    validator: (confirmPassword) {
+                      if (confirmPassword == null || confirmPassword.isEmpty) {
+                        return 'Please confirm your password';
+                      } else {
+                        if (confirmPassword ==
+                            context
+                                .read<ResetPasswordCubit>()
+                                .newPasswordController
+                                .text) {
+                          return null;
+                        } else {
+                          return 'Passwords do not match';
+                        }
                       }
-                      return null;
                     },
                     controller: context
                         .read<ResetPasswordCubit>()

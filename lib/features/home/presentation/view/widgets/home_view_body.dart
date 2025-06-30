@@ -14,6 +14,8 @@ import 'package:his/features/home/presentation/view/widgets/custom_text_form_fie
 import 'package:his/features/home/presentation/view/widgets/featured_videos.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
 
+import '../see_all_articles_view.dart';
+
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
     super.key,
@@ -54,16 +56,39 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           if (_showArticleHeader)
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 12.h,
-              ),
-            ),
-          if (_showArticleHeader)
-            SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Articles', style: Styles.semiBoldRoboto20),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Articles', style: Styles.semiBoldRoboto20),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const SeeAllArticlesView(),
+                              transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) =>
+                                  FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'See All',
+                          style: Styles.regularPoppins12
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
+                      )
+                    ],
+                  ),
                   SizedBox(
                     height: 12.h,
                   ),

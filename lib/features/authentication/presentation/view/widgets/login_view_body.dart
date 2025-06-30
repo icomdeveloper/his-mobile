@@ -100,7 +100,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     Assets.assetsImagesProfile,
                   ),
                   controller: context.read<AuthCubit>().emailController,
-                  hintText: 'Email Address',
+                  hintText: 'Email Address / Phone Number',
                   textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(

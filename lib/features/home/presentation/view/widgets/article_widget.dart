@@ -10,6 +10,7 @@ import 'package:his/core/widgets/text_container_widget.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/article_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticleWidget extends StatefulWidget {
   const ArticleWidget({super.key, required this.articleModel});
@@ -127,10 +128,17 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                 const SizedBox(
                   width: 8,
                 ),
-                Text(
-                  widget.articleModel.hyperlink ?? '',
-                  style: Styles.regularRoboto10
-                      .copyWith(color: const Color(0xff2463B6)),
+                InkWell(
+                  onTap: () {
+                    if (widget.articleModel.hyperlink != null) {
+                      launchUrl(Uri.parse(widget.articleModel.hyperlink!));
+                    }
+                  },
+                  child: Text(
+                    widget.articleModel.hyperlink ?? '',
+                    style: Styles.regularRoboto10
+                        .copyWith(color: const Color(0xff2463B6)),
+                  ),
                 ),
               ],
             )

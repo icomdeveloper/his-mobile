@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -12,6 +13,7 @@ import 'package:his/features/category/presentation/cubits/add_comments_cubit/com
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/replies_list_view_widget.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
+import 'package:his/features/home/presentation/cubits/comment_likes_cubit/comment_like_cubit.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({
@@ -25,6 +27,7 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
+  bool isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +68,25 @@ class _CommentWidgetState extends State<CommentWidget> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.favorite_border_outlined,
+                    onTap: () {
+                      if (isLiked) {
+                        context
+                            .read<CommentLikeCubit>()
+                            .deleteLike(commentId: widget.comment.id!);
+                      } else {
+                        context
+                            .read<CommentLikeCubit>()
+                            .addLike(commentId: widget.comment.id!);
+                      }
+                      setState(() {
+                        isLiked = !isLiked;
+                      });
+                    },
+                    child: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_border_outlined,
                       size: 18,
-                      color: AppColors.darkGrey,
+                      color:
+                          isLiked ? AppColors.primaryColor : AppColors.darkGrey,
                     ),
                   )
                 ],

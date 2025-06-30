@@ -43,13 +43,11 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
   String selectedYear = '2025';
   String selectedMonth = 'january';
   bool showComments = false;
-  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: CustomScrollView(
-        controller: _scrollController,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           const SliverToBoxAdapter(

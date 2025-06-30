@@ -120,26 +120,6 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Text('Username', style: Styles.semiBoldRoboto12),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  AuthenticationTextFormField(
-                      validator: (username) {
-                        if (username == null || username.isEmpty) {
-                          return 'Please enter a username';
-                        }
-                        return null;
-                      },
-                      controller: context.read<AuthCubit>().usernameController,
-                      hintText: 'Username',
-                      textInputType: TextInputType.text,
-                      prefixIcon: SvgPicture.asset(
-                        Assets.assetsImagesProfile,
-                      )),
-                  const SizedBox(
-                    height: 14,
-                  ),
                   const Text('Phone Number', style: Styles.semiBoldRoboto12),
                   const SizedBox(
                     height: 4,

@@ -33,6 +33,7 @@ class _PdfViewState extends State<PdfView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: buildAppBar(context, title: 'PDF', showBackButton: true),
       body: PopScope(
         canPop: true, // Prevents default back button behavior

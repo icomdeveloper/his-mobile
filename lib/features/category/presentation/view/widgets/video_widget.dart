@@ -23,7 +23,6 @@ import 'package:his/features/category/presentation/view/widgets/pdf_and_image_co
 import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/edit_video_view_body.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -246,12 +245,27 @@ class _VideoWidgetState extends State<VideoWidget> {
                               showDialog(
                                 context: context,
                                 builder: (_) => Container(
-                                  padding: const EdgeInsets.all(12),
-                                  child: PhotoView(
-                                      imageProvider: NetworkImage(
-                                          widget.mediaModel!.image!)),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 24.w, vertical: 220.h),
+                                  padding: const EdgeInsets.all(24),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.mediaModel!.image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               );
+                              //     child: PhotoView(
+                              //         imageProvider: NetworkImage(
+                              //             widget.mediaModel!.image!)),
+                              //   ),
+                              // );
                             },
                             child: PDFAndImageContainer(
                               title: 'Image',
@@ -296,6 +310,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   height: 24,
                     // ),
                     LikesAndCommentsWidget(
+                      mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
                       numberOfLikes: widget.mediaModel?.likesCount ?? 0,
                     ),

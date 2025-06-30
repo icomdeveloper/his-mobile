@@ -13,7 +13,6 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authRepo) : super(AuthInitial());
   final AuthRepo authRepo;
-  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -28,6 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     var result = await authRepo.login(loginModel: loginModel);
+    passwordController.clear();
     log('Step1 ==>$result');
     result.fold((error) => emit(LoginFailure(message: error.errMesage)),
         (success) => emit(LoginSuccess(userData: success)));
@@ -36,7 +36,6 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> register() async {
     emit(RegisterLoading());
     RegisterModel registerModel = RegisterModel(
-      username: usernameController.text,
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,
       email: emailController.text,

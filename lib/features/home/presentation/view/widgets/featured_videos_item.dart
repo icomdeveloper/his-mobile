@@ -45,6 +45,7 @@ class FeaturedVideosItem extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               LikesAndCommentsWidget(
+                mediaId: mediaModel.id!,
                 numberOfComments: mediaModel.commentsCount ?? 0,
                 numberOfLikes: mediaModel.likesCount ?? 0,
               ),

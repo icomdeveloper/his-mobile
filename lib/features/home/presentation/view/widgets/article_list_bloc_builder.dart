@@ -11,9 +11,10 @@ class ArticleListBlocBuilder extends StatelessWidget {
   const ArticleListBlocBuilder({
     super.key,
     this.onEmptyList,
+    this.seeAll = false,
   });
   final VoidCallback? onEmptyList;
-
+  final bool seeAll;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetArticlesCubit, GetArticlesState>(
@@ -26,7 +27,8 @@ class ArticleListBlocBuilder extends StatelessWidget {
             return const SliverToBoxAdapter(child: SizedBox.shrink());
           }
           return ArticlesSliverList(
-            articleList: state.articleList,
+            articleList:
+                seeAll ? state.articleList : state.articleList.take(2).toList(),
           );
         } else if (state is GetArticlesFailure) {
           return SliverToBoxAdapter(
@@ -42,7 +44,8 @@ class ArticleListBlocBuilder extends StatelessWidget {
         } else {
           return Skeletonizer.sliver(
               child: ArticlesSliverList(
-            articleList: dummyArticleList,
+            articleList:
+                seeAll ? dummyArticleList : dummyArticleList.take(2).toList(),
           ));
         }
       },

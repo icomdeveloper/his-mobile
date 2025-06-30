@@ -18,8 +18,8 @@ class PendingTabBar extends StatelessWidget {
             height: 32,
           ),
         ),
-        const PendingVideosArticlesWidget(isVideo: false),
-        const SliverToBoxAdapter(child: SizedBox(height: 32)),
+        // const PendingVideosArticlesWidget(isVideo: false),
+        // const SliverToBoxAdapter(child: SizedBox(height: 32)),
       ],
     );
   }

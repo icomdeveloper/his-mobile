@@ -17,6 +17,10 @@ class ResetPasswordRepo {
           data: resetPasswordModel.toJson());
       return right(data);
     } on DioException catch (e) {
+      if (e.response?.statusCode == 422) {
+        return left(ServerFailure(
+            errMesage: e.response?.data['errors']['current_password']));
+      }
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));

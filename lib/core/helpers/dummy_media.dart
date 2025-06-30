@@ -49,6 +49,8 @@ final ArticleModel dummyArticle = ArticleModel(
 final List<ArticleModel> dummyArticleList = [
   dummyArticle,
   dummyArticle,
+  dummyArticle,
+  dummyArticle,
 ];
 final CommentsModel dummyComment = CommentsModel(
   id: 0,
@@ -65,7 +67,6 @@ final UserInformation dummyUserInfo = UserInformation(
   name: 'name name',
   email: 'email@gmail.com',
   role: 'role',
-  username: 'username',
 );
 
 final List<CommentsModel> dummyCommentList = [

@@ -7,12 +7,24 @@ class ApiServices {
   ApiServices({required this.dio});
   Future postMethod(
       {required String endPoint,
-      required Map<String, dynamic> data,
+      required Object data,
       bool isFormData = false}) async {
     final response = await dio.post(
       '$baseUrl$endPoint',
-      data: isFormData ? FormData.fromMap(data) : data,
+      data: data,
+      options: isFormData
+          ? Options(
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            )
+          : null,
     );
+    return response.data;
+  }
+
+  Future deleteMethod({required String endPoint, required Object data}) async {
+    final response = await dio.delete('$baseUrl$endPoint', data: data);
     return response.data;
   }
 

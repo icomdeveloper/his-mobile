@@ -28,12 +28,13 @@ class CustomTextFormField extends StatelessWidget {
         controller: controller,
         readOnly: readOnly,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'This field is required';
-          }
-          return null;
-        },
+        validator: validator ??
+            (value) {
+              if (value == null || value.isEmpty) {
+                return 'This field is required';
+              }
+              return null;
+            },
         maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding:

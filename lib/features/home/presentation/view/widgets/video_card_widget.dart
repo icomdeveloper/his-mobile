@@ -188,6 +188,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   height: 24,
                 ),
                 LikesAndCommentsWidget(
+                  mediaId: widget.mediaModel.id!,
                   numberOfComments: widget.mediaModel.commentsCount ?? 0,
                   numberOfLikes: widget.mediaModel.likesCount ?? 0,
                 ),

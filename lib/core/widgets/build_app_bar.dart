@@ -27,7 +27,7 @@ AppBar buildAppBar(BuildContext context,
           : null,
       title: Text(
         title,
-        style: Styles.semiBoldRoboto20,
+        style: Styles.semiBoldPoppins20,
       ),
       centerTitle: centerTitle,
       actions: isEditAppear

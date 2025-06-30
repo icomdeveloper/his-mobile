@@ -35,7 +35,7 @@ class ServerFailure extends Failure {
   }
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
     if (statusCode == 400 || statusCode == 403) {
-      return ServerFailure(errMesage: response['error']);
+      return ServerFailure(errMesage: response['message']);
     } else if (statusCode == 401) {
       return ServerFailure(
           errMesage: 'Your email address or password is wrong !');

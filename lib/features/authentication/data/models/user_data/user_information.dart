@@ -4,7 +4,6 @@ class UserInformation {
   int? id;
   String? name;
   String? email;
-  String? username;
   String? phone;
   dynamic emailVerifiedAt;
   dynamic isReviewer;
@@ -20,7 +19,6 @@ class UserInformation {
       this.name,
       this.email,
       this.phone,
-      this.username,
       this.emailVerifiedAt,
       this.isReviewer,
       this.role,
@@ -35,7 +33,6 @@ class UserInformation {
         id: json['id'] as int?,
         name: json['name'] as String?,
         email: json['email'] as String?,
-        username: json['username'] as String?,
         phone: json['phone'] as String?,
         emailVerifiedAt: json['email_verified_at'] as dynamic,
         isReviewer: json['is_reviewer'] as dynamic,
@@ -57,7 +54,6 @@ class UserInformation {
         id: user.uid.hashCode,
         name: user.displayName ?? '',
         email: user.email ?? '',
-        username: user.displayName ?? '',
         emailVerifiedAt: '',
         isReviewer: '',
         role: '',
@@ -71,7 +67,6 @@ class UserInformation {
         'id': id,
         'name': name,
         'email': email,
-        'username': username,
         'email_verified_at': emailVerifiedAt,
         'is_reviewer': isReviewer,
         'role': role,

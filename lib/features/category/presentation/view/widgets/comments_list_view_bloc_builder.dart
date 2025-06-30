@@ -19,7 +19,11 @@ class CommentListViewBlocBuilder extends StatelessWidget {
       builder: (context, state) {
         if (state is GetCommentsSuccess) {
           return SizedBox(
-            height: state.comments.isEmpty ? 80.h : 350.h,
+            height: state.comments.isEmpty
+                ? commentsList.isEmpty
+                    ? 80.h
+                    : 350.h
+                : 350.h,
             child: CommentsListView(
               comments: state.comments,
             ),

@@ -8,10 +8,10 @@ class UploadVideoModel {
   final String title;
   final String description;
   final File? videoFile;
-  final File thumbnailFile;
+  final File? thumbnailFile;
   final File? pdfFile;
   final File? imageFile;
-  final bool? isFeatured;
+  final int? isFeatured;
   final String? month;
 
   UploadVideoModel(
