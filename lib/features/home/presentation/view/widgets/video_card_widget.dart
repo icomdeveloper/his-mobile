@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -154,7 +155,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                     child: Text(
-                      '10:14',
+                      formatDuration(widget.mediaModel.duration ?? ""),
                       style:
                           Styles.regularRoboto8.copyWith(color: Colors.white),
                     ),

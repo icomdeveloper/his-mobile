@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -78,7 +79,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 7),
                             child: Text(
-                              mediaModel.duration?.substring(0, 1) ?? "",
+                              formatDuration(mediaModel.duration ?? ""),
                               style: Styles.regularRoboto8
                                   .copyWith(color: Colors.white),
                             ),
@@ -104,7 +105,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     Text(
                       mediaModel.title ?? "",
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 4,
+                      maxLines: 2,
                       style: Styles.semiBoldPoppins14,
                     ),
                     Text(
@@ -112,6 +113,8 @@ class RecentlyAddedWidget extends StatelessWidget {
                       style: Styles.regularRoboto12.copyWith(
                         color: AppColors.grey,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                     ),
                     const SizedBox(height: 4),
                     mediaModel.createdAt != null

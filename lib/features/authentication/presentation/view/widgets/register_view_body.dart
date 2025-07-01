@@ -11,6 +11,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
+import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
@@ -237,23 +238,23 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
                       if (state is RegisterFailure) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(state.message),
-                        ));
+                        showCustomSnackBar(
+                          message: state.message,
+                          context: context,
+                        );
                       }
                       if (state is LoginFailure) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(state.message),
-                        ));
+                        showCustomSnackBar(
+                          message: state.message,
+                          context: context,
+                        );
                       }
                       if (state is RegisterSuccess) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.green,
-                          content:
-                              Text(state.registerSuccessModel.message ?? ''),
-                        ));
+                        showCustomSnackBar(
+                            message: state.registerSuccessModel.message ??
+                                'Registered successfully',
+                            context: context,
+                            backgroundColor: const Color(0xFF0F8737));
                         Navigator.pop(context);
                       }
                       if (state is LoginSuccess) {

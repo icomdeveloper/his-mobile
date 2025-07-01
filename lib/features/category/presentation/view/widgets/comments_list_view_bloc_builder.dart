@@ -22,8 +22,8 @@ class CommentListViewBlocBuilder extends StatelessWidget {
             height: state.comments.isEmpty
                 ? commentsList.isEmpty
                     ? 80.h
-                    : 350.h
-                : 350.h,
+                    : 300.h
+                : 300.h,
             child: CommentsListView(
               comments: state.comments,
             ),

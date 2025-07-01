@@ -25,7 +25,7 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
             options: CarouselOptions(
                 viewportFraction: 1,
                 autoPlay: true,
-                aspectRatio: 342.w / 330.h),
+                aspectRatio: 342.w / 340.h),
             itemBuilder: (context, index, realIndex) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -41,7 +41,7 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
             height: 200.h,
             child: Center(
               child: AspectRatio(
-                aspectRatio: 342.w / 330.h,
+                aspectRatio: 342.w / 340.h,
                 child: CustomErrorWidget(
                   errorMessage: state.errMessage,
                   onTap: () {
@@ -57,7 +57,7 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
             itemCount: dummyMediaList.length,
             options: CarouselOptions(
               viewportFraction: 1,
-              aspectRatio: 342.w / 330.h,
+              aspectRatio: 342.w / 340.h,
               autoPlay: true,
             ),
             itemBuilder: (context, index, realIndex) {

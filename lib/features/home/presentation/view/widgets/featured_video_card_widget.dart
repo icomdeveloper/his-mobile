@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -133,7 +134,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Text(
-                widget.mediaModel.duration!,
+                formatDuration(widget.mediaModel.duration ?? ''),
                 style: Styles.regularRoboto12.copyWith(color: Colors.white),
               ),
             ),

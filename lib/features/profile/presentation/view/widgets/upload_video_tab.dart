@@ -351,7 +351,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               children: [
                 Checkbox(
                   value: isFeatured,
-                  onChanged: (Value) {
+                  onChanged: (value) {
                     setState(() {
                       isFeatured = !isFeatured;
                     });
@@ -369,7 +369,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                 if (state is UploadMediaSuccess) {
                   Fluttertoast.showToast(
                       msg: 'Video uploaded successfully',
-                      backgroundColor: Colors.green);
+                      backgroundColor: const Color(0xFF0F8737));
                 }
                 if (state is UploadMediaFailure) {
                   Fluttertoast.showToast(msg: state.message);

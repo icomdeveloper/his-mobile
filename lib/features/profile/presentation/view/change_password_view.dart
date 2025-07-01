@@ -6,6 +6,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
+import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 
@@ -119,18 +120,17 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
                     listener: (context, state) {
                       if (state is ResetPasswordSuccess) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text('Password updated successfully'),
-                        ));
-                        Navigator.pop(context);
+                        showCustomSnackBar(
+                            message: 'Password updated successfully',
+                            context: context,
+                            backgroundColor: const Color(0xFF0F8737));
                       }
+
                       if (state is ResetPasswordFailure) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(state.message),
-                        ));
+                        showCustomSnackBar(
+                          message: state.message,
+                          context: context,
+                        );
                       }
                     },
                     builder: (context, state) {

@@ -11,6 +11,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
+import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/register_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
@@ -148,16 +149,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is LoginFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text(state.message),
-                      ));
+                      showCustomSnackBar(
+                          message: state.message, context: context);
                     }
                     if (state is LoginSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('Login Success'),
-                      ));
                       Prefs.setBool(PrefsKeys.isLoggedIn, true);
                       Provider.of<NavBarVisibilityProvider>(context,
                               listen: false)
