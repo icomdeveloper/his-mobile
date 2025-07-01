@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -48,21 +49,23 @@ class LikesAndComments extends StatefulWidget {
 
 class _LikesAndCommentsState extends State<LikesAndComments> {
   bool _isLiked = false;
+  int numberOfLikes = 0;
   @override
   void initState() {
     super.initState();
+    numberOfLikes = widget.numberOfLikes;
     _loadLikeStatus();
   }
 
   Future<void> _loadLikeStatus() async {
-    final isLiked = await LikesManager.isLiked(widget.mediaId);
+    final isLiked = await LikesManager.isLiked(widget.mediaId, PrefsKeys.likes);
     setState(() {
       _isLiked = isLiked;
     });
   }
 
   Future<void> _toggleLike() async {
-    await LikesManager.toggleLike(widget.mediaId);
+    await LikesManager.toggleLike(widget.mediaId, PrefsKeys.likes);
     setState(() {
       _isLiked = !_isLiked;
     });
@@ -76,9 +79,11 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
           if (!_isLiked) {
             BlocProvider.of<MediaLikesCubit>(context)
                 .addLike(mediaId: widget.mediaId);
+            numberOfLikes++;
           } else {
             BlocProvider.of<MediaLikesCubit>(context)
                 .deleteLike(mediaId: widget.mediaId);
+            numberOfLikes--;
           }
           _toggleLike();
         },
@@ -92,9 +97,7 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
         width: 4,
       ),
       Text(
-        _isLiked
-            ? '${widget.numberOfLikes + 1} Like'
-            : '${widget.numberOfLikes} Like',
+        numberOfLikes > 1 ? '$numberOfLikes Likes' : '$numberOfLikes Like',
         style: Styles.semiBoldRoboto12.copyWith(color: AppColors.darkGrey),
       ),
       const SizedBox(

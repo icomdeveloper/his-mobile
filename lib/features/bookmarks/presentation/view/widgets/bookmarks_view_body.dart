@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/bookmarks/presentation/cubits/get_bookmarks_cubit/get_bookmarks_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class BookmarksViewBody extends StatefulWidget {
   const BookmarksViewBody({super.key});
@@ -59,7 +62,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                         height: 32.h,
                       ),
                       const Text(
-                        '2025\'s Videos',
+                        'Saved Videos',
                         style: Styles.semiBoldRoboto20,
                       ),
                       SizedBox(
@@ -70,9 +73,23 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 0
-              ? const VideoCardSliverList(
-                  mediaList: [],
-                  isBookmark: true,
+              ? BlocBuilder<GetBookmarksCubit, GetBookmarksState>(
+                  builder: (context, state) {
+                    if (state is GetBookmarksSuccess) {
+                      return VideoCardSliverList(
+                        mediaList: state.mediaList,
+                        isBookmark: true,
+                      );
+                    } else if (state is GetBookmarksLoading) {
+                      return Skeletonizer.sliver(
+                        child: VideoCardSliverList(
+                          mediaList: dummyMediaList,
+                          isBookmark: true,
+                        ),
+                      );
+                    }
+                    return const SliverToBoxAdapter(child: SizedBox.shrink());
+                  },
                 )
               : const SliverToBoxAdapter(child: SizedBox.shrink()),
           index == 1

@@ -1,3 +1,5 @@
+import 'package:his/features/bookmarks/data/models/bookmarks_model/item.dart';
+
 class MediaModel {
   int? id;
   int? categoryId;
@@ -84,4 +86,25 @@ class MediaModel {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
+  factory MediaModel.fromBookmarks(Item bookmark) => MediaModel(
+        id: bookmark.id,
+        categoryId: bookmark.categoryId,
+        userId: bookmark.userId,
+        title: bookmark.title,
+        views: bookmark.views,
+        description: bookmark.description as String?,
+        filePath: bookmark.filePath,
+        pdf: bookmark.pdf,
+        duration: bookmark.duration,
+        thumbnailPath: bookmark.thumbnailPath as String,
+        image: bookmark.imagePath,
+        status: bookmark.status,
+        isFeatured: bookmark.isFeatured,
+        createdAt: bookmark.createdAt == null
+            ? null
+            : DateTime.parse(bookmark.createdAt as String),
+        updatedAt: bookmark.updatedAt == null
+            ? null
+            : DateTime.parse(bookmark.updatedAt as String),
+      );
 }

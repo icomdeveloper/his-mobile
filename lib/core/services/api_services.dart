@@ -28,8 +28,8 @@ class ApiServices {
     return response.data;
   }
 
-  Future getMethod({required String endPoint}) async {
-    final response = await dio.get('$baseUrl$endPoint');
+  Future getMethod({required String endPoint, Object? data}) async {
+    final response = await dio.get('$baseUrl$endPoint', data: data);
     return response.data;
   }
 

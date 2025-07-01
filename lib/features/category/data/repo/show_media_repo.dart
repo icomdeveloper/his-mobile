@@ -14,7 +14,7 @@ class ShowMediaRepo {
   Future<Either<ServerFailure, List<MediaModel>>> showVideos() async {
     try {
       var data = await apiServices.getMethod(endPoint: ApiEndpoints.showMedia);
-     List<dynamic> dataList = data['data'];
+      List<dynamic> dataList = data['data'];
       final mediaList = dataList
           .expand((category) => (category['media'] as List)
               .map((mediaJson) => MediaModel.fromJson(mediaJson)))

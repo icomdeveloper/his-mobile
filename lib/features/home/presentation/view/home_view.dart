@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline/flutter_offline.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
+import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
+import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/home_view_body.dart';
 
 class HomeView extends StatelessWidget {
@@ -26,7 +30,11 @@ class HomeView extends StatelessWidget {
                         final bool connected =
                             !connectivity.contains(ConnectivityResult.none);
                         if (connected) {
-                          return const HomeViewBody();
+                          return BlocProvider(
+                            create: (context) =>
+                                BookmarksCubit(getIt<BookmarksRepo>()),
+                            child: const HomeViewBody(),
+                          );
                         } else {
                           return buildOfflineWidget();
                         }

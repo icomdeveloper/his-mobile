@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
@@ -34,7 +38,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
   @override
   void initState() {
     isBookmark = widget.isbookmark;
-
+    log('video card likes ${widget.mediaModel.likesCount}');
     super.initState();
   }
 
@@ -120,6 +124,14 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                       top: 12,
                       child: InkWell(
                         onTap: () {
+                          if (!isBookmark) {
+                            context
+                                .read<BookmarksCubit>()
+                                .addToBookmarks(mediaId: widget.mediaModel.id);
+                          } else {
+                            context.read<BookmarksCubit>().removeFromBookmarks(
+                                mediaId: widget.mediaModel.id);
+                          }
                           setState(() {
                             isBookmark = !isBookmark;
                           });

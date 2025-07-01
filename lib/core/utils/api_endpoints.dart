@@ -1,6 +1,4 @@
 abstract class ApiEndpoints {
-  static const String baseUrl = 'http://127.0.0.1:8000/api/';
-
   static const String login = 'login';
   static const String password = 'password';
 
@@ -46,4 +44,11 @@ abstract class ApiEndpoints {
   static const String year = 'year';
 
   static const String month = 'month';
+  static const String addToBookmarks = 'bookmarks/add';
+
+  static const String removeFromBookmarks = 'bookmarks/remove';
+
+  static const String articleid = 'article_id';
+
+  static const String bookmarks = 'bookmarks';
 }
