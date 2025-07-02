@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,18 +19,18 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
           if (state.mediaList.isEmpty) {
             return const SizedBox.shrink();
           }
-          return CarouselSlider.builder(
+          return ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(
+              width: 10,
+            ),
+            scrollDirection: Axis.horizontal,
             itemCount: state.mediaList.length,
-            options: CarouselOptions(
-                viewportFraction: 1,
-                autoPlay: true,
-                aspectRatio: 342.w / 340.h),
-            itemBuilder: (context, index, realIndex) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: FeaturedVideosItem(
-                  mediaModel: state.mediaList[index],
-                ),
+            itemBuilder: (
+              context,
+              index,
+            ) {
+              return FeaturedVideosItem(
+                mediaModel: state.mediaList[index],
               );
             },
           );
@@ -53,19 +52,15 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
           );
         } else {
           return Skeletonizer(
-              child: CarouselSlider.builder(
+              child: ListView.builder(
             itemCount: dummyMediaList.length,
-            options: CarouselOptions(
-              viewportFraction: 1,
-              aspectRatio: 342.w / 340.h,
-              autoPlay: true,
-            ),
-            itemBuilder: (context, index, realIndex) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: FeaturedVideosItem(
-                  mediaModel: dummyMediaList[index],
-                ),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (
+              context,
+              index,
+            ) {
+              return FeaturedVideosItem(
+                mediaModel: dummyMediaList[index],
               );
             },
           ));

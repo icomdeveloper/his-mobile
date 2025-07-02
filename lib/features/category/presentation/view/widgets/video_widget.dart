@@ -181,9 +181,11 @@ class _VideoWidgetState extends State<VideoWidget> {
                         ],
                         child: Column(
                           children: [
+                            SizedBox(height: 4.h),
                             Text(
                               widget.mediaModel?.description ?? '',
-                              style: Styles.regularRoboto12,
+                              style: Styles.regularPoppins12
+                                  .copyWith(color: AppColors.grey),
                             ),
                             Row(
                               children: [
@@ -192,7 +194,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                                 SizedBox(width: 8.w),
                                 Text(
                                   '${widget.mediaModel?.views ?? 0} views',
-                                  style: Styles.regularRoboto12
+                                  style: Styles.regularPoppins12
                                       .copyWith(color: AppColors.grey),
                                 ),
                                 const SizedBox(width: 40),
@@ -207,7 +209,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                                 SizedBox(width: 8.w),
                                 Text(
                                   '1.648 Saved',
-                                  style: Styles.regularRoboto12
+                                  style: Styles.regularPoppins12
                                       .copyWith(color: AppColors.grey),
                                 ),
                               ],

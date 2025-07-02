@@ -53,7 +53,7 @@ class _CommentsListViewState extends State<CommentsListView> {
             ),
             Text(
               '${widget.comments.length} Comments',
-              style: Styles.regularRoboto12.copyWith(
+              style: Styles.semiBoldPoppins12.copyWith(
                 color: AppColors.primaryColor,
                 decoration: TextDecoration.underline,
               ),

@@ -19,7 +19,7 @@ class PendingVideoBottomSheet extends StatelessWidget {
           children: [
             Text(
               'Your post is pending approval',
-              style: Styles.semiBoldRoboto20
+              style: Styles.semiBoldPoppins20
                   .copyWith(color: const Color(0xff171712)),
             ),
             SizedBox(height: 12.h),
@@ -31,7 +31,7 @@ class PendingVideoBottomSheet extends StatelessWidget {
             SizedBox(height: 24.h),
             const Text(
               'What to do while you wait',
-              style: Styles.semiBoldRoboto20,
+              style: Styles.semiBoldPoppins20,
             ),
             Column(
               children: List.generate(

@@ -54,7 +54,7 @@ class CustomTextFormField extends StatelessWidget {
                 )
               : null,
           hintText: hintText,
-          hintStyle: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+          hintStyle: Styles.regularPoppins12.copyWith(color: AppColors.grey),
           suffixIcon: suffixIcon,
           suffixIconConstraints:
               const BoxConstraints(maxHeight: 50, maxWidth: 100),
@@ -108,7 +108,7 @@ class CustomTextField extends StatelessWidget {
                 )
               : null,
           hintText: hintText,
-          hintStyle: Styles.regularRoboto12.copyWith(color: AppColors.grey),
+          hintStyle: Styles.regularPoppins12.copyWith(color: AppColors.grey),
           suffixIcon: suffixIcon,
           suffixIconConstraints:
               const BoxConstraints(maxHeight: 50, maxWidth: 100),

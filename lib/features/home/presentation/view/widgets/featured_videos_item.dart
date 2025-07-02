@@ -12,6 +12,7 @@ class FeaturedVideosItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width - 48.w,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -38,7 +39,7 @@ class FeaturedVideosItem extends StatelessWidget {
                 mediaModel.description ?? "",
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
-                style: Styles.regularRoboto12,
+                style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
               ),
               const Divider(
                 color: AppColors.lightGrey,

@@ -42,7 +42,7 @@ class ProfileViewBody extends StatelessWidget {
               children: [
                 Text(
                   'Profile',
-                  style: Styles.semiBoldRoboto20.copyWith(color: Colors.white),
+                  style: Styles.semiBoldPoppins20.copyWith(color: Colors.white),
                 ),
                 SizedBox(height: 12.h),
                 Row(children: [
@@ -128,7 +128,7 @@ class ProfileViewBody extends StatelessWidget {
                 children: [
                   const Text(
                     'Account',
-                    style: Styles.semiBoldRoboto20,
+                    style: Styles.semiBoldPoppins20,
                   ),
                   const SizedBox(
                     height: 12,
@@ -188,7 +188,7 @@ class ProfileViewBody extends StatelessWidget {
                   const SizedBox(height: 32),
                   const Text(
                     'Content',
-                    style: Styles.semiBoldRoboto20,
+                    style: Styles.semiBoldPoppins20,
                   ),
                   const SizedBox(height: 12),
                   UserDataRowWidget(
@@ -231,7 +231,7 @@ class ProfileViewBody extends StatelessWidget {
                   const SizedBox(height: 32),
                   const Text(
                     'Settings',
-                    style: Styles.semiBoldRoboto20,
+                    style: Styles.semiBoldPoppins20,
                   ),
                   SizedBox(height: 12.h),
                   InkWell(
@@ -293,7 +293,7 @@ class ProfileViewBody extends StatelessWidget {
                           builder: (_) => AlertDialog(
                                   title: const Text(
                                     ' Log out of your account ?',
-                                    style: Styles.semiBoldInter14,
+                                    style: Styles.semiBoldPoppins14,
                                   ),
                                   actions: [
                                     TextButton(
@@ -302,8 +302,8 @@ class ProfileViewBody extends StatelessWidget {
                                       },
                                       child: Text(
                                         'Cancel',
-                                        style: Styles.regularPoppins14
-                                            .copyWith(color: AppColors.grey),
+                                        style: Styles.regularPoppins14.copyWith(
+                                            color: AppColors.darkGrey),
                                       ),
                                     ),
                                     TextButton(
@@ -345,7 +345,7 @@ class ProfileViewBody extends StatelessWidget {
                   const SizedBox(height: 32),
                   const Text(
                     'Privacy & Help center ',
-                    style: Styles.semiBoldRoboto20,
+                    style: Styles.semiBoldPoppins20,
                   ),
                   const SizedBox(height: 12),
                   UserDataRowWidget(

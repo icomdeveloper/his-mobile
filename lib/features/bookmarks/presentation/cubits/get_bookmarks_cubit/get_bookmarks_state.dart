@@ -8,8 +8,12 @@ final class GetBookmarksInitial extends GetBookmarksState {}
 final class GetBookmarksLoading extends GetBookmarksState {}
 
 final class GetBookmarksSuccess extends GetBookmarksState {
-  final List<MediaModel> mediaList;
-  GetBookmarksSuccess({required this.mediaList});
+  final List<MediaModel>? mediaList;
+  final List<ArticleModel>? articleList;
+  GetBookmarksSuccess({
+    this.mediaList,
+    this.articleList,
+  });
 }
 
 final class GetBookmarksFailure extends GetBookmarksState {

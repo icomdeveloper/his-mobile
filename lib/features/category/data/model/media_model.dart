@@ -100,11 +100,9 @@ class MediaModel {
         image: bookmark.imagePath,
         status: bookmark.status,
         isFeatured: bookmark.isFeatured,
-        createdAt: bookmark.createdAt == null
-            ? null
-            : DateTime.parse(bookmark.createdAt as String),
-        updatedAt: bookmark.updatedAt == null
-            ? null
-            : DateTime.parse(bookmark.updatedAt as String),
+        createdAt:
+            bookmark.createdAt == null ? null : bookmark.createdAt as DateTime,
+        updatedAt:
+            bookmark.updatedAt == null ? null : bookmark.updatedAt as DateTime,
       );
 }

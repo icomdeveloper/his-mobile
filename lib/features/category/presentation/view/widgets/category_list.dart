@@ -48,11 +48,11 @@ class _CategoriesListState extends State<YearList> {
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: index == selectedIndex ? 24 : 16, vertical: 8),
+                  horizontal: index == selectedIndex ? 16 : 12, vertical: 8),
               child: Text(
                 widget.categoryList[index],
                 textAlign: TextAlign.center,
-                style: Styles.regularRoboto12.copyWith(
+                style: Styles.regularPoppins12.copyWith(
                   color: index == selectedIndex ? Colors.white : AppColors.grey,
                 ),
               ),

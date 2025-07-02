@@ -1,3 +1,5 @@
+import 'package:his/features/bookmarks/data/models/bookmarks_model/item.dart';
+
 class ArticleModel {
   int? id;
   int? categoryId;
@@ -5,9 +7,9 @@ class ArticleModel {
   String? title;
   String? description;
   String? image;
-  dynamic pdf;
+  String? pdf;
   String? hyperlink;
-  String? isFeatured;
+  int? isFeatured;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -32,9 +34,9 @@ class ArticleModel {
         title: json['title'] as String?,
         description: json['description'] as String?,
         image: json['image'] as String?,
-        pdf: json['pdf'] as dynamic,
+        pdf: json['pdf'] as String?,
         hyperlink: json['hyperlink'] as String?,
-        isFeatured: json['is_featured'] as String?,
+        isFeatured: json['is_featured'] as int?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
@@ -56,4 +58,20 @@ class ArticleModel {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
+
+  factory ArticleModel.fromBookmarks(Item bookmark) => ArticleModel(
+        id: bookmark.id,
+        categoryId: bookmark.categoryId,
+        userId: bookmark.userId,
+        title: bookmark.title,
+        description: bookmark.description as String?,
+        pdf: bookmark.pdf,
+        image: bookmark.imagePath,
+        isFeatured: bookmark.isFeatured,
+        // hyperlink: bookmark.hyperlink,
+        createdAt:
+            bookmark.createdAt == null ? null : bookmark.createdAt as DateTime,
+        updatedAt:
+            bookmark.updatedAt == null ? null : bookmark.updatedAt as DateTime,
+      );
 }

@@ -6,7 +6,10 @@ class ArticlesSliverList extends StatelessWidget {
   const ArticlesSliverList({
     super.key,
     required this.articleList,
+    this.isBookmark = false,
   });
+  final bool isBookmark;
+
   final List<ArticleModel> articleList;
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class ArticlesSliverList extends StatelessWidget {
       itemCount: articleList.length,
       itemBuilder: (context, index) => ArticleWidget(
         articleModel: articleList[index],
+        isbookmark: isBookmark,
       ),
     );
   }

@@ -20,43 +20,41 @@ class CommentTextField extends StatelessWidget {
       autofocus: autofocus,
       controller: controller,
       decoration: InputDecoration(
-        fillColor: const Color(0xffF7F7F7),
-        filled: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-        enabledBorder: buildBorder(),
-        border: buildBorder(),
-        focusedBorder: buildBorder(),
-        prefixIcon: SizedBox(
-          height: 15,
-          width: 15,
-          child: Center(
-              child: CircleAvatar(
-            backgroundColor: AppColors.grey,
-            radius: 12.r,
-            child: const Icon(
-              Icons.more_horiz_outlined,
-              size: 18,
-              color: Color(0xffDADADA),
-            ),
-          )),
-        ),
-        suffixIcon: InkWell(
-          onTap: onTap,
-          child: SizedBox(
+          fillColor: const Color(0xffF7F7F7),
+          filled: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+          enabledBorder: buildBorder(),
+          border: buildBorder(),
+          focusedBorder: buildBorder(),
+          prefixIcon: SizedBox(
             height: 15,
             width: 15,
             child: Center(
                 child: CircleAvatar(
-              backgroundColor: AppColors.primaryColor,
-              radius: 14.r,
-              child: SvgPicture.asset(Assets.assetsImagesSend),
+              backgroundColor: AppColors.grey,
+              radius: 12.r,
+              child: const Icon(
+                Icons.more_horiz_outlined,
+                size: 18,
+                color: Color(0xffDADADA),
+              ),
             )),
           ),
-        ),
-        hintText: 'Write your message',
-        hintStyle:
-            Styles.regularRoboto12.copyWith(color: const Color(0xff999999)),
-      ),
+          suffixIcon: InkWell(
+            onTap: onTap,
+            child: SizedBox(
+              height: 15,
+              width: 15,
+              child: Center(
+                  child: CircleAvatar(
+                backgroundColor: AppColors.primaryColor,
+                radius: 14.r,
+                child: SvgPicture.asset(Assets.assetsImagesSend),
+              )),
+            ),
+          ),
+          hintText: 'Write your message',
+          hintStyle: Styles.regularPoppins12.copyWith(color: AppColors.grey)),
     );
   }
 

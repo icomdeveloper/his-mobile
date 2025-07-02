@@ -29,7 +29,8 @@ class ApiServices {
   }
 
   Future getMethod({required String endPoint, Object? data}) async {
-    final response = await dio.get('$baseUrl$endPoint', data: data);
+    final response = await dio.get('$baseUrl$endPoint',
+        queryParameters: data as Map<String, dynamic>?);
     return response.data;
   }
 

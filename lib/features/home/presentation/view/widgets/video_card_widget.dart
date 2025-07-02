@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
+import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -38,8 +40,24 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
   @override
   void initState() {
     isBookmark = widget.isbookmark;
+    _loadBookmarkStatus();
     log('video card likes ${widget.mediaModel.likesCount}');
     super.initState();
+  }
+
+  Future<void> _loadBookmarkStatus() async {
+    final isbookmarked =
+        await LikesManager.isLiked(widget.mediaModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = isbookmarked;
+    });
+  }
+
+  Future<void> _toggleBookmark() async {
+    await LikesManager.toggleLike(widget.mediaModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = !isBookmark;
+    });
   }
 
   @override
@@ -132,9 +150,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                             context.read<BookmarksCubit>().removeFromBookmarks(
                                 mediaId: widget.mediaModel.id);
                           }
-                          setState(() {
-                            isBookmark = !isBookmark;
-                          });
+
+                          _toggleBookmark();
                         },
                         child: CircleAvatar(
                           radius: 13,

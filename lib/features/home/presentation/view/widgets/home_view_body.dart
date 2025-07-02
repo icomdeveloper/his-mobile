@@ -65,7 +65,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Articles', style: Styles.semiBoldRoboto20),
+                      const Text('Articles', style: Styles.semiBoldPoppins20),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(
@@ -109,7 +109,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 SizedBox(
                   height: 32.h,
                 ),
-                const Text('Recently Added', style: Styles.semiBoldRoboto20),
+                const Text('Recently Added', style: Styles.semiBoldPoppins20),
                 SizedBox(
                   height: 12.h,
                 ),

@@ -43,6 +43,11 @@ abstract class Styles {
     fontWeight: FontWeight.w600,
     fontFamily: 'Poppins',
   );
+  static const semiBoldPoppins12 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Poppins',
+  );
   static const semiBoldPoppins20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w600,

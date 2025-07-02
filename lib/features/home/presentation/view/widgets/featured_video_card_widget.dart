@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
+import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -23,7 +24,28 @@ class FeaturedVideoCardWidget extends StatefulWidget {
 }
 
 class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
-  bool isBookmarked = false;
+  bool isBookmark = false;
+  @override
+  void initState() {
+    _loadBookmarkStatus();
+    super.initState();
+  }
+
+  Future<void> _loadBookmarkStatus() async {
+    final isbookmarked =
+        await LikesManager.isLiked(widget.mediaModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = isbookmarked;
+    });
+  }
+
+  Future<void> _toggleBookmark() async {
+    await LikesManager.toggleLike(widget.mediaModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = !isBookmark;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -102,7 +124,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
           top: 12,
           child: InkWell(
             onTap: () {
-              if (!isBookmarked) {
+              if (!isBookmark) {
                 context
                     .read<BookmarksCubit>()
                     .addToBookmarks(mediaId: widget.mediaModel.id);
@@ -111,9 +133,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                     .read<BookmarksCubit>()
                     .removeFromBookmarks(mediaId: widget.mediaModel.id);
               }
-              setState(() {
-                isBookmarked = !isBookmarked;
-              });
+              _toggleBookmark();
             },
             child: CircleAvatar(
               radius: 13,
@@ -123,7 +143,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 child: AspectRatio(
                   aspectRatio: 11 / 14,
                   child: SvgPicture.asset(
-                    isBookmarked
+                    isBookmark
                         ? Assets.assetsImagesBookmarkedFilled
                         : Assets.assetsImagesBookmarked,
                     colorFilter: const ColorFilter.mode(

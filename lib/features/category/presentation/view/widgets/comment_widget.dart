@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
-import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -47,10 +46,13 @@ class _CommentWidgetState extends State<CommentWidget> {
             children: [
               Text(
                 userInformation.name!,
-                style: Styles.semiBoldRoboto12,
+                style: Styles.semiBoldPoppins14,
               ),
               Text(getRelativeTime(widget.comment.createdAt!),
-                  style: Styles.regularRoboto12)
+                  style: Styles.regularPoppins12.copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.grey,
+                  ))
             ],
           ),
           subtitle: Column(
@@ -63,7 +65,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                         maxWidth: MediaQuery.of(context).size.width * 0.7),
                     child: Text(
                       widget.comment.content!,
-                      style: Styles.regularRoboto12,
+                      style: Styles.regularPoppins12.copyWith(
+                        color: AppColors.darkGrey,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -107,10 +111,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                     const SizedBox(
                       width: 8,
                     ),
-                    const Text(
-                      'Reply',
-                      style: Styles.regularRoboto12,
-                    ),
+                    Text('Reply',
+                        style: Styles.regularPoppins12
+                            .copyWith(color: AppColors.grey)),
                   ],
                 ),
               ),

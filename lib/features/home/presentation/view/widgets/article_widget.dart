@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -12,15 +14,42 @@ import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/article_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
+
 class ArticleWidget extends StatefulWidget {
-  const ArticleWidget({super.key, required this.articleModel});
+  const ArticleWidget(
+      {super.key, required this.articleModel, this.isbookmark = false});
   final ArticleModel articleModel;
+  final bool isbookmark;
+
   @override
   State<ArticleWidget> createState() => _ArticleWidgetState();
 }
 
 class _ArticleWidgetState extends State<ArticleWidget> {
-  bool isBookmarked = false;
+  late bool isBookmark;
+  @override
+  void initState() {
+    isBookmark = widget.isbookmark;
+    _loadBookmarkStatus();
+    super.initState();
+  }
+
+  Future<void> _loadBookmarkStatus() async {
+    final isbookmarked = await LikesManager.isLiked(
+        widget.articleModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = isbookmarked;
+    });
+  }
+
+  Future<void> _toggleBookmark() async {
+    await LikesManager.toggleLike(widget.articleModel.id!, PrefsKeys.bookmarks);
+    setState(() {
+      isBookmark = !isBookmark;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -90,18 +119,24 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                 ),
                 Text(
                   '8 Mins read',
-                  style:
-                      Styles.semiBoldRoboto10.copyWith(color: AppColors.grey),
+                  style: Styles.semiBoldPoppins12
+                      .copyWith(color: AppColors.grey, fontSize: 10.sp),
                 ),
                 const Spacer(),
                 IconButton(
                     onPressed: () {
-                      setState(() {
-                        isBookmarked = !isBookmarked;
-                      });
+                      if (!isBookmark) {
+                        context
+                            .read<BookmarksCubit>()
+                            .addToBookmarks(articleId: widget.articleModel.id);
+                      } else {
+                        context.read<BookmarksCubit>().removeFromBookmarks(
+                            articleId: widget.articleModel.id);
+                      }
+                      _toggleBookmark();
                     },
                     icon: Icon(
-                      isBookmarked
+                      isBookmark
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
                       color: AppColors.primaryColor,
@@ -115,7 +150,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
             ),
             Text(
               widget.articleModel.description!,
-              style: Styles.regularRoboto10.copyWith(color: AppColors.grey),
+              style: Styles.regularPoppins12
+                  .copyWith(color: AppColors.grey, fontSize: 10.sp),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
@@ -136,8 +172,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                   },
                   child: Text(
                     widget.articleModel.hyperlink ?? '',
-                    style: Styles.regularRoboto10
-                        .copyWith(color: const Color(0xff2463B6)),
+                    style: Styles.regularPoppins12.copyWith(
+                        color: const Color(0xff2463B6), fontSize: 10.sp),
                   ),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/bookmarks/data/models/bookmarks_model/bookmarks_model.dart';
 import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/home/data/models/article_model.dart';
 
 class BookmarksRepo {
   final ApiServices apiServices;
@@ -54,23 +55,58 @@ class BookmarksRepo {
     }
   }
 
-  Future<Either<Failure, List<MediaModel>>> getBookmarks() async {
+  Future<Either<Failure, List<MediaModel>>> getBookmarksVideos() async {
     try {
-      final data = await apiServices.getMethod(
-          endPoint: ApiEndpoints.bookmarks,
-          data: {ApiEndpoints.userId: getUserData().userInfo!.id});
+      final data = {ApiEndpoints.userId: getUserData().userInfo!.id!};
+      final response = await apiServices.getMethod(
+          endPoint: ApiEndpoints.bookmarks, data: data);
 
-      List<dynamic> bookmarkData = data['data'];
+      List<dynamic> bookmarkData = response['data'];
 
       List<BookmarksModel> bookmarkList =
           bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
-
-      return Right(
-          bookmarkList.map((e) => MediaModel.fromBookmarks(e.item!)).toList());
+      for (var element in bookmarkList) {
+        if (element.mediaId == null) {
+          bookmarkList.remove(element);
+        }
+      }
+      List<MediaModel> mediaList =
+          bookmarkList.map((e) => MediaModel.fromBookmarks(e.item!)).toList();
+      return Right(mediaList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
+
+  Future<Either<Failure, List<ArticleModel>>> getBookmarksArticles() async {
+    try {
+      final data = {ApiEndpoints.userId: getUserData().userInfo!.id!};
+      final response = await apiServices.getMethod(
+          endPoint: ApiEndpoints.bookmarks, data: data);
+
+      List<dynamic> bookmarkData = response['data'];
+
+      List<BookmarksModel> bookmarkList =
+          bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
+      for (var element in bookmarkList) {
+        if (element.articleId == null) {
+          bookmarkList.remove(element);
+          if (bookmarkList.isEmpty) {
+            return const Right([]);
+          }
+        }
+      }
+
+      List<ArticleModel> articleList =
+          bookmarkList.map((e) => ArticleModel.fromBookmarks(e.item!)).toList();
+      return Right(articleList);
+    } on DioException catch (e) {
+      return Left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return Left(ServerFailure(
+          errMesage: 'You may not have any articles yet , try again'));
     }
   }
 }

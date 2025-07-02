@@ -30,7 +30,7 @@ class ArticleView extends StatelessWidget {
               ),
               Text(
                 'By Suliman Ibrahim  . Published on ${getCustomDate(articleModel.createdAt ?? DateTime.now())} ',
-                style: Styles.regularRoboto12
+                style: Styles.regularPoppins12
                     .copyWith(color: AppColors.primaryColor),
               ),
               const SizedBox(

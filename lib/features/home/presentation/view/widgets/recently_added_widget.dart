@@ -110,7 +110,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     ),
                     Text(
                       mediaModel.description ?? "",
-                      style: Styles.regularRoboto12.copyWith(
+                      style: Styles.regularPoppins12.copyWith(
                         color: AppColors.grey,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -120,7 +120,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     mediaModel.createdAt != null
                         ? Text(
                             '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , ${mediaModel.views} Views ',
-                            style: Styles.semiBoldRoboto12.copyWith(
+                            style: Styles.semiBoldPoppins12.copyWith(
                               color: const Color(0xff999999),
                             ),
                           )

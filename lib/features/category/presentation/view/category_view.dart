@@ -6,6 +6,8 @@ import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
 import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
 import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
+import 'package:his/features/category/data/repo/show_media_repo.dart';
+import 'package:his/features/category/presentation/cubits/get_media_cubit/get_media_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/category_view_body.dart';
 
 class CategoryView extends StatelessWidget {
@@ -31,8 +33,17 @@ class CategoryView extends StatelessWidget {
                 final bool connected =
                     !connectivity.contains(ConnectivityResult.none);
                 if (connected) {
-                  return BlocProvider(
-                    create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) =>
+                            BookmarksCubit(getIt<BookmarksRepo>()),
+                      ),
+                      BlocProvider(
+                        create: (context) =>
+                            GetMediaCubit(getIt<ShowMediaRepo>())..getVideos(),
+                      ),
+                    ],
                     child: const CategoryViewBody(),
                   );
                 } else {

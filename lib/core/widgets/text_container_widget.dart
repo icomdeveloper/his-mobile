@@ -19,7 +19,8 @@ class TextContainerWidget extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Styles.regularRoboto10.copyWith(color: AppColors.primaryColor),
+        style: Styles.regularPoppins12
+            .copyWith(color: AppColors.primaryColor, fontSize: 10.sp),
       ),
     );
   }

@@ -98,7 +98,7 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
       ),
       Text(
         numberOfLikes > 1 ? '$numberOfLikes Likes' : '$numberOfLikes Like',
-        style: Styles.semiBoldRoboto12.copyWith(color: AppColors.darkGrey),
+        style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
       const SizedBox(
         width: 24,
@@ -109,7 +109,7 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
       ),
       Text(
         '${widget.numberOfComments} Comments',
-        style: Styles.semiBoldRoboto12.copyWith(color: AppColors.darkGrey),
+        style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
     ]);
   }

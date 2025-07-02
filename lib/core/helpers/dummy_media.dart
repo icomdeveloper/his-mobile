@@ -39,7 +39,7 @@ final ArticleModel dummyArticle = ArticleModel(
       'https://images.squarespace-cdn.com/content/v1/60f1a490a90ed8713c41c36c/1629223610791-LCBJG5451DRKX4WOB4SP/37-design-powers-url-structure.jpeg',
   pdf: 'pdf',
   hyperlink: 'hyperlinkhyperlinkhyperlinkhyperlink',
-  isFeatured: "0",
+  isFeatured: 1,
   createdAt: DateTime.now(),
   updatedAt: DateTime.now(),
   categoryId: 0,
