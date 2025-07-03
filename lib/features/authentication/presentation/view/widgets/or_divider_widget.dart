@@ -21,7 +21,7 @@ class OrDividerWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             'Or',
-            style: Styles.regularRoboto12,
+            style: Styles.regularPoppins12,
           ),
         ),
         Expanded(

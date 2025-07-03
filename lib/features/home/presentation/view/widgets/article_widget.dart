@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -31,23 +30,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
   @override
   void initState() {
     isBookmark = widget.isbookmark;
-    _loadBookmarkStatus();
     super.initState();
-  }
-
-  Future<void> _loadBookmarkStatus() async {
-    final isbookmarked = await LikesManager.isLiked(
-        widget.articleModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = isbookmarked;
-    });
-  }
-
-  Future<void> _toggleBookmark() async {
-    await LikesManager.toggleLike(widget.articleModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = !isBookmark;
-    });
   }
 
   @override
@@ -133,7 +116,9 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                         context.read<BookmarksCubit>().removeFromBookmarks(
                             articleId: widget.articleModel.id);
                       }
-                      _toggleBookmark();
+                      setState(() {
+                        isBookmark = !isBookmark;
+                      });
                     },
                     icon: Icon(
                       isBookmark

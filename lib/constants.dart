@@ -33,3 +33,6 @@ const List<String> yearList = [
   '2029',
   '2030'
 ];
+
+const String avatarImage =
+    'https://img.favpng.com/22/14/20/computer-icons-user-profile-png-favpng-t5jjbVtARafBFMz6SeBYs6wmS.jpg';

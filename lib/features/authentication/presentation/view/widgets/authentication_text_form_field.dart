@@ -71,7 +71,7 @@ class AuthenticationTextFormField extends StatelessWidget {
           enabledBorder: buildBorder(),
           border: buildBorder(),
           focusedBorder: buildBorder(color: AppColors.primaryColor),
-          hintStyle: Styles.regularRoboto12,
+          hintStyle: Styles.regularPoppins12.copyWith(color: AppColors.grey),
           hintText: hintText),
     );
   }

@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_error_widget.dart';
+import 'package:his/features/bookmarks/presentation/cubits/get_bookmarks_articles_cubit/get_bookmarks_articles_cubit.dart';
 import 'package:his/features/bookmarks/presentation/cubits/get_bookmarks_cubit/get_bookmarks_cubit.dart';
+import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
@@ -21,14 +24,35 @@ class BookmarksViewBody extends StatefulWidget {
 
 class _BookmarksViewBodyState extends State<BookmarksViewBody> {
   int index = 0;
+  List<MediaModel>? filteredMediaList;
+  List<ArticleModel>? filteredArticleList;
+  List<ArticleModel> articleList = [];
+  List<MediaModel> mediaList = [];
+  final TextEditingController _searchController = TextEditingController();
   @override
   initState() {
     super.initState();
-    _loadData();
+    BlocProvider.of<GetBookmarksCubit>(context).getBookmarksVideos();
+
+    _searchController.addListener(_filterItems);
   }
 
-  _loadData() {
-    BlocProvider.of<GetBookmarksCubit>(context).getBookmarksVideos();
+  void _filterItems() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      filteredMediaList = mediaList.where((item) {
+        return item.title!.toLowerCase().contains(query);
+      }).toList();
+      filteredArticleList = articleList.where((item) {
+        return item.title!.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -37,7 +61,8 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
       key: const Key('bookmarks'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0.5) {
-          _loadData();
+          context.read<GetBookmarksCubit>().getBookmarksVideos();
+          context.read<GetBookmarksArticlesCubit>().getBookmarksArticles();
         }
       },
       child: Padding(
@@ -45,11 +70,14 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
         child: CustomScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Column(
                 children: [
-                  CustomTextFormField(hintText: 'Search in Bookmark'),
-                  SizedBox(
+                  CustomTextField(
+                    hintText: 'Search in Bookmark',
+                    controller: _searchController,
+                  ),
+                  const SizedBox(
                     height: 14,
                   ),
                 ],
@@ -70,7 +98,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                         context.read<GetBookmarksCubit>().getBookmarksVideos();
                       } else {
                         context
-                            .read<GetBookmarksCubit>()
+                            .read<GetBookmarksArticlesCubit>()
                             .getBookmarksArticles();
                       }
                       setState(() {
@@ -102,8 +130,9 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                 ? BlocBuilder<GetBookmarksCubit, GetBookmarksState>(
                     builder: (context, state) {
                       if (state is GetBookmarksSuccess) {
+                        mediaList = state.mediaList;
                         return VideoCardSliverList(
-                          mediaList: state.mediaList!,
+                          mediaList: filteredMediaList ?? mediaList,
                           isBookmark: true,
                         );
                       } else if (state is GetBookmarksFailure) {
@@ -150,14 +179,17 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                   )
                 : const SliverToBoxAdapter(child: SizedBox.shrink()),
             index == 1
-                ? BlocBuilder<GetBookmarksCubit, GetBookmarksState>(
+                ? BlocBuilder<GetBookmarksArticlesCubit,
+                    GetBookmarksArticlesState>(
                     builder: (context, state) {
-                      if (state is GetBookmarksSuccess) {
+                      if (state is GetBookmarksArticlesSuccess) {
+                        articleList = state.articleList;
+
                         return ArticlesSliverList(
-                          articleList: state.articleList!,
+                          articleList: filteredArticleList ?? articleList,
                           isBookmark: true,
                         );
-                      } else if (state is GetBookmarksFailure) {
+                      } else if (state is GetBookmarksArticlesFailure) {
                         return SliverToBoxAdapter(
                           child: SizedBox(
                             height: 150,
@@ -165,7 +197,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                               errorMessage: state.errMessage,
                               onTap: () {
                                 context
-                                    .read<GetBookmarksCubit>()
+                                    .read<GetBookmarksArticlesCubit>()
                                     .getBookmarksArticles();
                               },
                             ),

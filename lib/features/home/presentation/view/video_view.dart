@@ -13,8 +13,10 @@ class VideoView extends StatelessWidget {
   const VideoView({
     super.key,
     required this.mediaModel,
+    required this.likesCount,
   });
   final MediaModel mediaModel;
+  final int likesCount;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,10 @@ class VideoView extends StatelessWidget {
                 ..getComments(mediaId: mediaModel.id!),
             ),
           ],
-          child: VideoWidget(mediaModel: mediaModel),
+          child: VideoWidget(
+            mediaModel: mediaModel,
+            likesCount: likesCount,
+          ),
         ),
       ),
     );

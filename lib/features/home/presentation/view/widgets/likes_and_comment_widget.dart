@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/constants.dart';
-import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -17,13 +15,18 @@ class LikesAndCommentsWidget extends StatelessWidget {
     required this.numberOfLikes,
     required this.numberOfComments,
     required this.mediaId,
+    this.onLikeChanged,
   });
   final int numberOfLikes, numberOfComments, mediaId;
+  final ValueChanged<bool>? onLikeChanged;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MediaLikesCubit(getIt<MediaLikesRepo>()),
       child: LikesAndComments(
+          onLikeChanged: (value) {
+            onLikeChanged?.call(value);
+          },
           numberOfLikes: numberOfLikes,
           numberOfComments: numberOfComments,
           mediaId: mediaId),
@@ -37,11 +40,13 @@ class LikesAndComments extends StatefulWidget {
     required this.numberOfLikes,
     required this.numberOfComments,
     required this.mediaId,
+    this.onLikeChanged,
   });
 
   final int numberOfLikes;
   final int numberOfComments;
   final int mediaId;
+  final ValueChanged<bool>? onLikeChanged;
 
   @override
   State<LikesAndComments> createState() => _LikesAndCommentsState();
@@ -49,28 +54,6 @@ class LikesAndComments extends StatefulWidget {
 
 class _LikesAndCommentsState extends State<LikesAndComments> {
   bool _isLiked = false;
-  int numberOfLikes = 0;
-  @override
-  void initState() {
-    super.initState();
-    numberOfLikes = widget.numberOfLikes;
-    _loadLikeStatus();
-  }
-
-  Future<void> _loadLikeStatus() async {
-    final isLiked = await LikesManager.isLiked(widget.mediaId, PrefsKeys.likes);
-    setState(() {
-      _isLiked = isLiked;
-    });
-  }
-
-  Future<void> _toggleLike() async {
-    await LikesManager.toggleLike(widget.mediaId, PrefsKeys.likes);
-    setState(() {
-      _isLiked = !_isLiked;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -79,25 +62,37 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
           if (!_isLiked) {
             BlocProvider.of<MediaLikesCubit>(context)
                 .addLike(mediaId: widget.mediaId);
-            numberOfLikes++;
           } else {
             BlocProvider.of<MediaLikesCubit>(context)
                 .deleteLike(mediaId: widget.mediaId);
-            numberOfLikes--;
           }
-          _toggleLike();
         },
-        child: Icon(
-          _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-          size: 18,
-          color: _isLiked ? AppColors.primaryColor : AppColors.darkGrey,
+        child: BlocListener<MediaLikesCubit, MediaLikesState>(
+          listener: (context, state) {
+            if (state is AddLikeSuccess) {
+              _isLiked = true;
+              widget.onLikeChanged?.call(true);
+            }
+            if (state is DeleteLikeSuccess) {
+              _isLiked = false;
+              widget.onLikeChanged?.call(false);
+            }
+            setState(() {});
+          },
+          child: Icon(
+            _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+            size: 18,
+            color: _isLiked ? AppColors.primaryColor : AppColors.darkGrey,
+          ),
         ),
       ),
       const SizedBox(
         width: 4,
       ),
       Text(
-        numberOfLikes > 1 ? '$numberOfLikes Likes' : '$numberOfLikes Like',
+        widget.numberOfLikes > 1
+            ? '${widget.numberOfLikes} Likes'
+            : '${widget.numberOfLikes} Like',
         style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
       const SizedBox(
@@ -108,7 +103,9 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
         width: 4,
       ),
       Text(
-        '${widget.numberOfComments} Comments',
+        widget.numberOfComments > 1
+            ? '${widget.numberOfComments} Comments'
+            : '${widget.numberOfComments} Comment',
         style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
     ]);

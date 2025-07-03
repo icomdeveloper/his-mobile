@@ -13,6 +13,7 @@ class UploadMediaCubit extends Cubit<UploadMediaState> {
     emit(UploadMediaLoading());
     var result =
         await uploadVideoRepo.uploadVideo(uploadVideoModel: uploadVideoModel);
+    if (isClosed) return;
     result.fold((error) => emit(UploadMediaFailure(message: error.errMesage)),
         (r) => emit(UploadMediaSuccess()));
   }

@@ -65,11 +65,11 @@ class BookmarksRepo {
 
       List<BookmarksModel> bookmarkList =
           bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
-      for (var element in bookmarkList) {
-        if (element.mediaId == null) {
-          bookmarkList.remove(element);
-        }
+      bookmarkList.removeWhere((element) => element.mediaId == null);
+      if (bookmarkList.isEmpty) {
+        return const Right([]);
       }
+
       List<MediaModel> mediaList =
           bookmarkList.map((e) => MediaModel.fromBookmarks(e.item!)).toList();
       return Right(mediaList);
@@ -90,13 +90,9 @@ class BookmarksRepo {
 
       List<BookmarksModel> bookmarkList =
           bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
-      for (var element in bookmarkList) {
-        if (element.articleId == null) {
-          bookmarkList.remove(element);
-          if (bookmarkList.isEmpty) {
-            return const Right([]);
-          }
-        }
+      bookmarkList.removeWhere((element) => element.articleId == null);
+      if (bookmarkList.isEmpty) {
+        return const Right([]);
       }
 
       List<ArticleModel> articleList =

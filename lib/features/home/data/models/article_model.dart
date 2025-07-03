@@ -9,7 +9,7 @@ class ArticleModel {
   String? image;
   String? pdf;
   String? hyperlink;
-  int? isFeatured;
+  String? isFeatured;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -36,7 +36,7 @@ class ArticleModel {
         image: json['image'] as String?,
         pdf: json['pdf'] as String?,
         hyperlink: json['hyperlink'] as String?,
-        isFeatured: json['is_featured'] as int?,
+        isFeatured: json['is_featured'] as String?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
@@ -67,7 +67,7 @@ class ArticleModel {
         description: bookmark.description as String?,
         pdf: bookmark.pdf,
         image: bookmark.imagePath,
-        isFeatured: bookmark.isFeatured,
+        isFeatured: bookmark.isFeatured.toString(),
         // hyperlink: bookmark.hyperlink,
         createdAt:
             bookmark.createdAt == null ? null : bookmark.createdAt as DateTime,

@@ -10,6 +10,7 @@ class UserInformation {
   String? role;
   String? googleId;
   String? appleId;
+  String? profileImage;
   DateTime? deletedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -21,6 +22,7 @@ class UserInformation {
       this.phone,
       this.emailVerifiedAt,
       this.isReviewer,
+      this.profileImage,
       this.role,
       this.createdAt,
       this.updatedAt,
@@ -37,6 +39,7 @@ class UserInformation {
         emailVerifiedAt: json['email_verified_at'] as dynamic,
         isReviewer: json['is_reviewer'] as dynamic,
         role: json['role'] as String?,
+        profileImage: json['profile_image'] as String?,
         googleId: json['google_id'] as String?,
         appleId: json['apple_id'] as String?,
         deletedAt: json['deleted_at'] == null
@@ -59,6 +62,7 @@ class UserInformation {
         role: '',
         googleId: '',
         appleId: '',
+        profileImage: '',
         phone: user.phoneNumber ?? '',
         createdAt: user.metadata.creationTime ?? DateTime.now(),
         updatedAt: DateTime.now(),
@@ -71,6 +75,7 @@ class UserInformation {
         'is_reviewer': isReviewer,
         'role': role,
         'phone': phone,
+        'profile_image': profileImage,
         'google_id': googleId,
         'apple_id': appleId,
         'deleted_at': deletedAt,

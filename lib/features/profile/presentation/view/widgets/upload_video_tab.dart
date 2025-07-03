@@ -72,9 +72,13 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                         )),
                     child: InkWell(
                         onTap: () async {
-                          setState(() => isSelecting = true);
+                          if (mounted) {
+                            setState(() => isSelecting = true);
+                          }
                           videoFile = await selectFile(type: FileType.video);
-                          setState(() => isSelecting = false);
+                          if (mounted) {
+                            setState(() => isSelecting = false);
+                          }
                         },
                         child: isSelecting
                             ? Center(
@@ -426,22 +430,26 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
 
   Future selectFile(
       {required FileType type, List<String>? allowedExtensions}) async {
-    if (isPickerActive) return;
+    if (isPickerActive || !mounted) return null;
 
     try {
       isPickerActive = true;
+      if (mounted) setState(() {});
+
       final result = await FilePicker.platform.pickFiles(
         type: type,
         allowedExtensions: allowedExtensions,
       );
+      if (!mounted) return null;
 
-      if (result == null) {
-        return;
-      }
-      setState(() {});
+      if (result == null) return null;
+      if (mounted) setState(() {});
       return result.files.first;
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(msg: e.message ?? 'something went wrong');
+      if (mounted) {
+        Fluttertoast.showToast(msg: e.message ?? 'Something went wrong');
+      }
+      return null;
     } finally {
       isPickerActive = false;
     }

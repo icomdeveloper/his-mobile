@@ -10,8 +10,11 @@ class GetArticlesCubit extends Cubit<GetArticlesState> {
   final ShowMediaRepo showMediaRepo;
 
   Future<void> getArticles() async {
+    if (isClosed) return;
     emit(GetArticlesLoading());
+
     var result = await showMediaRepo.showArticles();
+    if (isClosed) return;
     result.fold(
         (error) => emit(GetArticlesFailure(errMessage: error.errMesage)),
         (success) => emit(GetArticlesSuccess(articleList: success)));

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -37,8 +38,9 @@ class _CommentWidgetState extends State<CommentWidget> {
           contentPadding: EdgeInsets.zero,
           isThreeLine: true,
           leading: CircleAvatar(
-            backgroundImage: const CachedNetworkImageProvider(
-                'https://i.pravatar.cc/300?img=1'),
+            backgroundImage: CachedNetworkImageProvider(
+              userInformation.profileImage ?? avatarImage,
+            ),
             radius: 20.r,
           ),
           title: Row(

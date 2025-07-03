@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:his/features/profile/presentation/view/widgets/approved_video_sliver_list.dart';
 
-class ApprovalTabBar extends StatelessWidget {
-  const ApprovalTabBar({super.key});
+class PublishedTabBar extends StatelessWidget {
+  const PublishedTabBar({super.key});
 
   @override
   Widget build(BuildContext context) {

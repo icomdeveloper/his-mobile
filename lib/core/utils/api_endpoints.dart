@@ -51,4 +51,7 @@ abstract class ApiEndpoints {
   static const String articleid = 'article_id';
 
   static const String bookmarks = 'bookmarks';
+  static const String deleteUser = 'profile';
+
+  static const String updateProfile = 'profile';
 }

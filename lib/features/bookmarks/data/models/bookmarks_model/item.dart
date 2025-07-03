@@ -5,7 +5,7 @@ class Item {
   String? subCategoryId;
   String? title;
   String? views;
-  dynamic description;
+  String? description;
   String? filePath;
   dynamic assignedTo;
   String? mention;
@@ -14,7 +14,7 @@ class Item {
   String? thumbnailPath;
   String? imagePath;
   String? status;
-  int? isFeatured;
+  dynamic isFeatured;
   int? isFavorite;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -57,7 +57,7 @@ class Item {
         thumbnailPath: json['thumbnail_path'] as String?,
         imagePath: json['image_path'] as String?,
         status: json['status'] as String?,
-        isFeatured: json['is_featured'] as int?,
+        isFeatured: json['is_featured'] as dynamic,
         isFavorite: json['is_favorite'] as int?,
         createdAt: json['created_at'] == null
             ? null

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
@@ -92,13 +93,22 @@ class _MonthListState extends State<MonthList> {
               selectedIndex = index;
             });
           },
-          child: Center(
-            child: Text(widget.categoryList[index],
-                style: Styles.regularPoppins14.copyWith(
-                  color: index == selectedIndex
-                      ? AppColors.primaryColor
-                      : AppColors.grey,
-                )),
+          child: Column(
+            children: [
+              Center(
+                child: Text(widget.categoryList[index],
+                    style: Styles.regularPoppins14.copyWith(
+                      color: index == selectedIndex
+                          ? AppColors.primaryColor
+                          : AppColors.grey,
+                    )),
+              ),
+              const SizedBox(height: 4),
+              index == selectedIndex
+                  ? Container(
+                      height: 1, width: 45.w, color: AppColors.primaryColor)
+                  : const SizedBox.shrink(),
+            ],
           ),
         );
       },

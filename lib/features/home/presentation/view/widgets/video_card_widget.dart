@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
-import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -37,27 +33,12 @@ class VideoCardWidget extends StatefulWidget {
 
 class _VideoCardWidgetState extends State<VideoCardWidget> {
   late bool isBookmark;
+  late int likesCount;
   @override
   void initState() {
     isBookmark = widget.isbookmark;
-    _loadBookmarkStatus();
-    log('video card likes ${widget.mediaModel.likesCount}');
+    likesCount = widget.mediaModel.likesCount ?? 0;
     super.initState();
-  }
-
-  Future<void> _loadBookmarkStatus() async {
-    final isbookmarked =
-        await LikesManager.isLiked(widget.mediaModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = isbookmarked;
-    });
-  }
-
-  Future<void> _toggleBookmark() async {
-    await LikesManager.toggleLike(widget.mediaModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = !isBookmark;
-    });
   }
 
   @override
@@ -79,6 +60,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     PageRouteBuilder(
                       pageBuilder: (_, __, ___) => VideoView(
                         mediaModel: widget.mediaModel,
+                        likesCount: likesCount,
                       ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
@@ -112,6 +94,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return VideoView(
+                        likesCount: likesCount,
                         mediaModel: widget.mediaModel,
                       );
                     }));
@@ -150,8 +133,9 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                             context.read<BookmarksCubit>().removeFromBookmarks(
                                 mediaId: widget.mediaModel.id);
                           }
-
-                          _toggleBookmark();
+                          setState(() {
+                            isBookmark = !isBookmark;
+                          });
                         },
                         child: CircleAvatar(
                           radius: 13,
@@ -205,12 +189,14 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   maxLines: 3,
                   style: Styles.semiBoldPoppins14,
                 ),
+                SizedBox(height: 4.h),
                 widget.isDescriptionAppeared
                     ? Text(
                         widget.mediaModel.description ?? "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
-                        style: Styles.regularRoboto12,
+                        style: Styles.regularPoppins12
+                            .copyWith(color: AppColors.grey),
                       )
                     : const SizedBox.shrink(),
                 const Divider(
@@ -218,9 +204,18 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   height: 24,
                 ),
                 LikesAndCommentsWidget(
+                  onLikeChanged: (value) {
+                    setState(() {
+                      if (value) {
+                        likesCount++;
+                      } else {
+                        likesCount--;
+                      }
+                    });
+                  },
                   mediaId: widget.mediaModel.id!,
                   numberOfComments: widget.mediaModel.commentsCount ?? 0,
-                  numberOfLikes: widget.mediaModel.likesCount ?? 0,
+                  numberOfLikes: likesCount,
                 ),
               ],
             ),

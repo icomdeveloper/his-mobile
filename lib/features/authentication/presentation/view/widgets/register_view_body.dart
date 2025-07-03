@@ -14,8 +14,6 @@ import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
-import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
-import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -66,17 +64,17 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         ]),
                   ),
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 268.w),
+                    constraints: BoxConstraints(maxWidth: 300.w),
                     child: Text(
                       'Access personalized care and medical updates in one place. ',
-                      style: Styles.regularRoboto12
+                      style: Styles.regularPoppins12
                           .copyWith(color: AppColors.grey),
                     ),
                   ),
                   const SizedBox(
                     height: 32,
                   ),
-                  const Text('Name', style: Styles.semiBoldRoboto12),
+                  const Text('Name', style: Styles.semiBoldPoppins12),
                   const SizedBox(
                     height: 4,
                   ),
@@ -97,7 +95,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Text('Email Address', style: Styles.semiBoldRoboto12),
+                  const Text('Email Address', style: Styles.semiBoldPoppins12),
                   const SizedBox(
                     height: 4,
                   ),
@@ -121,7 +119,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Text('Phone Number', style: Styles.semiBoldRoboto12),
+                  const Text('Phone Number', style: Styles.semiBoldPoppins12),
                   const SizedBox(
                     height: 4,
                   ),
@@ -146,7 +144,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Text('Password', style: Styles.semiBoldRoboto12),
+                  const Text('Password', style: Styles.semiBoldPoppins12),
                   const SizedBox(
                     height: 4,
                   ),
@@ -186,7 +184,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 14,
                   ),
                   const Text('Confirm Password',
-                      style: Styles.semiBoldRoboto12),
+                      style: Styles.semiBoldPoppins12),
                   const SizedBox(
                     height: 4,
                   ),
@@ -285,30 +283,30 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                             );
                     },
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const OrDividerWidget(),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  SocialAuthButton(
-                    onPressed: () {
-                      context.read<AuthCubit>().signInWithGoogle();
-                    },
-                    image: Assets.assetsImagesGoogle,
-                    text: 'Continue with Google',
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  SocialAuthButton(
-                    onPressed: () {
-                      // context.read<AuthCubit>().signInWithApple();
-                    },
-                    image: Assets.assetsImagesApple,
-                    text: 'Continue with Apple',
-                  ),
+                  // const SizedBox(
+                  //   height: 24,
+                  // ),
+                  // const OrDividerWidget(),
+                  // const SizedBox(
+                  //   height: 12,
+                  // ),
+                  // SocialAuthButton(
+                  //   onPressed: () {
+                  //     context.read<AuthCubit>().signInWithGoogle();
+                  //   },
+                  //   image: Assets.assetsImagesGoogle,
+                  //   text: 'Continue with Google',
+                  // ),
+                  // const SizedBox(
+                  //   height: 12,
+                  // ),
+                  // SocialAuthButton(
+                  //   onPressed: () {
+                  //     // context.read<AuthCubit>().signInWithApple();
+                  //   },
+                  //   image: Assets.assetsImagesApple,
+                  //   text: 'Continue with Apple',
+                  // ),
                   const SizedBox(
                     height: 32,
                   ),
@@ -316,11 +314,11 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     child: Text.rich(
                       TextSpan(
                         text: 'Already have an account ? ',
-                        style: Styles.regularRoboto12,
+                        style: Styles.regularPoppins12,
                         children: [
                           TextSpan(
                             text: 'Login',
-                            style: Styles.semiBoldRoboto12.copyWith(
+                            style: Styles.semiBoldPoppins12.copyWith(
                               color: AppColors.primaryColor,
                             ),
                             recognizer: TapGestureRecognizer()

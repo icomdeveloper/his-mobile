@@ -15,7 +15,9 @@ class MyArticlesView extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 12)),
-              ApprovedArticleSliverList(),
+              ApprovedArticleSliverList(
+                articles: [],
+              ),
               SliverToBoxAdapter(child: SizedBox(height: 24)),
             ],
           ),

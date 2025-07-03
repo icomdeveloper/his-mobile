@@ -124,6 +124,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                             message: 'Password updated successfully',
                             context: context,
                             backgroundColor: const Color(0xFF0F8737));
+                        Navigator.pop(context);
                       }
 
                       if (state is ResetPasswordFailure) {

@@ -6,6 +6,7 @@ import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
 import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
 import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
+import 'package:his/features/bookmarks/presentation/cubits/get_bookmarks_articles_cubit/get_bookmarks_articles_cubit.dart';
 import 'package:his/features/bookmarks/presentation/cubits/get_bookmarks_cubit/get_bookmarks_cubit.dart';
 import 'package:his/features/bookmarks/presentation/view/widgets/bookmarks_view_body.dart';
 
@@ -44,6 +45,10 @@ class BookmarksView extends StatelessWidget {
                         BlocProvider(
                           create: (context) =>
                               BookmarksCubit(getIt<BookmarksRepo>()),
+                        ),
+                        BlocProvider(
+                          create: (context) =>
+                              GetBookmarksArticlesCubit(getIt<BookmarksRepo>()),
                         ),
                       ],
                       child: const BookmarksViewBody(),

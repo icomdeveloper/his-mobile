@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
 class OnBoardingPageViewItem extends StatelessWidget {
@@ -29,7 +30,7 @@ class OnBoardingPageViewItem extends StatelessWidget {
         ),
         Text(
           subtitle,
-          style: Styles.regularRoboto12,
+          style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
           textAlign: TextAlign.center,
         ),
       ],

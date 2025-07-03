@@ -15,8 +15,6 @@ import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/register_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
-import 'package:his/features/authentication/presentation/view/widgets/or_divider_widget.dart';
-import 'package:his/features/authentication/presentation/view/widgets/social_auth_button.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -73,16 +71,17 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 268.w),
-                  child: const Text(
+                  child: Text(
                     'Log in to stay connected and explore expert videos and articles ',
-                    style: Styles.regularRoboto12,
+                    style:
+                        Styles.regularPoppins12.copyWith(color: AppColors.grey),
                   ),
                 ),
                 const SizedBox(
                   height: 32,
                 ),
                 const Text('Email Address / Phone Number',
-                    style: Styles.semiBoldRoboto12),
+                    style: Styles.semiBoldPoppins12),
                 const SizedBox(
                   height: 4,
                 ),
@@ -109,7 +108,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ),
                 const Text(
                   'password',
-                  style: Styles.semiBoldRoboto12,
+                  style: Styles.semiBoldPoppins12,
                 ),
                 const SizedBox(
                   height: 4,
@@ -182,49 +181,54 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           );
                   },
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
-                const OrDividerWidget(),
-                const SizedBox(
-                  height: 12,
-                ),
-                SocialAuthButton(
-                  onPressed: () {
-                    context.read<AuthCubit>().signInWithGoogle();
-                  },
-                  image: Assets.assetsImagesGoogle,
-                  text: 'Continue with Google',
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                SocialAuthButton(
-                  onPressed: () {
-                    // context.read<AuthCubit>().signInWithApple();
-                  },
-                  image: Assets.assetsImagesApple,
-                  text: 'Continue with Apple',
-                ),
+                // const SizedBox(
+                //   height: 24,
+                // ),
+                // const OrDividerWidget(),
+                // const SizedBox(
+                //   height: 12,
+                // ),
+                // SocialAuthButton(
+                //   onPressed: () {
+                //     context.read<AuthCubit>().signInWithGoogle();
+                //   },
+                //   image: Assets.assetsImagesGoogle,
+                //   text: 'Continue with Google',
+                // ),
+                // const SizedBox(
+                //   height: 12,
+                // ),
+                // SocialAuthButton(
+                //   onPressed: () {
+                //     // context.read<AuthCubit>().signInWithApple();
+                //   },
+                //   image: Assets.assetsImagesApple,
+                //   text: 'Continue with Apple',
+                // ),
                 const SizedBox(
                   height: 32,
                 ),
                 Center(
                   child: Text.rich(TextSpan(
                     text: 'Don\'t have an account ? ',
-                    style: Styles.regularRoboto12,
+                    style: Styles.regularPoppins12,
                     children: [
                       TextSpan(
                         text: 'Sign up',
-                        style: Styles.semiBoldRoboto12.copyWith(
+                        style: Styles.semiBoldPoppins12.copyWith(
                           color: AppColors.primaryColor,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RegisterView(),
+                                PageRouteBuilder(
+                                  pageBuilder: (_, __, ___) =>
+                                      const RegisterView(),
+                                  transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) =>
+                                      FadeTransition(
+                                          opacity: animation, child: child),
                                 ));
                           },
                       ),

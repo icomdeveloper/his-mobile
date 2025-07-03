@@ -16,6 +16,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
@@ -30,9 +31,11 @@ class VideoWidget extends StatefulWidget {
     super.key,
     this.mediaModel,
     this.isEdit = false,
+    required this.likesCount,
   });
   final MediaModel? mediaModel;
   final bool isEdit;
+  final int likesCount;
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
@@ -208,7 +211,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                                 ),
                                 SizedBox(width: 8.w),
                                 Text(
-                                  '1.648 Saved',
+                                  '${0} Saved',
                                   style: Styles.regularPoppins12
                                       .copyWith(color: AppColors.grey),
                                 ),
@@ -314,7 +317,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     LikesAndCommentsWidget(
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
-                      numberOfLikes: widget.mediaModel?.likesCount ?? 0,
+                      numberOfLikes: widget.likesCount,
                     ),
                     const SizedBox(height: 14),
 
@@ -339,9 +342,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                           // setState(() {
                           //   repliesList[state.replyModel.parentId]!.add(state.replyModel);
                           // });
-                          // context
-                          //     .read<GetCommentsCubit>()
-                          //     .getComments(mediaId: widget.mediaModel!.id!);
+                          context
+                              .read<GetCommentsCubit>()
+                              .getComments(mediaId: widget.mediaModel!.id!);
                         }
                       },
                       child: CommentTextField(

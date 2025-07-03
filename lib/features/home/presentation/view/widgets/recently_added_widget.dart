@@ -37,7 +37,10 @@ class RecentlyAddedWidget extends StatelessWidget {
           Navigator.push(
             context,
             PageRouteBuilder(
-              pageBuilder: (_, __, ___) => VideoView(mediaModel: mediaModel),
+              pageBuilder: (_, __, ___) => VideoView(
+                mediaModel: mediaModel,
+                likesCount: mediaModel.likesCount ?? 0,
+              ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) =>
                       FadeTransition(

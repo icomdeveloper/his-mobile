@@ -39,6 +39,7 @@ class EditVideoView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: VideoWidget(
+          likesCount: mediaModel.likesCount ?? 0,
           mediaModel: mediaModel,
           isEdit: true,
         ),

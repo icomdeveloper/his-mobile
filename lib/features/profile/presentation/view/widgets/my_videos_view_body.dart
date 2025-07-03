@@ -5,7 +5,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
-import 'package:his/features/profile/presentation/view/widgets/approval_tab_bar.dart';
+import 'package:his/features/profile/presentation/view/widgets/published_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/pending_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/upload_video_tab.dart';
 
@@ -38,7 +38,7 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                 text: 'Upload',
               ),
               Tab(
-                text: 'Approval',
+                text: 'Published',
               ),
               Tab(
                 text: 'Pending',
@@ -66,7 +66,7 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                       UploadMediaCubit(getIt<UploadVideoRepo>()),
                   child: const UploadVideoTab(),
                 ),
-                const ApprovalTabBar(),
+                const PublishedTabBar(),
                 const PendingTabBar(),
               ]))
         ],

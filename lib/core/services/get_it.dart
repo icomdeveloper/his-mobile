@@ -9,6 +9,8 @@ import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/media_likes_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
+import 'package:his/features/profile/data/repo/delete_user_repo.dart';
+import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 
@@ -36,6 +38,10 @@ void setupGetIt() {
       MediaLikesRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<BookmarksRepo>(
       BookmarksRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<DeleteUserRepo>(
+      DeleteUserRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<EditProfileRepo>(
+      EditProfileRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

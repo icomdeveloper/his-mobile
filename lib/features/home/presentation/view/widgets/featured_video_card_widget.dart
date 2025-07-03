@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
-import 'package:his/core/helpers/likes_manager.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -27,23 +26,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
   bool isBookmark = false;
   @override
   void initState() {
-    _loadBookmarkStatus();
     super.initState();
-  }
-
-  Future<void> _loadBookmarkStatus() async {
-    final isbookmarked =
-        await LikesManager.isLiked(widget.mediaModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = isbookmarked;
-    });
-  }
-
-  Future<void> _toggleBookmark() async {
-    await LikesManager.toggleLike(widget.mediaModel.id!, PrefsKeys.bookmarks);
-    setState(() {
-      isBookmark = !isBookmark;
-    });
   }
 
   @override
@@ -91,6 +74,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (_, __, ___) => VideoView(
+                      likesCount: 10,
                       mediaModel: widget.mediaModel,
                     ),
                     transitionsBuilder:
@@ -133,7 +117,9 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                     .read<BookmarksCubit>()
                     .removeFromBookmarks(mediaId: widget.mediaModel.id);
               }
-              _toggleBookmark();
+              setState(() {
+                isBookmark = !isBookmark;
+              });
             },
             child: CircleAvatar(
               radius: 13,

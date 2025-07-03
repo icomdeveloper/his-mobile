@@ -45,4 +45,9 @@ class ApiServices {
     final response = await dio.get('$baseUrl$endPoint?$parameterName=$mediaId');
     return response.data;
   }
+
+  Future putMethod({required String endPoint, required Object data}) async {
+    final response = await dio.put('$baseUrl$endPoint', data: data);
+    return response.data;
+  }
 }
