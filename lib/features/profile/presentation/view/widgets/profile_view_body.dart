@@ -262,7 +262,7 @@ class ProfileViewBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const HelpCenterView(),
+                          pageBuilder: (_, __, ___) => const PolicyListView(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) =>
                                   FadeTransition(
