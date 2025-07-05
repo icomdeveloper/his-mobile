@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -22,6 +21,8 @@ import 'package:his/features/profile/presentation/view/widgets/delete_account_wi
 import 'package:his/features/profile/presentation/view/widgets/logout_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
 
+import 'profile_user_info.dart';
+
 class ProfileViewBody extends StatelessWidget {
   const ProfileViewBody({super.key});
 
@@ -40,74 +41,7 @@ class ProfileViewBody extends StatelessWidget {
             padding: EdgeInsets.only(
               top: 50.h,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Profile',
-                  style: Styles.semiBoldPoppins20.copyWith(color: Colors.white),
-                ),
-                SizedBox(height: 12.h),
-                Row(children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      CircleAvatar(
-                        radius: 26.r,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 23.r,
-                          backgroundColor: const Color(0xffDBEEF2),
-                          child: const Icon(Icons.person,
-                              color: AppColors.primaryColor),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: -5.h,
-                        right: 0,
-                        left: 0,
-                        child: CircleAvatar(
-                          radius: 9.r,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 7.r,
-                            backgroundColor: AppColors.primaryColor,
-                            child: const Icon(
-                              Icons.edit,
-                              size: 8,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 12.w),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          getUserData().userInfo?.name ?? '',
-                          overflow: TextOverflow.clip,
-                          maxLines: 3,
-                          style: Styles.semiBoldPoppins14
-                              .copyWith(color: Colors.white),
-                        ),
-                        Text(
-                          getUserData().userInfo?.email ?? '',
-                          style: Styles.regularPoppins14
-                              .copyWith(color: Colors.white),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                ])
-              ],
-            ),
+            child: const ProfileUserInfo(),
           ),
         ),
         Positioned(

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:his/core/services/get_it.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
 import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_articles_cubit.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
+import 'package:his/features/home/presentation/view/global_search_view.dart';
 import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
-import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
 
@@ -40,8 +43,48 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 SizedBox(
                   height: 12.h,
                 ),
-                const CustomTextFormField(
-                  hintText: 'Search..',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const GlobalSearchView(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) =>
+                                  FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        ));
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          side: const BorderSide(
+                              width: 1, color: AppColors.lightGrey)),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: Center(
+                            child: SvgPicture.asset(
+                              Assets.assetsImagesSearch,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 14.w),
+                        Text('Search ...',
+                            style: Styles.regularPoppins12
+                                .copyWith(color: AppColors.grey)),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

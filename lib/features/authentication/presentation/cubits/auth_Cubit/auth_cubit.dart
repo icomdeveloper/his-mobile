@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController roleController = TextEditingController();
+  File? profileImage;
   Future<void> loginWithEmailAndPassword() async {
     emit(LoginLoading());
     LoginModel loginModel = LoginModel(
@@ -41,6 +42,7 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       name: nameController.text,
       phone: phoneController.text,
+      image: profileImage,
     );
 
     var result = await authRepo.register(registerModel: registerModel);

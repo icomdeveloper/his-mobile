@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/widgets/custom_error_widget.dart';
+import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/category/presentation/cubits/get_media_cubit/get_media_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
-import 'package:his/features/category/presentation/view/widgets/video_card_list_bloc_builder.dart';
 
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
@@ -39,6 +45,31 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
   String selectedYear = '2025';
   String selectedMonth = 'january';
   bool showComments = false;
+  List<MediaModel> mediaList = [];
+  List<MediaModel>? filteredMediaList;
+  final TextEditingController _searchController = TextEditingController();
+  @override
+  initState() {
+    super.initState();
+    _searchController.addListener(_filterItems);
+    context.read<GetMediaCubit>().getVideos();
+  }
+
+  void _filterItems() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      filteredMediaList = mediaList.where((item) {
+        return item.title!.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,13 +77,14 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
       child: CustomScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Column(
               children: [
                 CustomTextField(
                   hintText: 'Search in Category',
+                  controller: _searchController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
               ],
@@ -106,7 +138,44 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
               ],
             ),
           ),
-          const VideoCardListBlocBuilder(),
+          BlocBuilder<GetMediaCubit, GetMediaState>(
+            builder: (context, state) {
+              if (state is GetMediaSuccess) {
+                if (state.mediaList.isEmpty) {
+                  return SliverToBoxAdapter(
+                      child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: CustomErrorWidget(
+                      errorMessage: 'No videos found',
+                      onTap: () {
+                        context.read<GetMediaCubit>().getVideos();
+                      },
+                    ),
+                  ));
+                }
+                mediaList = state.mediaList;
+                return VideoCardSliverList(
+                  mediaList: filteredMediaList ?? mediaList,
+                );
+              } else if (state is GetMediaFailure) {
+                return SliverToBoxAdapter(
+                    child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: CustomErrorWidget(
+                    errorMessage: state.message,
+                    onTap: () {
+                      context.read<GetMediaCubit>().getVideos();
+                    },
+                  ),
+                ));
+              } else {
+                return Skeletonizer.sliver(
+                    child: VideoCardSliverList(
+                  mediaList: dummyMediaList,
+                ));
+              }
+            },
+          ),
           SliverToBoxAdapter(
             child: SizedBox(height: 24.h),
           ),

@@ -54,4 +54,5 @@ abstract class ApiEndpoints {
   static const String deleteUser = 'profile';
 
   static const String updateProfile = 'profile';
+  static const String profileImage = 'profile_image';
 }

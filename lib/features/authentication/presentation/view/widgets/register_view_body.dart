@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
@@ -30,6 +35,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   bool isPasswordVisible = true;
   bool isConfirmPasswordVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -72,7 +78,63 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     ),
                   ),
                   const SizedBox(
-                    height: 32,
+                    height: 25,
+                  ),
+                  Center(
+                    child: InkWell(
+                      onTap: () async {
+                        final imagefile =
+                            await selectFile(type: FileType.image);
+                        context.read<AuthCubit>().profileImage =
+                            platformFileToFile(imagefile!);
+                      },
+                      child: context.read<AuthCubit>().profileImage == null
+                          ? Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                CircleAvatar(
+                                  radius: 36.r,
+                                  backgroundColor: AppColors.primaryColor,
+                                  child: CircleAvatar(
+                                    radius: 35.r,
+                                    backgroundColor: const Color(0xffDBEEF2),
+                                    child: const Icon(Icons.person,
+                                        color: AppColors.primaryColor),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: -5.h,
+                                  right: 0,
+                                  left: 0,
+                                  child: CircleAvatar(
+                                    radius: 9.r,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      radius: 7.r,
+                                      backgroundColor: AppColors.primaryColor,
+                                      child: const Icon(
+                                        Icons.edit,
+                                        size: 8,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : CircleAvatar(
+                              radius: 35.r,
+                              backgroundImage: FileImage(
+                                File(context
+                                        .read<AuthCubit>()
+                                        .profileImage
+                                        ?.path ??
+                                    ''),
+                              )),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
                   ),
                   const Text('Name', style: Styles.semiBoldPoppins12),
                   const SizedBox(
@@ -338,5 +400,34 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
             )),
       ),
     );
+  }
+
+  Future selectFile(
+      {required FileType type, List<String>? allowedExtensions}) async {
+    if (!mounted) return null;
+
+    try {
+      if (mounted) setState(() {});
+
+      final result = await FilePicker.platform.pickFiles(
+        type: type,
+        allowedExtensions: allowedExtensions,
+      );
+      if (!mounted) return null;
+
+      if (result == null) return null;
+      if (mounted) setState(() {});
+      return result.files.first;
+    } on PlatformException catch (e) {
+      if (mounted) {
+        Fluttertoast.showToast(msg: e.message ?? 'Something went wrong');
+      }
+      return null;
+    } finally {}
+  }
+
+  File? platformFileToFile(PlatformFile platformFile) {
+    if (platformFile.path == null) return null; // Not available on web
+    return File(platformFile.path!);
   }
 }

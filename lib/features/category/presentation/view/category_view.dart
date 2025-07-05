@@ -41,7 +41,7 @@ class CategoryView extends StatelessWidget {
                       ),
                       BlocProvider(
                         create: (context) =>
-                            GetMediaCubit(getIt<ShowMediaRepo>())..getVideos(),
+                            GetMediaCubit(getIt<ShowMediaRepo>()),
                       ),
                     ],
                     child: const CategoryViewBody(),

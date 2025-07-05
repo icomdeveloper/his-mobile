@@ -27,7 +27,7 @@ class ServerFailure extends Failure {
         return ServerFailure(errMesage: 'Connection error');
 
       case DioExceptionType.unknown:
-        return ServerFailure(errMesage: 'No internet connection');
+        return ServerFailure(errMesage: 'Something went wrong , Tap try again');
 
       case DioExceptionType.badCertificate:
         return ServerFailure(errMesage: 'Bad certificate');

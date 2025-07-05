@@ -37,9 +37,26 @@ class AuthRepo {
   Future<Either<ServerFailure, RegisterSuccessModel>> register(
       {required RegisterModel registerModel}) async {
     try {
-      var data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.register, data: registerModel.toJson());
-      return right(RegisterSuccessModel.fromJson(data));
+      FormData formData = FormData.fromMap({
+        ApiEndpoints.name: registerModel.name,
+        ApiEndpoints.email: registerModel.email,
+        ApiEndpoints.password: registerModel.password,
+        ApiEndpoints.passwordConfirmation: registerModel.confirmPassword,
+        ApiEndpoints.phone: registerModel.phone,
+        ApiEndpoints.role: registerModel.role,
+      });
+      if (registerModel.image != null) {
+        formData.files.add(MapEntry(
+          ApiEndpoints.imagePath,
+          await MultipartFile.fromFile(
+            registerModel.image!.path,
+            filename: registerModel.image!.path.split('/').last,
+          ),
+        ));
+      }
+      var response = await apiServices.postMethod(
+          endPoint: ApiEndpoints.register, data: formData, isFormData: true);
+      return right(RegisterSuccessModel.fromJson(response));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
