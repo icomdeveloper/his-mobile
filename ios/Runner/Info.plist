@@ -16,10 +16,24 @@
 		<string>his</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
+		<key>GIDClientID</key>
+        <string>839481640912-ja9a3leat43eq9vinhvvgv5uh6fe5hcc.apps.googleusercontent.com</string>
 		<key>CFBundleShortVersionString</key>
 		<string>$(FLUTTER_BUILD_NAME)</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
+        <key>CFBundleURLTypes</key>
+        <array>
+        	<dict>
+        		<key>CFBundleTypeRole</key>
+        		<string>Editor</string>
+        		<key>CFBundleURLSchemes</key>
+        		<array>
+        			<string>com.googleusercontent.apps.839481640912-ja9a3leat43eq9vinhvvgv5uh6fe5hcc</string>
+        		</array>
+        	</dict>
+        </array>
+
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>

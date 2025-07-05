@@ -16,6 +16,7 @@ class ApiServices {
           ? Options(
               headers: {
                 'Content-Type': 'multipart/form-data',
+                'Accept':'application/json'
               },
             )
           : null,
@@ -24,13 +25,23 @@ class ApiServices {
   }
 
   Future deleteMethod({required String endPoint, required Object data}) async {
-    final response = await dio.delete('$baseUrl$endPoint', data: data);
+    final response = await dio.delete('$baseUrl$endPoint', data: data,options: Options(
+        headers: {
+          'Accept': 'application/json',
+        },
+      ),
+      );
     return response.data;
   }
 
   Future getMethod({required String endPoint, Object? data}) async {
     final response = await dio.get('$baseUrl$endPoint',
-        queryParameters: data as Map<String, dynamic>?);
+        queryParameters: data as Map<String, dynamic>?,options: Options(
+      headers: {
+        'Accept': 'application/json',
+      },
+    ),
+    );
     return response.data;
   }
 
@@ -42,12 +53,20 @@ class ApiServices {
     if (isArticle) {
       parameterName = 'article_id';
     }
-    final response = await dio.get('$baseUrl$endPoint?$parameterName=$mediaId');
+    final response = await dio.get('$baseUrl$endPoint?$parameterName=$mediaId', options: Options(
+        headers: {
+          'Accept': 'application/json',
+        },
+      ),);
     return response.data;
   }
 
   Future putMethod({required String endPoint, required Object data}) async {
-    final response = await dio.put('$baseUrl$endPoint', data: data);
+    final response = await dio.put('$baseUrl$endPoint', data: data, options: Options(
+        headers: {
+          'Accept': 'application/json',
+        },
+      ),);
     return response.data;
   }
 }
