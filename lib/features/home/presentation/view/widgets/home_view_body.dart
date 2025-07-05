@@ -8,9 +8,11 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
+import 'package:his/features/home/data/repo/global_search_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
 import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_articles_cubit.dart';
+import 'package:his/features/home/presentation/cubits/global_search_cubit/global_search_cubit.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/global_search_view.dart';
 import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
@@ -48,7 +50,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const GlobalSearchView(),
+                          pageBuilder: (_, __, ___) => BlocProvider(
+                            create: (context) =>
+                                GlobalSearchCubit(getIt<GlobalSearchRepo>()),
+                            child: const GlobalSearchView(),
+                          ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) =>
                                   FadeTransition(

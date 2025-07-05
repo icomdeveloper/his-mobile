@@ -7,6 +7,7 @@ import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
+import 'package:his/features/home/data/repo/global_search_repo.dart';
 import 'package:his/features/home/data/repo/media_likes_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
@@ -42,6 +43,8 @@ void setupGetIt() {
       DeleteUserRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<EditProfileRepo>(
       EditProfileRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<GlobalSearchRepo>(
+      GlobalSearchRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

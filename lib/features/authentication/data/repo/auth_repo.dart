@@ -28,6 +28,10 @@ class AuthRepo {
       await saveUserData(user: UserData.fromJson(data));
       return right(UserData.fromJson(data));
     } on DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        return left(ServerFailure(
+            errMesage: 'Your email address or password is wrong !'));
+      }
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));

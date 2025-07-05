@@ -77,6 +77,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.suffixIcon,
     this.controller,
+    this.onChanged,
   });
   final String hintText;
   final bool isSearch;
@@ -84,11 +85,13 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final Widget? suffixIcon;
   final TextEditingController? controller;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextField(
         controller: controller,
         readOnly: readOnly,
+        onChanged: onChanged,
         maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding:

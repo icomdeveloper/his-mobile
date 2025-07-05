@@ -55,4 +55,6 @@ abstract class ApiEndpoints {
 
   static const String updateProfile = 'profile';
   static const String profileImage = 'profile_image';
+
+  static const String search = 'search';
 }

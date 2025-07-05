@@ -22,21 +22,21 @@ class HelpCenterView extends StatelessWidget {
 }
 */
 
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/app_colors.dart';
+import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/profile/data/model/help_center_model.dart';
 
 import '../cubits/help_center/help_center_cubit.dart';
 import '../cubits/help_center/help_center_state.dart';
 
 class PolicyListView extends StatelessWidget {
-
-
-  const PolicyListView({Key? key,}) : super(key: key);
+  const PolicyListView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +46,28 @@ class PolicyListView extends StatelessWidget {
       create: (_) => PolicyCubit(
         apiServices: ApiServices(dio: Dio()),
       )..fetchPolicies(),
-    child: Scaffold(
-        backgroundColor: AppColors.darkGrey,
+      child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: AppColors.lightPrimaryColor,
+          backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
           title: const Text(
             "Private Policy",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: Styles.semiBoldPoppins20,
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppColors.grey,
+              size: 18,
+            ),
           ),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(1),
+            preferredSize: const Size.fromHeight(1),
             child: Divider(
               color: Colors.grey[300],
               height: 1,
@@ -70,7 +80,7 @@ class PolicyListView extends StatelessWidget {
         body: BlocBuilder<PolicyCubit, PolicyState>(
           builder: (context, state) {
             if (state is PolicyLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is PolicyError) {
               return Center(child: Text("❌ Error: ${state.message}"));
             } else if (state is PolicyLoaded) {
@@ -91,7 +101,7 @@ class PolicyListView extends StatelessWidget {
                 }).toList(),
               );
             }
-            return Center(child: Text("No data"));
+            return const Center(child: Text("No data"));
           },
         ),
       ),
@@ -104,10 +114,10 @@ class CategoryExpansionTile extends StatelessWidget {
   final List<Policy> items;
 
   const CategoryExpansionTile({
-    Key? key,
+    super.key,
     required this.categoryTitle,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -115,14 +125,11 @@ class CategoryExpansionTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: screenWidth * 0.03),
       child: Container(
-        color: AppColors.lightPrimaryColor,
+        color: Colors.white,
         child: ExpansionTile(
-          title: Text(
-            categoryTitle,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          ),
+          title: Text(categoryTitle, style: Styles.semiBoldPoppins16),
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: AppColors.primaryColor),
+            side: const BorderSide(color: AppColors.primaryColor),
             borderRadius: BorderRadius.circular(10),
           ),
           collapsedShape: RoundedRectangleBorder(
@@ -136,18 +143,18 @@ class CategoryExpansionTile extends StatelessWidget {
                 vertical: screenWidth * 0.015,
               ),
               child: Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
                 child: ExpansionTile(
-                  title: Text(
-                    item.title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
+                  title: Text(item.title,
+                      style: Styles.semiBoldPoppins14
+                          .copyWith(fontWeight: FontWeight.w500)),
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: AppColors.lightGrey),
+                    side: const BorderSide(color: AppColors.darkGrey),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   collapsedShape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey.shade300),
+                    side: BorderSide(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   children: [
@@ -155,7 +162,7 @@ class CategoryExpansionTile extends StatelessWidget {
                       padding: EdgeInsets.all(screenWidth * 0.03),
                       child: Text(
                         item.body,
-                        style: TextStyle(fontSize: 14),
+                        style: Styles.regularPoppins12,
                       ),
                     )
                   ],

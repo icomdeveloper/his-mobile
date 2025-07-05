@@ -38,7 +38,7 @@ class ServerFailure extends Failure {
       return ServerFailure(errMesage: response['message']);
     } else if (statusCode == 401) {
       return ServerFailure(
-          errMesage: 'Your email address or password is wrong !');
+          errMesage: 'You are not authorized to make this request !');
     } else if (statusCode == 404) {
       return ServerFailure(errMesage: 'Your request not found !');
     } else if (statusCode == 500) {
