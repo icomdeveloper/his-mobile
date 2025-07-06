@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -133,23 +134,39 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                             context.read<BookmarksCubit>().removeFromBookmarks(
                                 mediaId: widget.mediaModel.id);
                           }
-                          setState(() {
-                            isBookmark = !isBookmark;
-                          });
                         },
-                        child: CircleAvatar(
-                          radius: 13,
-                          backgroundColor: Colors.white,
-                          child: SizedBox(
-                            width: 11.w,
-                            child: AspectRatio(
-                              aspectRatio: 11 / 14,
-                              child: SvgPicture.asset(
-                                isBookmark
-                                    ? Assets.assetsImagesBookmarkedFilled
-                                    : Assets.assetsImagesBookmarked,
-                                colorFilter: const ColorFilter.mode(
-                                    AppColors.primaryColor, BlendMode.srcIn),
+                        child: BlocListener<BookmarksCubit, BookmarksState>(
+                          listener: (context, state) {
+                            if (state is AddToBookmarksSuccess) {
+                              isBookmark = true;
+                              setState(() {});
+                            } else if (state is RemoveFromBookmarksSuccess) {
+                              isBookmark = false;
+                              setState(() {});
+                            } else if (state is RemoveFromBookmarksFailure) {
+                              Fluttertoast.showToast(
+                                msg: 'Failed to remove from bookmarks',
+                              );
+                            } else if (state is AddToBookmarksFailure) {
+                              Fluttertoast.showToast(
+                                msg: 'Failed to add to bookmarks',
+                              );
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 13,
+                            backgroundColor: Colors.white,
+                            child: SizedBox(
+                              width: 11.w,
+                              child: AspectRatio(
+                                aspectRatio: 11 / 14,
+                                child: SvgPicture.asset(
+                                  isBookmark
+                                      ? Assets.assetsImagesBookmarkedFilled
+                                      : Assets.assetsImagesBookmarked,
+                                  colorFilter: const ColorFilter.mode(
+                                      AppColors.primaryColor, BlendMode.srcIn),
+                                ),
                               ),
                             ),
                           ),
@@ -214,6 +231,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     });
                   },
                   mediaId: widget.mediaModel.id!,
+                  isLiked: widget.mediaModel.isFavorite == 1 ? true : false,
                   numberOfComments: widget.mediaModel.commentsCount ?? 0,
                   numberOfLikes: likesCount,
                 ),

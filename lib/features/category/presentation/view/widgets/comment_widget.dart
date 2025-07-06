@@ -79,14 +79,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                         context
                             .read<CommentLikeCubit>()
                             .deleteLike(commentId: widget.comment.id!);
+                        isLiked = false;
                       } else {
                         context
                             .read<CommentLikeCubit>()
                             .addLike(commentId: widget.comment.id!);
+                        isLiked = true;
                       }
-                      setState(() {
-                        isLiked = !isLiked;
-                      });
+                      setState(() {});
                     },
                     child: Icon(
                       isLiked ? Icons.favorite : Icons.favorite_border_outlined,

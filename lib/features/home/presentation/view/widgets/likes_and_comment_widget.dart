@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -16,14 +17,17 @@ class LikesAndCommentsWidget extends StatelessWidget {
     required this.numberOfComments,
     required this.mediaId,
     this.onLikeChanged,
+    required this.isLiked,
   });
   final int numberOfLikes, numberOfComments, mediaId;
+  final bool isLiked;
   final ValueChanged<bool>? onLikeChanged;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MediaLikesCubit(getIt<MediaLikesRepo>()),
       child: LikesAndComments(
+          isLiked: isLiked,
           onLikeChanged: (value) {
             onLikeChanged?.call(value);
           },
@@ -41,11 +45,13 @@ class LikesAndComments extends StatefulWidget {
     required this.numberOfComments,
     required this.mediaId,
     this.onLikeChanged,
+    required this.isLiked,
   });
 
   final int numberOfLikes;
   final int numberOfComments;
   final int mediaId;
+  final bool isLiked;
   final ValueChanged<bool>? onLikeChanged;
 
   @override
@@ -76,6 +82,12 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
             if (state is DeleteLikeSuccess) {
               _isLiked = false;
               widget.onLikeChanged?.call(false);
+            }
+            if (state is AddLikeFailure) {
+              Fluttertoast.showToast(msg: state.message);
+            }
+            if (state is DeleteLikeFailure) {
+              Fluttertoast.showToast(msg: state.message);
             }
             setState(() {});
           },

@@ -12,6 +12,7 @@ class Item {
   String? duration;
   String? pdf;
   String? thumbnailPath;
+  String? hyperlink;
   String? imagePath;
   String? status;
   dynamic isFeatured;
@@ -30,6 +31,7 @@ class Item {
     this.filePath,
     this.assignedTo,
     this.mention,
+    this.hyperlink,
     this.duration,
     this.pdf,
     this.thumbnailPath,
@@ -49,6 +51,7 @@ class Item {
         title: json['title'] as String?,
         views: json['views'] as String?,
         description: json['description'] as dynamic,
+        hyperlink: json['hyperlink'] as String?,
         filePath: json['file_path'] as String?,
         assignedTo: json['assigned_to'] as dynamic,
         mention: json['mention'] as String?,
@@ -74,6 +77,7 @@ class Item {
         'sub_category_id': subCategoryId,
         'title': title,
         'views': views,
+        'hyperlink': hyperlink,
         'description': description,
         'file_path': filePath,
         'assigned_to': assignedTo,

@@ -85,8 +85,9 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                       onTap: () async {
                         final imagefile =
                             await selectFile(type: FileType.image);
+
                         context.read<AuthCubit>().profileImage =
-                            platformFileToFile(imagefile!);
+                            platformFileToFile(imagefile);
                       },
                       child: context.read<AuthCubit>().profileImage == null
                           ? Stack(
@@ -426,7 +427,8 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
     } finally {}
   }
 
-  File? platformFileToFile(PlatformFile platformFile) {
+  File? platformFileToFile(PlatformFile? platformFile) {
+    if (platformFile == null) return null;
     if (platformFile.path == null) return null; // Not available on web
     return File(platformFile.path!);
   }

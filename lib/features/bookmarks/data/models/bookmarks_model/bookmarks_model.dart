@@ -1,11 +1,13 @@
-import 'item.dart';
+import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/home/data/models/article_model.dart';
 
 class BookmarksModel {
   int? id;
   dynamic articleId;
   int? mediaId;
   String? flag;
-  Item? item;
+  MediaModel? mediaModel;
+  ArticleModel? articleModel;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -14,20 +16,21 @@ class BookmarksModel {
     this.articleId,
     this.mediaId,
     this.flag,
-    this.item,
+    this.articleModel,
+    this.mediaModel,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory BookmarksModel.fromJson(Map<String, dynamic> json) {
+  factory BookmarksModel.fromJsonToMedia(Map<String, dynamic> json) {
     return BookmarksModel(
       id: json['id'] as int?,
       articleId: json['article_id'] as dynamic,
       mediaId: json['media_id'] as int?,
       flag: json['flag'] as String?,
-      item: json['item'] == null
+      mediaModel: json['media'] == null
           ? null
-          : Item.fromJson(json['item'] as Map<String, dynamic>),
+          : MediaModel.fromJson(json['media'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -36,13 +39,30 @@ class BookmarksModel {
           : DateTime.parse(json['updated_at'] as String),
     );
   }
-
+  factory BookmarksModel.fromJsonToArticle(Map<String, dynamic> json) {
+    return BookmarksModel(
+      id: json['id'] as int?,
+      articleId: json['article_id'] as dynamic,
+      mediaId: json['media_id'] as int?,
+      flag: json['flag'] as String?,
+      articleModel: json['article'] == null
+          ? null
+          : ArticleModel.fromJson(json['article'] as Map<String, dynamic>),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+    );
+  }
   Map<String, dynamic> toJson() => {
         'id': id,
         'article_id': articleId,
         'media_id': mediaId,
         'flag': flag,
-        'item': item?.toJson(),
+        'article': articleModel?.toJson(),
+        'media': mediaModel?.toJson(),
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };

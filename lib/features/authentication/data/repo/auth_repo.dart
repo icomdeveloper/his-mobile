@@ -51,7 +51,7 @@ class AuthRepo {
       });
       if (registerModel.image != null) {
         formData.files.add(MapEntry(
-          ApiEndpoints.imagePath,
+          'profile_image',
           await MultipartFile.fromFile(
             registerModel.image!.path,
             filename: registerModel.image!.path.split('/').last,

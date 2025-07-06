@@ -34,6 +34,12 @@ class BookmarksRepo {
     }
   }
 
+  /// Removes a bookmark from the user's bookmarks.
+  ///
+  /// If [mediaId] is non-null, then a bookmark for the media item with that ID will be removed.
+  /// If [articleId] is non-null, then a bookmark for the article with that ID will be removed.
+  ///
+  /// Returns a [Right] containing the response message if the request succeeds, or a [Left] containing a [Failure] if the request fails.
   Future<Either<Failure, dynamic>> removeFromBookmarks(
       {int? mediaId, int? articleId}) async {
     Map<String, dynamic> data = {
@@ -61,22 +67,23 @@ class BookmarksRepo {
       final response = await apiServices.getMethod(
           endPoint: ApiEndpoints.bookmarks, data: data);
 
-      List<dynamic> bookmarkData = response['data'];
+      Map<String, dynamic> bookmarkData = response['data'];
+      List<dynamic> bookmarks = bookmarkData['bookmarks'];
 
       List<BookmarksModel> bookmarkList =
-          bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
+          bookmarks.map((e) => BookmarksModel.fromJsonToMedia(e)).toList();
       bookmarkList.removeWhere((element) => element.mediaId == null);
       if (bookmarkList.isEmpty) {
         return const Right([]);
       }
 
       List<MediaModel> mediaList =
-          bookmarkList.map((e) => MediaModel.fromBookmarks(e.item!)).toList();
+          bookmarkList.map((e) => MediaModel.fromMedia(e.mediaModel!)).toList();
       return Right(mediaList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
-      return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
+      return Left(ServerFailure(errMesage: 'You may not have any videos yet'));
     }
   }
 
@@ -86,17 +93,19 @@ class BookmarksRepo {
       final response = await apiServices.getMethod(
           endPoint: ApiEndpoints.bookmarks, data: data);
 
-      List<dynamic> bookmarkData = response['data'];
+      Map<String, dynamic> bookmarkData = response['data'];
+      List<dynamic> bookmarks = bookmarkData['bookmarks'];
 
       List<BookmarksModel> bookmarkList =
-          bookmarkData.map((e) => BookmarksModel.fromJson(e)).toList();
+          bookmarks.map((e) => BookmarksModel.fromJsonToArticle(e)).toList();
       bookmarkList.removeWhere((element) => element.articleId == null);
       if (bookmarkList.isEmpty) {
         return const Right([]);
       }
 
-      List<ArticleModel> articleList =
-          bookmarkList.map((e) => ArticleModel.fromBookmarks(e.item!)).toList();
+      List<ArticleModel> articleList = bookmarkList
+          .map((e) => ArticleModel.fromArticle(e.articleModel!))
+          .toList();
       return Right(articleList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioException(e));

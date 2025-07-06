@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/services/shared_preferences.dart';
@@ -74,7 +75,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (_, __, ___) => VideoView(
-                      likesCount: 10,
+                      likesCount: widget.mediaModel.likesCount ?? 0,
                       mediaModel: widget.mediaModel,
                     ),
                     transitionsBuilder:
@@ -106,34 +107,52 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
         Positioned(
           right: 12,
           top: 12,
-          child: InkWell(
-            onTap: () {
-              if (!isBookmark) {
-                context
-                    .read<BookmarksCubit>()
-                    .addToBookmarks(mediaId: widget.mediaModel.id);
-              } else {
-                context
-                    .read<BookmarksCubit>()
-                    .removeFromBookmarks(mediaId: widget.mediaModel.id);
+          child: BlocListener<BookmarksCubit, BookmarksState>(
+            listener: (context, state) {
+              if (state is AddToBookmarksSuccess) {
+                setState(() {
+                  isBookmark = true;
+                });
+              } else if (state is RemoveFromBookmarksSuccess) {
+                setState(() {
+                  isBookmark = false;
+                });
+              } else if (state is RemoveFromBookmarksFailure) {
+                Fluttertoast.showToast(
+                  msg: 'Failed to remove from bookmarks',
+                );
+              } else if (state is AddToBookmarksFailure) {
+                Fluttertoast.showToast(
+                  msg: 'Failed to add to bookmarks',
+                );
               }
-              setState(() {
-                isBookmark = !isBookmark;
-              });
             },
-            child: CircleAvatar(
-              radius: 13,
-              backgroundColor: Colors.white,
-              child: SizedBox(
-                width: 11.w,
-                child: AspectRatio(
-                  aspectRatio: 11 / 14,
-                  child: SvgPicture.asset(
-                    isBookmark
-                        ? Assets.assetsImagesBookmarkedFilled
-                        : Assets.assetsImagesBookmarked,
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.primaryColor, BlendMode.srcIn),
+            child: InkWell(
+              onTap: () {
+                if (!isBookmark) {
+                  context
+                      .read<BookmarksCubit>()
+                      .addToBookmarks(mediaId: widget.mediaModel.id);
+                } else {
+                  context
+                      .read<BookmarksCubit>()
+                      .removeFromBookmarks(mediaId: widget.mediaModel.id);
+                }
+              },
+              child: CircleAvatar(
+                radius: 13,
+                backgroundColor: Colors.white,
+                child: SizedBox(
+                  width: 11.w,
+                  child: AspectRatio(
+                    aspectRatio: 11 / 14,
+                    child: SvgPicture.asset(
+                      isBookmark
+                          ? Assets.assetsImagesBookmarkedFilled
+                          : Assets.assetsImagesBookmarked,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.primaryColor, BlendMode.srcIn),
+                    ),
                   ),
                 ),
               ),

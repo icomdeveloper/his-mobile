@@ -14,8 +14,10 @@ class PolicyCubit extends Cubit<PolicyState> {
       final response = await apiServices.getMethod(endPoint: 'policies');
       final policiesJson = response['data'] as List;
       final policies = policiesJson.map((e) => Policy.fromJson(e)).toList();
+      if (isClosed) return;
       emit(PolicyLoaded(policies));
     } catch (e) {
+      if (isClosed) return;
       emit(PolicyError('❌ ${e.toString()}'));
     }
   }

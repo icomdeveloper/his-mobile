@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -385,7 +384,6 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     : CustomTextButton(
                         text: 'Upload file',
                         onPressed: () {
-                          log("authors ==>$authors");
                           if (videoFile == null) {
                             Fluttertoast.showToast(
                                 msg: 'Please select a video file');
@@ -402,15 +400,15 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                     description: descriptionController.text,
                                     videoFile: videoFile == null
                                         ? null
-                                        : platformFileToFile(videoFile!)!,
+                                        : platformFileToFile(videoFile)!,
                                     imageFile: imageFile == null
                                         ? null
-                                        : platformFileToFile(imageFile!)!,
+                                        : platformFileToFile(imageFile)!,
                                     thumbnailFile:
-                                        platformFileToFile(thumbnailFile!)!,
+                                        platformFileToFile(thumbnailFile)!,
                                     pdfFile: pdfFile == null
                                         ? null
-                                        : platformFileToFile(pdfFile!)!);
+                                        : platformFileToFile(pdfFile)!);
                             context.read<UploadMediaCubit>().uploadVideo(
                                 uploadVideoModel: uploadVideoModel);
                           } else {
@@ -456,7 +454,9 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
   }
 }
 
-File? platformFileToFile(PlatformFile platformFile) {
+File? platformFileToFile(PlatformFile? platformFile) {
+  if (platformFile == null) return null;
+
   if (platformFile.path == null) return null; // Not available on web
   return File(platformFile.path!);
 }

@@ -1,14 +1,29 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/widgets/show_custom_snack_bar.dart';
 
-class ProfileUserInfo extends StatelessWidget {
+import '../../cubits/update_profile_image_cubit/update_profile_image_cubit.dart';
+
+class ProfileUserInfo extends StatefulWidget {
   const ProfileUserInfo({
     super.key,
   });
 
+  @override
+  State<ProfileUserInfo> createState() => _ProfileUserInfoState();
+}
+
+class _ProfileUserInfoState extends State<ProfileUserInfo> {
+  PlatformFile? image;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,53 +34,157 @@ class ProfileUserInfo extends StatelessWidget {
           style: Styles.semiBoldPoppins20.copyWith(color: Colors.white),
         ),
         SizedBox(height: 12.h),
-        Row(children: [
-          getUserData().userInfo?.profileImage == null
-              ? CircleAvatar(
-                  radius: 26.r,
-                  backgroundColor: Colors.white,
-                  child: CircleAvatar(
-                    radius: 23.r,
-                    backgroundColor: const Color(0xffDBEEF2),
-                    child:
-                        const Icon(Icons.person, color: AppColors.primaryColor),
-                  ),
-                )
-              : CircleAvatar(
-                  radius: 26.r,
-                  backgroundColor: Colors.white,
-                  backgroundImage:
-                      NetworkImage(getUserData().userInfo!.profileImage!),
-                  child: CircleAvatar(
-                    radius: 23.r,
-                    backgroundColor: const Color(0xffDBEEF2),
-                    child:
-                        const Icon(Icons.person, color: AppColors.primaryColor),
-                  ),
-                ),
-          SizedBox(width: 12.w),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  getUserData().userInfo?.name ?? '',
-                  overflow: TextOverflow.clip,
-                  maxLines: 3,
-                  style: Styles.semiBoldPoppins14.copyWith(color: Colors.white),
-                ),
-                Text(
-                  getUserData().userInfo?.email ?? '',
-                  style: Styles.regularPoppins14.copyWith(color: Colors.white),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-        ])
+        BlocConsumer<UpdateProfileImageCubit, UpdateProfileImageState>(
+          listener: (context, state) {
+            if (state is UpdateProfileImageSuccess) {
+              showCustomSnackBar(
+                  message: 'Profile image updated',
+                  context: context,
+                  backgroundColor: const Color(0xFF0F8737));
+              image = null;
+            } else if (state is UpdateProfileImageFailure) {
+              showCustomSnackBar(message: state.errMessage, context: context);
+            }
+          },
+          builder: (context, state) {
+            return state is UpdateProfileImageLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ))
+                : Row(children: [
+                    image == null
+                        ? InkWell(
+                            onTap: () async {
+                              image = await selectFile(type: FileType.image);
+                            },
+                            child: getUserData().userInfo!.profileImage == null
+                                ? Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 26.r,
+                                        backgroundColor: Colors.white,
+                                        child: CircleAvatar(
+                                          radius: 23.r,
+                                          backgroundColor:
+                                              const Color(0xffDBEEF2),
+                                          child: const Icon(Icons.person,
+                                              color: AppColors.primaryColor),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: -5.h,
+                                        right: 0,
+                                        left: 0,
+                                        child: CircleAvatar(
+                                          radius: 9.r,
+                                          backgroundColor: Colors.white,
+                                          child: CircleAvatar(
+                                            radius: 7.r,
+                                            backgroundColor:
+                                                AppColors.primaryColor,
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 8,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : CircleAvatar(
+                                    radius: 26.r,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: NetworkImage(
+                                        getUserData().userInfo!.profileImage!),
+                                  ),
+                          )
+                        : InkWell(
+                            onTap: () async {
+                              image = await selectFile(type: FileType.image);
+                            },
+                            child: CircleAvatar(
+                              radius: 26.r,
+                              backgroundColor: Colors.white,
+                              backgroundImage: FileImage(File(image!.path!)),
+                            ),
+                          ),
+                    SizedBox(width: 12.w),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            getUserData().userInfo?.name ?? '',
+                            overflow: TextOverflow.clip,
+                            maxLines: 2,
+                            style: Styles.semiBoldPoppins14
+                                .copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            getUserData().userInfo?.email ?? '',
+                            style: Styles.regularPoppins14
+                                .copyWith(color: Colors.white),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                        visible: image != null,
+                        child: FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            onPressed: () {
+                              final resultImage = platformFileToFile(image);
+                              if (resultImage != null) {
+                                context
+                                    .read<UpdateProfileImageCubit>()
+                                    .updateProfileImage(
+                                      imageFile: resultImage,
+                                    );
+                              }
+                            },
+                            child: const Icon(
+                              Icons.upgrade,
+                              color: AppColors.primaryColor,
+                            ))),
+                    const SizedBox(width: 12),
+                  ]);
+          },
+        ),
       ],
     );
   }
+
+  Future selectFile(
+      {required FileType type, List<String>? allowedExtensions}) async {
+    if (!mounted) return null;
+
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: type,
+        allowedExtensions: allowedExtensions,
+      );
+      if (!mounted) return null;
+
+      if (result == null) return null;
+      if (mounted) setState(() {});
+      return result.files.first;
+    } on PlatformException catch (e) {
+      if (mounted) {
+        Fluttertoast.showToast(msg: e.message ?? 'Something went wrong');
+      }
+      return null;
+    } finally {}
+  }
+}
+
+File? platformFileToFile(PlatformFile? platformFile) {
+  if (platformFile == null) return null;
+
+  if (platformFile.path == null) return null; // Not available on web
+  return File(platformFile.path!);
 }

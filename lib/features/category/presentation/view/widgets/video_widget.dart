@@ -315,6 +315,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   height: 24,
                     // ),
                     LikesAndCommentsWidget(
+                      isLiked:
+                          widget.mediaModel!.isFavorite == 1 ? true : false,
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
                       numberOfLikes: widget.likesCount,
