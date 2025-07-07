@@ -37,14 +37,20 @@ class ApiServices {
     return response.data;
   }
 
-  Future getMethod({required String endPoint, Object? data}) async {
+  Future getMethod(
+      {required String endPoint, Object? data, String? token}) async {
     final response = await dio.get(
       '$baseUrl$endPoint',
       queryParameters: data as Map<String, dynamic>?,
       options: Options(
-        headers: {
-          'Accept': 'application/json',
-        },
+        headers: token == null
+            ? {
+                'Accept': 'application/json',
+              }
+            : {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer $token',
+              },
       ),
     );
     return response.data;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/utils/app_colors.dart';
@@ -27,7 +28,7 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
-  bool isLiked = false;
+  bool _isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,24 +76,39 @@ class _CommentWidgetState extends State<CommentWidget> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      if (isLiked) {
+                      if (_isLiked) {
                         context
                             .read<CommentLikeCubit>()
                             .deleteLike(commentId: widget.comment.id!);
-                        isLiked = false;
                       } else {
                         context
                             .read<CommentLikeCubit>()
                             .addLike(commentId: widget.comment.id!);
-                        isLiked = true;
                       }
-                      setState(() {});
                     },
-                    child: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                      size: 18,
-                      color:
-                          isLiked ? AppColors.primaryColor : AppColors.darkGrey,
+                    child: BlocListener<CommentLikeCubit, CommentLikeState>(
+                      listener: (context, state) {
+                        if (state is AddLikeSuccess) {
+                          _isLiked = true;
+                        }
+                        if (state is DeleteLikeSuccess) {
+                          _isLiked = false;
+                        }
+                        if (state is AddLikeFailure) {
+                          Fluttertoast.showToast(msg: state.message);
+                        }
+                        if (state is DeleteLikeFailure) {
+                          Fluttertoast.showToast(msg: state.message);
+                        }
+                        setState(() {});
+                      },
+                      child: Icon(
+                        _isLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        size: 18,
+                        color: AppColors.darkGrey,
+                      ),
                     ),
                   )
                 ],

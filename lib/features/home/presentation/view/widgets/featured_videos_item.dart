@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
+import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_video_card_widget.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
@@ -19,8 +23,11 @@ class FeaturedVideosItem extends StatelessWidget {
             side: const BorderSide(color: AppColors.lightGrey, width: 1)),
       ),
       child: Column(children: [
-        FeaturedVideoCardWidget(
-          mediaModel: mediaModel,
+        BlocProvider(
+          create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
+          child: FeaturedVideoCardWidget(
+            mediaModel: mediaModel,
+          ),
         ),
         SizedBox(height: 8.h),
         Padding(

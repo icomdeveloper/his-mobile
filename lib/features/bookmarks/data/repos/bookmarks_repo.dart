@@ -68,11 +68,11 @@ class BookmarksRepo {
           endPoint: ApiEndpoints.bookmarks, data: data);
 
       Map<String, dynamic> bookmarkData = response['data'];
-      List<dynamic> bookmarks = bookmarkData['bookmarks'];
+      Map<String, dynamic> bookmarks = bookmarkData['bookmarks'];
+      List<dynamic> mediaBookmarks = bookmarks['mediaBookmarks'];
 
       List<BookmarksModel> bookmarkList =
-          bookmarks.map((e) => BookmarksModel.fromJsonToMedia(e)).toList();
-      bookmarkList.removeWhere((element) => element.mediaId == null);
+          mediaBookmarks.map((e) => BookmarksModel.fromJsonToMedia(e)).toList();
       if (bookmarkList.isEmpty) {
         return const Right([]);
       }
@@ -94,11 +94,12 @@ class BookmarksRepo {
           endPoint: ApiEndpoints.bookmarks, data: data);
 
       Map<String, dynamic> bookmarkData = response['data'];
-      List<dynamic> bookmarks = bookmarkData['bookmarks'];
+      Map<String, dynamic> bookmarks = bookmarkData['bookmarks'];
+      List<dynamic> articleBookmarks = bookmarks['articleBookmarks'];
 
-      List<BookmarksModel> bookmarkList =
-          bookmarks.map((e) => BookmarksModel.fromJsonToArticle(e)).toList();
-      bookmarkList.removeWhere((element) => element.articleId == null);
+      List<BookmarksModel> bookmarkList = articleBookmarks
+          .map((e) => BookmarksModel.fromJsonToArticle(e))
+          .toList();
       if (bookmarkList.isEmpty) {
         return const Right([]);
       }

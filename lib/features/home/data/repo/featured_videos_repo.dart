@@ -14,12 +14,12 @@ class FeaturedVideosRepo {
     try {
       final data =
           await apiServices.getMethod(endPoint: ApiEndpoints.featuredVideos);
-      List<dynamic> mediaData = data['data']['data'];
-
-      List<MediaModel> list =
-          mediaData.map((e) => MediaModel.fromJson(e)).toList();
-
-      return Right(list);
+      List<dynamic> dataList = data['data'];
+      final mediaList = dataList
+          .expand((category) => (category['media'] as List)
+              .map((mediaJson) => MediaModel.fromJson(mediaJson)))
+          .toList();
+      return right(mediaList);
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -66,13 +67,14 @@ class DeleteAccountWidget extends StatelessWidget {
         );
       },
       child: BlocListener<DeleteUserCubit, DeleteUserState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is DeleteUserSuccess) {
             showCustomSnackBar(
                 message: state.message,
                 context: context,
                 backgroundColor: const Color(0xFF0F8737));
             Prefs.setBool(PrefsKeys.isLoggedIn, false);
+            await removeUserData();
             Navigator.pushAndRemoveUntil(
               context,
               PageRouteBuilder(

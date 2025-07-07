@@ -11,6 +11,10 @@ Future saveUserData({required UserData user}) async {
   await Prefs.setString(PrefsKeys.userData, jsonData);
 }
 
+Future removeUserData() async {
+  await Prefs.remove(PrefsKeys.userData);
+}
+
 UserData getUserData() {
   try {
     var user = Prefs.getString(PrefsKeys.userData);

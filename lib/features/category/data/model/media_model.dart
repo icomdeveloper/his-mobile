@@ -17,6 +17,7 @@ class MediaModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? commentsCount;
+  bool? isLiked;
   int? likesCount;
   String? image;
 
@@ -32,6 +33,7 @@ class MediaModel {
     this.thumbnailPath,
     this.status,
     this.isFeatured,
+    this.isLiked,
     this.assignedTo,
     this.mention,
     this.isFavorite,
@@ -57,9 +59,37 @@ class MediaModel {
         assignedTo: json['assigned_to'] as dynamic,
         mention: json['mention'] as String?,
         isFavorite: json['is_favorite'] as int?,
+        isLiked: json['is_liked'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: json['comments_count'] as int?,
         likesCount: json['likes_count'] as int?,
+        status: json['status'] as String?,
+        isFeatured: json['is_featured'] as int?,
+        createdAt: json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt: json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
+      );
+  factory MediaModel.fromBookmarkJson(Map<String, dynamic> json) => MediaModel(
+        id: json['id'] as int?,
+        categoryId: json['category_id'] as int?,
+        userId: json['user_id'] as int?,
+        title: json['title'] as String?,
+        views: json['views'] as String?,
+        description: json['description'] as String?,
+        filePath: json['file_path'] as String?,
+        isLiked: json['is_liked'] as bool?,
+        pdf: json['pdf'] as String?,
+        duration: json['duration'] as String?,
+        thumbnailPath: json['thumbnail_path'] as String,
+        assignedTo: json['assigned_to'] as dynamic,
+        mention: json['mention'] as String?,
+        isFavorite: json['is_favorite'] as int?,
+        image: json['image_path'] as String?,
+        commentsCount: (json['comments'] as List<dynamic>).length,
+        likesCount: (json['likes'] as List<dynamic>).length,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
         createdAt: json['created_at'] == null
@@ -81,6 +111,7 @@ class MediaModel {
         'pdf': pdf,
         'duration': duration,
         'thumbnail_path': thumbnailPath,
+        'is_liked': isLiked,
         'image_path': image,
         'comments_count': commentsCount,
         'assigned_to': assignedTo,
@@ -97,12 +128,15 @@ class MediaModel {
         categoryId: mediaModel.categoryId,
         userId: mediaModel.userId,
         title: mediaModel.title,
+        commentsCount: mediaModel.commentsCount,
+        likesCount: mediaModel.likesCount,
         views: mediaModel.views,
         description: mediaModel.description,
         assignedTo: mediaModel.assignedTo,
         mention: mediaModel.mention,
         isFavorite: mediaModel.isFavorite,
         filePath: mediaModel.filePath,
+        isLiked: mediaModel.isLiked,
         pdf: mediaModel.pdf,
         duration: mediaModel.duration,
         thumbnailPath: mediaModel.thumbnailPath as String,

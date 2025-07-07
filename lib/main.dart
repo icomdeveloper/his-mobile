@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/get_user_data.dart';
+
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
 import 'package:his/core/services/app_routes.dart';
 import 'package:his/core/services/custom_bloc_observer.dart';
@@ -31,7 +29,7 @@ void main() async {
   await Prefs.init();
   Bloc.observer = CustomBlocObserver();
   setupGetIt();
-  log('${getUserData().userInfo!.id})}');
+  // log('${getUserData().userInfo!.id})}');
   runApp(const MyApp());
 }
 

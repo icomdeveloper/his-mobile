@@ -200,21 +200,21 @@ class _VideoWidgetState extends State<VideoWidget> {
                                   style: Styles.regularPoppins12
                                       .copyWith(color: AppColors.grey),
                                 ),
-                                const SizedBox(width: 40),
-                                SizedBox(
-                                  width: 12.w,
-                                  child: SvgPicture.asset(
-                                    Assets.assetsImagesBookmarked,
-                                    colorFilter: const ColorFilter.mode(
-                                        AppColors.grey, BlendMode.srcIn),
-                                  ),
-                                ),
-                                SizedBox(width: 8.w),
-                                Text(
-                                  '${0} Saved',
-                                  style: Styles.regularPoppins12
-                                      .copyWith(color: AppColors.grey),
-                                ),
+                                // const SizedBox(width: 40),
+                                // SizedBox(
+                                //   width: 12.w,
+                                //   child: SvgPicture.asset(
+                                //     Assets.assetsImagesBookmarked,
+                                //     colorFilter: const ColorFilter.mode(
+                                //         AppColors.grey, BlendMode.srcIn),
+                                //   ),
+                                // ),
+                                // SizedBox(width: 8.w),
+                                // Text(
+                                //   '${0} Saved',
+                                //   style: Styles.regularPoppins12
+                                //       .copyWith(color: AppColors.grey),
+                                // ),
                               ],
                             )
                           ],
@@ -315,8 +315,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   height: 24,
                     // ),
                     LikesAndCommentsWidget(
-                      isLiked:
-                          widget.mediaModel!.isFavorite == 1 ? true : false,
+                      isLiked: widget.mediaModel!.isLiked,
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
                       numberOfLikes: widget.likesCount,

@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/format_duration.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
 import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
@@ -44,114 +45,102 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: const BorderSide(color: AppColors.lightGrey, width: 1)),
-      ),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => VideoView(
-                        mediaModel: widget.mediaModel,
-                        likesCount: likesCount,
-                      ),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) =>
-                              FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
-                    ),
-                  );
-                },
-                child: AspectRatio(
-                  aspectRatio: 342 / 112,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12)),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.mediaModel.thumbnailPath!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: 0,
-                top: 0,
-                child: InkWell(
+    return BlocProvider(
+      create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
+      child: Container(
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: AppColors.lightGrey, width: 1)),
+        ),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return VideoView(
-                        likesCount: likesCount,
-                        mediaModel: widget.mediaModel,
-                      );
-                    }));
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => VideoView(
+                          mediaModel: widget.mediaModel,
+                          likesCount: likesCount,
+                        ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      ),
+                    );
                   },
-                  child: const Center(
-                    child: CircleAvatar(
-                        radius: 21,
-                        backgroundColor: AppColors.primaryColor,
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 32,
-                        )),
+                  child: AspectRatio(
+                    aspectRatio: 342 / 112,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12)),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.mediaModel.thumbnailPath!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              widget.topRightIcon != null
-                  ? Positioned(
-                      right: 12,
-                      top: 12,
-                      child: InkWell(
-                        onTap: widget.onIconTap,
-                        child: widget.topRightIcon,
-                      ),
-                    )
-                  : Positioned(
-                      right: 12,
-                      top: 12,
-                      child: InkWell(
-                        onTap: () {
-                          if (!isBookmark) {
-                            context
-                                .read<BookmarksCubit>()
-                                .addToBookmarks(mediaId: widget.mediaModel.id);
-                          } else {
-                            context.read<BookmarksCubit>().removeFromBookmarks(
-                                mediaId: widget.mediaModel.id);
-                          }
-                        },
-                        child: BlocListener<BookmarksCubit, BookmarksState>(
-                          listener: (context, state) {
-                            if (state is AddToBookmarksSuccess) {
-                              isBookmark = true;
-                              setState(() {});
-                            } else if (state is RemoveFromBookmarksSuccess) {
-                              isBookmark = false;
-                              setState(() {});
-                            } else if (state is RemoveFromBookmarksFailure) {
-                              Fluttertoast.showToast(
-                                msg: 'Failed to remove from bookmarks',
-                              );
-                            } else if (state is AddToBookmarksFailure) {
-                              Fluttertoast.showToast(
-                                msg: 'Failed to add to bookmarks',
-                              );
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
+                  top: 0,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return VideoView(
+                          likesCount: likesCount,
+                          mediaModel: widget.mediaModel,
+                        );
+                      }));
+                    },
+                    child: const Center(
+                      child: CircleAvatar(
+                          radius: 21,
+                          backgroundColor: AppColors.primaryColor,
+                          child: Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                            size: 32,
+                          )),
+                    ),
+                  ),
+                ),
+                widget.topRightIcon != null
+                    ? Positioned(
+                        right: 12,
+                        top: 12,
+                        child: InkWell(
+                          onTap: widget.onIconTap,
+                          child: widget.topRightIcon,
+                        ),
+                      )
+                    : Positioned(
+                        right: 12,
+                        top: 12,
+                        child: InkWell(
+                          onTap: () {
+                            if (!isBookmark) {
+                              context.read<BookmarksCubit>().addToBookmarks(
+                                  mediaId: widget.mediaModel.id);
+                            } else {
+                              context
+                                  .read<BookmarksCubit>()
+                                  .removeFromBookmarks(
+                                      mediaId: widget.mediaModel.id);
                             }
+                            setState(() {
+                              isBookmark = !isBookmark;
+                            });
                           },
                           child: CircleAvatar(
                             radius: 13,
@@ -172,73 +161,73 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                           ),
                         ),
                       ),
+                Positioned(
+                  right: 13,
+                  bottom: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-              Positioned(
-                right: 13,
-                bottom: 8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                    child: Text(
-                      formatDuration(widget.mediaModel.duration ?? ""),
-                      style:
-                          Styles.regularRoboto8.copyWith(color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 4),
+                      child: Text(
+                        formatDuration(widget.mediaModel.duration ?? ""),
+                        style:
+                            Styles.regularRoboto8.copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 24, right: 24, top: 4, bottom: 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.mediaModel.title!,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                  style: Styles.semiBoldPoppins14,
-                ),
-                SizedBox(height: 4.h),
-                widget.isDescriptionAppeared
-                    ? Text(
-                        widget.mediaModel.description ?? "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: Styles.regularPoppins12
-                            .copyWith(color: AppColors.grey),
-                      )
-                    : const SizedBox.shrink(),
-                const Divider(
-                  color: AppColors.lightGrey,
-                  height: 24,
-                ),
-                LikesAndCommentsWidget(
-                  onLikeChanged: (value) {
-                    setState(() {
-                      if (value) {
-                        likesCount++;
-                      } else {
-                        likesCount--;
-                      }
-                    });
-                  },
-                  mediaId: widget.mediaModel.id!,
-                  isLiked: widget.mediaModel.isFavorite == 1 ? true : false,
-                  numberOfComments: widget.mediaModel.commentsCount ?? 0,
-                  numberOfLikes: likesCount,
                 ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 24, right: 24, top: 4, bottom: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.mediaModel.title!,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: Styles.semiBoldPoppins14,
+                  ),
+                  SizedBox(height: 4.h),
+                  widget.isDescriptionAppeared
+                      ? Text(
+                          widget.mediaModel.description ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          style: Styles.regularPoppins12
+                              .copyWith(color: AppColors.grey),
+                        )
+                      : const SizedBox.shrink(),
+                  const Divider(
+                    color: AppColors.lightGrey,
+                    height: 24,
+                  ),
+                  LikesAndCommentsWidget(
+                    onLikeChanged: (value) {
+                      setState(() {
+                        if (value) {
+                          likesCount++;
+                        } else {
+                          likesCount--;
+                        }
+                      });
+                    },
+                    mediaId: widget.mediaModel.id!,
+                    isLiked: widget.mediaModel.isFavorite == 1 ? true : false,
+                    numberOfComments: widget.mediaModel.commentsCount ?? 0,
+                    numberOfLikes: likesCount,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

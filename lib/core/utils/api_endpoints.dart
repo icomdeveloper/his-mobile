@@ -20,6 +20,7 @@ abstract class ApiEndpoints {
   static const String reply = 'comments/reply';
 
   static const String uploadVideo = 'media/store';
+  static const String uploadArticle = 'article/store';
   static const String categoryId = 'category_id';
   static const String title = 'title';
   static const String description = 'description';
@@ -57,4 +58,7 @@ abstract class ApiEndpoints {
   static const String profileImage = 'profile_image';
 
   static const String search = 'search';
+  static const String tokenId = 'token_id';
+
+  static const String hyperlink = 'hyperlink';
 }

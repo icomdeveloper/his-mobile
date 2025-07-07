@@ -25,12 +25,11 @@ class BookmarksModel {
   factory BookmarksModel.fromJsonToMedia(Map<String, dynamic> json) {
     return BookmarksModel(
       id: json['id'] as int?,
-      articleId: json['article_id'] as dynamic,
       mediaId: json['media_id'] as int?,
       flag: json['flag'] as String?,
       mediaModel: json['media'] == null
           ? null
-          : MediaModel.fromJson(json['media'] as Map<String, dynamic>),
+          : MediaModel.fromBookmarkJson(json['media'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -43,7 +42,6 @@ class BookmarksModel {
     return BookmarksModel(
       id: json['id'] as int?,
       articleId: json['article_id'] as dynamic,
-      mediaId: json['media_id'] as int?,
       flag: json['flag'] as String?,
       articleModel: json['article'] == null
           ? null

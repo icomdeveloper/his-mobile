@@ -19,6 +19,7 @@ import 'package:his/features/profile/presentation/view/widgets/choose_file_butto
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/features/profile/presentation/view/widgets/date_drop_down_button.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 
 class UploadVideoTab extends StatefulWidget {
   const UploadVideoTab({super.key});
@@ -34,15 +35,16 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
   bool isPickerActive = false;
   String? selectedYear;
   String? selectedMonth;
   bool isFeatured = false;
+  HtmlEditorController descriptionController = HtmlEditorController();
+
   @override
   void dispose() {
     titleController.dispose();
-    descriptionController.dispose();
+
     super.dispose();
   }
 
@@ -207,7 +209,6 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               ),
             ),
             const SizedBox(height: 12),
-            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -285,11 +286,23 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               style: Styles.semiBoldPoppins14,
             ),
             const SizedBox(height: 4),
-            CustomTextFormField(
-              hintText: 'Write your description here ..',
-              isSearch: false,
-              maxLines: 7,
-              controller: descriptionController,
+            SizedBox(
+              height: 200.h,
+              child: HtmlEditor(
+                controller: descriptionController,
+                htmlToolbarOptions: const HtmlToolbarOptions(
+                  defaultToolbarButtons: [
+                    StyleButtons(),
+                    FontButtons(),
+                    ColorButtons(),
+                    ListButtons(),
+                    ParagraphButtons(),
+                  ],
+                ),
+                // otherOptions: const OtherOptions(
+                //   height: 400,
+                // ),
+              ),
             ),
             const SizedBox(height: 12),
             videoFile == null
@@ -373,6 +386,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                   Fluttertoast.showToast(
                       msg: 'Video uploaded successfully',
                       backgroundColor: const Color(0xFF0F8737));
+                  Navigator.pop(context);
                 }
                 if (state is UploadMediaFailure) {
                   Fluttertoast.showToast(msg: state.message);
@@ -383,7 +397,7 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomTextButton(
                         text: 'Upload file',
-                        onPressed: () {
+                        onPressed: () async {
                           if (videoFile == null) {
                             Fluttertoast.showToast(
                                 msg: 'Please select a video file');
@@ -397,7 +411,8 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
                                     month: selectedMonth!,
                                     isFeatured: isFeatured ? 1 : 0,
                                     title: titleController.text,
-                                    description: descriptionController.text,
+                                    description:
+                                        await descriptionController.getText(),
                                     videoFile: videoFile == null
                                         ? null
                                         : platformFileToFile(videoFile)!,
