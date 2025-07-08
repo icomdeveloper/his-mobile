@@ -47,6 +47,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     var result = await authRepo.register(registerModel: registerModel);
     result.fold((error) => emit(RegisterFailure(message: error.errMesage)),
+
+        
         (success) => emit(RegisterSuccess(registerSuccessModel: success)));
   }
 

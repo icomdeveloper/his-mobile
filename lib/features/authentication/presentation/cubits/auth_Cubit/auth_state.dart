@@ -29,4 +29,5 @@ final class RegisterFailure extends AuthState {
   final String message;
 
   RegisterFailure({required this.message});
+
 }

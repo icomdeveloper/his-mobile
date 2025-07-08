@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,8 @@ import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:his/firebase_options.dart';
 import 'package:provider/provider.dart';
 
+import 'core/services/api_services.dart';
+import 'core/services/check_update/check_update_functions.dart';
 import 'features/on_boarding/presentation/view/on_boarding_view.dart';
 
 void main() async {
@@ -31,9 +34,10 @@ void main() async {
   await Prefs.init();
   Bloc.observer = CustomBlocObserver();
   setupGetIt();
-  log('${getUserData().userInfo!.id})}');
+  //log('${getUserData().userInfo!.id??""})}');
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -44,6 +48,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       builder: (context, child) => ChangeNotifierProvider(
+
         create: (_) => NavBarVisibilityProvider(),
         child: MaterialApp(
           theme: ThemeData(
@@ -51,11 +56,30 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: onGenerateRoute,
-          initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+          home: AppEntryPoint(), // ✅ Entry point where we trigger update check
+
+          /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
               ? MainView.routeName
-              : OnBoardingView.routeName,
+              : OnBoardingView.routeName,*/
         ),
       ),
     );
+  }
+}
+
+class AppEntryPoint extends StatelessWidget {
+  AppEntryPoint({super.key});
+
+  final ApiServices apiServices = ApiServices(dio: Dio());
+
+  @override
+  Widget build(BuildContext context) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
+      CheckUpdateService.check(context, apiServices);
+    });*/
+
+    // While checking, show a blank screen and let routing continue normally
+    final bool seenOnBoarding = Prefs.getBool(PrefsKeys.isOnBoardingSeen);
+    return seenOnBoarding ? const MainView() : const OnBoardingView();
   }
 }

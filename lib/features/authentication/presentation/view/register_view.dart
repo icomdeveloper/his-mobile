@@ -5,15 +5,44 @@ import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/widgets/register_view_body.dart';
 
-class RegisterView extends StatelessWidget {
+import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:provider/provider.dart';
+
+
+class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
+
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  late NavBarVisibilityProvider _navBarProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Store the provider reference when dependencies change
+    _navBarProvider =
+        Provider.of<NavBarVisibilityProvider>(context, listen: false);
+    // Hide navbar when this view appears
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _navBarProvider.hide();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(getIt<AuthRepo>()),
-      child: const Scaffold(
+      child:  Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(child: RegisterViewBody()),
+        body: SafeArea(child: PopScope(
+            canPop: true, // Prevents default back button behavior
+            onPopInvokedWithResult: (bool didPop, _) async {
+              _navBarProvider.show();
+            },
+
+            child: RegisterViewBody())),
       ),
     );
   }

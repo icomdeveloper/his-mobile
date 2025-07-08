@@ -43,7 +43,7 @@ class ServerFailure extends Failure {
       return ServerFailure(errMesage: 'Your request not found !');
     } else if (statusCode == 500) {
       return ServerFailure(
-        errMesage: ' Something went wrong , Tap to try again',
+        errMesage: response['message'],
       );
     } else if (statusCode == 422) {
       return ServerFailure(errMesage: response['message']);

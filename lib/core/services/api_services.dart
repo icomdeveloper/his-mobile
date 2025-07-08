@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ApiServices {
-  final String baseUrl = 'https://his.mc-apps.org/api/';
+   String baseUrl = 'https://his.mc-apps.org/api/';
   final Dio dio;
 
   ApiServices({required this.dio});
