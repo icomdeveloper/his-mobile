@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
@@ -40,6 +41,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                   isSearch: false,
                   hintText: getUserData().userInfo?.name ?? '',
                   controller: context.read<EditProfileCubit>().nameController,
+                  validator: (name) {
+                    if (name == null || name.isEmpty) {
+                      return 'Please enter your current or new name';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 // const SizedBox(
                 //   height: 14,
@@ -62,20 +70,33 @@ class _EditProfileViewState extends State<EditProfileView> {
                 CustomTextFormField(
                   isSearch: false,
                   hintText: getUserData().userInfo?.phone ?? '',
+                  validator: (phone) {
+                    if (phone == null || phone.isEmpty) {
+                      return 'Please enter your current or new phone number';
+                    } else if (!isValidPhoneNumber(phone)) {
+                      return 'Please enter a valid phone number';
+                    } else {
+                      return null;
+                    }
+                  },
                   controller: context.read<EditProfileCubit>().phoneController,
                 ),
                 SizedBox(
                   height: 26.h,
                 ),
                 BlocConsumer<EditProfileCubit, EditProfileState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is EditProfileSuccess) {
                       showCustomSnackBar(
                           message: 'Profile Updated',
                           context: context,
                           backgroundColor: const Color(0xFF0F8737));
-                      updateUserData(phone: state.phone, name: state.name);
-                      Navigator.pop(context);
+
+                      await updateUserData(
+                          phone: state.phone, name: state.name);
+                      Navigator.pop(
+                        context,
+                      );
                     }
                     if (state is EditProfileFailure) {
                       showCustomSnackBar(

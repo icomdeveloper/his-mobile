@@ -21,9 +21,10 @@ class LogoutWidget extends StatelessWidget {
             useRootNavigator: false,
             context: context,
             builder: (_) => AlertDialog(
+                    backgroundColor: Colors.white,
                     title: const Text(
                       ' Log out of your account ?',
-                      style: Styles.semiBoldPoppins14,
+                      style: Styles.semiBoldPoppins16,
                     ),
                     actions: [
                       TextButton(
@@ -32,7 +33,7 @@ class LogoutWidget extends StatelessWidget {
                         },
                         child: Text(
                           'Cancel',
-                          style: Styles.regularPoppins14
+                          style: Styles.semiBoldPoppins14
                               .copyWith(color: AppColors.darkGrey),
                         ),
                       ),
@@ -59,7 +60,7 @@ class LogoutWidget extends StatelessWidget {
                           },
                           child: Text(
                             'Logout',
-                            style: Styles.regularPoppins14
+                            style: Styles.semiBoldPoppins14
                                 .copyWith(color: const Color(0xFFD60000)),
                           ))
                     ]));

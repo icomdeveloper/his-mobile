@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/services/get_it.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/global_search_repo.dart';
@@ -47,21 +50,36 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
+                      Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => BlocProvider(
-                            create: (context) =>
-                                GlobalSearchCubit(getIt<GlobalSearchRepo>()),
-                            child: const GlobalSearchView(),
-                          ),
+                          pageBuilder: (_, __, ___) => const LoginView(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) =>
                                   FadeTransition(
                             opacity: animation,
                             child: child,
                           ),
-                        ));
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => BlocProvider(
+                              create: (context) =>
+                                  GlobalSearchCubit(getIt<GlobalSearchRepo>()),
+                              child: const GlobalSearchView(),
+                            ),
+                            transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) =>
+                                FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            ),
+                          ));
+                    }
                   },
                   child: Container(
                     width: double.infinity,

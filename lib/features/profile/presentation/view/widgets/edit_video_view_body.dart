@@ -143,7 +143,9 @@ class EditVideoViewBody extends StatelessWidget {
           text: 'Cancel',
           backgroundColor: Colors.white,
           textColor: AppColors.primaryColor,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           isArrowAppear: false,
         ),
       ],

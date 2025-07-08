@@ -24,10 +24,11 @@ class DeleteAccountWidget extends StatelessWidget {
           useRootNavigator: false,
           context: context,
           builder: (_) => AlertDialog(
+            backgroundColor: Colors.white,
             actionsAlignment: MainAxisAlignment.spaceBetween,
             title: const Text(
               'Are you sure you want to delete your account ?',
-              style: Styles.semiBoldRoboto20,
+              style: Styles.semiBoldPoppins20,
             ),
             content: const Text(
               'Deleting your account will permanently remove all your data, including your profile, posts, and any other information associated with your account .',

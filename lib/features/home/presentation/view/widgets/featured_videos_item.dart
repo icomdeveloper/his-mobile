@@ -53,7 +53,7 @@ class FeaturedVideosItem extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               LikesAndCommentsWidget(
-                isLiked: mediaModel.isFavorite == 1 ? true : false,
+                isLiked: mediaModel.isFavorite ?? false,
                 mediaId: mediaModel.id!,
                 numberOfComments: mediaModel.commentsCount ?? 0,
                 numberOfLikes: mediaModel.likesCount ?? 0,

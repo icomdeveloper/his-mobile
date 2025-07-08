@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/core/utils/assets.dart';
+import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 
@@ -12,7 +15,7 @@ class EditVideoView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Edit Post', style: Styles.semiBoldRoboto20),
+        title: const Text('Edit Post', style: Styles.semiBoldPoppins20),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -28,7 +31,44 @@ class EditVideoView extends StatelessWidget {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                useRootNavigator: false,
+                builder: (_) => AlertDialog(
+                  backgroundColor: Colors.white,
+                  title: Column(
+                    children: [
+                      SvgPicture.asset(Assets.assetsImagesSuccess),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Success !',
+                        style: Styles.semiBoldPoppins20,
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Post saved successfully.',
+                        style: Styles.regularPoppins14,
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    CustomTextButton(
+                      text: 'Back',
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      backgroundColor: Colors.white,
+                      borderColor: AppColors.primaryColor,
+                      textColor: AppColors.primaryColor,
+                      isArrowAppear: false,
+                    ),
+                  ],
+                ),
+              );
+            },
             child: const Text(
               'Save',
               style: Styles.semiBoldPoppins14,

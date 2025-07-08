@@ -52,7 +52,10 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
           );
         } else {
           return Skeletonizer(
-              child: ListView.builder(
+              child: ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(
+              width: 10,
+            ),
             itemCount: dummyMediaList.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (

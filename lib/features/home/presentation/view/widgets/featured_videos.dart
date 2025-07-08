@@ -41,7 +41,7 @@ class _FeaturedVideosState extends State<FeaturedVideos> {
                   height: 12.h,
                 ),
                 SizedBox(
-                    height: 340.h, child: const FeaturedVideosBlocBuilder()),
+                    height: 345.h, child: const FeaturedVideosBlocBuilder()),
               ],
             ),
     );

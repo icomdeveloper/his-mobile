@@ -46,4 +46,20 @@ class ShowMediaRepo {
           ServerFailure(errMesage: 'Something went wrong , Tap to try again'));
     }
   }
+
+  Future<Either<ServerFailure, int>> incrementViewsCount(
+      {required int mediaId}) async {
+    try {
+      var data = await apiServices
+          .postMethod(endPoint: ApiEndpoints.viewscount, data: {
+        ApiEndpoints.mediaId: mediaId,
+      });
+      return right(data['views']);
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(
+          ServerFailure(errMesage: 'Something went wrong , Tap to try again'));
+    }
+  }
 }

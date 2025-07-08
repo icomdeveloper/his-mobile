@@ -17,6 +17,7 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/views_cubit/views_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
@@ -113,6 +114,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                               child: IconButton(
                                 onPressed: () {
                                   initChewieController();
+                                  context.read<ViewsCubit>().incrementViews(
+                                      mediaId: widget.mediaModel!.id!);
                                   setState(() {
                                     started = true;
                                   });
@@ -195,10 +198,16 @@ class _VideoWidgetState extends State<VideoWidget> {
                                 const Icon(Icons.visibility_outlined,
                                     color: AppColors.grey),
                                 SizedBox(width: 8.w),
-                                Text(
-                                  '${widget.mediaModel?.views ?? 0} views',
-                                  style: Styles.regularPoppins12
-                                      .copyWith(color: AppColors.grey),
+                                BlocBuilder<ViewsCubit, ViewsState>(
+                                  builder: (context, state) {
+                                    return Text(
+                                      state is ViewsSuccess
+                                          ? '${state.viewsCount} views'
+                                          : '${widget.mediaModel?.views ?? 0} views',
+                                      style: Styles.regularPoppins12
+                                          .copyWith(color: AppColors.grey),
+                                    );
+                                  },
                                 ),
                                 // const SizedBox(width: 40),
                                 // SizedBox(

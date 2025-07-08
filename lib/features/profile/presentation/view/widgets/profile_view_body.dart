@@ -34,7 +34,7 @@ class ProfileViewBody extends StatelessWidget {
       child: Stack(clipBehavior: Clip.none, children: [
         Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.9,
+          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           decoration: const BoxDecoration(
             color: AppColors.primaryColor,
@@ -55,7 +55,7 @@ class ProfileViewBody extends StatelessWidget {
           left: 0,
           right: 0,
           child: Container(
-            height: MediaQuery.of(context).size.height - 165.h,
+            height: MediaQuery.of(context).size.height,
             decoration: const ShapeDecoration(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(

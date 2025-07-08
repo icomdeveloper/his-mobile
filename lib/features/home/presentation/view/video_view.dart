@@ -4,8 +4,10 @@ import 'package:his/core/services/get_it.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
+import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/views_cubit/views_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 import 'package:his/features/profile/presentation/view/edit_video_view.dart';
 
@@ -48,6 +50,9 @@ class VideoView extends StatelessWidget {
           providers: [
             BlocProvider(
               create: (context) => CommentsCubit(getIt<CommentRepo>()),
+            ),
+            BlocProvider(
+              create: (context) => ViewsCubit(getIt<ShowMediaRepo>()),
             ),
             BlocProvider(
               create: (context) => GetCommentsCubit(getIt<CommentRepo>())
