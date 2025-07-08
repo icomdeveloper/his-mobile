@@ -14,6 +14,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emit(EditProfileLoading());
     final result = await editProfileRepo.editProfile(
         name: nameController.text, phone: phoneController.text);
+    if (isClosed) return;
     result.fold((l) => emit(EditProfileFailure(errMessage: l.errMesage)),
         (r) => emit(EditProfileSuccess(name: r['name'], phone: r['phone'])));
   }

@@ -9,7 +9,6 @@ part 'global_search_state.dart';
 class GlobalSearchCubit extends Cubit<GlobalSearchState> {
   GlobalSearchCubit(this.globalSearchRepo) : super(GlobalSearchInitial());
   final GlobalSearchRepo globalSearchRepo;
-  // TextEditingController searchController = TextEditingController();
 
   Future<void> search({required String query}) async {
     emit(GlobalSearchInitial());

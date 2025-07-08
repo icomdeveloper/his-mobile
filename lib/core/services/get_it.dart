@@ -13,6 +13,8 @@ import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
+import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
+import 'package:his/features/profile/data/repo/upload_article_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 
 GetIt getIt = GetIt.instance;
@@ -45,6 +47,10 @@ void setupGetIt() {
       EditProfileRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<GlobalSearchRepo>(
       GlobalSearchRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<UpdateProfileImageRepo>(
+      UpdateProfileImageRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<UploadArticleRepo>(
+      UploadArticleRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

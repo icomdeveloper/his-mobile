@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -16,14 +17,17 @@ class LikesAndCommentsWidget extends StatelessWidget {
     required this.numberOfComments,
     required this.mediaId,
     this.onLikeChanged,
+    this.isLiked,
   });
   final int numberOfLikes, numberOfComments, mediaId;
+  final bool? isLiked;
   final ValueChanged<bool>? onLikeChanged;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MediaLikesCubit(getIt<MediaLikesRepo>()),
       child: LikesAndComments(
+          isLiked: isLiked ?? false,
           onLikeChanged: (value) {
             onLikeChanged?.call(value);
           },
@@ -41,11 +45,13 @@ class LikesAndComments extends StatefulWidget {
     required this.numberOfComments,
     required this.mediaId,
     this.onLikeChanged,
+    required this.isLiked,
   });
 
   final int numberOfLikes;
   final int numberOfComments;
   final int mediaId;
+  final bool isLiked;
   final ValueChanged<bool>? onLikeChanged;
 
   @override
@@ -53,7 +59,15 @@ class LikesAndComments extends StatefulWidget {
 }
 
 class _LikesAndCommentsState extends State<LikesAndComments> {
-  bool _isLiked = false;
+  late bool _isLiked;
+  late int _likesCount;
+  @override
+  initState() {
+    _isLiked = widget.isLiked;
+    _likesCount = widget.numberOfLikes;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -72,17 +86,25 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
             if (state is AddLikeSuccess) {
               _isLiked = true;
               widget.onLikeChanged?.call(true);
+              _likesCount++;
             }
             if (state is DeleteLikeSuccess) {
               _isLiked = false;
               widget.onLikeChanged?.call(false);
+              _likesCount--;
+            }
+            if (state is AddLikeFailure) {
+              Fluttertoast.showToast(msg: state.message);
+            }
+            if (state is DeleteLikeFailure) {
+              Fluttertoast.showToast(msg: state.message);
             }
             setState(() {});
           },
           child: Icon(
             _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
             size: 18,
-            color: _isLiked ? AppColors.primaryColor : AppColors.darkGrey,
+            color: AppColors.darkGrey,
           ),
         ),
       ),
@@ -90,9 +112,7 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
         width: 4,
       ),
       Text(
-        widget.numberOfLikes > 1
-            ? '${widget.numberOfLikes} Likes'
-            : '${widget.numberOfLikes} Like',
+        _likesCount > 1 ? '$_likesCount Likes' : '$_likesCount Like',
         style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
       const SizedBox(

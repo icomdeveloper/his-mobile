@@ -36,14 +36,14 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField2<DropDownItemWidget>(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
           border: buildBorder(),
           enabledBorder: buildBorder(),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         ),
-        validator: (value) => value == null ? 'please select an author' : null,
+        // validator: (value) => value == null ? 'please select an author' : null,
         selectedItemBuilder: (context) {
           return items.map(
             (item) {
@@ -159,11 +159,11 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
 }
 
 final List<AuthorModel> authors = [
-  AuthorModel(
-      name: 'John Doe', image: 'https://randomuser.me/api/portraits/men/1.jpg'),
-  AuthorModel(name: 'Mustafa Kamel', image: 'https://i.pravatar.cc/300?img=1'),
-  AuthorModel(name: 'Ali Osama', image: 'https://i.pravatar.cc/300?img=2'),
-  AuthorModel(
-      name: 'Ibrahim Mohamed', image: 'https://i.pravatar.cc/300?img=3'),
-  AuthorModel(name: 'Karim Salah', image: 'https://i.pravatar.cc/300?img=4'),
+  // AuthorModel(
+  //     name: 'John Doe', image: 'https://randomuser.me/api/portraits/men/1.jpg'),
+  // AuthorModel(name: 'Mustafa Kamel', image: 'https://i.pravatar.cc/300?img=1'),
+  // AuthorModel(name: 'Ali Osama', image: 'https://i.pravatar.cc/300?img=2'),
+  // AuthorModel(
+  //     name: 'Ibrahim Mohamed', image: 'https://i.pravatar.cc/300?img=3'),
+  // AuthorModel(name: 'Karim Salah', image: 'https://i.pravatar.cc/300?img=4'),
 ];

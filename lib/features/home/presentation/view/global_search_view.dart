@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
+import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/home/presentation/cubits/global_search_cubit/global_search_cubit.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
@@ -43,8 +46,11 @@ class GlobalSearchView extends StatelessWidget {
             BlocBuilder<GlobalSearchCubit, GlobalSearchState>(
               builder: (context, state) {
                 if (state is GlobalSearchSuccess) {
-                  return VideoCardSliverList(
-                    mediaList: state.mediaList,
+                  return BlocProvider(
+                    create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
+                    child: VideoCardSliverList(
+                      mediaList: state.mediaList,
+                    ),
                   );
                 } else if (state is GlobalSearchFailure) {
                   return SliverToBoxAdapter(

@@ -63,16 +63,16 @@ class _CommentsListViewState extends State<CommentsListView> {
         const SizedBox(
           height: 12,
         ),
-        BlocProvider(
-          create: (context) => CommentLikeCubit(getIt<MediaLikesRepo>()),
-          child: Expanded(
-            child: ListView.separated(
-              controller: controller,
-              separatorBuilder: (context, index) => const Divider(
-                color: AppColors.lightGrey,
-              ),
-              itemCount: commentsList.length,
-              itemBuilder: (context, index) => CommentWidget(
+        Expanded(
+          child: ListView.separated(
+            controller: controller,
+            separatorBuilder: (context, index) => const Divider(
+              color: AppColors.lightGrey,
+            ),
+            itemCount: commentsList.length,
+            itemBuilder: (context, index) => BlocProvider(
+              create: (context) => CommentLikeCubit(getIt<MediaLikesRepo>()),
+              child: CommentWidget(
                 comment: commentsList[index],
               ),
             ),

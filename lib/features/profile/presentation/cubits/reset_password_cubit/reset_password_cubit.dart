@@ -23,6 +23,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     );
     var result = await resetPasswordRepo.resetPassword(
         resetPasswordModel: resetPasswordModel);
+    if (isClosed) return;
     result.fold((error) => emit(ResetPasswordFailure(message: error.errMesage)),
         (success) => emit(ResetPasswordSuccess()));
   }

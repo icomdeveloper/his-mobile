@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -36,8 +37,9 @@ class LogoutWidget extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Prefs.setBool(PrefsKeys.isLoggedIn, false);
+                            await removeUserData();
                             Navigator.pushAndRemoveUntil(
                               context,
                               PageRouteBuilder(

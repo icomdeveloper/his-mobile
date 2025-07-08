@@ -19,7 +19,6 @@ final MediaModel dummyMedia = MediaModel(
       'https://drive.google.com/file/d/16Dq97iZ-gojFW6cqenBKKLjOmZgqEmr2/preview',
   status: 'pending',
   isFeatured: 1,
-  isRecommended: 1,
   createdAt: DateTime.now(),
   updatedAt: DateTime.now(),
   views: '',
@@ -35,6 +34,8 @@ final ArticleModel dummyArticle = ArticleModel(
       'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',
   description:
       'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptescriptiondescription',
+  thumbnailImage:
+      'https://images.squarespace-cdn.com/content/v1/60f1a490a90ed8713c41c36c/1629223610791-LCBJG5451DRKX4WOB4SP/37-design-powers-url-structure.jpeg',
   image:
       'https://images.squarespace-cdn.com/content/v1/60f1a490a90ed8713c41c36c/1629223610791-LCBJG5451DRKX4WOB4SP/37-design-powers-url-structure.jpeg',
   pdf: 'pdf',

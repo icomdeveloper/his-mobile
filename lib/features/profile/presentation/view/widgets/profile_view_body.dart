@@ -9,9 +9,11 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
+import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
 import 'package:his/features/profile/presentation/cubits/delete_user_cubit/delete_user_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/update_profile_image_cubit/update_profile_image_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
 import 'package:his/features/profile/presentation/view/edit_profile_view.dart';
 import 'package:his/features/profile/presentation/view/my_articles_view.dart';
@@ -41,7 +43,11 @@ class ProfileViewBody extends StatelessWidget {
             padding: EdgeInsets.only(
               top: 50.h,
             ),
-            child: const ProfileUserInfo(),
+            child: BlocProvider(
+              create: (context) =>
+                  UpdateProfileImageCubit(getIt<UpdateProfileImageRepo>()),
+              child: const ProfileUserInfo(),
+            ),
           ),
         ),
         Positioned(

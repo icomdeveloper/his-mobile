@@ -133,7 +133,6 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                         mediaList = state.mediaList;
                         return VideoCardSliverList(
                           mediaList: filteredMediaList ?? mediaList,
-                          isBookmark: true,
                         );
                       } else if (state is GetBookmarksFailure) {
                         return SliverToBoxAdapter(
@@ -153,7 +152,6 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                       return Skeletonizer.sliver(
                         child: VideoCardSliverList(
                           mediaList: dummyMediaList,
-                          isBookmark: true,
                         ),
                       );
                     },

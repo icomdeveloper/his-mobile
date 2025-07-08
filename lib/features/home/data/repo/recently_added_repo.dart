@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/media_model.dart';
@@ -13,9 +14,11 @@ class RecentlyAddedRepo {
   Future<Either<ServerFailure, List<MediaModel>>>
       getRecentlyAddedVideos() async {
     try {
-      final data =
-          await apiServices.getMethod(endPoint: ApiEndpoints.recentlyAdded);
-      List<dynamic> dataList = data['data'];
+      final response = await apiServices.getMethod(
+          endPoint: ApiEndpoints.recentlyAdded,
+          token: getUserData().token,
+          data: {ApiEndpoints.userId: getUserData().userInfo?.id});
+      List<dynamic> dataList = response['data'];
       final mediaList = dataList
           .expand((category) => (category['media'] as List)
               .map((mediaJson) => MediaModel.fromJson(mediaJson)))

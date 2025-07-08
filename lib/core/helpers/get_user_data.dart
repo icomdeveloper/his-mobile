@@ -11,6 +11,10 @@ Future saveUserData({required UserData user}) async {
   await Prefs.setString(PrefsKeys.userData, jsonData);
 }
 
+Future removeUserData() async {
+  await Prefs.remove(PrefsKeys.userData);
+}
+
 UserData getUserData() {
   try {
     var user = Prefs.getString(PrefsKeys.userData);
@@ -38,6 +42,32 @@ Future<void> updateUserData({
       email: currentData.userInfo?.email,
       name: name ?? currentData.userInfo?.name,
       phone: phone ?? currentData.userInfo?.phone,
+      createdAt: currentData.userInfo?.createdAt,
+      updatedAt: currentData.userInfo?.updatedAt,
+    ),
+    token: currentData.token,
+  );
+
+  // Save updated settings
+  await saveUserData(user: data);
+}
+
+Future<void> updateUserProfileImage({
+  String? profileImage,
+}) async {
+  // Get current settings
+  final currentData = getUserData();
+
+  var data = currentData;
+  // Update only the provided fields
+  data = UserData(
+    message: currentData.message,
+    userInfo: UserInformation(
+      profileImage: profileImage ?? currentData.userInfo?.profileImage,
+      id: currentData.userInfo?.id,
+      email: currentData.userInfo?.email,
+      name: currentData.userInfo?.name,
+      phone: currentData.userInfo?.phone,
       createdAt: currentData.userInfo?.createdAt,
       updatedAt: currentData.userInfo?.updatedAt,
     ),

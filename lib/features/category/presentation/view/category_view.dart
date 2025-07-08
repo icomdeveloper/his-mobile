@@ -37,10 +37,6 @@ class CategoryView extends StatelessWidget {
                     providers: [
                       BlocProvider(
                         create: (context) =>
-                            BookmarksCubit(getIt<BookmarksRepo>()),
-                      ),
-                      BlocProvider(
-                        create: (context) =>
                             GetMediaCubit(getIt<ShowMediaRepo>()),
                       ),
                     ],

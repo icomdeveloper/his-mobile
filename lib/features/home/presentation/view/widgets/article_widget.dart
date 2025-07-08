@@ -1,13 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/core/widgets/text_container_widget.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/article_view.dart';
@@ -87,46 +88,72 @@ class _ArticleWidgetState extends State<ArticleWidget> {
           padding: const EdgeInsets.all(24),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            AspectRatio(
-              aspectRatio: 294 / 68,
-              child: Image.asset(
-                Assets.assetsImagesDoctestimage,
-                fit: BoxFit.cover,
-              ),
-            ),
+            widget.articleModel.thumbnailImage != null
+                ? AspectRatio(
+                    aspectRatio: 294 / 68,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.articleModel.thumbnailImage!,
+                      errorWidget: (context, url, error) {
+                        return const Center(
+                          child: Icon(
+                            Icons.error,
+                            color: AppColors.primaryColor,
+                          ),
+                        );
+                      },
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : const SizedBox.shrink(),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const TextContainerWidget(text: 'Nutrition'),
-                SizedBox(
-                  width: 11.w,
+                // const TextContainerWidget(text: 'Nutrition'),
+                // SizedBox(
+                //   width: 11.w,
+                // ),
+                // Text(
+                //   '8 Mins read',
+                //   style: Styles.semiBoldPoppins12
+                //       .copyWith(color: AppColors.grey, fontSize: 10.sp),
+                // ),
+                // const Spacer(),
+                BlocListener<BookmarksCubit, BookmarksState>(
+                  listener: (context, state) {
+                    if (state is AddToBookmarksSuccess) {
+                      isBookmark = true;
+                      setState(() {});
+                    } else if (state is RemoveFromBookmarksSuccess) {
+                      isBookmark = false;
+                      setState(() {});
+                    } else if (state is RemoveFromBookmarksFailure) {
+                      Fluttertoast.showToast(
+                        msg: 'Failed to remove from bookmarks',
+                      );
+                    } else if (state is AddToBookmarksFailure) {
+                      Fluttertoast.showToast(
+                        msg: 'Failed to add to bookmarks',
+                      );
+                    }
+                  },
+                  child: IconButton(
+                      onPressed: () {
+                        if (!isBookmark) {
+                          context.read<BookmarksCubit>().addToBookmarks(
+                              articleId: widget.articleModel.id);
+                        } else {
+                          context.read<BookmarksCubit>().removeFromBookmarks(
+                              articleId: widget.articleModel.id);
+                        }
+                      },
+                      icon: Icon(
+                        isBookmark
+                            ? Icons.bookmark
+                            : Icons.bookmark_border_outlined,
+                        color: AppColors.primaryColor,
+                        size: 18,
+                      )),
                 ),
-                Text(
-                  '8 Mins read',
-                  style: Styles.semiBoldPoppins12
-                      .copyWith(color: AppColors.grey, fontSize: 10.sp),
-                ),
-                const Spacer(),
-                IconButton(
-                    onPressed: () {
-                      if (!isBookmark) {
-                        context
-                            .read<BookmarksCubit>()
-                            .addToBookmarks(articleId: widget.articleModel.id);
-                      } else {
-                        context.read<BookmarksCubit>().removeFromBookmarks(
-                            articleId: widget.articleModel.id);
-                      }
-                      setState(() {
-                        isBookmark = !isBookmark;
-                      });
-                    },
-                    icon: Icon(
-                      isBookmark
-                          ? Icons.bookmark
-                          : Icons.bookmark_border_outlined,
-                      color: AppColors.primaryColor,
-                      size: 18,
-                    )),
               ],
             ),
             Text(

@@ -1,5 +1,3 @@
-import 'package:his/features/bookmarks/data/models/bookmarks_model/item.dart';
-
 class MediaModel {
   int? id;
   int? categoryId;
@@ -10,13 +8,16 @@ class MediaModel {
   String? filePath;
   String? pdf;
   String? thumbnailPath;
+  String? mention;
+  dynamic assignedTo;
+  bool? isFavorite;
   String? status;
   String? duration;
   int? isFeatured;
-  int? isRecommended;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? commentsCount;
+  bool? isLiked;
   int? likesCount;
   String? image;
 
@@ -32,7 +33,10 @@ class MediaModel {
     this.thumbnailPath,
     this.status,
     this.isFeatured,
-    this.isRecommended,
+    this.isLiked,
+    this.assignedTo,
+    this.mention,
+    this.isFavorite,
     this.createdAt,
     this.updatedAt,
     this.duration,
@@ -52,12 +56,42 @@ class MediaModel {
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
+        assignedTo: json['assigned_to'] as dynamic,
+        mention: json['mention'] as String?,
+        isFavorite: json['is_favorite'] as bool?,
+        isLiked: json['is_liked'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: json['comments_count'] as int?,
         likesCount: json['likes_count'] as int?,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
-        isRecommended: json['is_recommended'] as int?,
+        createdAt: json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt: json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
+      );
+  factory MediaModel.fromBookmarkJson(Map<String, dynamic> json) => MediaModel(
+        id: json['id'] as int?,
+        categoryId: json['category_id'] as int?,
+        userId: json['user_id'] as int?,
+        title: json['title'] as String?,
+        views: json['views'] as String?,
+        description: json['description'] as String?,
+        filePath: json['file_path'] as String?,
+        isLiked: json['is_liked'] as bool?,
+        pdf: json['pdf'] as String?,
+        duration: json['duration'] as String?,
+        thumbnailPath: json['thumbnail_path'] as String,
+        assignedTo: json['assigned_to'] as dynamic,
+        mention: json['mention'] as String?,
+        isFavorite: json['is_favorite'] as bool?,
+        image: json['image_path'] as String?,
+        commentsCount: (json['comments'] as List<dynamic>).length,
+        likesCount: (json['likes'] as List<dynamic>).length,
+        status: json['status'] as String?,
+        isFeatured: json['is_featured'] as int?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
@@ -77,32 +111,43 @@ class MediaModel {
         'pdf': pdf,
         'duration': duration,
         'thumbnail_path': thumbnailPath,
+        'is_liked': isLiked,
         'image_path': image,
         'comments_count': commentsCount,
+        'assigned_to': assignedTo,
+        'mention': mention,
         'likes_count': likesCount,
         'status': status,
         'is_featured': isFeatured,
-        'is_recommended': isRecommended,
+        'is_favorite': isFavorite,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
-  factory MediaModel.fromBookmarks(Item bookmark) => MediaModel(
-        id: bookmark.id,
-        categoryId: bookmark.categoryId,
-        userId: bookmark.userId,
-        title: bookmark.title,
-        views: bookmark.views,
-        description: bookmark.description as String?,
-        filePath: bookmark.filePath,
-        pdf: bookmark.pdf,
-        duration: bookmark.duration,
-        thumbnailPath: bookmark.thumbnailPath as String,
-        image: bookmark.imagePath,
-        status: bookmark.status,
-        isFeatured: bookmark.isFeatured,
-        createdAt:
-            bookmark.createdAt == null ? null : bookmark.createdAt as DateTime,
-        updatedAt:
-            bookmark.updatedAt == null ? null : bookmark.updatedAt as DateTime,
+  factory MediaModel.fromMedia(MediaModel mediaModel) => MediaModel(
+        id: mediaModel.id,
+        categoryId: mediaModel.categoryId,
+        userId: mediaModel.userId,
+        title: mediaModel.title,
+        commentsCount: mediaModel.commentsCount,
+        likesCount: mediaModel.likesCount,
+        views: mediaModel.views,
+        description: mediaModel.description,
+        assignedTo: mediaModel.assignedTo,
+        mention: mediaModel.mention,
+        isFavorite: mediaModel.isFavorite,
+        filePath: mediaModel.filePath,
+        isLiked: mediaModel.isLiked,
+        pdf: mediaModel.pdf,
+        duration: mediaModel.duration,
+        thumbnailPath: mediaModel.thumbnailPath as String,
+        image: mediaModel.image,
+        status: mediaModel.status,
+        isFeatured: mediaModel.isFeatured,
+        createdAt: mediaModel.createdAt == null
+            ? null
+            : mediaModel.createdAt as DateTime,
+        updatedAt: mediaModel.updatedAt == null
+            ? null
+            : mediaModel.updatedAt as DateTime,
       );
 }
