@@ -49,6 +49,10 @@ class CommentRepo {
       List<dynamic> commentsList = data['data'];
       return right(commentsList.map((e) => CommentsModel.fromJson(e)).toList());
     } on DioException catch (e) {
+      if (e.response?.statusCode == 422) {
+        return left(ServerFailure(
+            errMesage: e.response?.data['errors']['media_id'][0]));
+      }
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));

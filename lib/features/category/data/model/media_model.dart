@@ -10,7 +10,7 @@ class MediaModel {
   String? thumbnailPath;
   String? mention;
   dynamic assignedTo;
-  int? isFavorite;
+  bool? isFavorite;
   String? status;
   String? duration;
   int? isFeatured;
@@ -58,7 +58,7 @@ class MediaModel {
         thumbnailPath: json['thumbnail_path'] as String,
         assignedTo: json['assigned_to'] as dynamic,
         mention: json['mention'] as String?,
-        isFavorite: json['is_favorite'] as int?,
+        isFavorite: json['is_favorite'] as bool?,
         isLiked: json['is_liked'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: json['comments_count'] as int?,
@@ -86,7 +86,7 @@ class MediaModel {
         thumbnailPath: json['thumbnail_path'] as String,
         assignedTo: json['assigned_to'] as dynamic,
         mention: json['mention'] as String?,
-        isFavorite: json['is_favorite'] as int?,
+        isFavorite: json['is_favorite'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: (json['comments'] as List<dynamic>).length,
         likesCount: (json['likes'] as List<dynamic>).length,

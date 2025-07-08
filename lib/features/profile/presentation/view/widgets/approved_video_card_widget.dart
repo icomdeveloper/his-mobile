@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:his/core/helpers/dummy_media.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_widget.dart';
 
@@ -14,11 +15,12 @@ class ApprovedVideoCardWidget extends StatelessWidget {
         VideoCardWidget(
           mediaModel: dummyMedia,
           isDescriptionAppeared: false,
+          topRightIcon: const SizedBox.shrink(),
         ),
-        const SizedBox(height: 12),
-        const Text(
+        const SizedBox(height: 8),
+        Text(
           'Approved on May 26, 2025 at 10:30 AM',
-          style: Styles.regularRoboto12,
+          style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
         ),
       ],
     );
