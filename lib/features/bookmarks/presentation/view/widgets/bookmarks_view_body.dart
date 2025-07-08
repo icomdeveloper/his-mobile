@@ -133,6 +133,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                         mediaList = state.mediaList;
                         return VideoCardSliverList(
                           mediaList: filteredMediaList ?? mediaList,
+                          isFavourite: true,
                         );
                       } else if (state is GetBookmarksFailure) {
                         return SliverToBoxAdapter(

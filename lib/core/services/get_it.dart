@@ -16,6 +16,7 @@ import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
 import 'package:his/features/profile/data/repo/upload_article_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
+import 'package:his/features/profile/data/repo/user_articles_repo.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -51,6 +52,8 @@ void setupGetIt() {
       UpdateProfileImageRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<UploadArticleRepo>(
       UploadArticleRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<UserArticlesRepo>(
+      UserArticlesRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

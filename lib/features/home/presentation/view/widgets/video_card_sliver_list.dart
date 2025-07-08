@@ -10,8 +10,10 @@ class VideoCardSliverList extends StatelessWidget {
   const VideoCardSliverList({
     super.key,
     required this.mediaList,
+    this.isFavourite,
   });
   final List<MediaModel> mediaList;
+  final bool? isFavourite;
   @override
   Widget build(BuildContext context) {
     return SliverList.separated(
@@ -21,7 +23,7 @@ class VideoCardSliverList extends StatelessWidget {
         create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
         child: VideoCardWidget(
           mediaModel: mediaList[index],
-          isbookmark: mediaList[index].isFavorite ?? false,
+          isbookmark: isFavourite ?? mediaList[index].isFavorite ?? false,
         ),
       ),
     );

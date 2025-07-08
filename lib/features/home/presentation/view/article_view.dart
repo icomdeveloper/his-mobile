@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -10,6 +12,8 @@ class ArticleView extends StatelessWidget {
   final ArticleModel articleModel;
   @override
   Widget build(BuildContext context) {
+    final text = articleModel.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context, title: '', centerTitle: false),
@@ -29,31 +33,27 @@ class ArticleView extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                'By Suliman Ibrahim  . Published on ${getCustomDate(articleModel.createdAt ?? DateTime.now())} ',
+                'Published on ${getCustomDate(articleModel.createdAt ?? DateTime.now())} ',
                 style: Styles.regularPoppins12
                     .copyWith(color: AppColors.primaryColor),
               ),
               const SizedBox(
                 height: 24,
               ),
-              Text(
-                articleModel.description ?? '',
-                style: Styles.regularPoppins14,
-              ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
-              // const Text(
-              //   'Lorem ipsum dolor sit amet consectetur. Id non sem dignissim leo risus et volutpat elit integer. Mauris lectus non parturient nunc ipsum scelerisque. Nisl elementum orci orci ac. Consequat viverra elementum potenti imperdiet dignissim. Eu leo nulla platea enim cras nisi in. Mattis maecenas viverra suspendisse ut at cursus. Consequat ultrices ipsum bibendum in. Mattis nibh at ut ac augue. Diam massa mi maecenas netus. Nec sed dictum consequat vitae neque maecenas. Leo integer orci morbi dolor eu gravida.',
-              //   style: Styles.regularPoppins14,
-              // ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
-              // const Text(
-              //   'Lorem ipsum dolor sit amet consectetur. Id non sem dignissim leo risus et volutpat elit integer. Mauris lectus non parturient nunc ipsum scelerisque. Nisl elementum orci orci ac. Consequat viverra elementum potenti imperdiet dignissim. Eu leo nulla platea enim cras nisi in. Mattis maecenas viverra suspendisse ut at cursus. Consequat ultrices ipsum bibendum in. Mattis nibh at ut ac augue. Diam massa mi maecenas netus. Nec sed dictum consequat vitae neque maecenas. Leo integer orci morbi dolor eu gravida.',
-              //   style: Styles.regularPoppins14,
-              // ),
+              isHtml
+                  ? Html(data: articleModel.description ?? '', style: {
+                      "p": Style(
+                          padding: HtmlPaddings.zero,
+                          margin: Margins.zero,
+                          color: Colors.black,
+                          fontSize: FontSize(14.sp),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Poppins')
+                    })
+                  : Text(
+                      articleModel.description ?? '',
+                      style: Styles.regularPoppins14,
+                    ),
               const SizedBox(
                 height: 12,
               ),

@@ -12,6 +12,7 @@ class FeaturedVideosCubit extends Cubit<FeaturedVideosState> {
   Future<void> getFeaturedVideos() async {
     emit(FeaturedVideosLoading());
     final data = await featuredVideosRepo.getFeaturedVideos();
+    if (isClosed) return;
     data.fold(
         (failure) => emit(FeaturedVideosFailure(errMessage: failure.errMesage)),
         (list) => emit(FeaturedVideosSuccess(mediaList: list)));

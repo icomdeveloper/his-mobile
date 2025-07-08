@@ -13,7 +13,7 @@ import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/home/data/models/article_model.dart';
 import 'package:his/features/home/presentation/view/article_view.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_html/flutter_html.dart';
 import '../../../../bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 
 class ArticleWidget extends StatefulWidget {
@@ -36,6 +36,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final text = widget.articleModel.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return InkWell(
       onTap: () {
         if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
@@ -88,11 +90,11 @@ class _ArticleWidgetState extends State<ArticleWidget> {
           padding: const EdgeInsets.all(24),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            widget.articleModel.thumbnailImage != null
+            widget.articleModel.image != null
                 ? AspectRatio(
                     aspectRatio: 294 / 68,
                     child: CachedNetworkImage(
-                      imageUrl: widget.articleModel.thumbnailImage!,
+                      imageUrl: widget.articleModel.image!,
                       errorWidget: (context, url, error) {
                         return const Center(
                           child: Icon(
@@ -160,13 +162,25 @@ class _ArticleWidgetState extends State<ArticleWidget> {
               widget.articleModel.title!,
               style: Styles.semiBoldPoppins14,
             ),
-            Text(
-              widget.articleModel.description!,
-              style: Styles.regularPoppins12
-                  .copyWith(color: AppColors.grey, fontSize: 10.sp),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
+            isHtml
+                ? Html(data: widget.articleModel.description ?? '', style: {
+                    "p": Style(
+                        padding: HtmlPaddings.zero,
+                        margin: Margins.zero,
+                        textOverflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        color: AppColors.grey,
+                        fontSize: FontSize(12),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Poppins')
+                  })
+                : Text(
+                    widget.articleModel.description!,
+                    style: Styles.regularPoppins12
+                        .copyWith(color: AppColors.grey, fontSize: 10.sp),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
             const SizedBox(
               height: 8,
             ),

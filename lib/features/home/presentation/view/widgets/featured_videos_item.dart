@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
@@ -15,6 +16,8 @@ class FeaturedVideosItem extends StatelessWidget {
   final MediaModel mediaModel;
   @override
   Widget build(BuildContext context) {
+    String? text = mediaModel.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return Container(
       width: MediaQuery.of(context).size.width - 48.w,
       decoration: ShapeDecoration(
@@ -42,12 +45,25 @@ class FeaturedVideosItem extends StatelessWidget {
                 style: Styles.semiBoldPoppins14,
               ),
               SizedBox(height: 4.h),
-              Text(
-                mediaModel.description ?? "",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
-                style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
-              ),
+              isHtml
+                  ? Html(data: mediaModel.description ?? '', style: {
+                      "p": Style(
+                          padding: HtmlPaddings.zero,
+                          margin: Margins.zero,
+                          textOverflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          color: AppColors.grey,
+                          fontSize: FontSize(12),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Poppins')
+                    })
+                  : Text(
+                      mediaModel.description ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: Styles.regularPoppins12
+                          .copyWith(color: AppColors.grey),
+                    ),
               const Divider(
                 color: AppColors.lightGrey,
               ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
 import 'package:his/core/services/app_routes.dart';
 import 'package:his/core/services/custom_bloc_observer.dart';
@@ -38,7 +35,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -48,7 +44,6 @@ class MyApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       builder: (context, child) => ChangeNotifierProvider(
-
         create: (_) => NavBarVisibilityProvider(),
         child: MaterialApp(
           theme: ThemeData(
@@ -56,7 +51,10 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: onGenerateRoute,
-          home: AppEntryPoint(), // ✅ Entry point where we trigger update check
+          initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+              ? MainView.routeName
+              : OnBoardingView.routeName,
+          // home: AppEntryPoint(), // ✅ Entry point where we trigger update check
 
           /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
               ? MainView.routeName

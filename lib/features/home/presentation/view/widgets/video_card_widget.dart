@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,6 +45,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final text = widget.mediaModel.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return Container(
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -210,13 +213,27 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                 ),
                 SizedBox(height: 4.h),
                 widget.isDescriptionAppeared
-                    ? Text(
-                        widget.mediaModel.description ?? "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: Styles.regularPoppins12
-                            .copyWith(color: AppColors.grey),
-                      )
+                    ? isHtml
+                        ? Html(
+                            data: widget.mediaModel.description ?? '',
+                            style: {
+                                "p": Style(
+                                    padding: HtmlPaddings.zero,
+                                    margin: Margins.zero,
+                                    textOverflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    color: AppColors.grey,
+                                    fontSize: FontSize(12),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Poppins')
+                              })
+                        : Text(
+                            widget.mediaModel.description ?? "",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            style: Styles.regularPoppins12
+                                .copyWith(color: AppColors.grey),
+                          )
                     : const SizedBox.shrink(),
                 const Divider(
                   color: AppColors.lightGrey,

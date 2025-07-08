@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -88,6 +89,8 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final text = widget.mediaModel?.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,11 +191,21 @@ class _VideoWidgetState extends State<VideoWidget> {
                         child: Column(
                           children: [
                             SizedBox(height: 4.h),
-                            Text(
-                              widget.mediaModel?.description ?? '',
-                              style: Styles.regularPoppins12
-                                  .copyWith(color: AppColors.grey),
-                            ),
+                            isHtml
+                                ? Html(
+                                    data: widget.mediaModel?.description ?? '',
+                                    style: {
+                                        "p": Style(
+                                            color: AppColors.grey,
+                                            fontSize: FontSize(12.sp),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'Poppins')
+                                      })
+                                : Text(
+                                    widget.mediaModel?.description ?? '',
+                                    style: Styles.regularPoppins12
+                                        .copyWith(color: AppColors.grey),
+                                  ),
                             Row(
                               children: [
                                 const Icon(Icons.visibility_outlined,

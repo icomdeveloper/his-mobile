@@ -4,7 +4,9 @@ import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/profile/data/repo/upload_article_repo.dart';
+import 'package:his/features/profile/data/repo/user_articles_repo.dart';
 import 'package:his/features/profile/presentation/cubits/upload_article_cubit/upload_article_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/user_articles_cubit/user_articles_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/my_articles_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/upload_article_tab.dart';
 
@@ -60,9 +62,14 @@ class _MyArticleViewBodyState extends State<MyArticleViewBody>
                 BlocProvider(
                   create: (context) =>
                       UploadArticleCubit(getIt<UploadArticleRepo>()),
-                  child: UploadArticleTab(),
+                  child: const UploadArticleTab(),
                 ),
-                MyArticlesTabBar(),
+                BlocProvider(
+                  create: (context) =>
+                      UserArticlesCubit(getIt<UserArticlesRepo>())
+                        ..getUserArticles(),
+                  child: const MyArticlesTabBar(),
+                ),
               ]))
         ],
       ),

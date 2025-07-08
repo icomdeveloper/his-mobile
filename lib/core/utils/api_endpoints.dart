@@ -62,4 +62,5 @@ abstract class ApiEndpoints {
 
   static const String hyperlink = 'hyperlink';
   static const String viewscount = 'viewscount';
+  static const String userArticles = 'user_articles';
 }

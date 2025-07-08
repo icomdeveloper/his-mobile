@@ -31,9 +31,9 @@ final List<MediaModel> dummyMediaList = [dummyMedia, dummyMedia, dummyMedia];
 final ArticleModel dummyArticle = ArticleModel(
   id: 0,
   title:
-      'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle',
+      'titletitletitlet itletitleti tletitletitletitletit letitletitle titletitletitletitle',
   description:
-      'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptescriptiondescription',
+      'descriptiondescription descriptiondescr iptiondescriptiondescript  iondescriptiondescriptio ndescriptiondescriptio ndescripti',
   thumbnailImage:
       'https://images.squarespace-cdn.com/content/v1/60f1a490a90ed8713c41c36c/1629223610791-LCBJG5451DRKX4WOB4SP/37-design-powers-url-structure.jpeg',
   image:

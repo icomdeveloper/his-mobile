@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/format_duration.dart';
@@ -18,6 +19,8 @@ class RecentlyAddedWidget extends StatelessWidget {
   final MediaModel mediaModel;
   @override
   Widget build(BuildContext context) {
+    final text = mediaModel.description ?? '';
+    final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return InkWell(
       onTap: () {
         if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
@@ -111,14 +114,26 @@ class RecentlyAddedWidget extends StatelessWidget {
                       maxLines: 2,
                       style: Styles.semiBoldPoppins14,
                     ),
-                    Text(
-                      mediaModel.description ?? "",
-                      style: Styles.regularPoppins12.copyWith(
-                        color: AppColors.grey,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                    ),
+                    isHtml
+                        ? Html(data: mediaModel.description ?? '', style: {
+                            "p": Style(
+                                padding: HtmlPaddings.zero,
+                                margin: Margins.zero,
+                                textOverflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                color: AppColors.grey,
+                                fontSize: FontSize(12),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins')
+                          })
+                        : Text(
+                            mediaModel.description ?? "",
+                            style: Styles.regularPoppins12.copyWith(
+                              color: AppColors.grey,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                          ),
                     const SizedBox(height: 4),
                     mediaModel.createdAt != null
                         ? Text(

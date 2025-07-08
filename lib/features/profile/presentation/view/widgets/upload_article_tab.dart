@@ -17,8 +17,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/features/profile/presentation/view/widgets/date_drop_down_button.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
-import '../../cubits/upload_media_cubit/upload_media_cubit.dart';
-
 class UploadArticleTab extends StatefulWidget {
   const UploadArticleTab({super.key});
 
@@ -237,7 +235,7 @@ class _UploadArticleTabState extends State<UploadArticleTab> {
                 }
               },
               builder: (context, state) {
-                return state is UploadMediaLoading
+                return state is UploadArticleLoading
                     ? const Center(child: CircularProgressIndicator())
                     : CustomTextButton(
                         text: 'Upload Article',

@@ -12,6 +12,8 @@ class RecentlyAddedCubit extends Cubit<RecentlyAddedState> {
   Future<void> getRecentlyAddedVideos() async {
     emit(RecentlyAddedLoading());
     final result = await recentlyAddedRepo.getRecentlyAddedVideos();
+    if (isClosed) return;
+
     result.fold(
         (error) => emit(RecentlyAddedFailure(errMessage: error.errMesage)),
         (mediaList) => emit(RecentlyAddedSuccess(mediaList: mediaList)));

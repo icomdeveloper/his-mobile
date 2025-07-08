@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/media_model.dart';
@@ -13,7 +14,10 @@ class ShowMediaRepo {
 
   Future<Either<ServerFailure, List<MediaModel>>> showVideos() async {
     try {
-      var data = await apiServices.getMethod(endPoint: ApiEndpoints.showMedia);
+      var data = await apiServices.getMethod(
+          endPoint: ApiEndpoints.showMedia,
+          token: getUserData().token,
+          data: {ApiEndpoints.userId: getUserData().userInfo?.id});
       Map<String, dynamic> dataList = data['data'];
       List<dynamic> categories = dataList['categories'];
       final mediaList = categories
@@ -31,8 +35,10 @@ class ShowMediaRepo {
 
   Future<Either<ServerFailure, List<ArticleModel>>> showArticles() async {
     try {
-      var data =
-          await apiServices.getMethod(endPoint: ApiEndpoints.showArticles);
+      var data = await apiServices.getMethod(
+          endPoint: ApiEndpoints.showArticles,
+          token: getUserData().token,
+          data: {ApiEndpoints.userId: getUserData().userInfo?.id});
       List<dynamic> articleData = data['data'];
 
       List<ArticleModel> list =
