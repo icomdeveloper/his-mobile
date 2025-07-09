@@ -28,7 +28,12 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
-  bool _isLiked = false;
+  late bool _isLiked;
+  @override
+  initState() {
+    super.initState();
+    _isLiked = widget.comment.isLiked ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
