@@ -130,11 +130,11 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                       setState(() {});
                     } else if (state is RemoveFromBookmarksFailure) {
                       Fluttertoast.showToast(
-                        msg: 'Failed to remove from bookmarks',
+                        msg: state.errMessage,
                       );
                     } else if (state is AddToBookmarksFailure) {
                       Fluttertoast.showToast(
-                        msg: 'Failed to add to bookmarks',
+                        msg: state.errMessage,
                       );
                     }
                   },

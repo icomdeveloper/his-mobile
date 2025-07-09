@@ -44,6 +44,7 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
               image = null;
             } else if (state is UpdateProfileImageFailure) {
               showCustomSnackBar(message: state.errMessage, context: context);
+              image = null;
             }
           },
           builder: (context, state) {

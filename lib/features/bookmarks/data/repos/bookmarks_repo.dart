@@ -28,6 +28,9 @@ class BookmarksRepo {
           endPoint: ApiEndpoints.addToBookmarks, data: data);
       return Right(response['message']);
     } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        return Left(ServerFailure(errMesage: e.response?.data['message']));
+      }
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
@@ -55,6 +58,9 @@ class BookmarksRepo {
           endPoint: ApiEndpoints.removeFromBookmarks, data: data);
       return Right(response['message']);
     } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        return Left(ServerFailure(errMesage: e.response?.data['message']));
+      }
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));

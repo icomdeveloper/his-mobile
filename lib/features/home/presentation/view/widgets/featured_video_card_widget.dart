@@ -119,11 +119,11 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 });
               } else if (state is RemoveFromBookmarksFailure) {
                 Fluttertoast.showToast(
-                  msg: 'Failed to remove from bookmarks',
+                  msg: state.errMessage,
                 );
               } else if (state is AddToBookmarksFailure) {
                 Fluttertoast.showToast(
-                  msg: 'Failed to add to bookmarks',
+                  msg: state.errMessage,
                 );
               }
             },
