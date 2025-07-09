@@ -67,23 +67,30 @@ class ArticleView extends StatelessWidget {
   }
 
   String formatMentions(String mentionsJson) {
-    // Step 1: Parse the JSON string into a List<String>
-    List<String> mentions = (jsonDecode(mentionsJson) as List).cast<String>();
+    try {
+      // Step 1: Parse the JSON string into a List<String>
+      final List<String> mentions =
+          (jsonDecode(mentionsJson) as List).cast<String>();
 
-    // Step 2: Format the mentions into a readable string
-    if (mentions.isEmpty) {
+      // Step 2: Format the mentions into a readable string
+      if (mentions.isEmpty) {
+        return "";
+      } else if (mentions.length == 1) {
+        return "By: ${mentions[0]}. ";
+      } else {
+        // Capitalize first letter of last mention
+        final String lastMention = mentions.last[0].toUpperCase() +
+            mentions.last.substring(1).toLowerCase();
+
+        // Join all other mentions with commas
+        final String otherMentions =
+            mentions.sublist(0, mentions.length - 1).join(", ");
+
+        return "By: $otherMentions, $lastMention. ";
+      }
+    } catch (e) {
+      // Handle invalid JSON format
       return "";
-    } else if (mentions.length == 1) {
-      return "By : ${mentions[0]} . ";
-    } else {
-      String lastMention = mentions.last;
-      lastMention = lastMention[0].toUpperCase() + lastMention.substring(1);
-
-      // Join all mentions except the last one with commas
-      String allExceptLast =
-          mentions.sublist(0, mentions.length - 1).join(", ");
-
-      return "By: $allExceptLast, $lastMention . ";
     }
   }
 }
