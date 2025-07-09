@@ -5,9 +5,14 @@ sealed class GlobalSearchState {}
 
 final class GlobalSearchInitial extends GlobalSearchState {}
 
-final class GlobalSearchSuccess extends GlobalSearchState {
+final class GlobalSearchMediaSuccess extends GlobalSearchState {
   final List<MediaModel> mediaList;
-  GlobalSearchSuccess({required this.mediaList});
+  GlobalSearchMediaSuccess({required this.mediaList});
+}
+
+final class GlobalSearchArticleSuccess extends GlobalSearchState {
+  final List<ArticleModel> articleList;
+  GlobalSearchArticleSuccess({required this.articleList});
 }
 
 final class GlobalSearchFailure extends GlobalSearchState {
