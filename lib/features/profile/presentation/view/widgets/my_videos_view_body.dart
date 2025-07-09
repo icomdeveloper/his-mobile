@@ -4,7 +4,9 @@ import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
+import 'package:his/features/profile/data/repo/user_videos_repo.dart';
 import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/user_videos_cubit/user_videos_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/published_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/pending_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/upload_video_tab.dart';
@@ -66,8 +68,16 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                       UploadMediaCubit(getIt<UploadVideoRepo>()),
                   child: const UploadVideoTab(),
                 ),
-                const PublishedTabBar(),
-                const PendingTabBar(),
+                BlocProvider(
+                  create: (context) =>
+                      UserVideosCubit(getIt<UserVideosRepo>())..userVideos(),
+                  child: const PublishedTabBar(),
+                ),
+                BlocProvider(
+                    create: (context) =>
+                        UserVideosCubit(getIt<UserVideosRepo>())
+                          ..userPendingVideos(),
+                    child: const PendingTabBar()),
               ]))
         ],
       ),

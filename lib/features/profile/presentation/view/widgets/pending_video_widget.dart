@@ -3,20 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/features/home/presentation/view/widgets/article_widget.dart';
+import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/pending_video_bottom_sheet.dart';
 
-class PendingVideosArticlesWidget extends StatelessWidget {
-  const PendingVideosArticlesWidget({super.key, this.isVideo = true});
-  final bool isVideo;
+class PendingVideosSliverList extends StatelessWidget {
+  const PendingVideosSliverList({
+    super.key,
+    required this.mediaList,
+  });
+  final List<MediaModel> mediaList;
   @override
   Widget build(BuildContext context) {
     return SliverList.separated(
-      separatorBuilder: (context, index) => const SizedBox(height: 24),
-      itemBuilder: (context, index) => isVideo
-          ? VideoCardWidget(
-              mediaModel: dummyMedia,
+        separatorBuilder: (context, index) => const SizedBox(height: 24),
+        itemCount: mediaList.length,
+        itemBuilder: (context, index) => VideoCardWidget(
+              mediaModel: mediaList[index],
               onIconTap: () {
                 showModalBottomSheet(
                     showDragHandle: true,
@@ -31,11 +34,6 @@ class PendingVideosArticlesWidget extends StatelessWidget {
                     AppColors.primaryColor, BlendMode.srcIn),
               ),
               isDescriptionAppeared: false,
-            )
-          : ArticleWidget(
-              articleModel: dummyArticle,
-            ),
-      itemCount: 2,
-    );
+            ));
   }
 }
