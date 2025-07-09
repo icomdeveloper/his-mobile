@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +35,7 @@ class ArticleView extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                'Published on ${getCustomDate(articleModel.createdAt ?? DateTime.now())} ',
+                '${formatMentions(articleModel.mention ?? '')}Published on ${getCustomDate(articleModel.createdAt ?? DateTime.now())} ',
                 style: Styles.regularPoppins12
                     .copyWith(color: AppColors.primaryColor),
               ),
@@ -62,5 +64,26 @@ class ArticleView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatMentions(String mentionsJson) {
+    // Step 1: Parse the JSON string into a List<String>
+    List<String> mentions = (jsonDecode(mentionsJson) as List).cast<String>();
+
+    // Step 2: Format the mentions into a readable string
+    if (mentions.isEmpty) {
+      return "";
+    } else if (mentions.length == 1) {
+      return "By : ${mentions[0]} . ";
+    } else {
+      String lastMention = mentions.last;
+      lastMention = lastMention[0].toUpperCase() + lastMention.substring(1);
+
+      // Join all mentions except the last one with commas
+      String allExceptLast =
+          mentions.sublist(0, mentions.length - 1).join(", ");
+
+      return "By: $allExceptLast, $lastMention . ";
+    }
   }
 }
