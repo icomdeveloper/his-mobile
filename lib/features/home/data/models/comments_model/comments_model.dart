@@ -10,6 +10,7 @@ class CommentsModel {
   String? content;
   DateTime? createdAt;
   DateTime? updatedAt;
+  bool? isLiked;
   List<ReplyModel>? replies;
   UserInformation? user;
 
@@ -20,6 +21,7 @@ class CommentsModel {
     this.parentId,
     this.content,
     this.createdAt,
+    this.isLiked,
     this.updatedAt,
     this.replies,
     this.user,
@@ -37,6 +39,7 @@ class CommentsModel {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
+        isLiked: json['is_liked'] as bool?,
         replies: (json['replies'] as List<dynamic>?)
             ?.map((e) => ReplyModel.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -49,6 +52,7 @@ class CommentsModel {
         'id': id,
         'user_id': userId,
         'media_id': mediaId,
+        'is_liked': isLiked,
         'parent_id': parentId,
         'content': content,
         'created_at': createdAt?.toIso8601String(),

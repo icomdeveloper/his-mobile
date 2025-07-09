@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/add_comment_model.dart';
@@ -41,10 +42,12 @@ class CommentRepo {
   Future<Either<ServerFailure, List<CommentsModel>>> getComments(
       {required int mediaId, bool isArticle = false}) async {
     try {
-      var data = await apiServices.getCommentMethod(
+      var data = await apiServices.getMethod(
         endPoint: ApiEndpoints.getMediaComments,
-        mediaId: mediaId,
-        isArticle: isArticle,
+        data: {
+          ApiEndpoints.mediaId: mediaId,
+          ApiEndpoints.userId: getUserData().userInfo!.id
+        },
       );
       List<dynamic> commentsList = data['data'];
       return right(commentsList.map((e) => CommentsModel.fromJson(e)).toList());

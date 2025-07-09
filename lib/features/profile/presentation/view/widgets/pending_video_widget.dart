@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
