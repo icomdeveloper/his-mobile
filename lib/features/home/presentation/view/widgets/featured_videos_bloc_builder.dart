@@ -8,33 +8,28 @@ import 'package:his/features/home/presentation/view/widgets/featured_videos_item
 import 'package:skeletonizer/skeletonizer.dart';
 
 class FeaturedVideosBlocBuilder extends StatelessWidget {
-  const FeaturedVideosBlocBuilder({
-    super.key,
-  });
+  const FeaturedVideosBlocBuilder({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FeaturedVideosCubit, FeaturedVideosState>(
       builder: (context, state) {
         if (state is FeaturedVideosSuccess) {
-          if (state.mediaList.isEmpty) {
-            return const SizedBox.shrink();
-          }
-          return ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 10,
-            ),
-            scrollDirection: Axis.horizontal,
-            itemCount: state.mediaList.length,
-            itemBuilder: (
-              context,
-              index,
-            ) {
-              return FeaturedVideosItem(
+          if (state.mediaList.isEmpty) return SizedBox.shrink();
+
+          return SizedBox(
+            height: 338.h,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
+              itemCount: state.mediaList.length,
+              itemBuilder: (context, index) => FeaturedVideosItem(
                 mediaModel: state.mediaList[index],
-              );
-            },
+              ),
+            ),
           );
         }
+
         if (state is FeaturedVideosFailure) {
           return SizedBox(
             height: 200.h,
@@ -50,24 +45,22 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
               ),
             ),
           );
-        } else {
-          return Skeletonizer(
-              child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 10,
-            ),
-            itemCount: dummyMediaList.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (
-              context,
-              index,
-            ) {
-              return FeaturedVideosItem(
-                mediaModel: dummyMediaList[index],
-              );
-            },
-          ));
         }
+
+        // Loading state (Skeletons)
+        return SizedBox(
+          height: 338.h,
+          child: Skeletonizer(
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
+              itemCount: dummyMediaList.length,
+              itemBuilder: (context, index) => FeaturedVideosItem(
+                mediaModel: dummyMediaList[index],
+              ),
+            ),
+          ),
+        );
       },
     );
   }

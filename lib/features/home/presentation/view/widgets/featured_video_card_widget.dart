@@ -38,9 +38,9 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
       ),
       child: Stack(children: [
         SizedBox(
-          height: 192.h,
+          width: 342.w,
           child: AspectRatio(
-            aspectRatio: 342 / 192,
+            aspectRatio: 342.w / 192.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: CachedNetworkImage(
@@ -143,7 +143,7 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 radius: 13,
                 backgroundColor: Colors.white,
                 child: SizedBox(
-                  width: 11.w,
+                  width: 11,
                   child: AspectRatio(
                     aspectRatio: 11 / 14,
                     child: SvgPicture.asset(

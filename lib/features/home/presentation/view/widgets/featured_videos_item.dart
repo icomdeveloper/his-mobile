@@ -34,40 +34,48 @@ class FeaturedVideosItem extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Padding(
-          padding:
-              const EdgeInsets.only(left: 24, right: 24, top: 4, bottom: 14),
+          padding: EdgeInsets.only(
+            left: 24.w,
+            right: 24.w,
+            top: 4.h,
+          ),
           child: Column(
             children: [
               Text(
-                mediaModel.title ?? "",
+                mediaModel.title ?? '',
                 overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+                maxLines: 1,
                 style: Styles.semiBoldPoppins14,
               ),
-              SizedBox(height: 4.h),
               isHtml
                   ? Html(data: mediaModel.description ?? '', style: {
                       "p": Style(
                           padding: HtmlPaddings.zero,
                           margin: Margins.zero,
                           textOverflow: TextOverflow.ellipsis,
-                          maxLines: 3,
+                          maxLines: 2,
                           color: AppColors.grey,
                           fontSize: FontSize(12),
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Poppins')
                     })
-                  : Text(
-                      mediaModel.description ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                      style: Styles.regularPoppins12
-                          .copyWith(color: AppColors.grey),
+                  : Column(
+                      children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          mediaModel.description ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Styles.regularPoppins12.copyWith(
+                            color: AppColors.grey,
+                          ),
+                        ),
+                      ],
                     ),
               const Divider(
                 color: AppColors.lightGrey,
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               LikesAndCommentsWidget(
                 isLiked: mediaModel.isFavorite ?? false,
                 mediaId: mediaModel.id!,

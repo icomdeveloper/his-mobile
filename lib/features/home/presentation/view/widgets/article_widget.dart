@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
@@ -177,7 +176,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                 : Text(
                     widget.articleModel.description!,
                     style: Styles.regularPoppins12
-                        .copyWith(color: AppColors.grey, fontSize: 10.sp),
+                        .copyWith(color: AppColors.grey, fontSize: 10),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -198,8 +197,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                   },
                   child: Text(
                     widget.articleModel.hyperlink ?? '',
-                    style: Styles.regularPoppins12.copyWith(
-                        color: const Color(0xff2463B6), fontSize: 10.sp),
+                    style: Styles.regularPoppins12
+                        .copyWith(color: const Color(0xff2463B6), fontSize: 10),
                   ),
                 ),
               ],

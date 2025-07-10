@@ -16,7 +16,6 @@ import 'package:his/features/profile/presentation/cubits/reset_password_cubit/re
 import 'package:his/features/profile/presentation/cubits/update_profile_image_cubit/update_profile_image_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
 import 'package:his/features/profile/presentation/view/edit_profile_view.dart';
-import 'package:his/features/profile/presentation/view/my_articles_view.dart';
 import 'package:his/features/profile/presentation/view/my_videos_view.dart';
 import 'package:his/features/profile/presentation/view/help_center_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/delete_account_widget.dart';
@@ -156,25 +155,25 @@ class ProfileViewBody extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  UserDataRowWidget(
-                    title: 'My Articles',
-                    image: Assets.assetsImagesCategories,
-                    trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
-                    onTap: () => Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const MyArticlesView(),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) =>
-                                FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        ),
-                        transitionDuration: const Duration(milliseconds: 500),
-                      ),
-                    ),
-                  ),
+                  // const SizedBox(height: 12),
+                  // UserDataRowWidget(
+                  //   title: 'My Articles',
+                  //   image: Assets.assetsImagesCategories,
+                  //   trailing: SvgPicture.asset(Assets.assetsImagesArrowForward),
+                  //   onTap: () => Navigator.push(
+                  //     context,
+                  //     PageRouteBuilder(
+                  //       pageBuilder: (_, __, ___) => const MyArticlesView(),
+                  //       transitionsBuilder:
+                  //           (context, animation, secondaryAnimation, child) =>
+                  //               FadeTransition(
+                  //         opacity: animation,
+                  //         child: child,
+                  //       ),
+                  //       transitionDuration: const Duration(milliseconds: 500),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 32),
                   const Text(
                     'Settings',

@@ -162,7 +162,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                             radius: 13,
                             backgroundColor: Colors.white,
                             child: SizedBox(
-                              width: 11.w,
+                              width: 11,
                               child: AspectRatio(
                                 aspectRatio: 11 / 14,
                                 child: SvgPicture.asset(

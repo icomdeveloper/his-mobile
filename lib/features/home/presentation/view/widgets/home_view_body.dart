@@ -9,20 +9,15 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
-import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
 import 'package:his/features/home/data/repo/global_search_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
-import 'package:his/features/home/presentation/cubits/get_articles_cubit/get_articles_cubit.dart';
 import 'package:his/features/home/presentation/cubits/global_search_cubit/global_search_cubit.dart';
 import 'package:his/features/home/presentation/cubits/recently_added_cubit/recently_added_cubit.dart';
 import 'package:his/features/home/presentation/view/global_search_view.dart';
-import 'package:his/features/home/presentation/view/widgets/article_list_bloc_builder.dart';
 import 'package:his/features/home/presentation/view/widgets/featured_videos.dart';
 import 'package:his/features/home/presentation/view/widgets/recently_added_bloc_builder.dart';
-
-import '../see_all_articles_view.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
@@ -34,7 +29,7 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
-  bool _showArticleHeader = true;
+  // bool _showArticleHeader = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -121,60 +116,60 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               child: const FeaturedVideos(),
             ),
           ),
-          if (_showArticleHeader)
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 12.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Articles', style: Styles.semiBoldPoppins20),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const SeeAllArticlesView(),
-                              transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) =>
-                                  FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'See All',
-                          style: Styles.regularPoppins12
-                              .copyWith(decoration: TextDecoration.underline),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 12.h,
-                  ),
-                ],
-              ),
-            ),
-          BlocProvider(
-            create: (context) =>
-                GetArticlesCubit(getIt<ShowMediaRepo>())..getArticles(),
-            child: ArticleListBlocBuilder(
-              onEmptyList: () => setState(() => _showArticleHeader = false),
-            ),
-          ),
+          // if (_showArticleHeader)
+          //   SliverToBoxAdapter(
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         SizedBox(
+          //           height: 12.h,
+          //         ),
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             const Text('Articles', style: Styles.semiBoldPoppins20),
+          //             InkWell(
+          //               onTap: () {
+          //                 Navigator.of(context).push(
+          //                   PageRouteBuilder(
+          //                     pageBuilder: (_, __, ___) =>
+          //                         const SeeAllArticlesView(),
+          //                     transitionsBuilder: (context, animation,
+          //                             secondaryAnimation, child) =>
+          //                         FadeTransition(
+          //                       opacity: animation,
+          //                       child: child,
+          //                     ),
+          //                   ),
+          //                 );
+          //               },
+          //               child: Text(
+          //                 'See All',
+          //                 style: Styles.regularPoppins12
+          //                     .copyWith(decoration: TextDecoration.underline),
+          //               ),
+          //             )
+          //           ],
+          //         ),
+          //         SizedBox(
+          //           height: 12.h,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // BlocProvider(
+          //   create: (context) =>
+          //       GetArticlesCubit(getIt<ShowMediaRepo>())..getArticles(),
+          //   child: ArticleListBlocBuilder(
+          //     onEmptyList: () => setState(() => _showArticleHeader = false),
+          //   ),
+          // ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 32.h,
+                  height: 18.h,
                 ),
                 const Text('Recently Added', style: Styles.semiBoldPoppins20),
                 SizedBox(

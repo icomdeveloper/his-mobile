@@ -58,7 +58,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               ),
               Text(getRelativeTime(widget.comment.createdAt!),
                   style: Styles.regularPoppins12.copyWith(
-                    fontSize: 10.sp,
+                    fontSize: 10,
                     color: AppColors.grey,
                   ))
             ],
