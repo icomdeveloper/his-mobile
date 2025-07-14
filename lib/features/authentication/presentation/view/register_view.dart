@@ -8,7 +8,6 @@ import 'package:his/features/authentication/presentation/view/widgets/register_v
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
 import 'package:provider/provider.dart';
 
-
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -30,19 +29,20 @@ class _RegisterViewState extends State<RegisterView> {
       _navBarProvider.hide();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(getIt<AuthRepo>()),
-      child:  Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(child: PopScope(
-            canPop: true, // Prevents default back button behavior
-            onPopInvokedWithResult: (bool didPop, _) async {
-              _navBarProvider.show();
-            },
-
-            child: RegisterViewBody())),
+        body: SafeArea(
+            child: PopScope(
+                canPop: true, // Prevents default back button behavior
+                onPopInvokedWithResult: (bool didPop, _) async {
+                  _navBarProvider.show();
+                },
+                child: RegisterViewBody())),
       ),
     );
   }

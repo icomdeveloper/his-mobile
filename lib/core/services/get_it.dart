@@ -4,7 +4,9 @@ import 'package:his/core/services/api_services.dart';
 import 'package:his/core/services/firebase_auth_services.dart';
 import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
+import 'package:his/features/category/data/repo/categories_repo.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
+import 'package:his/features/category/data/repo/media_by_category_repo.dart';
 import 'package:his/features/category/data/repo/media_details_repo.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
 import 'package:his/features/home/data/repo/featured_videos_repo.dart';
@@ -60,6 +62,10 @@ void setupGetIt() {
       UserVideosRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<MediaDetailsRepo>(
       MediaDetailsRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<CategoriesRepo>(
+      CategoriesRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<MediaByCategoryRepo>(
+      MediaByCategoryRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

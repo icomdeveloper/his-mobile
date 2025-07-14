@@ -24,7 +24,7 @@ class UpdateProfileImageRepo {
         ApiEndpoints.userId: getUserData().userInfo!.id,
         'profile_image': image
       });
-      final response = await apiServices.postMethod(
+      final response = await apiServices.putMethod(
           endPoint: ApiEndpoints.updateProfileImage,
           data: formData,
           isFormData: true);

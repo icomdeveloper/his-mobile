@@ -92,7 +92,7 @@ class _ForceYpdateState extends State<ForceYpdate> {
              // print("not = $apiAppVersion   $AppCode");
               throw 'Could not launch $appStoreLink';
             }
-          },*//*
+          },*/ /*
 
             onPressed: () async {
               Navigator.of(context).pop();
@@ -109,7 +109,7 @@ class _ForceYpdateState extends State<ForceYpdate> {
               if (appStoreLink == null || appStoreLink.isEmpty) {
                 print("Error: No update link provided.");
                 return;
-              }*//*
+              }*/ /*
 
 
               Uri uri = Uri.parse(widget.UpdateURL);
@@ -127,7 +127,6 @@ class _ForceYpdateState extends State<ForceYpdate> {
   }
 }
 */
-
 
 import 'dart:io';
 import 'package:flutter/material.dart';

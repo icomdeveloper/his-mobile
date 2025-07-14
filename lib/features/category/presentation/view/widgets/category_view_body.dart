@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_error_widget.dart';
+import 'package:his/features/category/data/model/categories/categories.dart';
 import 'package:his/features/category/data/model/media_model.dart';
-import 'package:his/features/category/presentation/cubits/get_media_cubit/get_media_cubit.dart';
+import 'package:his/features/category/presentation/cubits/media_by_category_cubit/media_by_category_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/category_list.dart';
 
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
@@ -14,46 +17,33 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class CategoryViewBody extends StatefulWidget {
-  const CategoryViewBody({super.key});
-
+  const CategoryViewBody({super.key, required this.categories});
+  final List<Categories> categories;
   @override
   State<CategoryViewBody> createState() => _CategoryViewBodyState();
 }
 
 class _CategoryViewBodyState extends State<CategoryViewBody> {
-  List<String> yearList = const [
-    '2025',
-    '2024',
-    '2023',
-    '2022',
-    '2021',
-    '2020',
-  ];
-  List<String> monthList = const [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  String selectedYear = '2025';
-  String selectedMonth = 'january';
+  late String selectedMonth;
+  late String selectedYear;
+  late int yearIndex;
   bool showComments = false;
+  late int monthId;
   List<MediaModel> mediaList = [];
   List<MediaModel>? filteredMediaList;
   final TextEditingController _searchController = TextEditingController();
   @override
   initState() {
     super.initState();
+    selectedYear = widget.categories.first.name.toString();
+    selectedMonth =
+        widget.categories.first.subcategories!.first.name.toString();
+    yearIndex = 0;
+    monthId = widget.categories[0].subcategories!.first.id ?? 0;
     _searchController.addListener(_filterItems);
-    context.read<GetMediaCubit>().getVideos();
+    context
+        .read<MediaByCategoryCubit>()
+        .getMediaByCategory(categoryId: monthId);
   }
 
   void _filterItems() {
@@ -77,7 +67,9 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
       key: const Key('category'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0.5) {
-          context.read<GetMediaCubit>().getVideos();
+          context.read<MediaByCategoryCubit>().getMediaByCategory(
+                categoryId: monthId,
+              );
         }
       },
       child: Padding(
@@ -104,12 +96,25 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                   width: double.infinity,
                   child: YearList(
                     onItemTapped: (value) {
-                      if (value == yearList.indexOf(selectedYear)) return;
+                      if (selectedYear == widget.categories[value].name!) {
+                        return;
+                      }
                       setState(() {
-                        selectedYear = yearList[value];
+                        selectedYear = widget.categories[value].name!;
+                        yearIndex = value;
+                        monthId =
+                            widget.categories[value].subcategories![0].id ?? 0;
+                        monthListIndex = 0;
+                        selectedMonth = widget.categories[value]
+                            .subcategories![monthListIndex].name!;
                       });
+                      log(selectedYear);
+                      context
+                          .read<MediaByCategoryCubit>()
+                          .getMediaByCategory(categoryId: monthId);
                     },
-                    categoryList: yearList,
+                    categoryList:
+                        widget.categories.map((e) => e.name!).toList(),
                   )),
             ),
             const SliverToBoxAdapter(
@@ -121,12 +126,23 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                   width: double.infinity,
                   child: MonthList(
                     onItemTapped: (value) {
-                      if (value == monthList.indexOf(selectedMonth)) return;
+                      if (selectedMonth ==
+                          widget.categories[yearIndex].subcategories![value]
+                              .name) return;
                       setState(() {
-                        selectedMonth = monthList[value];
+                        selectedMonth = widget
+                            .categories[yearIndex].subcategories![value].name!;
+                        monthId = widget
+                            .categories[yearIndex].subcategories![value].id!;
+                        monthListIndex = value;
                       });
+                      context
+                          .read<MediaByCategoryCubit>()
+                          .getMediaByCategory(categoryId: monthId);
                     },
-                    categoryList: monthList,
+                    categoryList: widget.categories[yearIndex].subcategories!
+                        .map((e) => e.name!)
+                        .toList(),
                   )),
             ),
             SliverToBoxAdapter(
@@ -146,9 +162,9 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                 ],
               ),
             ),
-            BlocBuilder<GetMediaCubit, GetMediaState>(
+            BlocBuilder<MediaByCategoryCubit, MediaByCategoryState>(
               builder: (context, state) {
-                if (state is GetMediaSuccess) {
+                if (state is MediaByCategorySuccess) {
                   if (state.mediaList.isEmpty) {
                     return SliverToBoxAdapter(
                         child: SizedBox(
@@ -156,7 +172,9 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                       child: CustomErrorWidget(
                         errorMessage: 'No videos found',
                         onTap: () {
-                          context.read<GetMediaCubit>().getVideos();
+                          context
+                              .read<MediaByCategoryCubit>()
+                              .getMediaByCategory(categoryId: monthId);
                         },
                       ),
                     ));
@@ -165,14 +183,16 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                   return VideoCardSliverList(
                     mediaList: filteredMediaList ?? mediaList,
                   );
-                } else if (state is GetMediaFailure) {
+                } else if (state is MediaByCategoryFailure) {
                   return SliverToBoxAdapter(
                       child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: CustomErrorWidget(
-                      errorMessage: state.message,
+                      errorMessage: state.errMessage,
                       onTap: () {
-                        context.read<GetMediaCubit>().getVideos();
+                        context
+                            .read<MediaByCategoryCubit>()
+                            .getMediaByCategory(categoryId: monthId);
                       },
                     ),
                   ));

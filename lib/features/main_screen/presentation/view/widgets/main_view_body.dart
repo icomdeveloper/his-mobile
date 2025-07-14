@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/helpers/indexed_stack_provider.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/features/bookmarks/presentation/view/bookmarks_view.dart';
+import 'package:his/features/category/presentation/cubits/categories_cubit/categories_cubit.dart';
 import 'package:his/features/category/presentation/view/category_view.dart';
 import 'package:his/features/home/presentation/view/home_view.dart';
 import 'package:his/features/main_screen/presentation/view/widgets/custom_bottom_nav_bar.dart';
 import 'package:his/features/profile/presentation/view/profile_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../category/data/repo/categories_repo.dart';
 
 class MainViewBody extends StatefulWidget {
   const MainViewBody({super.key});
@@ -30,7 +35,11 @@ class _MainViewBodyState extends State<MainViewBody> {
 
     final List<Widget> screens = [
       HomeView(navigatorKey: navigatorKeys[0]!),
-      CategoryView(navigatorKey: navigatorKeys[1]!),
+      BlocProvider(
+        create: (context) =>
+            CategoriesCubit(getIt<CategoriesRepo>())..getCategories(),
+        child: CategoryView(navigatorKey: navigatorKeys[1]!),
+      ),
       BookmarksView(navigatorKey: navigatorKeys[2]!),
       ProfileView(navigatorKey: navigatorKeys[3]!),
     ];

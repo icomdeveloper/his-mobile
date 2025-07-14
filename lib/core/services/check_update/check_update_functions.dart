@@ -1,8 +1,7 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../api_services.dart'; // your Dio service
-import 'force_update.dart';   // your force update screen
+import 'force_update.dart'; // your force update screen
 
 class CheckUpdateService {
   final ApiServices apiServices;
@@ -14,7 +13,8 @@ class CheckUpdateService {
   static const String androidVersion = "1";
   static const String iosVersion = "1";
 
-  static Future<void> check(BuildContext context, ApiServices apiServices) async {
+  static Future<void> check(
+      BuildContext context, ApiServices apiServices) async {
     try {
       final response = await apiServices.getMethod(endPoint: 'check-update');
 
@@ -35,9 +35,8 @@ class CheckUpdateService {
           ? (data['ios'] ?? 0) == 1
           : (data['android'] ?? 0) == 1;
 
-      final String updateUrl = Platform.isIOS
-          ? data['ios_link'] ?? ''
-          : data['android_link'] ?? '';
+      final String updateUrl =
+          Platform.isIOS ? data['ios_link'] ?? '' : data['android_link'] ?? '';
 
       if (isForcedUpdate && apiVersion != localVersion) {
         print("🔁 Update required: $apiVersion != $localVersion");
@@ -45,9 +44,12 @@ class CheckUpdateService {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => ForceYpdate(UpdateURL: updateUrl, apiServices: apiServices,),
+            builder: (context) => ForceYpdate(
+              UpdateURL: updateUrl,
+              apiServices: apiServices,
+            ),
           ),
-              (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
         );
       }
     } catch (e) {

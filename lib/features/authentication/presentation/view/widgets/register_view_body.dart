@@ -316,10 +316,10 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                                 'Registered successfully',
                             context: context,
                             backgroundColor: const Color(0xFF0F8737));
-                       // Navigator.pop(context);
+                        // Navigator.pop(context);
                         Prefs.setBool(PrefsKeys.isLoggedIn, true);
                         Provider.of<NavBarVisibilityProvider>(context,
-                            listen: false)
+                                listen: false)
                             .show();
                         Navigator.pushReplacementNamed(
                           context,
@@ -346,7 +346,6 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
                                   context.read<AuthCubit>().register();
-
                                 } else {
                                   autovalidateMode = AutovalidateMode.always;
                                   setState(() {});

@@ -65,6 +65,8 @@ class _CategoriesListState extends State<YearList> {
   }
 }
 
+int monthListIndex = 0;
+
 class MonthList extends StatefulWidget {
   const MonthList(
       {super.key, required this.categoryList, required this.onItemTapped});
@@ -75,7 +77,6 @@ class MonthList extends StatefulWidget {
 }
 
 class _MonthListState extends State<MonthList> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -90,7 +91,7 @@ class _MonthListState extends State<MonthList> {
           onTap: () {
             widget.onItemTapped(index);
             setState(() {
-              selectedIndex = index;
+              monthListIndex = index;
             });
           },
           child: Column(
@@ -98,13 +99,13 @@ class _MonthListState extends State<MonthList> {
               Center(
                 child: Text(widget.categoryList[index],
                     style: Styles.regularPoppins14.copyWith(
-                      color: index == selectedIndex
+                      color: index == monthListIndex
                           ? AppColors.primaryColor
                           : AppColors.grey,
                     )),
               ),
               const SizedBox(height: 4),
-              index == selectedIndex
+              index == monthListIndex
                   ? Container(
                       height: 1, width: 45.w, color: AppColors.primaryColor)
                   : const SizedBox.shrink(),

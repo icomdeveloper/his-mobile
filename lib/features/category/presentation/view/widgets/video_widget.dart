@@ -119,8 +119,12 @@ class _VideoWidgetState extends State<VideoWidget> {
                               child: IconButton(
                                 onPressed: () {
                                   initChewieController();
-                                  context.read<ViewsCubit>().incrementViews(
-                                      mediaId: widget.mediaModel!.id!);
+                                  widget.isEdit
+                                      ? null
+                                      : context
+                                          .read<ViewsCubit>()
+                                          .incrementViews(
+                                              mediaId: widget.mediaModel!.id!);
                                   setState(() {
                                     started = true;
                                   });

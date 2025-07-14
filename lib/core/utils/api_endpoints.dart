@@ -67,4 +67,8 @@ abstract class ApiEndpoints {
   static const String updateProfileImage = 'updateProfileImage';
 
   static const String mediaDetails = 'media_details';
+
+  static const String categories = 'categories';
+
+  static const String categoryMedia = 'category_media';
 }
