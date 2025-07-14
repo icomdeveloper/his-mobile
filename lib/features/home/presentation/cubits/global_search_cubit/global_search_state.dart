@@ -10,10 +10,10 @@ final class GlobalSearchMediaSuccess extends GlobalSearchState {
   GlobalSearchMediaSuccess({required this.mediaList});
 }
 
-final class GlobalSearchArticleSuccess extends GlobalSearchState {
-  final List<ArticleModel> articleList;
-  GlobalSearchArticleSuccess({required this.articleList});
-}
+// final class GlobalSearchArticleSuccess extends GlobalSearchState {
+//   final List<ArticleModel> articleList;
+//   GlobalSearchArticleSuccess({required this.articleList});
+// }
 
 final class GlobalSearchFailure extends GlobalSearchState {
   final String message;

@@ -20,7 +20,7 @@ final class LoginFailure extends AuthState {
 final class RegisterLoading extends AuthState {}
 
 final class RegisterSuccess extends AuthState {
-  final RegisterSuccessModel registerSuccessModel;
+  final UserData registerSuccessModel;
 
   RegisterSuccess({required this.registerSuccessModel});
 }
@@ -29,5 +29,4 @@ final class RegisterFailure extends AuthState {
   final String message;
 
   RegisterFailure({required this.message});
-
 }

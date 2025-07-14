@@ -12,7 +12,6 @@ import 'package:his/core/services/firebase_auth_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/authentication/data/models/login_model.dart';
 import 'package:his/features/authentication/data/models/register_model.dart';
-import 'package:his/features/authentication/data/models/register_success_model/register_success_model.dart';
 import 'package:his/features/authentication/data/models/user_data/user_data.dart';
 
 class AuthRepo {
@@ -38,7 +37,7 @@ class AuthRepo {
     }
   }
 
-  Future<Either<ServerFailure, RegisterSuccessModel>> register(
+  Future<Either<ServerFailure, UserData>> register(
       {required RegisterModel registerModel}) async {
     try {
       FormData formData = FormData.fromMap({
@@ -60,7 +59,9 @@ class AuthRepo {
       }
       var response = await apiServices.postMethod(
           endPoint: ApiEndpoints.register, data: formData, isFormData: true);
-      return right(RegisterSuccessModel.fromJson(response));
+      await saveUserData(user: UserData.fromJson(response));
+
+      return right(UserData.fromJson(response));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

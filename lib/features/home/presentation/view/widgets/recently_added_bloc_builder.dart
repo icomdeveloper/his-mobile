@@ -25,7 +25,7 @@ class RecentlyAddedBlocBuilder extends StatelessWidget {
                       onTap: () {
                         context
                             .read<RecentlyAddedCubit>()
-                            .getRecentlyAddedVideos();
+                            .getRecentlyAddedVideos(context: context);
                       },
                     )));
           }
@@ -42,7 +42,7 @@ class RecentlyAddedBlocBuilder extends StatelessWidget {
                     onTap: () {
                       context
                           .read<RecentlyAddedCubit>()
-                          .getRecentlyAddedVideos();
+                          .getRecentlyAddedVideos(context: context);
                     },
                   )));
         } else {

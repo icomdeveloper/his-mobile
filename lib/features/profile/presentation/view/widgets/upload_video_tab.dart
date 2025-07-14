@@ -279,6 +279,12 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
               hintText: 'Write your title here ..',
               controller: titleController,
               isSearch: false,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your title';
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 12),
             const Text(

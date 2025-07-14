@@ -11,6 +11,7 @@ import 'package:his/features/category/presentation/view/widgets/category_list.da
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class CategoryViewBody extends StatefulWidget {
   const CategoryViewBody({super.key});
@@ -72,114 +73,122 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: CustomScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                CustomTextField(
-                  hintText: 'Search in Category',
-                  controller: _searchController,
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-              ],
+    return VisibilityDetector(
+      key: const Key('category'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction > 0.5) {
+          context.read<GetMediaCubit>().getVideos();
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  CustomTextField(
+                    hintText: 'Search in Category',
+                    controller: _searchController,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                ],
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-                height: 32,
-                width: double.infinity,
-                child: YearList(
-                  onItemTapped: (value) {
-                    if (value == yearList.indexOf(selectedYear)) return;
-                    setState(() {
-                      selectedYear = yearList[value];
-                    });
-                  },
-                  categoryList: yearList,
-                )),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 12),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-                height: 28.h,
-                width: double.infinity,
-                child: MonthList(
-                  onItemTapped: (value) {
-                    if (value == monthList.indexOf(selectedMonth)) return;
-                    setState(() {
-                      selectedMonth = monthList[value];
-                    });
-                  },
-                  categoryList: monthList,
-                )),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 12.h,
-                ),
-                Text(
-                  '$selectedMonth\'s Videos',
-                  style: Styles.semiBoldPoppins20,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-              ],
+            SliverToBoxAdapter(
+              child: SizedBox(
+                  height: 32,
+                  width: double.infinity,
+                  child: YearList(
+                    onItemTapped: (value) {
+                      if (value == yearList.indexOf(selectedYear)) return;
+                      setState(() {
+                        selectedYear = yearList[value];
+                      });
+                    },
+                    categoryList: yearList,
+                  )),
             ),
-          ),
-          BlocBuilder<GetMediaCubit, GetMediaState>(
-            builder: (context, state) {
-              if (state is GetMediaSuccess) {
-                if (state.mediaList.isEmpty) {
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 12),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                  height: 28.h,
+                  width: double.infinity,
+                  child: MonthList(
+                    onItemTapped: (value) {
+                      if (value == monthList.indexOf(selectedMonth)) return;
+                      setState(() {
+                        selectedMonth = monthList[value];
+                      });
+                    },
+                    categoryList: monthList,
+                  )),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Text(
+                    '$selectedMonth\'s Videos',
+                    style: Styles.semiBoldPoppins20,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
+            ),
+            BlocBuilder<GetMediaCubit, GetMediaState>(
+              builder: (context, state) {
+                if (state is GetMediaSuccess) {
+                  if (state.mediaList.isEmpty) {
+                    return SliverToBoxAdapter(
+                        child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: CustomErrorWidget(
+                        errorMessage: 'No videos found',
+                        onTap: () {
+                          context.read<GetMediaCubit>().getVideos();
+                        },
+                      ),
+                    ));
+                  }
+                  mediaList = state.mediaList;
+                  return VideoCardSliverList(
+                    mediaList: filteredMediaList ?? mediaList,
+                  );
+                } else if (state is GetMediaFailure) {
                   return SliverToBoxAdapter(
                       child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: CustomErrorWidget(
-                      errorMessage: 'No videos found',
+                      errorMessage: state.message,
                       onTap: () {
                         context.read<GetMediaCubit>().getVideos();
                       },
                     ),
                   ));
+                } else {
+                  return Skeletonizer.sliver(
+                      child: VideoCardSliverList(
+                    mediaList: dummyMediaList,
+                  ));
                 }
-                mediaList = state.mediaList;
-                return VideoCardSliverList(
-                  mediaList: filteredMediaList ?? mediaList,
-                );
-              } else if (state is GetMediaFailure) {
-                return SliverToBoxAdapter(
-                    child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: CustomErrorWidget(
-                    errorMessage: state.message,
-                    onTap: () {
-                      context.read<GetMediaCubit>().getVideos();
-                    },
-                  ),
-                ));
-              } else {
-                return Skeletonizer.sliver(
-                    child: VideoCardSliverList(
-                  mediaList: dummyMediaList,
-                ));
-              }
-            },
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 24.h),
-          ),
-        ],
+              },
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 24.h),
+            ),
+          ],
+        ),
       ),
     );
   }

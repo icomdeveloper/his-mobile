@@ -28,6 +28,6 @@ String convertGoogleDriveUrl(String previewUrl) {
     String fileId = match.group(1)!;
     return "https://drive.google.com/uc?export=download&id=$fileId";
   } else {
-    throw const FormatException("Invalid Google Drive URL");
+    return 'https://cdn.prod.website-files.com/6009ec8cda7f305645c9d91b/601082646d6bf4446451b0a4_6002086f72b72717ae01d954_google-doc-error-message.png';
   }
 }

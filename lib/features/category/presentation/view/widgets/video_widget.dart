@@ -24,6 +24,7 @@ import 'package:his/features/category/presentation/view/widgets/comments_list_vi
 import 'package:his/features/category/presentation/view/widgets/comments_list_view_bloc_builder.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
+import 'package:his/features/category/presentation/view/widgets/show_image_widget.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/edit_video_view_body.dart';
 import 'package:video_player/video_player.dart';
@@ -52,6 +53,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
+
     String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
     if (defaultTargetPlatform == TargetPlatform.android) {
       videoPlayerController = VideoPlayerController.contentUri(Uri.parse(url));
@@ -267,40 +269,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                       height: 12,
                     ),
                     widget.mediaModel?.image != null
-                        ? InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 24.w, vertical: 220.h),
-                                  padding: const EdgeInsets.all(24),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget.mediaModel!.image!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              );
-                              //     child: PhotoView(
-                              //         imageProvider: NetworkImage(
-                              //             widget.mediaModel!.image!)),
-                              //   ),
-                              // );
-                            },
-                            child: PDFAndImageContainer(
-                              title: 'Image',
-                              subTitle: 'image',
-                              trailingIcon: SvgPicture.asset(
-                                  Assets.assetsImagesImageView),
-                            ),
-                          )
+                        ? ShowImageWidget(image: widget.mediaModel!.image!)
                         : const SizedBox.shrink(),
                     const SizedBox(height: 12),
                     // Text(

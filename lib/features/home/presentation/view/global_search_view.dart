@@ -8,7 +8,6 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/features/bookmarks/data/repos/bookmarks_repo.dart';
 import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/home/presentation/cubits/global_search_cubit/global_search_cubit.dart';
-import 'package:his/features/home/presentation/view/widgets/articles_sliver_list.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
 
@@ -63,10 +62,10 @@ class GlobalSearchView extends StatelessWidget {
                               .copyWith(color: AppColors.darkGrey)),
                     ),
                   ));
-                } else if (state is GlobalSearchArticleSuccess) {
-                  return ArticlesSliverList(
-                    articleList: state.articleList,
-                  );
+                  // } else if (state is GlobalSearchArticleSuccess) {
+                  //   return ArticlesSliverList(
+                  //     articleList: state.articleList,
+                  //   );
                 }
                 return SliverToBoxAdapter(
                   child: Column(

@@ -8,9 +8,9 @@ import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class PdfView extends StatefulWidget {
-  const PdfView({super.key, required this.url});
+  const PdfView({super.key, required this.url, this.isFromFile = false});
   final String url;
-
+  final bool isFromFile;
   @override
   State<PdfView> createState() => _PdfViewState();
 }
@@ -41,20 +41,22 @@ class _PdfViewState extends State<PdfView> {
           _navBarProvider.show();
         },
         child: Center(
-            child: const PDF().cachedFromUrl(
-          convertGoogleDriveUrl(widget.url),
-          errorWidget: (error) {
-            log(error.toString());
-            return Center(
-              child: Text('Error  ${error.toString()}'),
-            );
-          },
-          placeholder: (progress) {
-            return Center(
-              child: Text('$progress %'),
-            );
-          },
-        )),
+            child: widget.isFromFile
+                ? const PDF().fromPath(widget.url)
+                : const PDF().cachedFromUrl(
+                    convertGoogleDriveUrl(widget.url),
+                    errorWidget: (error) {
+                      log(error.toString());
+                      return Center(
+                        child: Text('Error  ${error.toString()}'),
+                      );
+                    },
+                    placeholder: (progress) {
+                      return Center(
+                        child: Text('$progress %'),
+                      );
+                    },
+                  )),
       ),
     );
   }

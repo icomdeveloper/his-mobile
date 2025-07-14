@@ -15,7 +15,7 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
     return BlocBuilder<FeaturedVideosCubit, FeaturedVideosState>(
       builder: (context, state) {
         if (state is FeaturedVideosSuccess) {
-          if (state.mediaList.isEmpty) return SizedBox.shrink();
+          if (state.mediaList.isEmpty) return const SizedBox.shrink();
 
           return SizedBox(
             height: 338.h,

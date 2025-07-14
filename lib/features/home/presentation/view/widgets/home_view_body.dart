@@ -180,7 +180,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           BlocProvider(
             create: (context) => RecentlyAddedCubit(getIt<RecentlyAddedRepo>())
-              ..getRecentlyAddedVideos(),
+              ..getRecentlyAddedVideos(context: context),
             child: const RecentlyAddedBlocBuilder(),
           ),
         ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/dummy_media.dart';
-import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/profile/presentation/cubits/user_videos_cubit/user_videos_cubit.dart';
@@ -50,12 +49,6 @@ class PendingTabBar extends StatelessWidget {
               ));
             }
           },
-        ),
-        const SliverToBoxAdapter(
-          child: Divider(
-            color: AppColors.lightGrey,
-            height: 32,
-          ),
         ),
       ],
     );
