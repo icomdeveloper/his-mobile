@@ -71,4 +71,9 @@ abstract class ApiEndpoints {
   static const String categories = 'categories';
 
   static const String categoryMedia = 'category_media';
+
+  static const String showAdminComments = 'show/admin-comments';
+  static const String addAdminComment = 'add/admin-comments';
+  static const String addAdminReply = 'reply/admin-comments';
+  static const String editMedia = 'update_media';
 }

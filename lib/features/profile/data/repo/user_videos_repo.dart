@@ -19,6 +19,8 @@ class UserVideosRepo {
           token: getUserData().token);
       Map<String, dynamic> mediaData = data['data'];
       List<dynamic> pendingMediaData = mediaData['pending'];
+      if (pendingMediaData.first == null) return const Right([]);
+
       List<MediaModel> list =
           pendingMediaData.map((e) => MediaModel.fromJson(e)).toList();
       return right(list);
@@ -37,6 +39,8 @@ class UserVideosRepo {
           token: getUserData().token);
       Map<String, dynamic> mediaData = data['data'];
       List<dynamic> publishedMediaData = mediaData['published'];
+      if (publishedMediaData.first == null) return const Right([]);
+
       List<MediaModel> list =
           publishedMediaData.map((e) => MediaModel.fromJson(e)).toList();
       return right(list);

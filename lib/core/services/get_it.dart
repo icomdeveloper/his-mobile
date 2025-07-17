@@ -14,6 +14,7 @@ import 'package:his/features/home/data/repo/global_search_repo.dart';
 import 'package:his/features/home/data/repo/media_likes_repo.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
+import 'package:his/features/profile/data/repo/edit_media_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
@@ -66,6 +67,8 @@ void setupGetIt() {
       CategoriesRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<MediaByCategoryRepo>(
       MediaByCategoryRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<EditMediaRepo>(
+      EditMediaRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

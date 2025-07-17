@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:his/core/errors/failure.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/features/category/data/model/add_comment_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
@@ -14,20 +16,32 @@ class CommentsCubit extends Cubit<CommentsState> {
   TextEditingController commentController = TextEditingController();
   TextEditingController replyController = TextEditingController();
 
-  Future<void> addComment({required int mediaId}) async {
+  Future<void> addComment(
+      {required int mediaId, required bool isPending}) async {
     emit(AddCommentLoading());
     final comment = AddCommentModel(
       mediaId: mediaId,
       userId: getUserData().userInfo!.id!,
       content: commentController.text,
     );
+
     commentController.clear();
-    final result = await commentRepo.addComment(comment: comment);
+    Either<ServerFailure, dynamic> result;
+    if (!isPending) {
+      result = await commentRepo.addComment(comment: comment);
+    } else {
+      result = await commentRepo.addAdminComment(comment: comment);
+    }
+    if (isClosed) return;
+
     result.fold((error) => emit(AddCommentsFailure(message: error.errMesage)),
         (comment) => emit(AddCommentSuccess(comment: comment)));
   }
 
-  Future<void> addReply({required int mediaId, required int parentId}) async {
+  Future<void> addReply(
+      {required int mediaId,
+      required int parentId,
+      required bool isPending}) async {
     emit(AddReplyLoading());
     final reply = AddCommentModel(
       mediaId: mediaId,
@@ -36,7 +50,13 @@ class CommentsCubit extends Cubit<CommentsState> {
       content: replyController.text,
     );
     replyController.clear();
-    final result = await commentRepo.addReply(reply: reply);
+    Either<ServerFailure, ReplyModel> result;
+    if (!isPending) {
+      result = await commentRepo.addReply(reply: reply);
+    } else {
+      result = await commentRepo.addAdminReply(reply: reply);
+    }
+    if (isClosed) return;
     result.fold((error) => emit(AddReplyFailure(message: error.errMesage)),
         (reply) => emit(AddReplytSuccess(replyModel: reply)));
   }

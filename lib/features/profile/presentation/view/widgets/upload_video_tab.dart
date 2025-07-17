@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/platformFile_to_file.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -473,11 +472,4 @@ class _UploadVideoTabState extends State<UploadVideoTab> {
       isPickerActive = false;
     }
   }
-}
-
-File? platformFileToFile(PlatformFile? platformFile) {
-  if (platformFile == null) return null;
-
-  if (platformFile.path == null) return null; // Not available on web
-  return File(platformFile.path!);
 }

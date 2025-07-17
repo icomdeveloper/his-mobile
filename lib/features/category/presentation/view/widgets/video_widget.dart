@@ -319,6 +319,7 @@ class _VideoWidgetState extends State<VideoWidget> {
 
                     CommentListViewBlocBuilder(
                       mediaId: widget.mediaModel!.id!,
+                      status: widget.mediaModel!.status!,
                     ),
                     const SizedBox(height: 12),
                     BlocListener<CommentsCubit, CommentsState>(
@@ -338,9 +339,10 @@ class _VideoWidgetState extends State<VideoWidget> {
                           // setState(() {
                           //   repliesList[state.replyModel.parentId]!.add(state.replyModel);
                           // });
-                          context
-                              .read<GetCommentsCubit>()
-                              .getComments(mediaId: widget.mediaModel!.id!);
+                          context.read<GetCommentsCubit>().getComments(
+                              mediaId: widget.mediaModel!.id!,
+                              isPending:
+                                  widget.mediaModel!.status == 'pending');
                         }
                       },
                       child: CommentTextField(
@@ -354,9 +356,10 @@ class _VideoWidgetState extends State<VideoWidget> {
                               .isEmpty) {
                             return;
                           }
-                          context
-                              .read<CommentsCubit>()
-                              .addComment(mediaId: widget.mediaModel!.id!);
+                          context.read<CommentsCubit>().addComment(
+                              mediaId: widget.mediaModel!.id!,
+                              isPending:
+                                  widget.mediaModel!.status! == 'pending');
                         },
                       ),
                     ),

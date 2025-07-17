@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/helpers/platformFile_to_file.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -433,11 +434,5 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
       }
       return null;
     } finally {}
-  }
-
-  File? platformFileToFile(PlatformFile? platformFile) {
-    if (platformFile == null) return null;
-    if (platformFile.path == null) return null; // Not available on web
-    return File(platformFile.path!);
   }
 }

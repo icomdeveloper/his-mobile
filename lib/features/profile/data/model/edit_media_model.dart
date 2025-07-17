@@ -2,31 +2,32 @@ import 'dart:io';
 
 import 'package:his/core/utils/api_endpoints.dart';
 
-class UploadVideoModel {
+class EditMediaModel {
   final int userId;
+  final int mediaId;
   final String year;
   final String month;
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final File? videoFile;
   final File? thumbnailFile;
   final File? pdfFile;
   final File? imageFile;
-  final int? isFeatured;
 
-  UploadVideoModel(
+  EditMediaModel(
       {required this.userId,
+      required this.mediaId,
       required this.year,
-      required this.title,
-      required this.description,
-      required this.videoFile,
       required this.month,
-      this.imageFile,
-      required this.thumbnailFile,
+      this.title,
+      this.description,
+      this.videoFile,
+      this.thumbnailFile,
       this.pdfFile,
-      this.isFeatured});
+      this.imageFile});
   toJson() => {
         ApiEndpoints.userId: userId,
+        ApiEndpoints.mediaId: mediaId,
         ApiEndpoints.year: year,
         ApiEndpoints.month: month,
         ApiEndpoints.title: title,
@@ -34,7 +35,6 @@ class UploadVideoModel {
         ApiEndpoints.file: videoFile,
         ApiEndpoints.thumbnail: thumbnailFile,
         ApiEndpoints.pdf: pdfFile,
-        ApiEndpoints.isFeatured: isFeatured,
         ApiEndpoints.imagePath: imageFile
       };
 }

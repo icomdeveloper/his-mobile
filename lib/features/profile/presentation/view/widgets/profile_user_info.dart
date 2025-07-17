@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/platformFile_to_file.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
@@ -181,11 +182,4 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
       return null;
     } finally {}
   }
-}
-
-File? platformFileToFile(PlatformFile? platformFile) {
-  if (platformFile == null) return null;
-
-  if (platformFile.path == null) return null; // Not available on web
-  return File(platformFile.path!);
 }

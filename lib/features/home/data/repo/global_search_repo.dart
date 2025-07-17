@@ -17,9 +17,9 @@ class GlobalSearchRepo {
           endPoint: ApiEndpoints.search, data: searchQuery);
       // String type = data['type'];
       // if (type == 'media') {
-      dynamic dataList = data['data'];
-      List<MediaModel> mediaList = [];
-      mediaList.add(MediaModel.fromJson(dataList));
+      List<dynamic> dataList = data['data'];
+      List<MediaModel> mediaList =
+          dataList.map((e) => MediaModel.fromJson(e)).toList();
       return Right(mediaList);
       // }
       // else {
@@ -30,6 +30,9 @@ class GlobalSearchRepo {
 
       // }
     } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        return Left(ServerFailure(errMesage: e.response?.data['error']));
+      }
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));

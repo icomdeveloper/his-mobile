@@ -20,8 +20,10 @@ class CommentWidget extends StatefulWidget {
   const CommentWidget({
     super.key,
     required this.comment,
+    required this.status,
   });
   final CommentsModel comment;
+  final String status;
   @override
   State<CommentWidget> createState() => _CommentWidgetState();
 }
@@ -154,6 +156,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       controller: context.read<CommentsCubit>().replyController,
                       onTap: () {
                         context.read<CommentsCubit>().addReply(
+                            isPending: widget.status == 'pending',
                             mediaId: widget.comment.mediaId!,
                             parentId: widget.comment.id!);
                       })

@@ -61,4 +61,51 @@ class CommentRepo {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));
     }
   }
+
+  Future<Either<Failure, List<CommentsModel>>> getAdminComments(
+      {required int mediaId}) async {
+    try {
+      var data = await apiServices.getMethod(
+        endPoint: ApiEndpoints.showAdminComments,
+        data: {
+          ApiEndpoints.mediaId: mediaId,
+        },
+      );
+      Map<String, dynamic> comments = data['data'];
+      List<dynamic> commentsList = comments['AdminComments'];
+
+      return right(commentsList.map((e) => CommentsModel.fromJson(e)).toList());
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
+
+  Future<Either<ServerFailure, dynamic>> addAdminComment(
+      {required AddCommentModel comment}) async {
+    try {
+      var data = await apiServices.postMethod(
+          endPoint: ApiEndpoints.addAdminComment, data: comment.toJson());
+      dynamic addedComment = data['data'];
+      return right(CommentsModel.fromJson(addedComment));
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
+
+  Future<Either<ServerFailure, ReplyModel>> addAdminReply(
+      {required AddCommentModel reply}) async {
+    try {
+      var data = await apiServices.postMethod(
+          endPoint: ApiEndpoints.addAdminReply, data: reply.toJson());
+      return right(ReplyModel.fromJson(data['data']));
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
 }

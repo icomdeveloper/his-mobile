@@ -11,8 +11,10 @@ class CommentListViewBlocBuilder extends StatelessWidget {
   const CommentListViewBlocBuilder({
     super.key,
     required this.mediaId,
+    required this.status,
   });
   final int mediaId;
+  final String status;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCommentsCubit, GetCommentsState>(
@@ -25,6 +27,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
                     : 300.h
                 : 300.h,
             child: CommentsListView(
+              status: status,
               comments: state.comments,
             ),
           );
@@ -35,9 +38,8 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               child: CustomErrorWidget(
                 errorMessage: state.message,
                 onTap: () {
-                  context
-                      .read<GetCommentsCubit>()
-                      .getComments(mediaId: mediaId);
+                  context.read<GetCommentsCubit>().getComments(
+                      mediaId: mediaId, isPending: status == 'pending');
                 },
               ),
             ),
@@ -47,6 +49,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               child: SizedBox(
             height: 350.h,
             child: CommentsListView(
+              status: status,
               isDummy: true,
               comments: dummyCommentList,
             ),

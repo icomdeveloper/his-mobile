@@ -15,7 +15,8 @@ class MediaDetailsRepo {
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.mediaDetails,
           data: {ApiEndpoints.mediaId: mediaId});
-      return right(MediaModel.fromJson(data['data']));
+      List<dynamic> dataList = data['data'];
+      return right(MediaModel.fromJson(dataList[0]));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

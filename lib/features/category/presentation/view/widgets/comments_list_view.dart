@@ -11,9 +11,13 @@ import '../../../../home/data/repo/media_likes_repo.dart';
 
 class CommentsListView extends StatefulWidget {
   const CommentsListView(
-      {super.key, required this.comments, this.isDummy = false});
+      {super.key,
+      required this.comments,
+      this.isDummy = false,
+      required this.status});
   final List<CommentsModel> comments;
   final bool isDummy;
+  final String status;
 
   @override
   State<CommentsListView> createState() => _CommentsListViewState();
@@ -73,6 +77,7 @@ class _CommentsListViewState extends State<CommentsListView> {
             itemBuilder: (context, index) => BlocProvider(
               create: (context) => CommentLikeCubit(getIt<MediaLikesRepo>()),
               child: CommentWidget(
+                status: widget.status,
                 comment: commentsList[index],
               ),
             ),

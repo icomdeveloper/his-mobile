@@ -6,6 +6,8 @@ import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/home/data/models/comments_model/reply_model.dart';
 
+import '../../../../../core/utils/app_colors.dart';
+
 class ReplyWidget extends StatelessWidget {
   const ReplyWidget({
     super.key,
@@ -33,20 +35,23 @@ class ReplyWidget extends StatelessWidget {
             children: [
               Text(
                 reply.user?.name ?? '',
-                style: Styles.semiBoldRoboto12,
+                style: Styles.semiBoldPoppins12,
               ),
               Text(getRelativeTime(reply.createdAt ?? DateTime.now()),
-                  style: Styles.regularRoboto12)
+                  style: Styles.regularPoppins12.copyWith(
+                    fontSize: 10,
+                    color: AppColors.grey,
+                  )),
             ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                reply.content ?? '',
-                style: Styles.regularRoboto12,
-              ),
+              Text(reply.content ?? '',
+                  style: Styles.regularPoppins12.copyWith(
+                    color: AppColors.grey,
+                  )),
             ],
           ),
         ),
