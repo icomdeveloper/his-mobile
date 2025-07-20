@@ -10,17 +10,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/platformFile_to_file.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/category/presentation/view/widgets/show_image_widget.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:his/features/profile/presentation/cubits/delete_media_cubit/delete_media_cubit.dart';
+import 'package:his/features/profile/presentation/view/widgets/delete_media_button.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_text_styles.dart';
 import '../../../../../core/utils/assets.dart';
+import '../../../data/repo/delete_media_repo.dart';
 import '../../cubits/edit_media_cubit/edit_media_cubit.dart';
 
 class EditVideoViewBody extends StatefulWidget {
@@ -44,7 +48,7 @@ class _EditVideoViewBodyState extends State<EditVideoViewBody> {
         widget.mediaModel.title ?? '';
 
     // Delay the description setting to ensure Summernote is loaded
-    Future.delayed(const Duration(milliseconds: 800), () {
+    Future.delayed(const Duration(seconds: 1), () {
       context.read<EditMediaCubit>().descriptionController.setText(
             widget.mediaModel.description ?? '',
           );
@@ -312,10 +316,11 @@ class _EditVideoViewBodyState extends State<EditVideoViewBody> {
         const SizedBox(
           height: 24,
         ),
-        CustomTextButton(
-          text: 'Delete Post',
-          onPressed: () {},
-          isArrowAppear: false,
+        BlocProvider(
+          create: (context) => DeleteMediaCubit(getIt<DeleteMediaRepo>()),
+          child: DeleteMediaButton(
+            mediaId: widget.mediaModel.id!,
+          ),
         ),
         const SizedBox(height: 12),
         CustomTextButton(

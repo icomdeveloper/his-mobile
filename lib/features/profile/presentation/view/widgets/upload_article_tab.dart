@@ -13,8 +13,10 @@ import 'package:his/features/profile/presentation/cubits/upload_article_cubit/up
 import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:his/features/profile/presentation/view/widgets/date_drop_down_button.dart';
+import 'package:his/features/profile/presentation/view/widgets/year_drop_down_button.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+
+import 'month_drop_down_button.dart';
 
 class UploadArticleTab extends StatefulWidget {
   const UploadArticleTab({super.key});
@@ -120,7 +122,7 @@ class _UploadArticleTabState extends State<UploadArticleTab> {
                     ),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        child: DateDropDownButton(
+                        child: YearDropDownButton(
                           valueSelected: (value) {
                             setState(() {
                               selectedYear = value;
@@ -141,13 +143,12 @@ class _UploadArticleTabState extends State<UploadArticleTab> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
-                      child: DateDropDownButton(
+                      child: MonthDropDownButton(
                         valueSelected: (value) {
                           setState(() {
                             selectedMonth = value;
                           });
                         },
-                        isMonth: true,
                       ),
                     )
                   ],

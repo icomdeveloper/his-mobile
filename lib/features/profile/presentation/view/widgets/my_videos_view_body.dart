@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/category/data/repo/categories_repo.dart';
+import 'package:his/features/category/presentation/cubits/categories_cubit/categories_cubit.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 import 'package:his/features/profile/data/repo/user_videos_repo.dart';
 import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
@@ -63,9 +65,18 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                   physics: const NeverScrollableScrollPhysics(),
                   controller: tabController,
                   children: [
-                BlocProvider(
-                  create: (context) =>
-                      UploadMediaCubit(getIt<UploadVideoRepo>()),
+                MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          UploadMediaCubit(getIt<UploadVideoRepo>()),
+                    ),
+                    BlocProvider(
+                      create: (context) =>
+                          CategoriesCubit(getIt<CategoriesRepo>())
+                            ..getCategories(),
+                    ),
+                  ],
                   child: const UploadVideoTab(),
                 ),
                 BlocProvider(

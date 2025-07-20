@@ -245,6 +245,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                       if (value) {
                         likesCount++;
                       } else {
+                        if (likesCount == 0) return;
                         likesCount--;
                       }
                     });

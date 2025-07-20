@@ -1,27 +1,33 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:his/constants.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 
-class DateDropDownButton extends StatefulWidget {
-  const DateDropDownButton({
+int monthDropDownIndex = 0;
+String? monthValue;
+
+class MonthDropDownButton extends StatefulWidget {
+  const MonthDropDownButton({
     super.key,
-    this.isMonth = false,
     this.valueSelected,
+    this.monthList,
+    this.monthValue,
   });
-  final bool isMonth;
   final ValueChanged<String?>? valueSelected;
+  final List<String>? monthList;
+  final String? monthValue;
+
   @override
-  State<DateDropDownButton> createState() => _DateDropDownButtonState();
+  State<MonthDropDownButton> createState() => _MonthDropDownButtonState();
 }
 
-class _DateDropDownButtonState extends State<DateDropDownButton> {
+class _MonthDropDownButtonState extends State<MonthDropDownButton> {
   String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2<String>(
+      value: monthValue,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       isExpanded: true,
       decoration: InputDecoration(
@@ -29,45 +35,39 @@ class _DateDropDownButtonState extends State<DateDropDownButton> {
         enabledBorder: buildBorder(),
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       ),
-      hint: Row(
+      hint: const Row(
         children: [
           Expanded(
             child: Text(
-              widget.isMonth ? 'Select month' : 'Select year',
+              'Select month',
               style: Styles.regularRoboto12,
               overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
-      items: widget.isMonth
-          ? monthList
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: Styles.semiBoldRoboto12,
-                    ),
-                  ))
-              .toList()
-          : yearList
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item, style: Styles.semiBoldRoboto12),
-                  ))
-              .toList(),
+      items: widget.monthList!
+          .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: Styles.semiBoldPoppins12,
+                ),
+              ))
+          .toList(),
       validator: (value) {
         if (value == null) {
-          return widget.isMonth ? 'Please select month' : 'Please select year';
+          return 'Please select month';
         }
         return null;
       },
       onChanged: (value) {
-        //Do something when selected item is changed.
-      },
-      onSaved: (value) {
         selectedValue = value.toString();
         widget.valueSelected!(selectedValue);
+      },
+      onSaved: (value) {
+        // selectedValue = value.toString();
+        // widget.valueSelected!(selectedValue);
       },
       iconStyleData: const IconStyleData(
         icon: Icon(

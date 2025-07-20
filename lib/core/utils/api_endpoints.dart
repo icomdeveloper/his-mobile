@@ -76,4 +76,6 @@ abstract class ApiEndpoints {
   static const String addAdminComment = 'add/admin-comments';
   static const String addAdminReply = 'reply/admin-comments';
   static const String editMedia = 'update_media';
+
+  static const String deleteMedia = 'delete/media';
 }

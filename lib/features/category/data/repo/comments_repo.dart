@@ -87,7 +87,7 @@ class CommentRepo {
     try {
       var data = await apiServices.postMethod(
           endPoint: ApiEndpoints.addAdminComment, data: comment.toJson());
-      dynamic addedComment = data['data'];
+      dynamic addedComment = data['comment'];
       return right(CommentsModel.fromJson(addedComment));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
@@ -101,7 +101,7 @@ class CommentRepo {
     try {
       var data = await apiServices.postMethod(
           endPoint: ApiEndpoints.addAdminReply, data: reply.toJson());
-      return right(ReplyModel.fromJson(data['data']));
+      return right(ReplyModel.fromJson(data['comment']));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

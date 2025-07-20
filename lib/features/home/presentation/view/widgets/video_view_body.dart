@@ -14,7 +14,6 @@ import 'package:his/features/category/presentation/view/widgets/video_widget.dar
 import 'package:his/features/profile/data/repo/edit_media_repo.dart';
 import 'package:his/features/profile/presentation/cubits/edit_media_cubit/edit_media_cubit.dart';
 import 'package:his/features/profile/presentation/view/edit_video_view.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoViewBody extends StatelessWidget {
   const VideoViewBody({
@@ -52,56 +51,44 @@ class VideoViewBody extends StatelessWidget {
           );
         },
       ),
-      body: VisibilityDetector(
-        key: const Key('videoViewBody'),
-        onVisibilityChanged: (info) {
-          if (info.visibleFraction > 0.5) {
-            mediaModel.status == 'pending'
-                ? context
-                    .read<MediaDetailsCubit>()
-                    .getMediaDetails(mediaId: mediaModel.id!)
-                : null;
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => CommentsCubit(getIt<CommentRepo>()),
-              ),
-              BlocProvider(
-                create: (context) => ViewsCubit(getIt<ShowMediaRepo>()),
-              ),
-              BlocProvider(
-                create: (context) => GetCommentsCubit(getIt<CommentRepo>())
-                  ..getComments(
-                      mediaId: mediaModel.id!,
-                      isPending: mediaModel.status == 'pending'),
-              ),
-            ],
-            child: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
-              builder: (context, state) {
-                if (state is MediaDetailsSuccess) {
-                  return VideoWidget(
-                    mediaModel: state.mediaModel,
-                    likesCount: likesCount,
-                  );
-                } else if (state is MediaDetailsFailure) {
-                  return Center(
-                    child: CustomErrorWidget(
-                      errorMessage: state.errMesage,
-                      onTap: () {
-                        context
-                            .read<MediaDetailsCubit>()
-                            .getMediaDetails(mediaId: mediaModel.id!);
-                      },
-                    ),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => CommentsCubit(getIt<CommentRepo>()),
             ),
+            BlocProvider(
+              create: (context) => ViewsCubit(getIt<ShowMediaRepo>()),
+            ),
+            BlocProvider(
+              create: (context) => GetCommentsCubit(getIt<CommentRepo>())
+                ..getComments(
+                    mediaId: mediaModel.id!,
+                    isPending: mediaModel.status == 'pending'),
+            ),
+          ],
+          child: BlocBuilder<MediaDetailsCubit, MediaDetailsState>(
+            builder: (context, state) {
+              if (state is MediaDetailsSuccess) {
+                return VideoWidget(
+                  mediaModel: state.mediaModel,
+                  likesCount: likesCount,
+                );
+              } else if (state is MediaDetailsFailure) {
+                return Center(
+                  child: CustomErrorWidget(
+                    errorMessage: state.errMesage,
+                    onTap: () {
+                      context
+                          .read<MediaDetailsCubit>()
+                          .getMediaDetails(mediaId: mediaModel.id!);
+                    },
+                  ),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),

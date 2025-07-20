@@ -48,7 +48,7 @@ class _RepliesListViewWidgetState extends State<RepliesListViewWidget> {
           child: Text(
             showMoreReplies ? 'Less replies' : 'More replies',
             style: Styles.semiBoldInter14.copyWith(
-              fontSize: 10,
+              fontSize: 11,
               color: AppColors.primaryColor,
               decoration: TextDecoration.underline,
             ),

@@ -114,7 +114,7 @@ class EditVideoView extends StatelessWidget {
                             ],
                           );
                         } else {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(
                               color: AppColors.primaryColor,
                             ),
