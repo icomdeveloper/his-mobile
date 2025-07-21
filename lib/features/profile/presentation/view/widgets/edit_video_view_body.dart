@@ -48,7 +48,7 @@ class _EditVideoViewBodyState extends State<EditVideoViewBody> {
         widget.mediaModel.title ?? '';
 
     // Delay the description setting to ensure Summernote is loaded
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       context.read<EditMediaCubit>().descriptionController.setText(
             widget.mediaModel.description ?? '',
           );

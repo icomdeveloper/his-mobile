@@ -80,7 +80,10 @@ class PolicyListView extends StatelessWidget {
         body: BlocBuilder<PolicyCubit, PolicyState>(
           builder: (context, state) {
             if (state is PolicyLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ));
             } else if (state is PolicyError) {
               return Center(child: Text("❌ Error: ${state.message}"));
             } else if (state is PolicyLoaded) {

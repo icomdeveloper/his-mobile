@@ -24,9 +24,12 @@ class FeaturedVideoCardWidget extends StatefulWidget {
 }
 
 class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
-  bool isBookmark = false;
+  late bool isBookmark;
+  late int likesCount;
   @override
   void initState() {
+    isBookmark = widget.mediaModel.isFavorite ?? false;
+    likesCount = widget.mediaModel.likesCount ?? 0;
     super.initState();
   }
 
@@ -75,7 +78,6 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (_, __, ___) => VideoView(
-                      likesCount: widget.mediaModel.likesCount ?? 0,
                       mediaModel: widget.mediaModel,
                     ),
                     transitionsBuilder:

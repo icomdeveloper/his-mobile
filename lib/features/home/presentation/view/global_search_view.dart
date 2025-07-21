@@ -46,11 +46,8 @@ class GlobalSearchView extends StatelessWidget {
             BlocBuilder<GlobalSearchCubit, GlobalSearchState>(
               builder: (context, state) {
                 if (state is GlobalSearchMediaSuccess) {
-                  return BlocProvider(
-                    create: (context) => BookmarksCubit(getIt<BookmarksRepo>()),
-                    child: VideoCardSliverList(
-                      mediaList: state.mediaList,
-                    ),
+                  return VideoCardSliverList(
+                    mediaList: state.mediaList,
                   );
                 } else if (state is GlobalSearchFailure) {
                   return SliverToBoxAdapter(

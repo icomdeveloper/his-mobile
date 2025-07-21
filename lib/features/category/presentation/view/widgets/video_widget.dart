@@ -34,11 +34,11 @@ class VideoWidget extends StatefulWidget {
     super.key,
     this.mediaModel,
     this.isEdit = false,
-    required this.likesCount,
+    // required this.likesCount,
   });
   final MediaModel? mediaModel;
   final bool isEdit;
-  final int likesCount;
+  // final int likesCount;
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
@@ -313,7 +313,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                       isLiked: widget.mediaModel!.isLiked,
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
-                      numberOfLikes: widget.likesCount,
+                      numberOfLikes: widget.mediaModel?.likesCount ?? 0,
                     ),
                     const SizedBox(height: 14),
 

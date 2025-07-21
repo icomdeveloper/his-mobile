@@ -45,11 +45,38 @@ class _CommentWidgetState extends State<CommentWidget> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           isThreeLine: true,
-          leading: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(
-              userInformation.profileImage ?? avatarImage,
+          leading: InkWell(
+            onTap: () {
+              if (userInformation.profileImage != null) {
+                showDialog(
+                  context: context,
+                  builder: (_) => Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 220.h),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: userInformation.profileImage!,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            child: CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(
+                userInformation.profileImage ?? avatarImage,
+              ),
+              radius: 20.r,
             ),
-            radius: 20.r,
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,43 +108,46 @@ class _CommentWidgetState extends State<CommentWidget> {
                     ),
                   ),
                   const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      if (_isLiked) {
-                        context
-                            .read<CommentLikeCubit>()
-                            .deleteLike(commentId: widget.comment.id!);
-                      } else {
-                        context
-                            .read<CommentLikeCubit>()
-                            .addLike(commentId: widget.comment.id!);
-                      }
-                    },
-                    child: BlocListener<CommentLikeCubit, CommentLikeState>(
-                      listener: (context, state) {
-                        if (state is AddLikeSuccess) {
-                          _isLiked = true;
-                        }
-                        if (state is DeleteLikeSuccess) {
-                          _isLiked = false;
-                        }
-                        if (state is AddLikeFailure) {
-                          Fluttertoast.showToast(msg: state.message);
-                        }
-                        if (state is DeleteLikeFailure) {
-                          Fluttertoast.showToast(msg: state.message);
-                        }
-                        setState(() {});
-                      },
-                      child: Icon(
-                        _isLiked
-                            ? Icons.favorite
-                            : Icons.favorite_border_outlined,
-                        size: 18,
-                        color: AppColors.darkGrey,
-                      ),
-                    ),
-                  )
+                  widget.status == 'pending'
+                      ? const SizedBox.shrink()
+                      : InkWell(
+                          onTap: () {
+                            if (_isLiked) {
+                              context
+                                  .read<CommentLikeCubit>()
+                                  .deleteLike(commentId: widget.comment.id!);
+                            } else {
+                              context
+                                  .read<CommentLikeCubit>()
+                                  .addLike(commentId: widget.comment.id!);
+                            }
+                          },
+                          child:
+                              BlocListener<CommentLikeCubit, CommentLikeState>(
+                            listener: (context, state) {
+                              if (state is AddLikeSuccess) {
+                                _isLiked = true;
+                              }
+                              if (state is DeleteLikeSuccess) {
+                                _isLiked = false;
+                              }
+                              if (state is AddLikeFailure) {
+                                Fluttertoast.showToast(msg: state.message);
+                              }
+                              if (state is DeleteLikeFailure) {
+                                Fluttertoast.showToast(msg: state.message);
+                              }
+                              setState(() {});
+                            },
+                            child: Icon(
+                              _isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                              size: 18,
+                              color: AppColors.darkGrey,
+                            ),
+                          ),
+                        )
                 ],
               ),
               const SizedBox(

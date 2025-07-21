@@ -16,6 +16,7 @@ import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/category/data/model/categories/categories.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/profile/data/model/upload_video_model.dart';
+import 'package:his/features/profile/presentation/cubits/get_users_cubit/get_users_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/choose_file_button.dart';
 import 'package:his/features/profile/presentation/view/widgets/custom_drop_down_button.dart';
@@ -294,11 +295,19 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
               style: Styles.semiBoldPoppins14,
             ),
             const SizedBox(height: 4),
-            CustomDropDownButton(
-              authorsList: (value) {
-                authors = value;
-              },
-            ),
+            BlocBuilder<GetUsersCubit, GetUsersState>(
+                builder: (context, state) {
+              if (state is GetUsersSuccess) {
+                return CustomDropDownButton(
+                  authors: state.users,
+                  authorsList: (value) {
+                    authors = value;
+                  },
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
             const SizedBox(height: 12),
             const Text(
               'Title',
@@ -430,7 +439,10 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
               },
               builder: (context, state) {
                 return state is UploadMediaLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ))
                     : CustomTextButton(
                         text: 'Upload file',
                         onPressed: () async {

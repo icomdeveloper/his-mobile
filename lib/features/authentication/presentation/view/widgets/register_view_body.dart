@@ -340,7 +340,10 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     },
                     builder: (context, state) {
                       return state is RegisterLoading || state is LoginLoading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            ))
                           : CustomTextButton(
                               text: 'Register',
                               onPressed: () {

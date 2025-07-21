@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
@@ -136,7 +137,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     },
                     builder: (context, state) {
                       return state is ResetPasswordLoading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            ))
                           : CustomTextButton(
                               text: 'Update Password',
                               onPressed: () {

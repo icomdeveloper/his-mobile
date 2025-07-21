@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
@@ -107,7 +108,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                   },
                   builder: (context, state) => state is EditProfileLoading
                       ? const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
                         )
                       : CustomTextButton(
                           text: 'Confirm',

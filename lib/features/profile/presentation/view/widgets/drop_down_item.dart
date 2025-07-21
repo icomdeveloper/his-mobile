@@ -18,7 +18,7 @@ class DropDownItemWidget extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             name,
-            style: Styles.regularRoboto12,
+            style: Styles.regularPoppins12,
           ),
         ],
       ),

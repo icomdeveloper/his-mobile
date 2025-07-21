@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/helpers/platformFile_to_file.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
@@ -102,6 +103,7 @@ class _UploadArticleTabState extends State<UploadArticleTab> {
             ),
             const SizedBox(height: 4),
             CustomDropDownButton(
+              authors: const [],
               authorsList: (value) {
                 authors = value;
               },
@@ -236,7 +238,10 @@ class _UploadArticleTabState extends State<UploadArticleTab> {
               },
               builder: (context, state) {
                 return state is UploadArticleLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ))
                     : CustomTextButton(
                         text: 'Upload Article',
                         onPressed: () async {

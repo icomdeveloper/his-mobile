@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,6 +61,34 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
                             onTap: () async {
                               image = await selectFile(type: FileType.image);
                             },
+                            onLongPress: () {
+                              if (getUserData().userInfo!.profileImage !=
+                                  null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 24.w, vertical: 220.h),
+                                    padding: const EdgeInsets.all(24),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.white,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: CachedNetworkImage(
+                                        imageUrl: getUserData()
+                                            .userInfo!
+                                            .profileImage!,
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                             child: getUserData().userInfo!.profileImage == null
                                 ? Stack(
                                     clipBehavior: Clip.none,
@@ -105,7 +134,13 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
                           )
                         : InkWell(
                             onTap: () async {
-                              image = await selectFile(type: FileType.image);
+                              final result =
+                                  await selectFile(type: FileType.image);
+                              if (result != null) {
+                                setState(() {
+                                  image = result;
+                                });
+                              }
                             },
                             child: CircleAvatar(
                               radius: 26.r,

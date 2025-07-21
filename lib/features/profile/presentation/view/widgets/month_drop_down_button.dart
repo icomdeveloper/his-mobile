@@ -35,12 +35,12 @@ class _MonthDropDownButtonState extends State<MonthDropDownButton> {
         enabledBorder: buildBorder(),
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       ),
-      hint: const Row(
+      hint: Row(
         children: [
           Expanded(
             child: Text(
               'Select month',
-              style: Styles.regularRoboto12,
+              style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
               overflow: TextOverflow.ellipsis,
             ),
           ),

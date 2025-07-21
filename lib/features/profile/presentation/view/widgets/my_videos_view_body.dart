@@ -5,8 +5,10 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/data/repo/categories_repo.dart';
 import 'package:his/features/category/presentation/cubits/categories_cubit/categories_cubit.dart';
+import 'package:his/features/profile/data/repo/get_users_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 import 'package:his/features/profile/data/repo/user_videos_repo.dart';
+import 'package:his/features/profile/presentation/cubits/get_users_cubit/get_users_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/user_videos_cubit/user_videos_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/published_tab_bar.dart';
@@ -75,6 +77,10 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                       create: (context) =>
                           CategoriesCubit(getIt<CategoriesRepo>())
                             ..getCategories(),
+                    ),
+                    BlocProvider(
+                      create: (context) =>
+                          GetUsersCubit(getIt<GetUsersRepo>())..getUsers(),
                     ),
                   ],
                   child: const UploadVideoTab(),

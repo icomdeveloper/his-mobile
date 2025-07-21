@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
@@ -35,7 +36,10 @@ class DeleteMediaButton extends StatelessWidget {
       },
       builder: (context, state) {
         return state is DeleteMediaLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ))
             : CustomTextButton(
                 text: 'Delete Post',
                 onPressed: () {

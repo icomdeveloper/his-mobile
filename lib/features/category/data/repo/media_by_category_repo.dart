@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/media_model.dart';
@@ -14,7 +15,12 @@ class MediaByCategoryRepo {
     try {
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.categoryMedia,
-          data: {ApiEndpoints.categoryId: categoryId});
+          data: {
+            ApiEndpoints.categoryId: categoryId,
+            ApiEndpoints.userId: getUserData().userInfo?.id
+          },
+          token: getUserData().token);
+
       List<dynamic> mediaList = data['data'];
       List<MediaModel> list =
           mediaList.map((e) => MediaModel.fromJson(e)).toList();

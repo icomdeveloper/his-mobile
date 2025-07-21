@@ -42,7 +42,7 @@ class RecentlyAddedWidget extends StatelessWidget {
             PageRouteBuilder(
               pageBuilder: (_, __, ___) => VideoView(
                 mediaModel: mediaModel,
-                likesCount: mediaModel.likesCount ?? 0,
+                // likesCount: mediaModel.likesCount ?? 0,
               ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) =>

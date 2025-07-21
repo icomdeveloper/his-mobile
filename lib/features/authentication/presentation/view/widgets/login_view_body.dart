@@ -164,7 +164,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   },
                   builder: (context, state) {
                     return state is LoginLoading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ))
                         : CustomTextButton(
                             text: 'Log in',
                             onPressed: () {

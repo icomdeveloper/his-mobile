@@ -64,7 +64,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     PageRouteBuilder(
                       pageBuilder: (_, __, ___) => VideoView(
                         mediaModel: widget.mediaModel,
-                        likesCount: likesCount,
+                        // likesCount: likesCount,
                       ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
@@ -98,7 +98,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return VideoView(
-                        likesCount: likesCount,
+                        // likesCount: likesCount,
                         mediaModel: widget.mediaModel,
                       );
                     }));
@@ -251,7 +251,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     });
                   },
                   mediaId: widget.mediaModel.id!,
-                  isLiked: widget.mediaModel.isFavorite ?? false,
+                  isLiked: widget.mediaModel.isLiked ?? false,
                   numberOfComments: widget.mediaModel.commentsCount ?? 0,
                   numberOfLikes: likesCount,
                 ),

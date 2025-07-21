@@ -17,6 +17,7 @@ import 'package:his/features/profile/data/repo/delete_media_repo.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
 import 'package:his/features/profile/data/repo/edit_media_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
+import 'package:his/features/profile/data/repo/get_users_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
 import 'package:his/features/profile/data/repo/upload_article_repo.dart';
@@ -72,6 +73,8 @@ void setupGetIt() {
       EditMediaRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<DeleteMediaRepo>(
       DeleteMediaRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<GetUsersRepo>(
+      GetUsersRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

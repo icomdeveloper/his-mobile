@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/category/data/model/media_model.dart';
@@ -19,10 +20,10 @@ class VideoViewBody extends StatelessWidget {
   const VideoViewBody({
     super.key,
     required this.mediaModel,
-    required this.likesCount,
+    // required this.likesCount,
   });
   final MediaModel mediaModel;
-  final int likesCount;
+  // final int likesCount;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +74,7 @@ class VideoViewBody extends StatelessWidget {
               if (state is MediaDetailsSuccess) {
                 return VideoWidget(
                   mediaModel: state.mediaModel,
-                  likesCount: likesCount,
+                  // likesCount: likesCount,
                 );
               } else if (state is MediaDetailsFailure) {
                 return Center(
@@ -87,7 +88,10 @@ class VideoViewBody extends StatelessWidget {
                   ),
                 );
               }
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ));
             },
           ),
         ),

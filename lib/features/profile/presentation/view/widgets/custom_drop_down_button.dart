@@ -1,7 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/authentication/data/models/user_data/user_information.dart';
 import 'package:his/features/profile/data/model/author_model.dart';
 import 'package:his/features/profile/presentation/view/widgets/drop_down_item.dart';
 
@@ -9,22 +11,29 @@ class CustomDropDownButton extends StatefulWidget {
   const CustomDropDownButton({
     super.key,
     this.authorsList,
+    required this.authors,
   });
   @override
   final ValueChanged<List<String>>? authorsList;
+  final List<UserInformation> authors;
   @override
   State<CustomDropDownButton> createState() => _CustomDropDown2State();
 }
 
 class _CustomDropDown2State extends State<CustomDropDownButton> {
-  final List<DropDownItemWidget> items = List.generate(
-      authors.length,
-      (index) => DropDownItemWidget(
-            image: authors[index].image!,
-            name: authors[index].name!,
-          ));
   List<DropDownItemWidget> selectedItems = [];
   final TextEditingController textEditingController = TextEditingController();
+  List<DropDownItemWidget> items = [];
+  @override
+  void initState() {
+    items = List.generate(
+        widget.authors.length,
+        (index) => DropDownItemWidget(
+              image: widget.authors[index].profileImage ?? avatarImage,
+              name: widget.authors[index].name!,
+            ));
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -49,7 +58,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
             (item) {
               return Text(
                 selectedItems.map((e) => e.name).join(', '),
-                style: Styles.semiBoldRoboto12,
+                style: Styles.semiBoldPoppins12,
                 maxLines: 1,
               );
             },
@@ -63,9 +72,9 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
           iconEnabledColor: AppColors.grey,
         ),
         isExpanded: true,
-        hint: const Text(
+        hint: Text(
           'Search for author',
-          style: Styles.regularRoboto12,
+          style: Styles.regularPoppins12.copyWith(color: AppColors.grey),
         ),
         items: items.map((item) {
           return DropdownMenuItem(
@@ -128,7 +137,7 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
                   vertical: 8,
                 ),
                 hintText: 'Search for author...',
-                hintStyle: Styles.regularRoboto12
+                hintStyle: Styles.regularPoppins12
                     .copyWith(color: const Color(0xff999999)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -158,12 +167,12 @@ class _CustomDropDown2State extends State<CustomDropDownButton> {
   }
 }
 
-final List<AuthorModel> authors = [
-  // AuthorModel(
-  //     name: 'John Doe', image: 'https://randomuser.me/api/portraits/men/1.jpg'),
-  // AuthorModel(name: 'Mustafa Kamel', image: 'https://i.pravatar.cc/300?img=1'),
-  // AuthorModel(name: 'Ali Osama', image: 'https://i.pravatar.cc/300?img=2'),
-  // AuthorModel(
-  //     name: 'Ibrahim Mohamed', image: 'https://i.pravatar.cc/300?img=3'),
-  // AuthorModel(name: 'Karim Salah', image: 'https://i.pravatar.cc/300?img=4'),
-];
+// final List<AuthorModel> authors = [
+//   // AuthorModel(
+//   //     name: 'John Doe', image: 'https://randomuser.me/api/portraits/men/1.jpg'),
+//   // AuthorModel(name: 'Mustafa Kamel', image: 'https://i.pravatar.cc/300?img=1'),
+//   // AuthorModel(name: 'Ali Osama', image: 'https://i.pravatar.cc/300?img=2'),
+//   // AuthorModel(
+//   //     name: 'Ibrahim Mohamed', image: 'https://i.pravatar.cc/300?img=3'),
+//   // AuthorModel(name: 'Karim Salah', image: 'https://i.pravatar.cc/300?img=4'),
+// ];

@@ -10,10 +10,10 @@ class VideoView extends StatelessWidget {
   const VideoView({
     super.key,
     required this.mediaModel,
-    required this.likesCount,
+    // required this.likesCount,
   });
   final MediaModel mediaModel;
-  final int likesCount;
+  // final int likesCount;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -21,7 +21,7 @@ class VideoView extends StatelessWidget {
         ..getMediaDetails(mediaId: mediaModel.id!),
       child: VideoViewBody(
         mediaModel: mediaModel,
-        likesCount: likesCount,
+        // likesCount: likesCount,
       ),
     );
   }

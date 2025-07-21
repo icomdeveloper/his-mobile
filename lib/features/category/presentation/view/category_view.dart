@@ -4,6 +4,7 @@ import 'package:flutter_offline/flutter_offline.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
+import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/category/data/repo/media_by_category_repo.dart';
 import 'package:his/features/category/presentation/cubits/categories_cubit/categories_cubit.dart';
 import 'package:his/features/category/presentation/cubits/media_by_category_cubit/media_by_category_cubit.dart';
@@ -47,6 +48,15 @@ class CategoryView extends StatelessWidget {
                       builder: (context, state) {
                         if (state is CategoriesSuccess) {
                           return CategoryViewBody(categories: state.categories);
+                        } else if (state is CategoriesFailure) {
+                          return Center(
+                            child: CustomErrorWidget(
+                              errorMessage: state.message,
+                              onTap: () {
+                                context.read<CategoriesCubit>().getCategories();
+                              },
+                            ),
+                          );
                         } else {
                           return const Center(
                               child: CircularProgressIndicator());

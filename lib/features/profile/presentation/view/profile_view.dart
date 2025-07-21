@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
+import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/widgets/build_offline_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/profile_view_body.dart';
 
@@ -31,7 +32,9 @@ class ProfileView extends StatelessWidget {
                   }
                 },
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  ),
                 ),
               ),
             );
