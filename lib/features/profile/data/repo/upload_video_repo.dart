@@ -20,6 +20,7 @@ class UploadVideoRepo {
         ApiEndpoints.title: uploadVideoModel.title,
         ApiEndpoints.description: uploadVideoModel.description,
         ApiEndpoints.isFeatured: uploadVideoModel.isFeatured,
+        ApiEndpoints.mention: uploadVideoModel.mention,
       });
 
       if (uploadVideoModel.videoFile != null) {

@@ -86,7 +86,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                       onTap: () async {
                         final imagefile =
                             await selectFile(type: FileType.image);
-
+                        if (imagefile == null) return;
                         context.read<AuthCubit>().profileImage =
                             platformFileToFile(imagefile);
                       },

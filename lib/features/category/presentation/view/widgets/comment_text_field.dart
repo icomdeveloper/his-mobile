@@ -17,6 +17,7 @@ class CommentTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: Styles.regularPoppins14,
       autofocus: autofocus,
       controller: controller,
       decoration: InputDecoration(

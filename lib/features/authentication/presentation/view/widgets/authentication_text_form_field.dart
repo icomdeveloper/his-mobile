@@ -29,6 +29,7 @@ class AuthenticationTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: Styles.regularPoppins14,
       autovalidateMode: AutovalidateMode.onUnfocus,
       inputFormatters: [
         LengthLimitingTextInputFormatter(maxLength), // Max 10 characters

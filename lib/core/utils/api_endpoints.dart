@@ -78,4 +78,6 @@ abstract class ApiEndpoints {
   static const String editMedia = 'update_media';
 
   static const String deleteMedia = 'delete/media';
+
+  static const String mention = 'mention';
 }

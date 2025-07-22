@@ -69,6 +69,19 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   initChewieController() {
     chewieController = ChewieController(
+      errorBuilder: (context, errorMessage) {
+        return const Center(
+          child: Text(
+            'Something went wrong',
+            style: Styles.regularPoppins12,
+          ),
+        );
+      },
+      placeholder: const Center(
+        child: CircularProgressIndicator(
+          color: AppColors.primaryColor,
+        ),
+      ),
       autoPlay: true,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.portraitUp,
@@ -102,7 +115,9 @@ class _VideoWidgetState extends State<VideoWidget> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: started
-                      ? Chewie(controller: chewieController!)
+                      ? Chewie(
+                          controller: chewieController!,
+                        )
                       : Stack(
                           children: [
                             Positioned.fill(

@@ -36,7 +36,7 @@ class UploadVideoTabBody extends StatefulWidget {
 
 class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
   PlatformFile? videoFile, thumbnailFile, pdfFile, imageFile;
-  List<String> authors = [];
+  List<String>? mention;
   bool isSelecting = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -301,7 +301,8 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                 return CustomDropDownButton(
                   authors: state.users,
                   authorsList: (value) {
-                    authors = value;
+                    mention = value;
+                    log('MENTION ===>> $mention');
                   },
                 );
               } else {
@@ -431,6 +432,7 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                   Fluttertoast.showToast(
                       msg: 'Video uploaded successfully',
                       backgroundColor: const Color(0xFF0F8737));
+
                   Navigator.pop(context);
                 }
                 if (state is UploadMediaFailure) {
@@ -459,6 +461,7 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                                     month: selectedMonth,
                                     isFeatured: isFeatured ? 1 : 0,
                                     title: titleController.text,
+                                    mention: mention == null ? null : mention!,
                                     description:
                                         await descriptionController.getText(),
                                     videoFile: videoFile == null
@@ -516,3 +519,8 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
     }
   }
 }
+
+// String listToArrayString(List<String> list) {
+//   final quotedItems = list.map((item) => '"$item"').join(', ');
+//   return '"[$quotedItems]"';
+// }

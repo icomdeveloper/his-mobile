@@ -25,6 +25,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        style: Styles.regularPoppins14,
         controller: controller,
         readOnly: readOnly,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -89,6 +90,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+        style: Styles.regularPoppins14,
         controller: controller,
         readOnly: readOnly,
         onChanged: onChanged,

@@ -20,6 +20,7 @@ class FeaturedVideosItem extends StatelessWidget {
     final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
     return Container(
       width: MediaQuery.of(context).size.width - 48.w,
+      height: 338.h,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -72,10 +73,20 @@ class FeaturedVideosItem extends StatelessWidget {
                         ),
                       ],
                     ),
+            ],
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+          child: Column(
+            children: [
               const Divider(
                 color: AppColors.lightGrey,
               ),
-              SizedBox(height: 8.h),
+              const SizedBox(
+                height: 8,
+              ),
               LikesAndCommentsWidget(
                 isLiked: mediaModel.isLiked ?? false,
                 mediaId: mediaModel.id!,
@@ -84,7 +95,7 @@ class FeaturedVideosItem extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ]),
     );
   }

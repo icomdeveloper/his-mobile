@@ -12,6 +12,7 @@ class UploadVideoModel {
   final File? thumbnailFile;
   final File? pdfFile;
   final File? imageFile;
+  final List<String>? mention;
   final int? isFeatured;
 
   UploadVideoModel(
@@ -21,6 +22,7 @@ class UploadVideoModel {
       required this.description,
       required this.videoFile,
       required this.month,
+      this.mention,
       this.imageFile,
       required this.thumbnailFile,
       this.pdfFile,
@@ -33,6 +35,7 @@ class UploadVideoModel {
         ApiEndpoints.description: description,
         ApiEndpoints.file: videoFile,
         ApiEndpoints.thumbnail: thumbnailFile,
+        ApiEndpoints.mention: mention,
         ApiEndpoints.pdf: pdfFile,
         ApiEndpoints.isFeatured: isFeatured,
         ApiEndpoints.imagePath: imageFile

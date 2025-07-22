@@ -12,6 +12,7 @@ class GetUsersCubit extends Cubit<GetUsersState> {
   Future<void> getUsers() async {
     emit(GetUsersInitial());
     final result = await getUsersRepo.getUsers();
+    if (isClosed) return;
     result.fold(
         (failure) => emit(GetUsersFailure(errMesage: failure.errMesage)),
         (users) => emit(GetUsersSuccess(users: users)));
