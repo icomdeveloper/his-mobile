@@ -15,7 +15,7 @@ class BookmarksRepo {
   Future<Either<Failure, dynamic>> addToBookmarks(
       {int? mediaId, int? articleId}) async {
     Map<String, dynamic> data = {
-      ApiEndpoints.userId: getUserData().userInfo!.id,
+      ApiEndpoints.userId: getUserData().userInfo?.id,
       'flag': "1",
     };
     try {
@@ -25,7 +25,9 @@ class BookmarksRepo {
         data[ApiEndpoints.articleid] = articleId;
       }
       final response = await apiServices.postMethod(
-          endPoint: ApiEndpoints.addToBookmarks, data: data);
+        endPoint: ApiEndpoints.addToBookmarks,
+        data: data,
+      );
       return Right(response['message']);
     } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
@@ -46,7 +48,7 @@ class BookmarksRepo {
   Future<Either<Failure, dynamic>> removeFromBookmarks(
       {int? mediaId, int? articleId}) async {
     Map<String, dynamic> data = {
-      ApiEndpoints.userId: getUserData().userInfo!.id,
+      ApiEndpoints.userId: getUserData().userInfo?.id,
     };
     try {
       if (mediaId != null) {
@@ -69,9 +71,11 @@ class BookmarksRepo {
 
   Future<Either<Failure, List<MediaModel>>> getBookmarksVideos() async {
     try {
-      final data = {ApiEndpoints.userId: getUserData().userInfo!.id!};
+      final data = {ApiEndpoints.userId: getUserData().userInfo?.id};
       final response = await apiServices.getMethod(
-          endPoint: ApiEndpoints.bookmarks, data: data);
+          endPoint: ApiEndpoints.bookmarks,
+          data: data,
+          token: getUserData().token);
 
       Map<String, dynamic> bookmarkData = response['data'];
       Map<String, dynamic> bookmarks = bookmarkData['bookmarks'];
@@ -95,7 +99,7 @@ class BookmarksRepo {
 
   Future<Either<Failure, List<ArticleModel>>> getBookmarksArticles() async {
     try {
-      final data = {ApiEndpoints.userId: getUserData().userInfo!.id!};
+      final data = {ApiEndpoints.userId: getUserData().userInfo?.id};
       final response = await apiServices.getMethod(
           endPoint: ApiEndpoints.bookmarks, data: data);
 

@@ -15,7 +15,7 @@ class GlobalSearchRepo {
     try {
       Map<String, dynamic> searchQuery = {
         'search': query,
-        ApiEndpoints.userId: getUserData().userInfo!.id
+        // ApiEndpoints.userId: getUserData().userInfo!.id
       };
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.search,

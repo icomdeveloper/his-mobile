@@ -17,11 +17,10 @@ class MediaDetailsRepo {
           endPoint: ApiEndpoints.mediaDetails,
           data: {
             ApiEndpoints.mediaId: mediaId,
-            ApiEndpoints.userId: getUserData().userInfo!.id
+            // ApiEndpoints.userId: getUserData().userInfo?.id
           },
           token: getUserData().token);
-      List<dynamic> dataList = data['data'];
-      return right(MediaModel.fromJson(dataList[0]));
+      return right(MediaModel.fromJson(data['data']));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

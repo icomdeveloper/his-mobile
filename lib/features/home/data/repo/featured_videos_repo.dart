@@ -14,9 +14,10 @@ class FeaturedVideosRepo {
   Future<Either<ServerFailure, List<MediaModel>>> getFeaturedVideos() async {
     try {
       final data = await apiServices.getMethod(
-          endPoint: ApiEndpoints.featuredVideos,
-          token: getUserData().token,
-          data: {ApiEndpoints.userId: getUserData().userInfo?.id});
+        endPoint: ApiEndpoints.featuredVideos,
+        token: getUserData().token,
+        // data: {ApiEndpoints.userId: getUserData().userInfo?.id},
+      );
       List<dynamic> dataList = data['data'];
       final mediaList = dataList
           .expand((category) => (category['media'] as List)

@@ -17,7 +17,7 @@ class MediaByCategoryRepo {
           endPoint: ApiEndpoints.categoryMedia,
           data: {
             ApiEndpoints.categoryId: categoryId,
-            ApiEndpoints.userId: getUserData().userInfo?.id
+            // ApiEndpoints.userId: getUserData().userInfo?.id
           },
           token: getUserData().token);
 
@@ -27,7 +27,7 @@ class MediaByCategoryRepo {
       return right(list);
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {
-        return left(ServerFailure(errMesage: e.response?.data['error']));
+        return left(ServerFailure(errMesage: e.response?.data['message']));
       }
       return left(ServerFailure.fromDioException(e));
     } catch (e) {

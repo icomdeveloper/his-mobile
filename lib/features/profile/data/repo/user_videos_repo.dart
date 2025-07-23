@@ -15,11 +15,11 @@ class UserVideosRepo {
     try {
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.userVideos,
-          data: {ApiEndpoints.userId: getUserData().userInfo!.id},
+          // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
           token: getUserData().token);
       Map<String, dynamic> mediaData = data['data'];
       List<dynamic> pendingMediaData = mediaData['pending'];
-      if (pendingMediaData.first == null) return const Right([]);
+      if (pendingMediaData[0] is List) return const Right([]);
 
       List<MediaModel> list =
           pendingMediaData.map((e) => MediaModel.fromJson(e)).toList();
@@ -35,11 +35,11 @@ class UserVideosRepo {
     try {
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.userVideos,
-          data: {ApiEndpoints.userId: getUserData().userInfo!.id},
+          // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
           token: getUserData().token);
       Map<String, dynamic> mediaData = data['data'];
       List<dynamic> publishedMediaData = mediaData['published'];
-      if (publishedMediaData.first == null) return const Right([]);
+      if (publishedMediaData[0] is List) return const Right([]);
 
       List<MediaModel> list =
           publishedMediaData.map((e) => MediaModel.fromJson(e)).toList();

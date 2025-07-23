@@ -16,9 +16,10 @@ class RecentlyAddedRepo {
       {required BuildContext context}) async {
     try {
       final response = await apiServices.getMethod(
-          endPoint: ApiEndpoints.recentlyAdded,
-          token: getUserData().token,
-          data: {ApiEndpoints.userId: getUserData().userInfo?.id});
+        endPoint: ApiEndpoints.recentlyAdded,
+        token: getUserData().token,
+        // data: {ApiEndpoints.userId: getUserData().userInfo?.id},
+      );
       List<dynamic> dataList = response['data'];
       final mediaList = dataList
           .expand((category) => (category['media'] as List)
