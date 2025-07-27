@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,13 +17,27 @@ import 'package:provider/provider.dart';
 
 import 'core/services/api_services.dart';
 import 'core/services/check_update/check_update_functions.dart';
+import 'core/services/notifications/push_notifications.dart';
 import 'features/on_boarding/presentation/view/on_boarding_view.dart';
+import 'dart:convert';
+
+
+/// Runs in a background isolate when the app is not in the foreground
+@pragma('vm:entry-point')
+Future<void> _firebaseBackgroundMessage(RemoteMessage message) async {
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  PushNotifications.showSimpleNotification(
+    title: message.data['title'] ?? 'Notification',
+    body: message.data['body'] ?? '',
+    payload: jsonEncode(message.data),
+  );
+}
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -31,6 +46,30 @@ void main() async {
   await Prefs.init();
   Bloc.observer = CustomBlocObserver();
   setupGetIt();
+
+  // One‑time permission and engine setup
+  await PushNotifications.init();
+  await PushNotifications.localNotiInit();
+
+  // iOS foreground presentation
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  // Foreground listener
+  FirebaseMessaging.onMessage.listen((m) {
+    PushNotifications.showSimpleNotification(
+      title: m.data['title'] ?? m.notification?.title ?? 'Notification',
+      body: m.data['body'] ?? m.notification?.body ?? '',
+      payload: jsonEncode(m.data),
+    );
+  });
+
+  // Background / terminated (Android + iOS background)
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+
   //log('${getUserData().userInfo!.id??""})}');
   runApp(const MyApp());
 }
