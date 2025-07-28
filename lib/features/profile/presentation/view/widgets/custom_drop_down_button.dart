@@ -4,7 +4,6 @@ import 'package:his/constants.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/authentication/data/models/user_data/user_information.dart';
-import 'package:his/features/profile/data/model/author_model.dart';
 import 'package:his/features/profile/presentation/view/widgets/drop_down_item.dart';
 
 class CustomDropDownButton extends StatefulWidget {
@@ -13,7 +12,6 @@ class CustomDropDownButton extends StatefulWidget {
     this.authorsList,
     required this.authors,
   });
-  @override
   final ValueChanged<List<String>>? authorsList;
   final List<UserInformation> authors;
   @override

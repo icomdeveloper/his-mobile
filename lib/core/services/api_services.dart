@@ -24,6 +24,28 @@ class ApiServices {
     return response.data;
   }
 
+  Future postMethodWithToken({
+    required String endPoint,
+    required Object data,
+    String? token,
+  }) async {
+    final response = await dio.post(
+      '$baseUrl$endPoint',
+      data: data,
+      options: Options(
+        headers: token == null
+            ? {
+                'Accept': 'application/json',
+              }
+            : {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer $token',
+              },
+      ),
+    );
+    return response.data;
+  }
+
   Future deleteMethod({required String endPoint, required Object data}) async {
     final response = await dio.delete(
       '$baseUrl$endPoint',

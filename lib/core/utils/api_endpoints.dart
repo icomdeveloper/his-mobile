@@ -80,4 +80,7 @@ abstract class ApiEndpoints {
   static const String deleteMedia = 'delete/media';
 
   static const String mention = 'mention';
+  static const String fcmToken = 'fcm_token';
+  static const String notificationsFcmToken = 'notifications/fcm-token';
+  static const String notifications = "notifications";
 }

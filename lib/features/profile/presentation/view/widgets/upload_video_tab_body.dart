@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
@@ -46,9 +47,10 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
   late String selectedYear;
   late int yearIndex;
   bool isFeatured = false;
-  HtmlEditorController descriptionController = HtmlEditorController();
+  late HtmlEditorController descriptionController;
   @override
   initState() {
+    descriptionController = HtmlEditorController();
     selectedYear = widget.categories.first.name.toString();
     selectedMonth =
         widget.categories.first.subcategories!.first.name.toString();
@@ -303,6 +305,7 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                   authorsList: (value) {
                     mention = value;
                     log('MENTION ===>> $mention');
+                    log('MENTION encode ===>> ${jsonEncode(mention)}');
                   },
                 );
               } else {
@@ -461,7 +464,7 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                                     month: selectedMonth,
                                     isFeatured: isFeatured ? 1 : 0,
                                     title: titleController.text,
-                                    mention: mention == null ? null : mention!,
+                                    mention: mention,
                                     description:
                                         await descriptionController.getText(),
                                     videoFile: videoFile == null
@@ -520,7 +523,7 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
   }
 }
 
-// String listToArrayString(List<String> list) {
-//   final quotedItems = list.map((item) => '"$item"').join(', ');
-//   return '"[$quotedItems]"';
-// }
+String listToArrayString(List<String> list) {
+  final quotedItems = list.map((item) => '"$item"').join(', ');
+  return '"[$quotedItems]"';
+}

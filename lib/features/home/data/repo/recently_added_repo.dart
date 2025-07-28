@@ -27,10 +27,7 @@ class RecentlyAddedRepo {
           .toList();
       return Right(mediaList);
     } on DioException catch (e) {
-      if (e.response?.statusCode == 500) {
-        return Left(
-            ServerFailure(errMesage: 'Something went wrong , try again'));
-      } else if (e.response?.data['message'] == 'Unauthenticated.') {
+      if (e.response?.data['message'] == 'Unauthenticated.') {
         // Prefs.setBool(PrefsKeys.isLoggedIn, false);
         // await removeUserData();
         // Navigator.pushAndRemoveUntil(

@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/features/authentication/data/models/login_model.dart';
 import 'package:his/features/authentication/data/models/register_model.dart';
 import 'package:his/features/authentication/data/models/user_data/user_data.dart';
@@ -11,8 +11,9 @@ import 'package:his/features/authentication/data/repo/auth_repo.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this.authRepo) : super(AuthInitial());
+  AuthCubit(this.authRepo, this.notificationsRepo) : super(AuthInitial());
   final AuthRepo authRepo;
+  final NotificationsRepo notificationsRepo;
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -28,7 +29,13 @@ class AuthCubit extends Cubit<AuthState> {
 
     var result = await authRepo.login(loginModel: loginModel);
     passwordController.clear();
-    log('Step1 ==>$result');
+    try {
+      await sendFCMToken();
+    } catch (e) {
+      emit(LoginFailure(message: 'Something went wrong , try again'));
+      return;
+    }
+    if (isClosed) return;
     result.fold((error) => emit(LoginFailure(message: error.errMesage)),
         (success) => emit(LoginSuccess(userData: success)));
   }
@@ -45,6 +52,13 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     var result = await authRepo.register(registerModel: registerModel);
+    try {
+      await sendFCMToken();
+    } catch (e) {
+      emit(RegisterFailure(message: 'Something went wrong , try again'));
+      return;
+    }
+    if (isClosed) return;
     result.fold((error) => emit(RegisterFailure(message: error.errMesage)),
         (success) => emit(RegisterSuccess(registerSuccessModel: success)));
   }
@@ -62,4 +76,9 @@ class AuthCubit extends Cubit<AuthState> {
   //   result.fold((error) => emit(LoginFailure(message: error.errMesage)),
   //       (success) => emit(LoginSuccess(userData: success)));
   // }
+
+  Future<dynamic> sendFCMToken() async {
+    final result = await notificationsRepo.sendFCMToken();
+    return result;
+  }
 }

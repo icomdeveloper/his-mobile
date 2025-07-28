@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
@@ -20,7 +22,7 @@ class UploadVideoRepo {
         ApiEndpoints.title: uploadVideoModel.title,
         ApiEndpoints.description: uploadVideoModel.description,
         ApiEndpoints.isFeatured: uploadVideoModel.isFeatured,
-        ApiEndpoints.mention: uploadVideoModel.mention,
+        ApiEndpoints.mention: jsonEncode(uploadVideoModel.mention),
       });
 
       if (uploadVideoModel.videoFile != null) {

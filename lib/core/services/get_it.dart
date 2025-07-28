@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/services/firebase_auth_services.dart';
 import 'package:his/features/authentication/data/repo/auth_repo.dart';
@@ -75,6 +76,8 @@ void setupGetIt() {
       DeleteMediaRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<GetUsersRepo>(
       GetUsersRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<NotificationsRepo>(
+      NotificationsRepo(apiServices: getIt<ApiServices>()));
 }
 
 Dio setupDio() {

@@ -319,6 +319,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                             backgroundColor: const Color(0xFF0F8737));
                         // Navigator.pop(context);
                         Prefs.setBool(PrefsKeys.isLoggedIn, true);
+
                         Provider.of<NavBarVisibilityProvider>(context,
                                 listen: false)
                             .show();

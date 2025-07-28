@@ -6,6 +6,7 @@ abstract class PrefsKeys {
   static const String isLoggedIn = 'isLoggedIn';
   static const String likes = 'likes';
   static const String bookmarks = 'bookmarks';
+  static const String fcmToken = 'fcmToken';
 }
 
 // const List<String> monthList = [

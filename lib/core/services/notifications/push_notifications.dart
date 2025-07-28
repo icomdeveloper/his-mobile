@@ -1,17 +1,19 @@
-
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:his/constants.dart';
+import 'package:his/core/services/shared_preferences.dart';
 
 class PushNotifications {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin _flutter =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   /// New channel ID so Android recreates it with sound
-  static const AndroidNotificationChannel _androidCh = AndroidNotificationChannel(
-    'high_importance_v2',                // <- NEW id
+  static const AndroidNotificationChannel _androidCh =
+      AndroidNotificationChannel(
+    'high_importance_v2', // <- NEW id
     'High Importance Notifications',
     description: 'Default channel with sound',
     importance: Importance.max,
@@ -19,13 +21,14 @@ class PushNotifications {
     //sound: RawResourceAndroidNotificationSound('default'),
   );
 
-
-
   /*──────────────────────────  INITIALISATION  ─────────────────────────*/
 
   static Future<void> init() async {
     final settings = await _messaging.requestPermission(
-      alert: true, badge: true, sound: true, provisional: false,
+      alert: true,
+      badge: true,
+      sound: true,
+      provisional: false,
     );
     if (settings.authorizationStatus != AuthorizationStatus.authorized &&
         settings.authorizationStatus != AuthorizationStatus.provisional) {
@@ -35,18 +38,19 @@ class PushNotifications {
     // Create (or update) the Android channel
     await _flutter
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(_androidCh);
 
     // Helpful during debugging
     final fcmToken = await _messaging.getToken();
-    // ignore: avoid_print
-    print('FCM token: $fcmToken');
+    Prefs.setString(PrefsKeys.fcmToken, fcmToken ?? '');
+
+    log('FCM token: $fcmToken');
   }
 
   static Future<void> localNotiInit() async {
     const initAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initIOS     = DarwinInitializationSettings(
+    const initIOS = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestSoundPermission: true,
       requestBadgePermission: true,
@@ -72,7 +76,7 @@ class PushNotifications {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
-     // sound: RawResourceAndroidNotificationSound('default'),
+      // sound: RawResourceAndroidNotificationSound('default'),
     );
 
     const ios = DarwinNotificationDetails(
@@ -94,5 +98,5 @@ class PushNotifications {
   /*────────────────────────────  TAP HANDLER  ──────────────────────────*/
 
   static void _onTap(NotificationResponse r) =>
-      print('Notification tapped with payload: ${r.payload}');
+      log('Notification tapped with payload: ${r.payload}');
 }

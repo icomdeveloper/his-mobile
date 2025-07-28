@@ -21,19 +21,18 @@ import 'core/services/notifications/push_notifications.dart';
 import 'features/on_boarding/presentation/view/on_boarding_view.dart';
 import 'dart:convert';
 
-
 /// Runs in a background isolate when the app is not in the foreground
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundMessage(RemoteMessage message) async {
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   PushNotifications.showSimpleNotification(
-    title: message.data['title'] ?? 'Notification',
-    body: message.data['body'] ?? '',
+    title:
+        message.data['title'] ?? message.notification?.title ?? 'Notification',
+    body: message.data['body'] ?? message.notification?.body ?? '',
     payload: jsonEncode(message.data),
   );
 }
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

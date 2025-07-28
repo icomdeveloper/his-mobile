@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/features/authentication/data/repo/auth_repo.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
@@ -33,7 +34,8 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(getIt<AuthRepo>()),
+      create: (context) =>
+          AuthCubit(getIt<AuthRepo>(), getIt<NotificationsRepo>()),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
