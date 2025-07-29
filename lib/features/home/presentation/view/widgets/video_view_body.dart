@@ -65,7 +65,7 @@ class VideoViewBody extends StatelessWidget {
             BlocProvider(
               create: (context) => GetCommentsCubit(getIt<CommentRepo>())
                 ..getComments(
-                    mediaId: mediaModel.id!,
+                    mediaId: mediaModel.id ?? 0,
                     isPending: mediaModel.status == 'pending'),
             ),
           ],
@@ -83,7 +83,7 @@ class VideoViewBody extends StatelessWidget {
                     onTap: () {
                       context
                           .read<MediaDetailsCubit>()
-                          .getMediaDetails(mediaId: mediaModel.id!);
+                          .getMediaDetails(mediaId: mediaModel.id ?? 0);
                     },
                   ),
                 );

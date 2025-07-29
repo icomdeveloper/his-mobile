@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/services/shared_preferences.dart';
+import 'package:his/features/notifications/presentation/view/notification_view.dart';
+import 'package:his/main.dart';
 
 class PushNotifications {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -97,6 +99,21 @@ class PushNotifications {
 
   /*────────────────────────────  TAP HANDLER  ──────────────────────────*/
 
-  static void _onTap(NotificationResponse r) =>
-      log('Notification tapped with payload: ${r.payload}');
+  // static void _onTap(NotificationResponse r) {
+  //   log('Notification tapped with payload: ${r.payload}');
+  // }
+  static void handleNotificationTap(RemoteMessage message) {
+    final payload = message.data['payload'] ?? '';
+    _navigateToNotificationScreen(payload);
+  }
+
+  static void _onTap(NotificationResponse r) {
+    log('Notification tapped with payload: ${r.payload}');
+    _navigateToNotificationScreen(r.payload ?? '');
+  }
+
+  static void _navigateToNotificationScreen(String payload) {
+    navigatorKey.currentState
+        ?.pushNamed(NotificationView.routeName, arguments: payload);
+  }
 }

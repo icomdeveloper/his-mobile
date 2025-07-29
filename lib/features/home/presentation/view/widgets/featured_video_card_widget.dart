@@ -131,6 +131,21 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
             },
             child: InkWell(
               onTap: () {
+                if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const LoginView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    ),
+                  );
+                  return;
+                }
                 if (!isBookmark) {
                   context
                       .read<BookmarksCubit>()

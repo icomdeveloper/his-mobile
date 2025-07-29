@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/data/repo/recently_added_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'recently_added_state.dart';
 

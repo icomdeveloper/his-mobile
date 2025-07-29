@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/features/notifications/presentation/cubit/notification_cubit/notification_cubit.dart';
+import 'package:his/features/notifications/presentation/view/notification_view.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
@@ -202,6 +205,31 @@ class ProfileViewBody extends StatelessWidget {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (_, __, ___) => const PolicyListView(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) =>
+                                  FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  UserDataRowWidget(
+                    title: 'Notifications',
+                    image: Assets.assetsImagesNotification,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => BlocProvider(
+                            create: (context) =>
+                                NotificationCubit(getIt<NotificationsRepo>())
+                                  ..getNotifications(),
+                            child: const NotificationView(),
+                          ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) =>
                                   FadeTransition(

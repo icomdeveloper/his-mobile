@@ -16,7 +16,7 @@ class FeaturedVideosRepo {
       final data = await apiServices.getMethod(
         endPoint: ApiEndpoints.featuredVideos,
         token: getUserData().token,
-        // data: {ApiEndpoints.userId: getUserData().userInfo?.id},
+        data: {ApiEndpoints.userId: getUserData().userInfo?.id},
       );
       List<dynamic> dataList = data['data'];
       final mediaList = dataList

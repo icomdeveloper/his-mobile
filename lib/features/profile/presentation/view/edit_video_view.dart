@@ -106,10 +106,10 @@ class EditVideoView extends StatelessWidget {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
-                                backgroundColor: Colors.white,
-                                borderColor: AppColors.primaryColor,
-                                textColor: AppColors.primaryColor,
-                                isArrowAppear: false,
+                                backgroundColor: AppColors.primaryColor,
+                                borderColor: const Color(0xff1A1C1E),
+                                textColor: Colors.white,
+                                isArrowAppear: true,
                               ),
                             ],
                           );

@@ -18,7 +18,7 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MediaDetailsCubit(getIt<MediaDetailsRepo>())
-        ..getMediaDetails(mediaId: mediaModel.id!),
+        ..getMediaDetails(mediaId: mediaModel.id ?? 0),
       child: VideoViewBody(
         mediaModel: mediaModel,
         // likesCount: likesCount,

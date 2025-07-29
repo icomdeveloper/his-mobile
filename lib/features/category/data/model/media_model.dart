@@ -88,8 +88,8 @@ class MediaModel {
         mention: json['mention'] as String?,
         isFavorite: json['is_favorite'] as bool?,
         image: json['image_path'] as String?,
-        commentsCount: (json['comments'] as List<dynamic>).length,
-        likesCount: (json['likes'] as List<dynamic>).length,
+        commentsCount: json['comments_count'] as int?,
+        likesCount: json['likes_count'] as int?,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
         createdAt: json['created_at'] == null

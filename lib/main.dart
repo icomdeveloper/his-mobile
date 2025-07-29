@@ -73,6 +73,8 @@ void main() async {
   runApp(const MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -84,6 +86,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => ChangeNotifierProvider(
         create: (_) => NavBarVisibilityProvider(),
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
           ),

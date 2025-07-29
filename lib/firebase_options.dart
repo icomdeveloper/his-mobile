@@ -63,8 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '284854582707',
     projectId: 'his-2025',
     storageBucket: 'his-2025.firebasestorage.app',
-    iosClientId: '284854582707-47vkpom7iolfckqushojv7mc5agplt0n.apps.googleusercontent.com',
+    iosClientId:
+        '284854582707-47vkpom7iolfckqushojv7mc5agplt0n.apps.googleusercontent.com',
     iosBundleId: 'com.mediacreation.his',
   );
-
 }

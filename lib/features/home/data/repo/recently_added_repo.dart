@@ -18,7 +18,7 @@ class RecentlyAddedRepo {
       final response = await apiServices.getMethod(
         endPoint: ApiEndpoints.recentlyAdded,
         token: getUserData().token,
-        // data: {ApiEndpoints.userId: getUserData().userInfo?.id},
+        data: {ApiEndpoints.userId: getUserData().userInfo?.id},
       );
       List<dynamic> dataList = response['data'];
       final mediaList = dataList

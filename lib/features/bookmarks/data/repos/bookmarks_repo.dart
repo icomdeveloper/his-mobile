@@ -24,9 +24,10 @@ class BookmarksRepo {
       } else {
         data[ApiEndpoints.articleid] = articleId;
       }
-      final response = await apiServices.postMethod(
+      final response = await apiServices.postMethodWithToken(
         endPoint: ApiEndpoints.addToBookmarks,
         data: data,
+        token: getUserData().token,
       );
       return Right(response['message']);
     } on DioException catch (e) {
@@ -56,8 +57,10 @@ class BookmarksRepo {
       } else {
         data[ApiEndpoints.articleid] = articleId;
       }
-      final response = await apiServices.postMethod(
-          endPoint: ApiEndpoints.removeFromBookmarks, data: data);
+      final response = await apiServices.postMethodWithToken(
+          endPoint: ApiEndpoints.removeFromBookmarks,
+          data: data,
+          token: getUserData().token);
       return Right(response['message']);
     } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
@@ -78,11 +81,11 @@ class BookmarksRepo {
           token: getUserData().token);
 
       Map<String, dynamic> bookmarkData = response['data'];
-      Map<String, dynamic> bookmarks = bookmarkData['bookmarks'];
-      List<dynamic> mediaBookmarks = bookmarks['mediaBookmarks'];
+      List<dynamic> bookmarks = bookmarkData['bookmarks'];
+      // List<dynamic> mediaBookmarks = bookmarks['mediaBookmarks'];
 
       List<BookmarksModel> bookmarkList =
-          mediaBookmarks.map((e) => BookmarksModel.fromJsonToMedia(e)).toList();
+          bookmarks.map((e) => BookmarksModel.fromJsonToMedia(e)).toList();
       if (bookmarkList.isEmpty) {
         return const Right([]);
       }
