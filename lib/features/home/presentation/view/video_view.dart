@@ -13,6 +13,7 @@ class VideoView extends StatelessWidget {
     // required this.likesCount,
   });
   final MediaModel mediaModel;
+  static const routeName = '/videoView';
   // final int likesCount;
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class DeleteUserRepo {
     try {
       var data = await apiServices
           .deleteMethod(endPoint: ApiEndpoints.deleteUser, data: {
-        ApiEndpoints.userId: 22131,
+        ApiEndpoints.userId: getUserData().userInfo?.id,
         ApiEndpoints.email: getUserData().userInfo?.email,
       });
       return right(data);

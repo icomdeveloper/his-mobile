@@ -19,6 +19,7 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:provider/provider.dart';
@@ -399,7 +400,16 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) =>
+                                          const LoginView(),
+                                      transitionsBuilder: (context, animation,
+                                              secondaryAnimation, child) =>
+                                          FadeTransition(
+                                              opacity: animation, child: child),
+                                    ));
                               },
                           ),
                         ],

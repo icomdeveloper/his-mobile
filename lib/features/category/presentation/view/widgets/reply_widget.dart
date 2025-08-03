@@ -25,10 +25,37 @@ class ReplyWidget extends StatelessWidget {
           minTileHeight: 62.h,
           contentPadding: EdgeInsets.zero,
           isThreeLine: true,
-          leading: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(
-                reply.user?.profileImage ?? avatarImage),
-            radius: 12.r,
+          leading: InkWell(
+            onTap: () {
+              if (reply.user?.profileImage != null) {
+                showDialog(
+                  context: context,
+                  builder: (_) => Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 220.h),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: reply.user?.profileImage ?? avatarImage,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            child: CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(
+                  reply.user?.profileImage ?? avatarImage),
+              radius: 12.r,
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

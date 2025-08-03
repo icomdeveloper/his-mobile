@@ -115,17 +115,22 @@ class RecentlyAddedWidget extends StatelessWidget {
                       style: Styles.semiBoldPoppins14,
                     ),
                     isHtml
-                        ? Html(data: mediaModel.description ?? '', style: {
-                            "p": Style(
-                                padding: HtmlPaddings.zero,
-                                margin: Margins.zero,
-                                textOverflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                color: AppColors.grey,
-                                fontSize: FontSize(12),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Poppins')
-                          })
+                        ? Transform.translate(
+                            offset: Offset(-6.w, -4),
+                            child: Html(
+                                data: mediaModel.description?.trim() ?? '',
+                                style: {
+                                  "p": Style(
+                                      padding: HtmlPaddings.zero,
+                                      margin: Margins.zero,
+                                      textOverflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      color: AppColors.grey,
+                                      fontSize: FontSize(12),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Poppins')
+                                }),
+                          )
                         : Text(
                             mediaModel.description ?? "",
                             style: Styles.regularPoppins12.copyWith(

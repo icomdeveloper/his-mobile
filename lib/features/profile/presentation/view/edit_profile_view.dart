@@ -23,6 +23,16 @@ class _EditProfileViewState extends State<EditProfileView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   @override
+  initState() {
+    super.initState();
+    context.read<EditProfileCubit>().nameController.text =
+        getUserData().userInfo?.name ?? '';
+
+    context.read<EditProfileCubit>().phoneController.text =
+        getUserData().userInfo?.phone ?? '';
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,

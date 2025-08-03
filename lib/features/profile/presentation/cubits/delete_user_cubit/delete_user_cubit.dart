@@ -11,6 +11,7 @@ class DeleteUserCubit extends Cubit<DeleteUserState> {
   Future<void> deleteUser() async {
     emit(DeleteUserLoading());
     final result = await deleteUserRepo.deleteUser();
+    if (isClosed) return;
     result.fold((failure) {
       emit(DeleteUserFailure(errMessage: failure.errMesage));
     }, (data) {

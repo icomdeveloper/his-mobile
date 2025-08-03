@@ -223,7 +223,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 PageRouteBuilder(
                                   pageBuilder: (_, __, ___) =>

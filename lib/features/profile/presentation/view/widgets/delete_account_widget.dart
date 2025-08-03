@@ -11,11 +11,17 @@ import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/profile/presentation/cubits/delete_user_cubit/delete_user_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
 
-class DeleteAccountWidget extends StatelessWidget {
+class DeleteAccountWidget extends StatefulWidget {
   const DeleteAccountWidget({
     super.key,
   });
 
+  @override
+  State<DeleteAccountWidget> createState() => _DeleteAccountWidgetState();
+}
+
+class _DeleteAccountWidgetState extends State<DeleteAccountWidget> {
+  bool isDeleting = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -56,6 +62,12 @@ class DeleteAccountWidget extends StatelessWidget {
                   backgroundColor: const Color(0xFFD60000),
                 ),
                 onPressed: () {
+                  if (isDeleting) {
+                    return;
+                  }
+                  setState(() {
+                    isDeleting = true;
+                  });
                   context.read<DeleteUserCubit>().deleteUser();
                 },
                 child: Text(
@@ -70,6 +82,9 @@ class DeleteAccountWidget extends StatelessWidget {
       child: BlocListener<DeleteUserCubit, DeleteUserState>(
         listener: (context, state) async {
           if (state is DeleteUserSuccess) {
+            setState(() {
+              isDeleting = false;
+            });
             showCustomSnackBar(
                 message: state.message,
                 context: context,
@@ -98,7 +113,14 @@ class DeleteAccountWidget extends StatelessWidget {
               message: state.errMessage,
               context: context,
             );
-            Navigator.pop(context);
+            setState(() {
+              isDeleting = false;
+            });
+          }
+          if (state is DeleteUserLoading) {
+            setState(() {
+              isDeleting = true;
+            });
           }
         },
         child: const UserDataRowWidget(

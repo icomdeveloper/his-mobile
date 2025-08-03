@@ -41,6 +41,7 @@ class FeaturedVideosItem extends StatelessWidget {
             top: 4.h,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 mediaModel.title ?? '',
@@ -49,18 +50,24 @@ class FeaturedVideosItem extends StatelessWidget {
                 style: Styles.semiBoldPoppins14,
               ),
               isHtml
-                  ? Html(data: mediaModel.description ?? '', style: {
-                      "p": Style(
-                          padding: HtmlPaddings.zero,
-                          margin: Margins.zero,
-                          textOverflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          color: AppColors.grey,
-                          fontSize: FontSize(12),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Poppins')
-                    })
+                  ? Transform.translate(
+                      offset: Offset(-6.w, -4),
+                      child: Html(
+                          data: mediaModel.description?.trim() ?? '',
+                          style: {
+                            "p": Style(
+                                padding: HtmlPaddings.zero,
+                                margin: Margins.zero,
+                                textOverflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                color: AppColors.grey,
+                                fontSize: FontSize(12),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins')
+                          }),
+                    )
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 4),
                         Text(

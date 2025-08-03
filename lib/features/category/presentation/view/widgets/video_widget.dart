@@ -213,15 +213,19 @@ class _VideoWidgetState extends State<VideoWidget> {
                           children: [
                             SizedBox(height: 4.h),
                             isHtml
-                                ? Html(
-                                    data: widget.mediaModel?.description ?? '',
-                                    style: {
-                                        "p": Style(
-                                            color: AppColors.grey,
-                                            fontSize: FontSize(12.sp),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'Poppins')
-                                      })
+                                ? Transform.translate(
+                                    offset: Offset(-6.w, -6),
+                                    child: Html(
+                                        data: widget.mediaModel?.description ??
+                                            '',
+                                        style: {
+                                          "p": Style(
+                                              color: AppColors.grey,
+                                              fontSize: FontSize(12),
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Poppins')
+                                        }),
+                                  )
                                 : Text(
                                     widget.mediaModel?.description ?? '',
                                     style: Styles.regularPoppins12

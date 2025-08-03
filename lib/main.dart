@@ -11,6 +11,7 @@ import 'package:his/core/services/app_routes.dart';
 import 'package:his/core/services/custom_bloc_observer.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/services/shared_preferences.dart';
+import 'package:his/deep_link_listener.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:his/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -92,9 +93,12 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: onGenerateRoute,
-          initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
-              ? MainView.routeName
-              : OnBoardingView.routeName,
+          home: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+              ? const DeepLinkListener(child: MainView())
+              : const OnBoardingView(),
+          // initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+          //     ? MainView.routeName
+          //     : OnBoardingView.routeName,
           // home: AppEntryPoint(), // ✅ Entry point where we trigger update check
 
           /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)

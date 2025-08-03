@@ -15,6 +15,7 @@ class IndexStackProvider with ChangeNotifier {
   void setIndex(int index) {
     if (!_initializedScreens[index]) {
       _initializedScreens[index] = true;
+      _initializedScreens[_currentIndex] = false;
       notifyListeners();
     }
     if (_currentIndex != index) {

@@ -16,6 +16,16 @@ class NotificationView extends StatelessWidget {
       body: BlocBuilder<NotificationCubit, NotificationState>(
         builder: (context, state) {
           if (state is NotificationSuccess) {
+            if (state.notificationList.isEmpty) {
+              return Center(
+                child: CustomErrorWidget(
+                  errorMessage: 'No notifications found',
+                  onTap: () {
+                    context.read<NotificationCubit>().getNotifications();
+                  },
+                ),
+              );
+            }
             return NotificationScreen(
               notifications: state.notificationList,
             );

@@ -28,7 +28,8 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
   @override
   initState() {
     super.initState();
-    BlocProvider.of<GetBookmarksCubit>(context).getBookmarksVideos();
+    BlocProvider.of<GetBookmarksCubit>(context)
+        .getBookmarksVideos(context: context);
 
     _searchController.addListener(_filterItems);
   }
@@ -57,7 +58,9 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
       key: const Key('bookmarks'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0.5) {
-          context.read<GetBookmarksCubit>().getBookmarksVideos();
+          context
+              .read<GetBookmarksCubit>()
+              .getBookmarksVideos(context: context);
           // context.read<GetBookmarksArticlesCubit>().getBookmarksArticles();
         }
       },
@@ -139,7 +142,7 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
                         onTap: () {
                           context
                               .read<GetBookmarksCubit>()
-                              .getBookmarksVideos();
+                              .getBookmarksVideos(context: context);
                         },
                       ),
                     ),

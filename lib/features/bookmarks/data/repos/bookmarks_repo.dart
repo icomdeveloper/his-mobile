@@ -1,9 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/errors/failure.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/api_endpoints.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/bookmarks/data/models/bookmarks_model/bookmarks_model.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/home/data/models/article_model.dart';
@@ -12,8 +16,10 @@ class BookmarksRepo {
   final ApiServices apiServices;
 
   BookmarksRepo({required this.apiServices});
-  Future<Either<Failure, dynamic>> addToBookmarks(
-      {int? mediaId, int? articleId}) async {
+  Future<Either<Failure, dynamic>> addToBookmarks({
+    int? mediaId,
+    int? articleId,
+  }) async {
     Map<String, dynamic> data = {
       ApiEndpoints.userId: getUserData().userInfo?.id,
       'flag': "1",
@@ -34,6 +40,7 @@ class BookmarksRepo {
       if (e.response?.statusCode == 409) {
         return Left(ServerFailure(errMesage: e.response?.data['message']));
       }
+
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
@@ -72,7 +79,8 @@ class BookmarksRepo {
     }
   }
 
-  Future<Either<Failure, List<MediaModel>>> getBookmarksVideos() async {
+  Future<Either<Failure, List<MediaModel>>> getBookmarksVideos(
+      {required BuildContext context}) async {
     try {
       final data = {ApiEndpoints.userId: getUserData().userInfo?.id};
       final response = await apiServices.getMethod(
@@ -94,6 +102,28 @@ class BookmarksRepo {
           bookmarkList.map((e) => MediaModel.fromMedia(e.mediaModel!)).toList();
       return Right(mediaList);
     } on DioException catch (e) {
+      if (e.response?.data['message'] == 'Unauthenticated.') {
+        Prefs.setBool(PrefsKeys.isLoggedIn, false);
+        await removeUserData();
+        Navigator.pushAndRemoveUntil(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const LoginView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1, 0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+          ),
+          (route) => false,
+        );
+        return Left(ServerFailure(
+            errMesage: 'You are not authurized to make this request !'));
+      }
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'You may not have any videos yet'));

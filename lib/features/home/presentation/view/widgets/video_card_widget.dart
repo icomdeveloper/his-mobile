@@ -214,19 +214,23 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                 SizedBox(height: 4.h),
                 widget.isDescriptionAppeared
                     ? isHtml
-                        ? Html(
-                            data: widget.mediaModel.description ?? '',
-                            style: {
-                                "p": Style(
-                                    padding: HtmlPaddings.zero,
-                                    margin: Margins.zero,
-                                    textOverflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    color: AppColors.grey,
-                                    fontSize: FontSize(12),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Poppins')
-                              })
+                        ? Transform.translate(
+                            offset: Offset(-6.w, -4),
+                            child: Html(
+                                data:
+                                    widget.mediaModel.description?.trim() ?? '',
+                                style: {
+                                  "p": Style(
+                                      padding: HtmlPaddings.zero,
+                                      margin: Margins.zero,
+                                      textOverflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      color: AppColors.grey,
+                                      fontSize: FontSize(12),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Poppins')
+                                }),
+                          )
                         : Text(
                             widget.mediaModel.description ?? "",
                             overflow: TextOverflow.ellipsis,

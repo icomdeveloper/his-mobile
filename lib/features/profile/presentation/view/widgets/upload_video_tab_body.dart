@@ -342,10 +342,12 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
                 htmlToolbarOptions: const HtmlToolbarOptions(
                   defaultToolbarButtons: [
                     StyleButtons(),
-                    FontButtons(),
-                    ColorButtons(),
+                    FontButtons(
+                      strikethrough: false,
+                      subscript: false,
+                      superscript: false,
+                    ),
                     ListButtons(),
-                    ParagraphButtons(),
                   ],
                 ),
                 // otherOptions: const OtherOptions(

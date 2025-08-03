@@ -43,7 +43,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
     _searchController.addListener(_filterItems);
     context
         .read<MediaByCategoryCubit>()
-        .getMediaByCategory(categoryId: monthId);
+        .getMediaByCategory(categoryId: monthId, context: context);
   }
 
   void _filterItems() {
@@ -69,6 +69,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
         if (info.visibleFraction > 0.5) {
           context.read<MediaByCategoryCubit>().getMediaByCategory(
                 categoryId: monthId,
+                context: context,
               );
         }
       },
@@ -109,9 +110,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                             .subcategories![monthListIndex].name!;
                       });
                       log(selectedYear);
-                      context
-                          .read<MediaByCategoryCubit>()
-                          .getMediaByCategory(categoryId: monthId);
+                      context.read<MediaByCategoryCubit>().getMediaByCategory(
+                          categoryId: monthId, context: context);
                     },
                     categoryList:
                         widget.categories.map((e) => e.name!).toList(),
@@ -136,9 +136,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                             .categories[yearIndex].subcategories![value].id!;
                         monthListIndex = value;
                       });
-                      context
-                          .read<MediaByCategoryCubit>()
-                          .getMediaByCategory(categoryId: monthId);
+                      context.read<MediaByCategoryCubit>().getMediaByCategory(
+                          categoryId: monthId, context: context);
                     },
                     categoryList: widget.categories[yearIndex].subcategories!
                         .map((e) => e.name!)
@@ -174,7 +173,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                         onTap: () {
                           context
                               .read<MediaByCategoryCubit>()
-                              .getMediaByCategory(categoryId: monthId);
+                              .getMediaByCategory(
+                                  categoryId: monthId, context: context);
                         },
                       ),
                     ));
@@ -190,9 +190,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                     child: CustomErrorWidget(
                       errorMessage: state.errMessage,
                       onTap: () {
-                        context
-                            .read<MediaByCategoryCubit>()
-                            .getMediaByCategory(categoryId: monthId);
+                        context.read<MediaByCategoryCubit>().getMediaByCategory(
+                            categoryId: monthId, context: context);
                       },
                     ),
                   ));
