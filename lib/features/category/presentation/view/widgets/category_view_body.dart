@@ -98,17 +98,26 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                   child: YearList(
                     onItemTapped: (value) {
                       if (selectedYear == widget.categories[value].name!) {
-                        return;
+                        setState(() {
+                          monthListIndex = 0;
+                          selectedMonth = widget.categories[value]
+                              .subcategories![monthListIndex].name!;
+                          monthId =
+                              widget.categories[value].subcategories![0].id ??
+                                  0;
+                        });
+                      } else {
+                        setState(() {
+                          selectedYear = widget.categories[value].name!;
+                          yearIndex = value;
+                          monthId =
+                              widget.categories[value].subcategories![0].id ??
+                                  0;
+                          monthListIndex = 0;
+                          selectedMonth = widget.categories[value]
+                              .subcategories![monthListIndex].name!;
+                        });
                       }
-                      setState(() {
-                        selectedYear = widget.categories[value].name!;
-                        yearIndex = value;
-                        monthId =
-                            widget.categories[value].subcategories![0].id ?? 0;
-                        monthListIndex = 0;
-                        selectedMonth = widget.categories[value]
-                            .subcategories![monthListIndex].name!;
-                      });
                       log(selectedYear);
                       context.read<MediaByCategoryCubit>().getMediaByCategory(
                           categoryId: monthId, context: context);

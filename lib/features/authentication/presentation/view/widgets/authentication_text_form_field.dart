@@ -17,6 +17,8 @@ class AuthenticationTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.validator,
     this.maxLength,
+    this.maxLines,
+    this.prefixIconWidget,
   });
   final String hintText;
   final bool obscureText;
@@ -26,9 +28,12 @@ class AuthenticationTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final String? Function(String?)? validator;
   final int? maxLength;
+  final int? maxLines;
+  final Widget? prefixIconWidget;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines ?? 1,
       style: Styles.regularPoppins14,
       autovalidateMode: AutovalidateMode.onUnfocus,
       inputFormatters: [
@@ -45,28 +50,30 @@ class AuthenticationTextFormField extends StatelessWidget {
             return null;
           },
       decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 12.w,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child:
-                        prefixIcon ?? SvgPicture.asset(Assets.assetsImagesLogo),
+          prefixIcon: prefixIcon != null
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 12.w,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: prefixIcon ??
+                              SvgPicture.asset(Assets.assetsImagesLogo),
+                        ),
+                      ),
+                      Transform.rotate(
+                          angle: 90 * 3.14 / 180,
+                          child: const Icon(
+                            Icons.remove,
+                            size: 18,
+                          )),
+                    ],
                   ),
-                ),
-                Transform.rotate(
-                    angle: 90 * 3.14 / 180,
-                    child: const Icon(
-                      Icons.remove,
-                      size: 18,
-                    )),
-              ],
-            ),
-          ),
+                )
+              : prefixIconWidget,
           suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           enabledBorder: buildBorder(),

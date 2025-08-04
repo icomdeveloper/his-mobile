@@ -19,6 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
   File? profileImage;
   Future<void> loginWithEmailAndPassword() async {
     emit(LoginLoading());
@@ -28,14 +29,20 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     var result = await authRepo.login(loginModel: loginModel);
-    passwordController.clear();
     try {
       await sendFCMToken();
     } catch (e) {
+      if (isClosed) return;
+      if (result.isLeft()) {
+        emit(LoginFailure(message: result.fold((l) => l.errMesage, (r) => '')));
+        return;
+      }
+
       emit(LoginFailure(message: 'Something went wrong , try again'));
       return;
     }
     if (isClosed) return;
+    passwordController.clear();
     result.fold((error) => emit(LoginFailure(message: error.errMesage)),
         (success) => emit(LoginSuccess(userData: success)));
   }

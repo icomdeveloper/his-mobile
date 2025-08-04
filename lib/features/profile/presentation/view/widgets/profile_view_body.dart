@@ -227,7 +227,7 @@ class ProfileViewBody extends StatelessWidget {
                           pageBuilder: (_, __, ___) => BlocProvider(
                             create: (context) =>
                                 NotificationCubit(getIt<NotificationsRepo>())
-                                  ..getNotifications(),
+                                  ..getNotifications(context: context),
                             child: const NotificationView(),
                           ),
                           transitionsBuilder:

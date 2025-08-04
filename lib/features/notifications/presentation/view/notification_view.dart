@@ -21,7 +21,9 @@ class NotificationView extends StatelessWidget {
                 child: CustomErrorWidget(
                   errorMessage: 'No notifications found',
                   onTap: () {
-                    context.read<NotificationCubit>().getNotifications();
+                    context
+                        .read<NotificationCubit>()
+                        .getNotifications(context: context);
                   },
                 ),
               );
@@ -34,7 +36,9 @@ class NotificationView extends StatelessWidget {
                 child: CustomErrorWidget(
               errorMessage: state.message,
               onTap: () {
-                context.read<NotificationCubit>().getNotifications();
+                context
+                    .read<NotificationCubit>()
+                    .getNotifications(context: context);
               },
             ));
           } else {

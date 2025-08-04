@@ -295,6 +295,105 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                       prefixIcon: SvgPicture.asset(
                         Assets.assetsImagesPassword,
                       )),
+                  // const SizedBox(
+                  //   height: 14,
+                  // ),
+                  // const Text('Country of Practices',
+                  //     style: Styles.semiBoldPoppins12),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                  // const SelectCountryMenu(),
+                  // const SizedBox(
+                  //   height: 14,
+                  // ),
+                  // const Text('Academic Title', style: Styles.semiBoldPoppins12),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                  // AuthenticationTextFormField(
+                  //   controller: context.read<AuthCubit>().nameController,
+                  //   hintText: 'Enter title',
+                  //   textInputType: TextInputType.name,
+                  // ),
+                  // const SizedBox(
+                  //   height: 14,
+                  // ),
+                  // const Text('Job Description',
+                  //     style: Styles.semiBoldPoppins12),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                  // AuthenticationTextFormField(
+                  //   controller: context.read<AuthCubit>().nameController,
+                  //   hintText: 'e.g., Senior researcher in .....',
+                  //   textInputType: TextInputType.name,
+                  //   maxLines: 5,
+                  // ),
+                  // const SizedBox(
+                  //   height: 14,
+                  // ),
+                  // Container(
+                  //     width: double.infinity,
+                  //     padding: const EdgeInsets.all(12),
+                  //     decoration: const ShapeDecoration(
+                  //         shape: OutlineInputBorder(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(12)),
+                  //             borderSide: BorderSide(
+                  //                 width: 1, color: AppColors.lightGrey))),
+                  //     child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           const Text('Institution / University',
+                  //               style: Styles.semiBoldPoppins12),
+                  //           const SizedBox(
+                  //             height: 4,
+                  //           ),
+                  //           AuthenticationTextFormField(
+                  //             controller:
+                  //                 context.read<AuthCubit>().nameController,
+                  //             hintText: 'e.g. Alexandria University',
+                  //             textInputType: TextInputType.name,
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 14,
+                  //           ),
+                  //           const Text('Department',
+                  //               style: Styles.semiBoldPoppins12),
+                  //           const SizedBox(
+                  //             height: 4,
+                  //           ),
+                  //           AuthenticationTextFormField(
+                  //             controller:
+                  //                 context.read<AuthCubit>().nameController,
+                  //             hintText: 'e.g. Department of ....',
+                  //             textInputType: TextInputType.name,
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 14,
+                  //           ),
+                  //           const Text('Year of Graduation',
+                  //               style: Styles.semiBoldPoppins12),
+                  //           const SizedBox(
+                  //             height: 4,
+                  //           ),
+                  //           AuthenticationTextFormField(
+                  //             controller:
+                  //                 context.read<AuthCubit>().nameController,
+                  //             hintText: 'YYYY',
+                  //             textInputType: TextInputType.name,
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 14,
+                  //           ),
+                  //           const Text('Country of Graduation',
+                  //               style: Styles.semiBoldPoppins12),
+                  //           const SizedBox(
+                  //             height: 4,
+                  //           ),
+                  //           const SelectCountryMenu(),
+                  //         ])),
                   const SizedBox(
                     height: 26,
                   ),
@@ -360,6 +459,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                             );
                     },
                   ),
+
                   // const SizedBox(
                   //   height: 24,
                   // ),

@@ -21,7 +21,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           builder: (_) => BlocProvider(
                 create: (context) =>
                     NotificationCubit(getIt<NotificationsRepo>())
-                      ..getNotifications(),
+                      ..getNotifications(context: context),
                 child: const NotificationView(),
               ));
 

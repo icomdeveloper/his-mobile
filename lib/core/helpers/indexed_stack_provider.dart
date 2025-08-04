@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 
 class IndexStackProvider with ChangeNotifier {
   int _currentIndex = 0;
-  final List<bool> _initializedScreens = [
-    true,
-    false,
-    false,
-    false
-  ]; // Only first screen loaded initially
+  final List<bool> _initializedScreens = [true, false, false, false];
 
   int get currentIndex => _currentIndex;
   List<bool> get initializedScreens => _initializedScreens;
