@@ -14,10 +14,12 @@ class CommentsListView extends StatefulWidget {
       {super.key,
       required this.comments,
       this.isDummy = false,
-      required this.status});
+      required this.status,
+      required this.commentsCount});
   final List<CommentsModel> comments;
   final bool isDummy;
   final String status;
+  final int commentsCount;
 
   @override
   State<CommentsListView> createState() => _CommentsListViewState();
@@ -25,6 +27,7 @@ class CommentsListView extends StatefulWidget {
 
 class _CommentsListViewState extends State<CommentsListView> {
   final ScrollController controller = ScrollController();
+
   @override
   void initState() {
     _scrollToBottom();
@@ -56,7 +59,7 @@ class _CommentsListViewState extends State<CommentsListView> {
               style: Styles.semiBoldPoppins14,
             ),
             Text(
-              '${commentsList.length} Comments',
+              '$commentsCount Comments',
               style: Styles.semiBoldPoppins12.copyWith(
                 color: AppColors.primaryColor,
                 decoration: TextDecoration.underline,
@@ -101,3 +104,4 @@ class _CommentsListViewState extends State<CommentsListView> {
 }
 
 List<CommentsModel> commentsList = [];
+int commentsCount = 0;

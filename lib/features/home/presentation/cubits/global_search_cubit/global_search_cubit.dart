@@ -12,6 +12,10 @@ class GlobalSearchCubit extends Cubit<GlobalSearchState> {
 
   Future<void> search({required String query}) async {
     emit(GlobalSearchInitial());
+    if (query.isEmpty) {
+      emit(GlobalSearchInitial());
+      return;
+    }
     final result = await globalSearchRepo.search(query: query);
     if (isClosed) return;
     result.fold(

@@ -12,6 +12,7 @@ Widget buildOfflineWidget() {
         const Text(
           'Oops!!.. Your internet connection seems to be offline',
           style: Styles.semiBoldPoppins14,
+          textAlign: TextAlign.center,
         ),
       ],
     ),

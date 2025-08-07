@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/media_by_category_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'media_by_category_state.dart';
 

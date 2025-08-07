@@ -32,7 +32,7 @@ class FeaturedVideosBlocBuilder extends StatelessWidget {
 
         if (state is FeaturedVideosFailure) {
           return SizedBox(
-            height: 200.h,
+            height: 240.h,
             child: Center(
               child: AspectRatio(
                 aspectRatio: 342.w / 340.h,

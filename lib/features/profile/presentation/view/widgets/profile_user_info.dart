@@ -12,6 +12,7 @@ import 'package:his/core/helpers/platformFile_to_file.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
+import 'package:his/features/authentication/data/models/user_data/user_data.dart';
 
 import '../../cubits/update_profile_image_cubit/update_profile_image_cubit.dart';
 
@@ -25,7 +26,15 @@ class ProfileUserInfo extends StatefulWidget {
 }
 
 class _ProfileUserInfoState extends State<ProfileUserInfo> {
+  late UserData user;
   PlatformFile? image;
+
+  @override
+  initState() {
+    user = getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -154,14 +163,14 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            getUserData().userInfo?.name ?? '',
+                            user.userInfo?.name ?? '',
                             overflow: TextOverflow.clip,
                             maxLines: 2,
                             style: Styles.semiBoldPoppins14
                                 .copyWith(color: Colors.white),
                           ),
                           Text(
-                            getUserData().userInfo?.email ?? '',
+                            user.userInfo?.email ?? '',
                             style: Styles.regularPoppins14
                                 .copyWith(color: Colors.white),
                             maxLines: 2,

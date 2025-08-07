@@ -12,9 +12,11 @@ class CommentListViewBlocBuilder extends StatelessWidget {
     super.key,
     required this.mediaId,
     required this.status,
+    required this.commentsCount,
   });
   final int mediaId;
   final String status;
+  final int commentsCount;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCommentsCubit, GetCommentsState>(
@@ -29,6 +31,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
             child: CommentsListView(
               status: status,
               comments: state.comments,
+              commentsCount: commentsCount,
             ),
           );
         } else if (state is GetCommentsFailure) {
@@ -49,6 +52,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               child: SizedBox(
             height: 350.h,
             child: CommentsListView(
+              commentsCount: 0,
               status: status,
               isDummy: true,
               comments: dummyCommentList,

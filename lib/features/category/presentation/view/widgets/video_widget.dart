@@ -333,10 +333,12 @@ class _VideoWidgetState extends State<VideoWidget> {
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: widget.mediaModel?.commentsCount ?? 0,
                       numberOfLikes: widget.mediaModel?.likesCount ?? 0,
+                      isInVideoView: true,
                     ),
                     const SizedBox(height: 14),
 
                     CommentListViewBlocBuilder(
+                      commentsCount: widget.mediaModel?.commentsCount ?? 0,
                       mediaId: widget.mediaModel!.id!,
                       status: widget.mediaModel!.status!,
                     ),
@@ -349,6 +351,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                         if (state is AddCommentSuccess) {
                           setState(() {
                             commentsList.add(state.comment);
+                            commentsCount++;
                           });
                           //   context
                           //       .read<GetCommentsCubit>()
@@ -362,6 +365,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                               mediaId: widget.mediaModel!.id!,
                               isPending:
                                   widget.mediaModel!.status == 'pending');
+                          setState(() {
+                            commentsCount++;
+                          });
                         }
                       },
                       child: CommentTextField(

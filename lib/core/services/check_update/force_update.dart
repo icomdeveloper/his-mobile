@@ -138,10 +138,10 @@ class ForceYpdate extends StatelessWidget {
   final String UpdateURL;
 
   const ForceYpdate({
-    Key? key,
+    super.key,
     required this.UpdateURL,
     required this.apiServices,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

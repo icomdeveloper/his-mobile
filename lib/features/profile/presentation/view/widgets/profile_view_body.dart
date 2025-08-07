@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,9 +29,15 @@ import 'package:his/features/profile/presentation/view/widgets/user_data_row_wid
 
 import 'profile_user_info.dart';
 
-class ProfileViewBody extends StatelessWidget {
+class ProfileViewBody extends StatefulWidget {
   const ProfileViewBody({super.key});
 
+  @override
+  State<ProfileViewBody> createState() => _ProfileViewBodyState();
+}
+
+class _ProfileViewBodyState extends State<ProfileViewBody> {
+  Key _refreshKey = UniqueKey();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -48,7 +56,9 @@ class ProfileViewBody extends StatelessWidget {
             child: BlocProvider(
               create: (context) =>
                   UpdateProfileImageCubit(getIt<UpdateProfileImageRepo>()),
-              child: const ProfileUserInfo(),
+              child: ProfileUserInfo(
+                key: _refreshKey,
+              ),
             ),
           ),
         ),
@@ -83,8 +93,9 @@ class ProfileViewBody extends StatelessWidget {
                       trailing:
                           SvgPicture.asset(Assets.assetsImagesArrowForward),
                       image: Assets.assetsImagesProfile,
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        log("Clicked");
+                        final result = await Navigator.push(
                             context,
                             PageRouteBuilder(
                                 pageBuilder:
@@ -105,6 +116,12 @@ class ProfileViewBody extends StatelessWidget {
                                     ),
                                 transitionDuration:
                                     const Duration(milliseconds: 300)));
+                        if (result == 'refresh') {
+                          setState(() {
+                            log("result =>>>>>>>>>>>>>>>>>>> $result");
+                            _refreshKey = UniqueKey();
+                          });
+                        }
                       }),
                   const SizedBox(height: 12),
                   UserDataRowWidget(

@@ -36,7 +36,10 @@ class _EditProfileViewState extends State<EditProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(context, title: 'Edit Profile'),
+        appBar: buildAppBar(
+          context,
+          title: 'Edit Profile',
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
@@ -105,9 +108,8 @@ class _EditProfileViewState extends State<EditProfileView> {
 
                       await updateUserData(
                           phone: state.phone, name: state.name);
-                      Navigator.pop(
-                        context,
-                      );
+
+                      Navigator.pop(context, 'refresh');
                     }
                     if (state is EditProfileFailure) {
                       showCustomSnackBar(

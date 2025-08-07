@@ -19,6 +19,7 @@ class AuthenticationTextFormField extends StatelessWidget {
     this.maxLength,
     this.maxLines,
     this.prefixIconWidget,
+    this.autovalidateMode,
   });
   final String hintText;
   final bool obscureText;
@@ -30,12 +31,14 @@ class AuthenticationTextFormField extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final Widget? prefixIconWidget;
+  final AutovalidateMode? autovalidateMode;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       maxLines: maxLines ?? 1,
       style: Styles.regularPoppins14,
-      autovalidateMode: AutovalidateMode.onUnfocus,
+      autovalidateMode: autovalidateMode,
       inputFormatters: [
         LengthLimitingTextInputFormatter(maxLength), // Max 10 characters
       ],

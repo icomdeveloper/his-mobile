@@ -64,6 +64,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                     PageRouteBuilder(
                       pageBuilder: (_, __, ___) => VideoView(
                         mediaModel: widget.mediaModel,
+
                         // likesCount: likesCount,
                       ),
                       transitionsBuilder:

@@ -21,42 +21,42 @@ class RecentlyAddedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = mediaModel.description ?? '';
     final isHtml = text.contains(RegExp(r'<[a-z][\s\S]*>'));
-    return InkWell(
-      onTap: () {
-        if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (_, __, ___) => const LoginView(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
-            ),
-          );
-        } else {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (_, __, ___) => VideoView(
-                mediaModel: mediaModel,
-                // likesCount: mediaModel.likesCount ?? 0,
-              ),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
-            ),
-          );
-        }
-      },
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => const LoginView(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  ),
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => VideoView(
+                    mediaModel: mediaModel,
+                    // likesCount: mediaModel.likesCount ?? 0,
+                  ),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  ),
+                ),
+              );
+            }
+          },
+          child: Row(
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.33,
@@ -153,10 +153,10 @@ class RecentlyAddedWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 5),
-          const Divider(color: Color(0xFFEEEEEE), thickness: 2),
-        ],
-      ),
+        ),
+        const SizedBox(height: 5),
+        const Divider(color: Color(0xFFEEEEEE), thickness: 2),
+      ],
     );
   }
 }

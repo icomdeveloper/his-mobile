@@ -214,6 +214,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (password) {
                       if (password == null || password.isEmpty) {
                         return 'Please enter a password';
@@ -254,6 +255,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (confirmPassword) {
                         if (confirmPassword == null ||
                             confirmPassword.isEmpty) {
@@ -447,7 +449,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                             ))
                           : CustomTextButton(
                               text: 'Register',
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
                                   context.read<AuthCubit>().register();

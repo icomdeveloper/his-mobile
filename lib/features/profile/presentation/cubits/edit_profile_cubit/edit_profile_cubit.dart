@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'edit_profile_state.dart';
 

@@ -13,6 +13,7 @@ import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/bookmarks/presentation/cubits/bookmarks_cubit/bookmarks_cubit.dart';
 import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/home/presentation/cubits/featured_videos_cubit/featured_videos_cubit.dart';
 import 'package:his/features/home/presentation/view/video_view.dart';
 
 class FeaturedVideoCardWidget extends StatefulWidget {
@@ -77,8 +78,12 @@ class _FeaturedVideoCardWidgetState extends State<FeaturedVideoCardWidget> {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => VideoView(
-                      mediaModel: widget.mediaModel,
+                    pageBuilder: (_, __, ___) => BlocProvider.value(
+                      value: BlocProvider.of<FeaturedVideosCubit>(context),
+                      child: VideoView(
+                        mediaModel: widget.mediaModel,
+                        videoType: 'featured',
+                      ),
                     ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) =>

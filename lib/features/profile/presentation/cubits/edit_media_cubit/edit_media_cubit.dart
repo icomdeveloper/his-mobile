@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:his/features/profile/data/model/edit_media_model.dart';
 import 'package:his/features/profile/data/repo/edit_media_repo.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:meta/meta.dart';
 
 part 'edit_media_state.dart';
 

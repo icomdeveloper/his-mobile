@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/core/models/notifcation_model/notifcation_model.dart';
 import 'package:his/core/repo/notifications_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'notification_state.dart';
 

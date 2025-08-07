@@ -8,6 +8,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
+import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/home/data/repo/media_likes_repo.dart';
 import 'package:his/features/home/presentation/cubits/media_likes_cubit/media_likes_cubit.dart';
 
@@ -21,10 +22,12 @@ class LikesAndCommentsWidget extends StatelessWidget {
     required this.mediaId,
     this.onLikeChanged,
     this.isLiked,
+    this.isInVideoView = false,
   });
   final int numberOfLikes, numberOfComments, mediaId;
   final bool? isLiked;
   final ValueChanged<bool>? onLikeChanged;
+  final bool isInVideoView;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,6 +39,7 @@ class LikesAndCommentsWidget extends StatelessWidget {
           },
           numberOfLikes: numberOfLikes,
           numberOfComments: numberOfComments,
+          isInVideoView: isInVideoView,
           mediaId: mediaId),
     );
   }
@@ -49,6 +53,7 @@ class LikesAndComments extends StatefulWidget {
     required this.mediaId,
     this.onLikeChanged,
     required this.isLiked,
+    required this.isInVideoView,
   });
 
   final int numberOfLikes;
@@ -56,6 +61,7 @@ class LikesAndComments extends StatefulWidget {
   final int mediaId;
   final bool isLiked;
   final ValueChanged<bool>? onLikeChanged;
+  final bool isInVideoView;
 
   @override
   State<LikesAndComments> createState() => _LikesAndCommentsState();
@@ -68,6 +74,8 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
   initState() {
     _isLiked = widget.isLiked;
     _likesCount = widget.numberOfLikes;
+    commentsCount = widget.numberOfComments;
+
     super.initState();
   }
 
@@ -75,6 +83,8 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
   Widget build(BuildContext context) {
     return Row(children: [
       InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         onTap: () {
           if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
             Navigator.push(
@@ -99,39 +109,44 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
                 .deleteLike(mediaId: widget.mediaId);
           }
         },
-        child: BlocListener<MediaLikesCubit, MediaLikesState>(
-          listener: (context, state) {
-            if (state is AddLikeSuccess) {
-              _isLiked = true;
-              widget.onLikeChanged?.call(true);
-              _likesCount++;
-            }
-            if (state is DeleteLikeSuccess) {
-              _isLiked = false;
-              widget.onLikeChanged?.call(false);
-              _likesCount--;
-            }
-            if (state is AddLikeFailure) {
-              Fluttertoast.showToast(msg: state.message);
-            }
-            if (state is DeleteLikeFailure) {
-              Fluttertoast.showToast(msg: state.message);
-            }
-            setState(() {});
-          },
-          child: Icon(
-            _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-            size: 18,
-            color: AppColors.darkGrey,
-          ),
+        child: Row(
+          children: [
+            BlocListener<MediaLikesCubit, MediaLikesState>(
+              listener: (context, state) {
+                if (state is AddLikeSuccess) {
+                  _isLiked = true;
+                  widget.onLikeChanged?.call(true);
+                  _likesCount++;
+                }
+                if (state is DeleteLikeSuccess) {
+                  _isLiked = false;
+                  widget.onLikeChanged?.call(false);
+                  _likesCount--;
+                }
+                if (state is AddLikeFailure) {
+                  Fluttertoast.showToast(msg: state.message);
+                }
+                if (state is DeleteLikeFailure) {
+                  Fluttertoast.showToast(msg: state.message);
+                }
+                setState(() {});
+              },
+              child: Icon(
+                _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                size: 18,
+                color: AppColors.darkGrey,
+              ),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Text(
+              _likesCount > 1 ? '$_likesCount Likes' : '$_likesCount Like',
+              style:
+                  Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
+            ),
+          ],
         ),
-      ),
-      const SizedBox(
-        width: 4,
-      ),
-      Text(
-        _likesCount > 1 ? '$_likesCount Likes' : '$_likesCount Like',
-        style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
       const SizedBox(
         width: 24,
@@ -141,9 +156,16 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
         width: 4,
       ),
       Text(
-        widget.numberOfComments > 1
-            ? '${widget.numberOfComments} Comments'
-            : '${widget.numberOfComments} Comment',
+        widget.isInVideoView
+            ? widget.numberOfComments > 1
+                ? '$commentsCount Comments'
+                : '$commentsCount Comment'
+            : widget.numberOfComments > 1
+                ? '${widget.numberOfComments} Comments'
+                : '${widget.numberOfComments} Comment',
+        // widget.numberOfComments > 1
+        //     ? '${widget.numberOfComments} Comments'
+        //     : '${widget.numberOfComments} Comment',
         style: Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
       ),
     ]);
