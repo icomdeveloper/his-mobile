@@ -14,9 +14,13 @@ class MediaModel {
   String? status;
   String? duration;
   int? isFeatured;
+
   DateTime? createdAt;
   DateTime? updatedAt;
+
   int? commentsCount;
+  int? adminCommentsCount;
+
   bool? isLiked;
   int? likesCount;
   String? image;
@@ -41,6 +45,7 @@ class MediaModel {
     this.updatedAt,
     this.duration,
     this.commentsCount,
+    this.adminCommentsCount,
     this.likesCount,
     this.image,
   });
@@ -62,6 +67,7 @@ class MediaModel {
         isLiked: json['is_liked'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: json['comments_count'] as int?,
+        adminCommentsCount: json['admin_comment_count'] as int?,
         likesCount: json['likes_count'] as int?,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
@@ -89,6 +95,7 @@ class MediaModel {
         isFavorite: json['is_favorite'] as bool?,
         image: json['image_path'] as String?,
         commentsCount: json['comments_count'] as int?,
+        adminCommentsCount: json['admin_comments_count'] as int?,
         likesCount: json['likes_count'] as int?,
         status: json['status'] as String?,
         isFeatured: json['is_featured'] as int?,
@@ -114,6 +121,7 @@ class MediaModel {
         'is_liked': isLiked,
         'image_path': image,
         'comments_count': commentsCount,
+        'admin_comments_count': adminCommentsCount,
         'assigned_to': assignedTo,
         'mention': mention,
         'likes_count': likesCount,
@@ -129,6 +137,7 @@ class MediaModel {
         userId: mediaModel.userId,
         title: mediaModel.title,
         commentsCount: mediaModel.commentsCount,
+        adminCommentsCount: mediaModel.adminCommentsCount,
         likesCount: mediaModel.likesCount,
         views: mediaModel.views,
         description: mediaModel.description,

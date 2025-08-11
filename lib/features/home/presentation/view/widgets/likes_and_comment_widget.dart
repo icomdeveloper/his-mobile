@@ -23,11 +23,13 @@ class LikesAndCommentsWidget extends StatelessWidget {
     this.onLikeChanged,
     this.isLiked,
     this.isInVideoView = false,
+    this.isPending = false,
   });
   final int numberOfLikes, numberOfComments, mediaId;
   final bool? isLiked;
   final ValueChanged<bool>? onLikeChanged;
   final bool isInVideoView;
+  final bool isPending;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -40,6 +42,7 @@ class LikesAndCommentsWidget extends StatelessWidget {
           numberOfLikes: numberOfLikes,
           numberOfComments: numberOfComments,
           isInVideoView: isInVideoView,
+          isPending: isPending,
           mediaId: mediaId),
     );
   }
@@ -54,6 +57,7 @@ class LikesAndComments extends StatefulWidget {
     this.onLikeChanged,
     required this.isLiked,
     required this.isInVideoView,
+    this.isPending = false,
   });
 
   final int numberOfLikes;
@@ -62,7 +66,7 @@ class LikesAndComments extends StatefulWidget {
   final bool isLiked;
   final ValueChanged<bool>? onLikeChanged;
   final bool isInVideoView;
-
+  final bool isPending;
   @override
   State<LikesAndComments> createState() => _LikesAndCommentsState();
 }
@@ -82,75 +86,83 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const LoginView(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) =>
-                        FadeTransition(
-                  opacity: animation,
-                  child: child,
-                ),
-              ),
-            );
-            return;
-          }
-          if (!_isLiked) {
-            BlocProvider.of<MediaLikesCubit>(context)
-                .addLike(mediaId: widget.mediaId);
-          } else {
-            BlocProvider.of<MediaLikesCubit>(context)
-                .deleteLike(mediaId: widget.mediaId);
-          }
-        },
-        child: Row(
-          children: [
-            BlocListener<MediaLikesCubit, MediaLikesState>(
-              listener: (context, state) {
-                if (state is AddLikeSuccess) {
-                  _isLiked = true;
-                  widget.onLikeChanged?.call(true);
-                  _likesCount++;
+      widget.isPending
+          ? const SizedBox.shrink()
+          : InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                if (!Prefs.getBool(PrefsKeys.isLoggedIn)) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const LoginView(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    ),
+                  );
+                  return;
                 }
-                if (state is DeleteLikeSuccess) {
-                  _isLiked = false;
-                  widget.onLikeChanged?.call(false);
-                  _likesCount--;
+                if (!_isLiked) {
+                  BlocProvider.of<MediaLikesCubit>(context)
+                      .addLike(mediaId: widget.mediaId);
+                } else {
+                  BlocProvider.of<MediaLikesCubit>(context)
+                      .deleteLike(mediaId: widget.mediaId);
                 }
-                if (state is AddLikeFailure) {
-                  Fluttertoast.showToast(msg: state.message);
-                }
-                if (state is DeleteLikeFailure) {
-                  Fluttertoast.showToast(msg: state.message);
-                }
-                setState(() {});
               },
-              child: Icon(
-                _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                size: 18,
-                color: AppColors.darkGrey,
+              child: Row(
+                children: [
+                  BlocListener<MediaLikesCubit, MediaLikesState>(
+                    listener: (context, state) {
+                      if (state is AddLikeSuccess) {
+                        _isLiked = true;
+                        widget.onLikeChanged?.call(true);
+                        _likesCount++;
+                      }
+                      if (state is DeleteLikeSuccess) {
+                        _isLiked = false;
+                        widget.onLikeChanged?.call(false);
+                        _likesCount--;
+                      }
+                      if (state is AddLikeFailure) {
+                        Fluttertoast.showToast(msg: state.message);
+                      }
+                      if (state is DeleteLikeFailure) {
+                        Fluttertoast.showToast(msg: state.message);
+                      }
+                      setState(() {});
+                    },
+                    child: Icon(
+                      _isLiked
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      size: 18,
+                      color: AppColors.darkGrey,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    _likesCount > 1
+                        ? '$_likesCount Likes'
+                        : '$_likesCount Like',
+                    style: Styles.semiBoldPoppins12
+                        .copyWith(color: AppColors.darkGrey),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: 4,
+      widget.isPending
+          ? const SizedBox.shrink()
+          : const SizedBox(
+              width: 24,
             ),
-            Text(
-              _likesCount > 1 ? '$_likesCount Likes' : '$_likesCount Like',
-              style:
-                  Styles.semiBoldPoppins12.copyWith(color: AppColors.darkGrey),
-            ),
-          ],
-        ),
-      ),
-      const SizedBox(
-        width: 24,
-      ),
       SvgPicture.asset(Assets.assetsImagesComment),
       const SizedBox(
         width: 4,

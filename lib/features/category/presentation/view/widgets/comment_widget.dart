@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -63,7 +64,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       child: CachedNetworkImage(
                         imageUrl: userInformation.profileImage!,
                         errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                            const Icon(Icons.error_outline_outlined),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -161,6 +162,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset(Assets.assetsImagesReply),
                     const SizedBox(
@@ -181,15 +183,26 @@ class _CommentWidgetState extends State<CommentWidget> {
                       replies: widget.comment.replies,
                     ),
               showReplyTextField
-                  ? CommentTextField(
-                      autofocus: true,
-                      controller: context.read<CommentsCubit>().replyController,
-                      onTap: () {
-                        context.read<CommentsCubit>().addReply(
-                            isPending: widget.status == 'pending',
-                            mediaId: widget.comment.mediaId!,
-                            parentId: widget.comment.id!);
-                      })
+                  ? Animate(
+                      effects: const [
+                        FadeEffect(
+                          duration: Duration(milliseconds: 300),
+                        ),
+                        ScaleEffect(
+                          duration: Duration(milliseconds: 300),
+                        ),
+                      ],
+                      child: CommentTextField(
+                          autofocus: true,
+                          controller:
+                              context.read<CommentsCubit>().replyController,
+                          onTap: () {
+                            context.read<CommentsCubit>().addReply(
+                                isPending: widget.status == 'pending',
+                                mediaId: widget.comment.mediaId!,
+                                parentId: widget.comment.id!);
+                          }),
+                    )
                   : const SizedBox.shrink(),
             ],
           ),

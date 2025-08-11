@@ -1,22 +1,15 @@
 String formatDuration(String rawDuration) {
   try {
-    // Split the string by colon
-    List<String> parts = rawDuration.split('.');
+    // Convert string to double (seconds with decimals)
+    double totalSeconds = double.parse(rawDuration);
 
-    // Handle cases where format is unexpected
-    if (parts.length < 2) return rawDuration;
+    // Convert to minutes and seconds
+    int minutes = totalSeconds ~/ 60;
+    int seconds = (totalSeconds % 60).round();
 
-    // Extract minutes and seconds
-    String minutes = parts[0];
-    String seconds = parts[1];
-
-    // If seconds part is too long, take only the first 2 digits
-    if (seconds.length > 2) {
-      seconds = seconds.substring(0, 2);
-    }
-
-    return '$minutes:$seconds';
+    // Format with leading zeros for seconds
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
   } catch (e) {
-    return rawDuration; // Fallback to original if parsing fails
+    return rawDuration; // Fallback if parsing fails
   }
 }

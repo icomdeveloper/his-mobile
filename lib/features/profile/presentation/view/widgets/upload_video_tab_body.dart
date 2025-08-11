@@ -523,6 +523,34 @@ class _UploadVideoTabBodyState extends State<UploadVideoTabBody> {
       isPickerActive = false;
     }
   }
+  //   Future<File?> pickAndCompressVideo({
+  //   VideoQuality quality = VideoQuality.MediumQuality,
+  //   bool deleteOrigin = false,
+  // }) async {
+  //   try {
+  //     // Step 1: Pick video
+  //     final pickedFile =
+  //         await FilePicker.platform.pickFiles(type: FileType.video);
+  //     if (pickedFile == null) return null;
+
+  //     // Step 2: Compress
+  //     final compressedInfo = await VideoCompress.compressVideo(
+  //       pickedFile.files.first.path!,
+  //       quality: quality,
+  //       deleteOrigin: deleteOrigin,
+  //     );
+
+  //     if (compressedInfo == null || compressedInfo.path == null) {
+  //       Fluttertoast.showToast(msg: 'Video compression failed');
+  //       return null;
+  //     }
+
+  //     return File(compressedInfo.path!);
+  //   } catch (e) {
+  //     Fluttertoast.showToast(msg: 'Error: $e');
+  //     return null;
+  //   }
+  // }
 }
 
 String listToArrayString(List<String> list) {

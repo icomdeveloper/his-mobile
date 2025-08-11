@@ -15,22 +15,21 @@ class CommentsListView extends StatefulWidget {
       required this.comments,
       this.isDummy = false,
       required this.status,
-      required this.commentsCount});
+      required this.commentsCount,
+      required this.controller});
   final List<CommentsModel> comments;
   final bool isDummy;
   final String status;
   final int commentsCount;
-
+  final ScrollController controller;
   @override
   State<CommentsListView> createState() => _CommentsListViewState();
 }
 
 class _CommentsListViewState extends State<CommentsListView> {
-  final ScrollController controller = ScrollController();
-
   @override
   void initState() {
-    _scrollToBottom();
+    scrollToBottom(controller: widget.controller);
     if (!widget.isDummy) {
       commentsList.clear();
 
@@ -43,7 +42,6 @@ class _CommentsListViewState extends State<CommentsListView> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
@@ -72,7 +70,7 @@ class _CommentsListViewState extends State<CommentsListView> {
         ),
         Expanded(
           child: ListView.separated(
-            controller: controller,
+            controller: widget.controller,
             separatorBuilder: (context, index) => const Divider(
               color: AppColors.lightGrey,
             ),
@@ -89,18 +87,18 @@ class _CommentsListViewState extends State<CommentsListView> {
       ],
     );
   }
+}
 
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.hasClients) {
-        controller.animateTo(
-          controller.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      }
-    });
-  }
+void scrollToBottom({required ScrollController controller}) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (controller.hasClients) {
+      controller.animateTo(
+        controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    }
+  });
 }
 
 List<CommentsModel> commentsList = [];

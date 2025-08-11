@@ -3,17 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
-import 'package:his/features/category/data/repo/categories_repo.dart';
-import 'package:his/features/category/presentation/cubits/categories_cubit/categories_cubit.dart';
-import 'package:his/features/profile/data/repo/get_users_repo.dart';
-import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 import 'package:his/features/profile/data/repo/user_videos_repo.dart';
-import 'package:his/features/profile/presentation/cubits/get_users_cubit/get_users_cubit.dart';
-import 'package:his/features/profile/presentation/cubits/upload_media_cubit/upload_media_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/user_videos_cubit/user_videos_cubit.dart';
 import 'package:his/features/profile/presentation/view/widgets/published_tab_bar.dart';
 import 'package:his/features/profile/presentation/view/widgets/pending_tab_bar.dart';
-import 'package:his/features/profile/presentation/view/widgets/upload_video_tab.dart';
 
 class MyVideosViewBody extends StatefulWidget {
   const MyVideosViewBody({super.key});
@@ -27,7 +20,7 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
   late TabController tabController;
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -40,9 +33,9 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
           TabBar(
             controller: tabController,
             tabs: const [
-              Tab(
-                text: 'Upload',
-              ),
+              // Tab(
+              //   text: 'Upload',
+              // ),
               Tab(
                 text: 'Published',
               ),
@@ -67,24 +60,24 @@ class _MyVideosViewBodyState extends State<MyVideosViewBody>
                   physics: const NeverScrollableScrollPhysics(),
                   controller: tabController,
                   children: [
-                MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) =>
-                          UploadMediaCubit(getIt<UploadVideoRepo>()),
-                    ),
-                    BlocProvider(
-                      create: (context) =>
-                          CategoriesCubit(getIt<CategoriesRepo>())
-                            ..getCategories(),
-                    ),
-                    BlocProvider(
-                      create: (context) =>
-                          GetUsersCubit(getIt<GetUsersRepo>())..getUsers(),
-                    ),
-                  ],
-                  child: const UploadVideoTab(),
-                ),
+                // MultiBlocProvider(
+                //   providers: [
+                //     BlocProvider(
+                //       create: (context) =>
+                //           UploadMediaCubit(getIt<UploadVideoRepo>()),
+                //     ),
+                //     BlocProvider(
+                //       create: (context) =>
+                //           CategoriesCubit(getIt<CategoriesRepo>())
+                //             ..getCategories(),
+                //     ),
+                //     BlocProvider(
+                //       create: (context) =>
+                //           GetUsersCubit(getIt<GetUsersRepo>())..getUsers(),
+                //     ),
+                //   ],
+                //   child: const UploadVideoTab(),
+                // ),
                 BlocProvider(
                   create: (context) =>
                       UserVideosCubit(getIt<UserVideosRepo>())..userVideos(),

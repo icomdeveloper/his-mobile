@@ -8,6 +8,7 @@ import 'package:his/features/home/presentation/cubits/global_search_cubit/global
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
 import 'package:his/features/home/presentation/view/widgets/video_card_sliver_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'dart:async';
 
 class GlobalSearchView extends StatefulWidget {
   const GlobalSearchView({super.key});
@@ -17,6 +18,14 @@ class GlobalSearchView extends StatefulWidget {
 }
 
 class _GlobalSearchViewState extends State<GlobalSearchView> {
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   String query = '';
   @override
   Widget build(BuildContext context) {
@@ -44,10 +53,7 @@ class _GlobalSearchViewState extends State<GlobalSearchView> {
                     CustomTextField(
                       hintText: 'Search ...',
                       isSearch: true,
-                      onChanged: (value) {
-                        query = value;
-                        context.read<GlobalSearchCubit>().search(query: value);
-                      },
+                      onChanged: _onSearchChanged,
                     ),
                     SizedBox(
                       height: 24.h,
@@ -110,5 +116,23 @@ class _GlobalSearchViewState extends State<GlobalSearchView> {
         ),
       )),
     );
+  }
+
+  void _onSearchChanged(String value) {
+    query = value;
+
+    // Cancel previous timer
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    // Only trigger search after short delay
+    _debounce = Timer(const Duration(milliseconds: 700), () {
+      if (query.isEmpty) {
+        context
+            .read<GlobalSearchCubit>()
+            .clearResults(); // make this in cubit to reset state
+      } else {
+        context.read<GlobalSearchCubit>().search(query: query);
+      }
+    });
   }
 }

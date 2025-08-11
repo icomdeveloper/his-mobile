@@ -23,4 +23,8 @@ class GlobalSearchCubit extends Cubit<GlobalSearchState> {
       (success) => emit(GlobalSearchMediaSuccess(mediaList: success)),
     );
   }
+
+  Future<void> clearResults() async {
+    emit(GlobalSearchInitial());
+  }
 }

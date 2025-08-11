@@ -60,7 +60,7 @@ class PushNotifications {
     await _flutter.initialize(
       const InitializationSettings(android: initAndroid, iOS: initIOS),
       onDidReceiveNotificationResponse: _onTap,
-      onDidReceiveBackgroundNotificationResponse: _onTap,
+      onDidReceiveBackgroundNotificationResponse: handleNotificationTap,
     );
   }
 
@@ -78,6 +78,7 @@ class PushNotifications {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+
       // sound: RawResourceAndroidNotificationSound('default'),
     );
 
@@ -102,9 +103,12 @@ class PushNotifications {
   // static void _onTap(NotificationResponse r) {
   //   log('Notification tapped with payload: ${r.payload}');
   // }
-  static void handleNotificationTap(RemoteMessage message) {
-    final payload = message.data['payload'] ?? '';
-    _navigateToNotificationScreen(payload);
+  static void handleNotificationTap(NotificationResponse response) {
+    // This runs when the user taps the notification
+    final payload = response.payload;
+    if (payload != null && payload.isNotEmpty) {
+      _navigateToNotificationScreen(payload);
+    }
   }
 
   static void _onTap(NotificationResponse r) {

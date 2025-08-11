@@ -13,10 +13,12 @@ class CommentListViewBlocBuilder extends StatelessWidget {
     required this.mediaId,
     required this.status,
     required this.commentsCount,
+    required this.controller,
   });
   final int mediaId;
   final String status;
   final int commentsCount;
+  final ScrollController controller;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCommentsCubit, GetCommentsState>(
@@ -29,6 +31,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
                     : 300.h
                 : 300.h,
             child: CommentsListView(
+              controller: controller,
               status: status,
               comments: state.comments,
               commentsCount: commentsCount,
@@ -52,6 +55,7 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               child: SizedBox(
             height: 350.h,
             child: CommentsListView(
+              controller: controller,
               commentsCount: 0,
               status: status,
               isDummy: true,

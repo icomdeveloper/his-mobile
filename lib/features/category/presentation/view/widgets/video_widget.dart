@@ -45,6 +45,7 @@ class VideoWidget extends StatefulWidget {
 
 class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController videoPlayerController;
+  final ScrollController commentScrollController = ScrollController();
   bool showDetails = false;
   ChewieController? chewieController;
   bool started = false;
@@ -99,6 +100,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   void dispose() {
     videoPlayerController.dispose();
     chewieController?.dispose();
+    commentScrollController.dispose();
     super.dispose();
   }
 
@@ -210,6 +212,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                           ),
                         ],
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 4.h),
                             isHtml
@@ -329,16 +332,22 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   height: 24,
                     // ),
                     LikesAndCommentsWidget(
+                      isPending: widget.mediaModel!.status == 'pending',
                       isLiked: widget.mediaModel!.isLiked,
                       mediaId: widget.mediaModel!.id!,
-                      numberOfComments: widget.mediaModel?.commentsCount ?? 0,
+                      numberOfComments: widget.mediaModel?.status != 'pending'
+                          ? widget.mediaModel?.commentsCount ?? 0
+                          : widget.mediaModel?.adminCommentsCount ?? 0,
                       numberOfLikes: widget.mediaModel?.likesCount ?? 0,
                       isInVideoView: true,
                     ),
                     const SizedBox(height: 14),
 
                     CommentListViewBlocBuilder(
-                      commentsCount: widget.mediaModel?.commentsCount ?? 0,
+                      controller: commentScrollController,
+                      commentsCount: widget.mediaModel?.status != 'pending'
+                          ? widget.mediaModel?.commentsCount ?? 0
+                          : widget.mediaModel?.adminCommentsCount ?? 0,
                       mediaId: widget.mediaModel!.id!,
                       status: widget.mediaModel!.status!,
                     ),
@@ -349,6 +358,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                           Fluttertoast.showToast(msg: state.message);
                         }
                         if (state is AddCommentSuccess) {
+                          scrollToBottom(controller: commentScrollController);
                           setState(() {
                             commentsList.add(state.comment);
                             commentsCount++;
@@ -356,6 +366,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                           //   context
                           //       .read<GetCommentsCubit>()
                           //       .getComments(mediaId: widget.mediaModel!.id!);
+                          scrollToBottom(controller: commentScrollController);
                         }
                         if (state is AddReplytSuccess) {
                           // setState(() {

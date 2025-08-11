@@ -35,7 +35,8 @@ class NotificationItem extends StatelessWidget {
             context,
             PageRouteBuilder(
               pageBuilder: (_, __, ___) => VideoView(
-                mediaModel: MediaModel(id: item.mediaId),
+                mediaModel:
+                    MediaModel(id: item.mediaId, status: extractStatus()),
               ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) =>
@@ -76,5 +77,15 @@ class NotificationItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  extractStatus() {
+    if (item.route != null) {
+      // extract the video status from the route
+      // content/videos/86/pending
+      final status = item.route!.split('/')[3];
+      return status;
+    }
+    return null;
   }
 }
