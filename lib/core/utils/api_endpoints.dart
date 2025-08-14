@@ -83,4 +83,15 @@ abstract class ApiEndpoints {
   static const String fcmToken = 'fcm_token';
   static const String notificationsFcmToken = 'notifications/fcm-token';
   static const String notifications = "notifications";
+
+  static const String academicTitle = "academic_title";
+  static const String jobDescription = "job_description";
+  static const String yearOfGraduation = "year_of_graduation";
+  static const String countryOfPractices = "country_of_practices";
+  static const String institution = "institution";
+  static const String department = "department";
+  static const String countryOfGraduation = "country_of_graduation";
+  static const String userInfo = "user_info";
+  static const String deleteComment = "delete/comment";
+  static const String commentId = "comment_id";
 }

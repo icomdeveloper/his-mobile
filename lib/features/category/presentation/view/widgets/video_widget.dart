@@ -16,7 +16,7 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/category/data/model/media_model.dart';
-import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/comments_cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/views_cubit/views_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';

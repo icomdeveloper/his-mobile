@@ -17,6 +17,7 @@ import 'package:his/features/profile/data/repo/reset_password_repo.dart';
 import 'package:his/features/profile/data/repo/update_profile_image_repo.dart';
 import 'package:his/features/profile/presentation/cubits/delete_user_cubit/delete_user_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/get_user_info_cubit/get_user_info_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:his/features/profile/presentation/cubits/update_profile_image_cubit/update_profile_image_cubit.dart';
 import 'package:his/features/profile/presentation/view/change_password_view.dart';
@@ -38,6 +39,12 @@ class ProfileViewBody extends StatefulWidget {
 
 class _ProfileViewBodyState extends State<ProfileViewBody> {
   Key _refreshKey = UniqueKey();
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetUserInfoCubit>().getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

@@ -51,6 +51,9 @@ void main() async {
   await PushNotifications.init();
   await PushNotifications.localNotiInit();
 
+  // Handle notification tap when app was terminated
+  await PushNotifications.checkInitialMessage();
+
   // iOS foreground presentation
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,

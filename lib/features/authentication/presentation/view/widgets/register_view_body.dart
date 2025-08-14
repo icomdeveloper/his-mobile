@@ -21,9 +21,11 @@ import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
+import 'package:his/features/authentication/presentation/view/widgets/select_country_menu.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 
 class RegisterViewBody extends StatefulWidget {
   const RegisterViewBody({super.key});
@@ -37,6 +39,7 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   bool isPasswordVisible = true;
   bool isConfirmPasswordVisible = true;
+  DateTime? datePicked;
 
   @override
   Widget build(BuildContext context) {
@@ -297,105 +300,146 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                       prefixIcon: SvgPicture.asset(
                         Assets.assetsImagesPassword,
                       )),
-                  // const SizedBox(
-                  //   height: 14,
-                  // ),
-                  // const Text('Country of Practices',
-                  //     style: Styles.semiBoldPoppins12),
-                  // const SizedBox(
-                  //   height: 4,
-                  // ),
-                  // const SelectCountryMenu(),
-                  // const SizedBox(
-                  //   height: 14,
-                  // ),
-                  // const Text('Academic Title', style: Styles.semiBoldPoppins12),
-                  // const SizedBox(
-                  //   height: 4,
-                  // ),
-                  // AuthenticationTextFormField(
-                  //   controller: context.read<AuthCubit>().nameController,
-                  //   hintText: 'Enter title',
-                  //   textInputType: TextInputType.name,
-                  // ),
-                  // const SizedBox(
-                  //   height: 14,
-                  // ),
-                  // const Text('Job Description',
-                  //     style: Styles.semiBoldPoppins12),
-                  // const SizedBox(
-                  //   height: 4,
-                  // ),
-                  // AuthenticationTextFormField(
-                  //   controller: context.read<AuthCubit>().nameController,
-                  //   hintText: 'e.g., Senior researcher in .....',
-                  //   textInputType: TextInputType.name,
-                  //   maxLines: 5,
-                  // ),
-                  // const SizedBox(
-                  //   height: 14,
-                  // ),
-                  // Container(
-                  //     width: double.infinity,
-                  //     padding: const EdgeInsets.all(12),
-                  //     decoration: const ShapeDecoration(
-                  //         shape: OutlineInputBorder(
-                  //             borderRadius:
-                  //                 BorderRadius.all(Radius.circular(12)),
-                  //             borderSide: BorderSide(
-                  //                 width: 1, color: AppColors.lightGrey))),
-                  //     child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           const Text('Institution / University',
-                  //               style: Styles.semiBoldPoppins12),
-                  //           const SizedBox(
-                  //             height: 4,
-                  //           ),
-                  //           AuthenticationTextFormField(
-                  //             controller:
-                  //                 context.read<AuthCubit>().nameController,
-                  //             hintText: 'e.g. Alexandria University',
-                  //             textInputType: TextInputType.name,
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 14,
-                  //           ),
-                  //           const Text('Department',
-                  //               style: Styles.semiBoldPoppins12),
-                  //           const SizedBox(
-                  //             height: 4,
-                  //           ),
-                  //           AuthenticationTextFormField(
-                  //             controller:
-                  //                 context.read<AuthCubit>().nameController,
-                  //             hintText: 'e.g. Department of ....',
-                  //             textInputType: TextInputType.name,
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 14,
-                  //           ),
-                  //           const Text('Year of Graduation',
-                  //               style: Styles.semiBoldPoppins12),
-                  //           const SizedBox(
-                  //             height: 4,
-                  //           ),
-                  //           AuthenticationTextFormField(
-                  //             controller:
-                  //                 context.read<AuthCubit>().nameController,
-                  //             hintText: 'YYYY',
-                  //             textInputType: TextInputType.name,
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 14,
-                  //           ),
-                  //           const Text('Country of Graduation',
-                  //               style: Styles.semiBoldPoppins12),
-                  //           const SizedBox(
-                  //             height: 4,
-                  //           ),
-                  //           const SelectCountryMenu(),
-                  //         ])),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text('Country of Practices',
+                      style: Styles.semiBoldPoppins12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  const SelectCountryMenu(
+                    flag: true,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text('Academic Title', style: Styles.semiBoldPoppins12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  AuthenticationTextFormField(
+                    isOptional: true,
+                    controller: context.read<AuthCubit>().academicTitle,
+                    hintText: 'Enter title',
+                    textInputType: TextInputType.name,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Text('Job Description',
+                      style: Styles.semiBoldPoppins12),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  AuthenticationTextFormField(
+                    isOptional: true,
+                    controller: context.read<AuthCubit>().jobDescription,
+                    hintText: 'e.g., Senior researcher in .....',
+                    textInputType: TextInputType.name,
+                    maxLines: 5,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: const ShapeDecoration(
+                          shape: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              borderSide: BorderSide(
+                                  width: 1, color: AppColors.lightGrey))),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Institution / University',
+                                style: Styles.semiBoldPoppins12),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            AuthenticationTextFormField(
+                              isOptional: true,
+                              controller: context.read<AuthCubit>().institution,
+                              hintText: 'e.g. Alexandria University',
+                              textInputType: TextInputType.name,
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            const Text('Department',
+                                style: Styles.semiBoldPoppins12),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            AuthenticationTextFormField(
+                              isOptional: true,
+                              controller: context.read<AuthCubit>().department,
+                              hintText: 'e.g. Department of ....',
+                              textInputType: TextInputType.name,
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            const Text('Year of Graduation',
+                                style: Styles.semiBoldPoppins12),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                datePicked =
+                                    await DatePicker.showSimpleDatePicker(
+                                  context,
+                                  firstDate: DateTime(1950),
+                                  initialDate: datePicked ?? DateTime.now(),
+                                  lastDate: DateTime.now(),
+                                  dateFormat: "dd-MMMM-yyyy",
+                                  locale: DateTimePickerLocale.en_us,
+                                );
+
+                                if (datePicked != null) {
+                                  context.read<AuthCubit>().setYearOfGraduation(
+                                        datePicked!,
+                                      );
+                                }
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(20),
+                                decoration: const ShapeDecoration(
+                                    shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            color: AppColors.lightGrey))),
+                                child: Text(
+                                  context
+                                          .watch<AuthCubit>()
+                                          .yearOfGraduation
+                                          ?.year
+                                          .toString() ??
+                                      'YYYY',
+                                  style: Styles.semiBoldPoppins12.copyWith(
+                                    color: AppColors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            const Text('Country of Graduation',
+                                style: Styles.semiBoldPoppins12),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            const SelectCountryMenu(
+                              flag: false,
+                            ),
+                          ])),
                   const SizedBox(
                     height: 26,
                   ),

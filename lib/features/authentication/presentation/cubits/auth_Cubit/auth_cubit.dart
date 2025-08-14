@@ -19,7 +19,14 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
+
+  TextEditingController countryOfPractice = TextEditingController();
+  TextEditingController academicTitle = TextEditingController();
+  TextEditingController jobDescription = TextEditingController();
+  TextEditingController institution = TextEditingController();
+  TextEditingController department = TextEditingController();
+  DateTime? yearOfGraduation;
+  TextEditingController countryOfGraduation = TextEditingController();
   File? profileImage;
   Future<void> loginWithEmailAndPassword() async {
     emit(LoginLoading());
@@ -56,13 +63,26 @@ class AuthCubit extends Cubit<AuthState> {
       name: nameController.text,
       phone: phoneController.text,
       image: profileImage,
+      academicTitle: academicTitle.text,
+      countryOfGraduation: countryOfGraduation.text,
+      countryOfPractice: countryOfPractice.text,
+      department: department.text,
+      institution: institution.text,
+      jobDescription: jobDescription.text,
+      yearOfGraduation: yearOfGraduation,
     );
 
     var result = await authRepo.register(registerModel: registerModel);
     try {
       await sendFCMToken();
     } catch (e) {
-      emit(RegisterFailure(message: 'Something went wrong , try again'));
+      if (isClosed) return;
+      if (result.isLeft()) {
+        emit(LoginFailure(message: result.fold((l) => l.errMesage, (r) => '')));
+        return;
+      }
+
+      emit(LoginFailure(message: 'Something went wrong , try again'));
       return;
     }
     if (isClosed) return;
@@ -87,5 +107,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<dynamic> sendFCMToken() async {
     final result = await notificationsRepo.sendFCMToken();
     return result;
+  }
+
+  void setYearOfGraduation(DateTime dateTime) {
+    yearOfGraduation = dateTime;
+    emit(YearUpdated());
   }
 }

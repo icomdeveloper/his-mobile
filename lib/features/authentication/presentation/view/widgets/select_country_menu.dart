@@ -9,7 +9,9 @@ import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_
 class SelectCountryMenu extends StatefulWidget {
   const SelectCountryMenu({
     super.key,
+    required this.flag,
   });
+  final bool flag;
 
   @override
   State<SelectCountryMenu> createState() => _SelectCountryMenuState();
@@ -57,8 +59,12 @@ class _SelectCountryMenuState extends State<SelectCountryMenu> {
             },
             onSelect: (Country country) {
               selectedCountry = country;
-              context.read<AuthCubit>().countryController.text = country.name;
-
+              if (widget.flag) {
+                context.read<AuthCubit>().countryOfPractice.text = country.name;
+              } else {
+                context.read<AuthCubit>().countryOfGraduation.text =
+                    country.name;
+              }
               setState(() {});
             });
       },

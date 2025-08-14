@@ -10,15 +10,29 @@ class RegisterModel {
   final String role;
   final String phone;
   final File? image;
-
-  RegisterModel(
-      {required this.name,
-      required this.email,
-      required this.password,
-      required this.confirmPassword,
-      this.image,
-      this.role = 'user',
-      required this.phone});
+  final String? academicTitle;
+  final String? jobDescription;
+  final String? countryOfPractice;
+  final String? institution;
+  final String? department;
+  final String? countryOfGraduation;
+  final DateTime? yearOfGraduation;
+  RegisterModel({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.confirmPassword,
+    required this.phone,
+    this.image,
+    this.role = 'user',
+    this.academicTitle,
+    this.jobDescription,
+    this.countryOfPractice,
+    this.institution,
+    this.department,
+    this.countryOfGraduation,
+    this.yearOfGraduation,
+  });
   toJson() {
     return {
       ApiEndpoints.name: name,
@@ -28,6 +42,13 @@ class RegisterModel {
       ApiEndpoints.role: role,
       ApiEndpoints.phone: phone,
       ApiEndpoints.profileImage: image,
+      ApiEndpoints.academicTitle: academicTitle,
+      ApiEndpoints.jobDescription: jobDescription,
+      ApiEndpoints.countryOfPractices: countryOfPractice,
+      ApiEndpoints.institution: institution,
+      ApiEndpoints.department: department,
+      ApiEndpoints.countryOfGraduation: countryOfGraduation,
+      ApiEndpoints.yearOfGraduation: yearOfGraduation
     };
   }
 }

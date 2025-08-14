@@ -20,6 +20,7 @@ class AuthenticationTextFormField extends StatelessWidget {
     this.maxLines,
     this.prefixIconWidget,
     this.autovalidateMode,
+    this.isOptional = false,
   });
   final String hintText;
   final bool obscureText;
@@ -32,6 +33,7 @@ class AuthenticationTextFormField extends StatelessWidget {
   final int? maxLines;
   final Widget? prefixIconWidget;
   final AutovalidateMode? autovalidateMode;
+  final bool isOptional;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -45,13 +47,15 @@ class AuthenticationTextFormField extends StatelessWidget {
       controller: controller,
       keyboardType: textInputType,
       obscureText: obscureText,
-      validator: validator ??
-          (value) {
-            if (value == null || value.isEmpty) {
-              return 'This Field is required';
-            }
-            return null;
-          },
+      validator: isOptional
+          ? null
+          : validator ??
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return 'This Field is required';
+                }
+                return null;
+              },
       decoration: InputDecoration(
           prefixIcon: prefixIcon != null
               ? Padding(

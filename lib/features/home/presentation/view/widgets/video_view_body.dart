@@ -7,7 +7,7 @@ import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/data/repo/show_media_repo.dart';
-import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/comments_cubit/comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/cubits/media_details_cubit/media_details_cubit.dart';
 import 'package:his/features/category/presentation/cubits/views_cubit/views_cubit.dart';

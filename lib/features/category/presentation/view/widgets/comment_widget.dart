@@ -7,11 +7,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
+import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/data/models/user_data/user_information.dart';
-import 'package:his/features/category/presentation/cubits/add_comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/comments_cubit/comments_cubit.dart';
+import 'package:his/features/category/presentation/cubits/delete_comment_cubit/delete_comment_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_text_field.dart';
 import 'package:his/features/category/presentation/view/widgets/replies_list_view_widget.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
@@ -22,9 +25,11 @@ class CommentWidget extends StatefulWidget {
     super.key,
     required this.comment,
     required this.status,
+    this.onDeleteComment,
   });
   final CommentsModel comment;
   final String status;
+  final ValueChanged<bool>? onDeleteComment;
   @override
   State<CommentWidget> createState() => _CommentWidgetState();
 }
@@ -32,6 +37,7 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
   late bool _isLiked;
+  bool isDeleting = false;
   @override
   initState() {
     super.initState();
@@ -109,46 +115,150 @@ class _CommentWidgetState extends State<CommentWidget> {
                     ),
                   ),
                   const Spacer(),
-                  widget.status == 'pending'
-                      ? const SizedBox.shrink()
-                      : InkWell(
-                          onTap: () {
-                            if (_isLiked) {
-                              context
-                                  .read<CommentLikeCubit>()
-                                  .deleteLike(commentId: widget.comment.id!);
-                            } else {
-                              context
-                                  .read<CommentLikeCubit>()
-                                  .addLike(commentId: widget.comment.id!);
-                            }
-                          },
-                          child:
-                              BlocListener<CommentLikeCubit, CommentLikeState>(
-                            listener: (context, state) {
-                              if (state is AddLikeSuccess) {
-                                _isLiked = true;
-                              }
-                              if (state is DeleteLikeSuccess) {
-                                _isLiked = false;
-                              }
-                              if (state is AddLikeFailure) {
-                                Fluttertoast.showToast(msg: state.message);
-                              }
-                              if (state is DeleteLikeFailure) {
-                                Fluttertoast.showToast(msg: state.message);
-                              }
-                              setState(() {});
-                            },
-                            child: Icon(
-                              _isLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border_outlined,
-                              size: 18,
-                              color: AppColors.darkGrey,
+                  Column(
+                    children: [
+                      widget.status == 'pending'
+                          ? const SizedBox.shrink()
+                          : InkWell(
+                              onTap: () {
+                                if (_isLiked) {
+                                  context.read<CommentLikeCubit>().deleteLike(
+                                      commentId: widget.comment.id!);
+                                } else {
+                                  context
+                                      .read<CommentLikeCubit>()
+                                      .addLike(commentId: widget.comment.id!);
+                                }
+                              },
+                              child: BlocListener<CommentLikeCubit,
+                                  CommentLikeState>(
+                                listener: (context, state) {
+                                  if (state is AddLikeSuccess) {
+                                    _isLiked = true;
+                                  }
+                                  if (state is DeleteLikeSuccess) {
+                                    _isLiked = false;
+                                  }
+                                  if (state is AddLikeFailure) {
+                                    Fluttertoast.showToast(msg: state.message);
+                                  }
+                                  if (state is DeleteLikeFailure) {
+                                    Fluttertoast.showToast(msg: state.message);
+                                  }
+                                  setState(() {});
+                                },
+                                child: Icon(
+                                  _isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border_outlined,
+                                  size: 18,
+                                  color: AppColors.darkGrey,
+                                ),
+                              ),
                             ),
-                          ),
-                        )
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      getUserData().userInfo?.id == userInformation.id
+                          ? BlocListener<DeleteCommentCubit,
+                              DeleteCommentState>(
+                              listener: (context, state) {
+                                if (state is DeleteCommentSuccess) {
+                                  widget.onDeleteComment?.call(true);
+                                  showCustomSnackBar(
+                                      message: state.message,
+                                      context: context,
+                                      backgroundColor: const Color(0xFF0F8737));
+                                  Navigator.pop(context);
+                                }
+                                if (state is DeleteCommentFailure) {
+                                  showCustomSnackBar(
+                                      message: state.errMesage,
+                                      context: context);
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    useRootNavigator: false,
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      title: const Text(
+                                        'Delete Comment',
+                                        style: Styles.semiBoldPoppins20,
+                                      ),
+                                      content: const Text(
+                                        'Are you sure you want to delete this comment?',
+                                        style: Styles.regularPoppins14,
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 35.w,
+                                                  vertical: 10.h),
+                                              side: const BorderSide(
+                                                  color: Color(0xFFD60000),
+                                                  width: 1)),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            'Cancel',
+                                            style: Styles.regularPoppins14
+                                                .copyWith(
+                                                    color: const Color(
+                                                        0xFFD60000)),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 35.w,
+                                                vertical: 10.h),
+                                            backgroundColor:
+                                                const Color(0xFFD60000),
+                                          ),
+                                          onPressed: () {
+                                            if (isDeleting) {
+                                              return;
+                                            }
+                                            setState(() {
+                                              isDeleting = true;
+                                            });
+                                            context
+                                                .read<DeleteCommentCubit>()
+                                                .deleteComment(
+                                                    commentId:
+                                                        widget.comment.id!);
+                                          },
+                                          child: Text(
+                                            'Delete',
+                                            style: Styles.regularPoppins14
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  Assets.assetsImagesDelete,
+                                  width: 14,
+                                  colorFilter: const ColorFilter.mode(
+                                    Color(0xffBB1313),
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  )
                 ],
               ),
               const SizedBox(

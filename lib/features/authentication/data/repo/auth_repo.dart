@@ -47,6 +47,13 @@ class AuthRepo {
         ApiEndpoints.passwordConfirmation: registerModel.confirmPassword,
         ApiEndpoints.phone: registerModel.phone,
         ApiEndpoints.role: registerModel.role,
+        ApiEndpoints.academicTitle: registerModel.academicTitle,
+        ApiEndpoints.department: registerModel.department,
+        ApiEndpoints.institution: registerModel.institution,
+        ApiEndpoints.countryOfGraduation: registerModel.countryOfGraduation,
+        ApiEndpoints.countryOfPractices: registerModel.countryOfPractice,
+        ApiEndpoints.yearOfGraduation: registerModel.yearOfGraduation,
+        ApiEndpoints.jobDescription: registerModel.jobDescription,
       });
       if (registerModel.image != null) {
         formData.files.add(MapEntry(

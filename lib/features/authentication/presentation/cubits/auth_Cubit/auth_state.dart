@@ -12,6 +12,8 @@ final class LoginSuccess extends AuthState {
 
 final class LoginLoading extends AuthState {}
 
+final class YearUpdated extends AuthState {}
+
 final class LoginFailure extends AuthState {
   final String message;
   LoginFailure({required this.message});

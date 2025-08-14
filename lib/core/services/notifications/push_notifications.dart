@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -64,6 +65,17 @@ class PushNotifications {
     );
   }
 
+  static Future<void> checkInitialMessage() async {
+    // This gets the message that opened the app
+    final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      // If you only pass data from FCM directly
+      if (initialMessage.data.isNotEmpty) {
+        final payload = jsonEncode(initialMessage.data);
+        _navigateToNotificationScreen(payload);
+      }
+    }
+  }
   /*────────────────────────  LOCAL NOTIFICATION  ───────────────────────*/
 
   static Future<void> showSimpleNotification({
@@ -103,21 +115,40 @@ class PushNotifications {
   // static void _onTap(NotificationResponse r) {
   //   log('Notification tapped with payload: ${r.payload}');
   // }
+
   static void handleNotificationTap(NotificationResponse response) {
-    // This runs when the user taps the notification
     final payload = response.payload;
     if (payload != null && payload.isNotEmpty) {
-      _navigateToNotificationScreen(payload);
+      try {
+        final data = jsonDecode(payload) as Map<String, dynamic>;
+        log("Notification tapped data: $data");
+
+        // Decide navigation based on "type" or "id"
+        _navigateToNotificationScreen(data);
+      } catch (e, st) {
+        log("Error decoding notification payload: $e\n$st");
+      }
     }
   }
 
   static void _onTap(NotificationResponse r) {
-    log('Notification tapped with payload: ${r.payload}');
-    _navigateToNotificationScreen(r.payload ?? '');
+    final payload = r.payload;
+    if (payload != null && payload.isNotEmpty) {
+      try {
+        final data = jsonDecode(payload) as Map<String, dynamic>;
+        log("Notification tapped data: $data");
+
+        _navigateToNotificationScreen(data);
+      } catch (e, st) {
+        log("Error decoding notification payload: $e\n$st");
+      }
+    }
   }
 
-  static void _navigateToNotificationScreen(String payload) {
-    navigatorKey.currentState
-        ?.pushNamed(NotificationView.routeName, arguments: payload);
+  static void _navigateToNotificationScreen(dynamic data) {
+    navigatorKey.currentState?.pushNamed(
+      NotificationView.routeName,
+      arguments: data,
+    );
   }
 }

@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
+import 'package:his/features/category/data/repo/comments_repo.dart';
 import 'package:his/features/category/presentation/view/widgets/comment_widget.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 import 'package:his/features/home/presentation/cubits/comment_likes_cubit/comment_like_cubit.dart';
 
 import '../../../../home/data/repo/media_likes_repo.dart';
+import '../../cubits/delete_comment_cubit/delete_comment_cubit.dart';
 
 class CommentsListView extends StatefulWidget {
   const CommentsListView(
@@ -75,11 +77,24 @@ class _CommentsListViewState extends State<CommentsListView> {
               color: AppColors.lightGrey,
             ),
             itemCount: commentsList.length,
-            itemBuilder: (context, index) => BlocProvider(
-              create: (context) => CommentLikeCubit(getIt<MediaLikesRepo>()),
+            itemBuilder: (context, index) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      CommentLikeCubit(getIt<MediaLikesRepo>()),
+                ),
+                BlocProvider(
+                  create: (context) => DeleteCommentCubit(getIt<CommentRepo>()),
+                ),
+              ],
               child: CommentWidget(
                 status: widget.status,
                 comment: commentsList[index],
+                onDeleteComment: (value) {
+                  setState(() {
+                    commentsList.removeAt(index);
+                  });
+                },
               ),
             ),
           ),

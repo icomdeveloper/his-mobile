@@ -108,4 +108,22 @@ class CommentRepo {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));
     }
   }
+
+  Future<Either<ServerFailure, dynamic>> deleteComment(
+      {required int commentId}) async {
+    try {
+      var data = await apiServices.postMethod(
+        endPoint: ApiEndpoints.deleteComment,
+        data: {
+          ApiEndpoints.commentId: commentId,
+          ApiEndpoints.userId: getUserData().userInfo?.id
+        },
+      );
+      return right(data['message']);
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
 }
