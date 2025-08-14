@@ -13,6 +13,7 @@ class BookmarksCubit extends Cubit<BookmarksState> {
     emit(BookmarksInitial());
     final result = await bookmarksRepo.addToBookmarks(
         mediaId: mediaId, articleId: articleId);
+    if (isClosed) return;
     result.fold(
         (error) => emit(AddToBookmarksFailure(errMessage: error.errMesage)),
         (success) => emit(AddToBookmarksSuccess()));
@@ -22,6 +23,7 @@ class BookmarksCubit extends Cubit<BookmarksState> {
     emit(BookmarksInitial());
     final result = await bookmarksRepo.removeFromBookmarks(
         mediaId: mediaId, articleId: articleId);
+    if (isClosed) return;
     result.fold(
         (error) =>
             emit(RemoveFromBookmarksFailure(errMessage: error.errMesage)),

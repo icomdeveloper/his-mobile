@@ -22,12 +22,16 @@ class VideoCardWidget extends StatefulWidget {
     this.onIconTap,
     this.isbookmark = false,
     required this.mediaModel,
+    this.isFrombookmarks = false,
+    this.onRemoveBookmark,
   });
   final bool isDescriptionAppeared;
   final Widget? topRightIcon;
   final void Function()? onIconTap;
   final bool isbookmark;
+  final bool isFrombookmarks;
   final MediaModel mediaModel;
+  final ValueChanged<bool>? onRemoveBookmark;
 
   @override
   State<VideoCardWidget> createState() => _VideoCardWidgetState();
@@ -146,9 +150,9 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                                 isBookmark = true;
                               });
                             } else if (state is RemoveFromBookmarksSuccess) {
-                              setState(() {
-                                isBookmark = false;
-                              });
+                              if (widget.isFrombookmarks) {
+                                widget.onRemoveBookmark!(true);
+                              }
                             } else if (state is RemoveFromBookmarksFailure) {
                               Fluttertoast.showToast(
                                 msg: state.errMessage,

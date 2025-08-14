@@ -73,6 +73,9 @@ class BookmarksRepo {
       if (e.response?.statusCode == 409) {
         return Left(ServerFailure(errMesage: e.response?.data['message']));
       }
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure(errMesage: e.response?.data['message']));
+      }
       return Left(ServerFailure.fromDioException(e));
     } catch (e) {
       return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
