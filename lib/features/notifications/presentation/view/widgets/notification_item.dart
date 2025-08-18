@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/constants.dart';
+import 'package:his/core/helpers/notifications_count_provider.dart';
 import 'package:his/core/models/notifcation_model/notifcation_model.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -31,6 +33,8 @@ class NotificationItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
+          context.read<NotificationsCountProvider>().markAsRead(1);
+
           Navigator.push(
             context,
             PageRouteBuilder(

@@ -7,6 +7,8 @@ abstract class PrefsKeys {
   static const String likes = 'likes';
   static const String bookmarks = 'bookmarks';
   static const String fcmToken = 'fcmToken';
+  static const String unReadNotificationCount = ' unReadNotificationCount';
+  static const String readNotificationCount = ' readNotificationCount';
 }
 
 // const List<String> monthList = [

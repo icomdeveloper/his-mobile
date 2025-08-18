@@ -1,11 +1,14 @@
 import 'dart:developer';
-
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:his/constants.dart';
+import 'package:his/core/helpers/notifications_count_provider.dart';
 import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/core/services/get_it.dart';
+import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -27,6 +30,7 @@ import 'package:his/features/profile/presentation/view/help_center_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/delete_account_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/logout_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
+import 'package:provider/provider.dart';
 
 import 'profile_user_info.dart';
 
@@ -241,28 +245,81 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   ),
                   const SizedBox(height: 12),
 
-                  UserDataRowWidget(
-                    title: 'Notifications',
-                    image: Assets.assetsImagesNotification,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => BlocProvider(
-                            create: (context) =>
-                                NotificationCubit(getIt<NotificationsRepo>())
-                                  ..getNotifications(context: context),
-                            child: const NotificationView(),
-                          ),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) =>
-                                  FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          ),
-                        ),
-                      );
+                  BlocListener<NotificationCubit, NotificationState>(
+                    listener: (context, state) {
+                      if (state is NotificationSuccess) {
+                        if (state.notificationList.isNotEmpty) {
+                          context
+                              .read<NotificationsCountProvider>()
+                              .addNotifications(state.notificationList.length);
+                        }
+                      }
                     },
+                    child: Consumer<NotificationsCountProvider>(
+                      builder: (context, notifier, child) => UserDataRowWidget(
+                        title: 'Notifications',
+                        prefixIcon: badges.Badge(
+                          position:
+                              badges.BadgePosition.topEnd(top: -5, end: -5),
+                          badgeContent: Text(
+                            notifier.unreadCount.toString(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
+                          badgeStyle: const badges.BadgeStyle(
+                            badgeColor: AppColors.primaryColor,
+                          ),
+                          showBadge: notifier.unreadCount > 0,
+                          child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: const ShapeDecoration(
+                                color: AppColors.lightPrimaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: 18,
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: SvgPicture.asset(
+                                    Assets.assetsImagesNotification,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.primaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                    value: context.read<NotificationCubit>(),
+                                  ),
+                                  ChangeNotifierProvider.value(
+                                    value: context
+                                        .read<NotificationsCountProvider>(),
+                                  ),
+                                ],
+                                child: const NotificationView(),
+                              ),
+                              transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) =>
+                                  FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -23,6 +23,14 @@ class Prefs {
     return _instance.getString(key) ?? '';
   }
 
+  static setInt(String key, int value) async {
+    await _instance.setInt(key, value);
+  }
+
+  static getInt(String key) {
+    return _instance.getInt(key) ?? 0;
+  }
+
   static remove(String key) async {
     await _instance.remove(key);
   }

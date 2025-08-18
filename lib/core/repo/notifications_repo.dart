@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/errors/failure.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/notifications_count_provider.dart';
 import 'package:his/core/models/notifcation_model/notifcation_model.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
+import 'package:provider/provider.dart';
 
 class NotificationsRepo {
   final ApiServices apiServices;
@@ -30,7 +32,9 @@ class NotificationsRepo {
       final response = await apiServices.getMethod(
           endPoint: ApiEndpoints.notifications, token: getUserData().token);
       List<dynamic> data = response['data'];
-      return right(data.map((e) => NotifcationModel.fromJson(e)).toList());
+      List<NotifcationModel> notifications =
+          data.map((e) => NotifcationModel.fromJson(e)).toList();
+      return right(notifications);
     } on DioException catch (e) {
       if (e.response?.data['message'] == 'Unauthenticated.') {
         Prefs.setBool(PrefsKeys.isLoggedIn, false);
