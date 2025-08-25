@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:his/core/models/notifcation_model/notifcation_model.dart';
@@ -9,13 +10,36 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit(this.notificationRepo) : super(NotificationInitial());
   final NotificationsRepo notificationRepo;
 
+  Timer? _timer;
+
   Future<void> getNotifications({required BuildContext context}) async {
-    emit(NotificationLoading());
     final result = await notificationRepo.getNotifications(context: context);
     if (isClosed) return;
     result.fold(
-        (failure) => emit(NotificationFailure(message: failure.errMesage)),
-        (notifications) =>
-            emit(NotificationSuccess(notificationList: notifications)));
+      (failure) => emit(NotificationFailure(message: failure.errMesage)),
+      (notifications) =>
+          emit(NotificationSuccess(notificationList: notifications)),
+    );
+  }
+
+  /// Start polling every 15 seconds
+  void startPolling({required BuildContext context}) {
+    // cancel previous timer if any
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 10), (_) {
+      getNotifications(context: context);
+    });
+  }
+
+  /// Stop polling
+  void stopPolling() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel(); // cleanup
+    return super.close();
   }
 }

@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/constants.dart';
 import 'package:his/core/helpers/notifications_count_provider.dart';
-import 'package:his/core/repo/notifications_repo.dart';
 import 'package:his/core/services/get_it.dart';
-import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -301,10 +298,6 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                 providers: [
                                   BlocProvider.value(
                                     value: context.read<NotificationCubit>(),
-                                  ),
-                                  ChangeNotifierProvider.value(
-                                    value: context
-                                        .read<NotificationsCountProvider>(),
                                   ),
                                 ],
                                 child: const NotificationView(),

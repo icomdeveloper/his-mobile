@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
+import 'package:his/core/helpers/notifications_count_provider.dart';
 import 'package:his/core/services/app_routes.dart';
 import 'package:his/core/services/custom_bloc_observer.dart';
 import 'package:his/core/services/get_it.dart';
@@ -89,24 +90,27 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (context, child) => ChangeNotifierProvider(
         create: (_) => NavBarVisibilityProvider(),
-        child: MaterialApp(
-          navigatorKey: navigatorKey,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-          ),
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: onGenerateRoute,
-          home: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
-              ? const DeepLinkListener(child: MainView())
-              : const OnBoardingView(),
-          // initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
-          //     ? MainView.routeName
-          //     : OnBoardingView.routeName,
-          // home: AppEntryPoint(), // ✅ Entry point where we trigger update check
+        child: ChangeNotifierProvider(
+          create: (_) => NotificationsCountProvider(),
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+            ),
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: onGenerateRoute,
+            home: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+                ? const DeepLinkListener(child: MainView())
+                : const OnBoardingView(),
+            // initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+            //     ? MainView.routeName
+            //     : OnBoardingView.routeName,
+            // home: AppEntryPoint(), // ✅ Entry point where we trigger update check
 
-          /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
-              ? MainView.routeName
-              : OnBoardingView.routeName,*/
+            /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
+                ? MainView.routeName
+                : OnBoardingView.routeName,*/
+          ),
         ),
       ),
     );

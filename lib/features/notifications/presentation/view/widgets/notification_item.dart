@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:his/constants.dart';
-import 'package:his/core/helpers/notifications_count_provider.dart';
+import 'package:his/core/helpers/format_duration.dart';
 import 'package:his/core/models/notifcation_model/notifcation_model.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -33,8 +32,6 @@ class NotificationItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.read<NotificationsCountProvider>().markAsRead(1);
-
           Navigator.push(
             context,
             PageRouteBuilder(
@@ -65,15 +62,20 @@ class NotificationItem extends StatelessWidget {
                 children: [
                   Text(item.title ?? '', style: Styles.semiBoldPoppins16),
                   const SizedBox(height: 4),
-                  Text(
-                    item.body ?? '',
-                    style: Styles.semiBoldPoppins14
-                        .copyWith(color: AppColors.grey),
-                  ),
-                  const SizedBox(height: 8),
-                  Text("- ${item.sender?.name ?? ''}",
+                  Text(item.sender?.name ?? '',
                       style: const TextStyle(
-                          fontStyle: FontStyle.italic, fontSize: 13)),
+                          fontStyle: FontStyle.italic,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.grey)),
+                  const SizedBox(height: 4),
+                  Text(item.body ?? '', style: Styles.regularPoppins14),
+                  const SizedBox(height: 8),
+                  Text(formatDate(item.createdAt!),
+                      style: Styles.regularPoppins12.copyWith(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w500,
+                      )),
                 ],
               ),
             )

@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String formatDuration(String rawDuration) {
   try {
     // Convert string to double (seconds with decimals)
@@ -12,4 +14,14 @@ String formatDuration(String rawDuration) {
   } catch (e) {
     return rawDuration; // Fallback if parsing fails
   }
+}
+
+String formatDate(DateTime dateTime) {
+  final formatted = DateFormat("MMM dd, yyyy 'at' hh:mm a").format(dateTime);
+  return formatted;
+}
+
+String formatDateWithoutTime(DateTime dateTime) {
+  final formatted = DateFormat("MMM dd, yyyy").format(dateTime);
+  return formatted;
 }

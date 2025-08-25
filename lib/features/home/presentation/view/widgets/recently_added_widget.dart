@@ -142,7 +142,7 @@ class RecentlyAddedWidget extends StatelessWidget {
                     const SizedBox(height: 4),
                     mediaModel.createdAt != null
                         ? Text(
-                            '${mediaModel.createdAt!.day}/${mediaModel.createdAt!.month}/${mediaModel.createdAt!.year} , ${mediaModel.views} Views ',
+                            '${formatDateWithoutTime(mediaModel.createdAt!)} , ${mediaModel.views} Views ',
                             style: Styles.semiBoldPoppins12.copyWith(
                               color: const Color(0xff999999),
                             ),
