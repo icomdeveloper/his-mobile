@@ -42,6 +42,7 @@ class CommentTextField extends StatelessWidget {
             )),
           ),
           suffixIcon: InkWell(
+            borderRadius: BorderRadius.circular(20),
             onTap: onTap,
             child: SizedBox(
               height: 15,

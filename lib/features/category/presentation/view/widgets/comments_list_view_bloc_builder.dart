@@ -5,6 +5,7 @@ import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/widgets/custom_error_widget.dart';
 import 'package:his/features/category/presentation/cubits/get_comments_cubit/get_comments_cubit.dart';
 import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
+import 'package:his/features/category/presentation/view/widgets/video_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CommentListViewBlocBuilder extends StatelessWidget {
@@ -12,13 +13,15 @@ class CommentListViewBlocBuilder extends StatelessWidget {
     super.key,
     required this.mediaId,
     required this.status,
-    required this.commentsCount,
+    required this.commentCount,
     required this.controller,
+    this.onCommentDeleted,
   });
   final int mediaId;
   final String status;
-  final int commentsCount;
+  final int commentCount;
   final ScrollController controller;
+  final ValueChanged<int>? onCommentDeleted;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCommentsCubit, GetCommentsState>(
@@ -34,7 +37,10 @@ class CommentListViewBlocBuilder extends StatelessWidget {
               controller: controller,
               status: status,
               comments: state.comments,
-              commentsCount: commentsCount,
+              commentsCount: commentCount,
+              onCommentDeleted: (value) {
+                onCommentDeleted!(value);
+              },
             ),
           );
         } else if (state is GetCommentsFailure) {

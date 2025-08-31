@@ -8,7 +8,6 @@ import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/features/authentication/presentation/view/login_view.dart';
-import 'package:his/features/category/presentation/view/widgets/comments_list_view.dart';
 import 'package:his/features/home/data/repo/media_likes_repo.dart';
 import 'package:his/features/home/presentation/cubits/media_likes_cubit/media_likes_cubit.dart';
 
@@ -78,7 +77,6 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
   initState() {
     _isLiked = widget.isLiked;
     _likesCount = widget.numberOfLikes;
-    commentsCount = widget.numberOfComments;
 
     super.initState();
   }
@@ -168,13 +166,9 @@ class _LikesAndCommentsState extends State<LikesAndComments> {
         width: 4,
       ),
       Text(
-        widget.isInVideoView
-            ? widget.numberOfComments > 1
-                ? '$commentsCount Comments'
-                : '$commentsCount Comment'
-            : widget.numberOfComments > 1
-                ? '${widget.numberOfComments} Comments'
-                : '${widget.numberOfComments} Comment',
+        widget.numberOfComments > 1
+            ? '${widget.numberOfComments} Comments'
+            : '${widget.numberOfComments} Comment',
         // widget.numberOfComments > 1
         //     ? '${widget.numberOfComments} Comments'
         //     : '${widget.numberOfComments} Comment',

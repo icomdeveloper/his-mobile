@@ -25,6 +25,7 @@ import 'package:his/features/category/presentation/view/widgets/comments_list_vi
 import 'package:his/features/category/presentation/view/widgets/pdf_and_image_container.dart';
 import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/category/presentation/view/widgets/show_image_widget.dart';
+import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/edit_video_view_body.dart';
 import 'package:video_player/video_player.dart';
@@ -54,6 +55,9 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
+    commentsCount = widget.mediaModel?.status != 'pending'
+        ? widget.mediaModel?.commentsCount ?? 0
+        : widget.mediaModel?.adminCommentsCount ?? 0;
 
     String url = getDirectVideoUrl(widget.mediaModel!.filePath!);
     if (defaultTargetPlatform == TargetPlatform.android) {
@@ -335,22 +339,23 @@ class _VideoWidgetState extends State<VideoWidget> {
                       isPending: widget.mediaModel!.status == 'pending',
                       isLiked: widget.mediaModel!.isLiked,
                       mediaId: widget.mediaModel!.id!,
-                      numberOfComments: widget.mediaModel?.status != 'pending'
-                          ? widget.mediaModel?.commentsCount ?? 0
-                          : widget.mediaModel?.adminCommentsCount ?? 0,
+                      numberOfComments: commentsCount,
                       numberOfLikes: widget.mediaModel?.likesCount ?? 0,
                       isInVideoView: true,
                     ),
                     const SizedBox(height: 14),
-
                     CommentListViewBlocBuilder(
                       controller: commentScrollController,
-                      commentsCount: widget.mediaModel?.status != 'pending'
-                          ? widget.mediaModel?.commentsCount ?? 0
-                          : widget.mediaModel?.adminCommentsCount ?? 0,
+                      commentCount: commentsCount,
                       mediaId: widget.mediaModel!.id!,
                       status: widget.mediaModel!.status!,
+                      onCommentDeleted: (value) {
+                        setState(() {
+                          commentsCount = value;
+                        });
+                      },
                     ),
+
                     const SizedBox(height: 12),
                     BlocListener<CommentsCubit, CommentsState>(
                       listener: (context, state) {
@@ -407,3 +412,6 @@ class _VideoWidgetState extends State<VideoWidget> {
     );
   }
 }
+
+List<CommentsModel> commentsList = [];
+int commentsCount = 0;

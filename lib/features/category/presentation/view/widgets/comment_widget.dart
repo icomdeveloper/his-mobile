@@ -69,6 +69,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(
                         imageUrl: userInformation.profileImage!,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error_outline_outlined),
                         fit: BoxFit.cover,
@@ -307,6 +309,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                           controller:
                               context.read<CommentsCubit>().replyController,
                           onTap: () {
+                            if (context
+                                .read<CommentsCubit>()
+                                .replyController
+                                .text
+                                .isEmpty) {
+                              return;
+                            }
                             context.read<CommentsCubit>().addReply(
                                 isPending: widget.status == 'pending',
                                 mediaId: widget.comment.mediaId!,
