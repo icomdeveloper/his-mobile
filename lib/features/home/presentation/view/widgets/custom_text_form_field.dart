@@ -79,6 +79,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.onChanged,
+    this.keyboardType,
   });
   final String hintText;
   final bool isSearch;
@@ -87,6 +88,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -95,6 +97,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         readOnly: readOnly,
         onChanged: onChanged,
+        keyboardType: keyboardType,
         maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding:

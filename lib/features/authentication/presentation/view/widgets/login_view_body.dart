@@ -69,6 +69,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         Color(0xff263238),
                       ]),
                 ),
+                const SizedBox(
+                  height: 4,
+                ),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 268.w),
                   child: Text(

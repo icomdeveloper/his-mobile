@@ -16,7 +16,7 @@ class UserInformation {
   String? fcmToken;
   String? academicTitle;
   String? jobDescription;
-  String? yearOfGraduation;
+  DateTime? yearOfGraduation;
   String? countryOfPractices;
   String? institution;
   String? department;
@@ -66,7 +66,7 @@ class UserInformation {
       fcmToken: json['fcm_token'] as String?,
       academicTitle: json['academic_title'] as String?,
       jobDescription: json['job_description'] as String?,
-      yearOfGraduation: json['year_of_graduation'] as String?,
+      yearOfGraduation: json['year_of_graduation'] as DateTime?,
       countryOfPractices: json['country_of_practices'] as String?,
       institution: json['institution'] as String?,
       department: json['department'] as String?,

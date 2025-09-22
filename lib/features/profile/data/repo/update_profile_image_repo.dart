@@ -24,10 +24,11 @@ class UpdateProfileImageRepo {
         ApiEndpoints.userId: getUserData().userInfo!.id,
         'profile_image': image
       });
-      final response = await apiServices.postMethod(
-          endPoint: ApiEndpoints.updateProfileImage,
-          data: formData,
-          isFormData: true);
+      final response = await apiServices.postMethodWithToken(
+        endPoint: ApiEndpoints.updateProfileImage,
+        data: formData,
+        token: getUserData().token,
+      );
       return Right(UserInformation.fromJson(response['user']));
     } on DioException catch (e) {
       return Left(ServerFailure.fromDioException(e));

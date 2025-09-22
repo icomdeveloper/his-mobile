@@ -78,6 +78,34 @@ class MediaModel {
             ? null
             : DateTime.parse(json['updated_at'] as String),
       );
+  factory MediaModel.fromCategories(Map<String, dynamic> json) => MediaModel(
+        id: json['id'] as int?,
+        categoryId: json['category_id'] as int?,
+        userId: json['user_id'] as int?,
+        title: json['title'] as String?,
+        views: json['views'] as String?,
+        description: json['description'] as String?,
+        filePath: json['file_path'] as String?,
+        pdf: json['pdf'] as String?,
+        duration: json['duration'] as String?,
+        thumbnailPath: json['thumbnail_path'] as String,
+        assignedTo: json['assigned_to'] as dynamic,
+        mention: json['mention'] as String?,
+        isFavorite: json['is_favorite'] as bool?,
+        isLiked: json['is_liked'] as bool?,
+        image: json['image_path'] as String?,
+        commentsCount: (json['comments'] as List?)?.length ?? 0,
+        adminCommentsCount: json['admin_comment_count'] as int?,
+        likesCount: (json['likes'] as List?)?.length ?? 0,
+        status: json['status'] as String?,
+        isFeatured: json['is_featured'] as int?,
+        createdAt: json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt: json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
+      );
   factory MediaModel.fromBookmarkJson(Map<String, dynamic> json) => MediaModel(
         id: json['id'] as int?,
         categoryId: json['category_id'] as int?,

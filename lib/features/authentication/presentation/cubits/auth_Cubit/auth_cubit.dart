@@ -78,7 +78,9 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       if (isClosed) return;
       if (result.isLeft()) {
-        emit(LoginFailure(message: result.fold((l) => l.errMesage, (r) => '')));
+        emit(LoginFailure(
+            message: result.fold((l) => l.errMesage, (r) => ''),
+            registerError: result.fold((l) => l.registerError, (r) => {})));
         return;
       }
 

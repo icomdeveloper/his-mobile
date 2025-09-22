@@ -21,14 +21,15 @@ class MediaByCategoryRepo {
       final data = await apiServices.getMethod(
           endPoint: ApiEndpoints.categoryMedia,
           data: {
-            ApiEndpoints.categoryId: categoryId,
-            // ApiEndpoints.userId: getUserData().userInfo?.id
+            ApiEndpoints.subCategoryId: categoryId,
+            ApiEndpoints.userId: getUserData().userInfo?.id
           },
           token: getUserData().token);
 
       List<dynamic> mediaList = data['data'];
       List<MediaModel> list =
-          mediaList.map((e) => MediaModel.fromJson(e)).toList();
+          mediaList.map((e) => MediaModel.fromCategories(e)).toList();
+
       return right(list);
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {

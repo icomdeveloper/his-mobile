@@ -24,6 +24,7 @@ class AuthRepo {
     try {
       var data = await apiServices.postMethod(
           endPoint: ApiEndpoints.login, data: loginModel.toJson());
+
       await saveUserData(user: UserData.fromJson(data));
       return right(UserData.fromJson(data));
     } on DioException catch (e) {
@@ -70,6 +71,11 @@ class AuthRepo {
 
       return right(UserData.fromJson(response));
     } on DioException catch (e) {
+      if (e.response!.statusCode == 422) {
+        return left(ServerFailure(
+            errMesage: e.response?.data['error'],
+            registerError: e.response?.data['message']));
+      }
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));

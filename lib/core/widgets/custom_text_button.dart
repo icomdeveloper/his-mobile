@@ -43,7 +43,7 @@ class CustomTextButton extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: Styles.mediumRoboto14.copyWith(color: textColor),
+                style: Styles.semiBoldPoppins14.copyWith(color: textColor),
               ),
               const SizedBox(width: 13),
               isArrowAppear

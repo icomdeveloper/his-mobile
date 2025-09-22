@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 
 abstract class Failure {
   final String errMesage;
+  final Map<String, dynamic>? registerError;
 
-  const Failure({required this.errMesage});
+  const Failure({required this.errMesage, this.registerError});
 }
 
 class ServerFailure extends Failure {
-  ServerFailure({required super.errMesage});
+  ServerFailure({required super.errMesage, super.registerError});
   factory ServerFailure.fromDioException(DioException dioException) {
     switch (dioException.type) {
       case DioExceptionType.connectionTimeout:

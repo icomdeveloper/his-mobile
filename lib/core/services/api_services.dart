@@ -112,18 +112,21 @@ class ApiServices {
   Future putMethod(
       {required String endPoint,
       required Object data,
+      String? token,
       bool isFormData = false}) async {
     final response = await dio.put(
       '$baseUrl$endPoint',
       data: data,
-      options: isFormData
-          ? Options(
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'Accept': 'application/json'
+      options: Options(
+        headers: token == null
+            ? {
+                'Accept': 'application/json',
+              }
+            : {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer $token',
               },
-            )
-          : null,
+      ),
     );
     return response.data;
   }

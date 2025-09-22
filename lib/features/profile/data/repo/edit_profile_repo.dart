@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
+import 'package:his/features/authentication/data/models/user_data/user_information.dart';
 
 import '../../../../core/utils/api_endpoints.dart';
 
@@ -12,16 +13,28 @@ class EditProfileRepo {
   EditProfileRepo({required this.apiServices});
 
   Future<Either<Failure, dynamic>> editProfile(
-      {required String name, required String phone}) async {
+      {required UserInformation userUpdates}) async {
     try {
-      Map<String, dynamic> data = {
-        "name": name,
-        "phone": phone,
-        "email": getUserData().userInfo?.email,
-        "user_id": getUserData().userInfo?.id
-      };
+      FormData formData = FormData.fromMap({
+        ApiEndpoints.name: userUpdates.name,
+        ApiEndpoints.phone: userUpdates.phone,
+        ApiEndpoints.email: getUserData().userInfo?.email,
+        ApiEndpoints.academicTitle: userUpdates.academicTitle,
+        ApiEndpoints.department: userUpdates.department,
+        ApiEndpoints.institution: userUpdates.institution,
+        ApiEndpoints.countryOfGraduation: userUpdates.countryOfGraduation,
+        ApiEndpoints.countryOfPractices: userUpdates.countryOfPractices,
+        ApiEndpoints.yearOfGraduation: userUpdates.yearOfGraduation,
+        ApiEndpoints.jobDescription: userUpdates.jobDescription,
+        ApiEndpoints.userId: getUserData().userInfo?.id
+      });
       final response = await apiServices.putMethod(
-          endPoint: ApiEndpoints.updateProfile, data: data);
+          endPoint: ApiEndpoints.updateProfile,
+          token: getUserData().token,
+          data: formData,
+          isFormData: true);
+      await updateUserInfo(
+          userInfo: UserInformation.fromJson(response['user']));
       return Right(response['user']);
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {

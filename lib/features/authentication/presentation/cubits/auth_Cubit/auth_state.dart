@@ -16,7 +16,11 @@ final class YearUpdated extends AuthState {}
 
 final class LoginFailure extends AuthState {
   final String message;
-  LoginFailure({required this.message});
+  final Map<String, dynamic>? registerError;
+  LoginFailure({
+    required this.message,
+    this.registerError,
+  });
 }
 
 final class RegisterLoading extends AuthState {}

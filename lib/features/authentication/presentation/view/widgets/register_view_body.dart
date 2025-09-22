@@ -452,10 +452,23 @@ class _LoginViewBodyState extends State<RegisterViewBody> {
                         );
                       }
                       if (state is LoginFailure) {
-                        showCustomSnackBar(
-                          message: state.message,
-                          context: context,
-                        );
+                        if (state.registerError?["email"] != null) {
+                          showCustomSnackBar(
+                            message: state.registerError?["email"],
+                            context: context,
+                          );
+                        }
+                        if (state.registerError?["phone"] != null) {
+                          showCustomSnackBar(
+                            message: state.registerError?["phone"],
+                            context: context,
+                          );
+                        } else if (state.registerError == null) {
+                          showCustomSnackBar(
+                            message: state.message,
+                            context: context,
+                          );
+                        }
                       }
                       if (state is RegisterSuccess) {
                         showCustomSnackBar(
