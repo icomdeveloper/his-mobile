@@ -96,4 +96,5 @@ abstract class ApiEndpoints {
   static const String userInfo = "user_info";
   static const String deleteComment = "delete/comment";
   static const String commentId = "comment_id";
+  static const String userForms = "user-forms";
 }

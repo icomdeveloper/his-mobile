@@ -16,7 +16,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   TextEditingController jobDescription = TextEditingController();
   TextEditingController institution = TextEditingController();
   TextEditingController department = TextEditingController();
-  DateTime? yearOfGraduation;
+  String? yearOfGraduation;
   TextEditingController countryOfGraduation = TextEditingController();
   Future<void> editProfile() async {
     emit(EditProfileLoading());
@@ -37,8 +37,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         (r) => emit(EditProfileSuccess(name: r['name'], phone: r['phone'])));
   }
 
-  void setYearOfGraduation(DateTime dateTime) {
-    yearOfGraduation = dateTime;
-    emit(YearUpdated());
-  }
+  // void setYearOfGraduation(DateTime dateTime) {
+  //   yearOfGraduation = dateTime;
+  //   emit(YearUpdated());
+  // }
 }

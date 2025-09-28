@@ -15,8 +15,10 @@ class CommentRepo {
   Future<Either<ServerFailure, dynamic>> addComment(
       {required AddCommentModel comment}) async {
     try {
-      var data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.addComment, data: comment.toJson());
+      var data = await apiServices.postMethodWithToken(
+          token: getUserData().token,
+          endPoint: ApiEndpoints.addComment,
+          data: comment.toJson());
       dynamic addedComment = data['data'];
       return right(CommentsModel.fromJson(addedComment));
     } on DioException catch (e) {
@@ -29,8 +31,10 @@ class CommentRepo {
   Future<Either<ServerFailure, ReplyModel>> addReply(
       {required AddCommentModel reply}) async {
     try {
-      var data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.reply, data: reply.toJson());
+      var data = await apiServices.postMethodWithToken(
+          token: getUserData().token,
+          endPoint: ApiEndpoints.reply,
+          data: reply.toJson());
       return right(ReplyModel.fromJson(data['data']));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
@@ -43,6 +47,7 @@ class CommentRepo {
       {required int mediaId, bool isArticle = false}) async {
     try {
       var data = await apiServices.getMethod(
+        token: getUserData().token,
         endPoint: ApiEndpoints.getMediaComments,
         data: {
           ApiEndpoints.mediaId: mediaId,
@@ -66,6 +71,7 @@ class CommentRepo {
       {required int mediaId}) async {
     try {
       var data = await apiServices.getMethod(
+        token: getUserData().token,
         endPoint: ApiEndpoints.showAdminComments,
         data: {
           ApiEndpoints.mediaId: mediaId,
@@ -85,8 +91,10 @@ class CommentRepo {
   Future<Either<ServerFailure, dynamic>> addAdminComment(
       {required AddCommentModel comment}) async {
     try {
-      var data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.addAdminComment, data: comment.toJson());
+      var data = await apiServices.postMethodWithToken(
+          token: getUserData().token,
+          endPoint: ApiEndpoints.addAdminComment,
+          data: comment.toJson());
       dynamic addedComment = data['comment'];
       return right(CommentsModel.fromJson(addedComment));
     } on DioException catch (e) {
@@ -99,8 +107,10 @@ class CommentRepo {
   Future<Either<ServerFailure, ReplyModel>> addAdminReply(
       {required AddCommentModel reply}) async {
     try {
-      var data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.addAdminReply, data: reply.toJson());
+      var data = await apiServices.postMethodWithToken(
+          token: getUserData().token,
+          endPoint: ApiEndpoints.addAdminReply,
+          data: reply.toJson());
       return right(ReplyModel.fromJson(data['comment']));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
@@ -112,8 +122,9 @@ class CommentRepo {
   Future<Either<ServerFailure, dynamic>> deleteComment(
       {required int commentId}) async {
     try {
-      var data = await apiServices.postMethod(
+      var data = await apiServices.postMethodWithToken(
         endPoint: ApiEndpoints.deleteComment,
+        token: getUserData().token,
         data: {
           ApiEndpoints.commentId: commentId,
           ApiEndpoints.userId: getUserData().userInfo?.id

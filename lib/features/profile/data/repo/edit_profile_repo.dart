@@ -15,7 +15,7 @@ class EditProfileRepo {
   Future<Either<Failure, dynamic>> editProfile(
       {required UserInformation userUpdates}) async {
     try {
-      FormData formData = FormData.fromMap({
+      Map<String, dynamic> data = {
         ApiEndpoints.name: userUpdates.name,
         ApiEndpoints.phone: userUpdates.phone,
         ApiEndpoints.email: getUserData().userInfo?.email,
@@ -27,14 +27,14 @@ class EditProfileRepo {
         ApiEndpoints.yearOfGraduation: userUpdates.yearOfGraduation,
         ApiEndpoints.jobDescription: userUpdates.jobDescription,
         ApiEndpoints.userId: getUserData().userInfo?.id
-      });
+      };
       final response = await apiServices.putMethod(
-          endPoint: ApiEndpoints.updateProfile,
-          token: getUserData().token,
-          data: formData,
-          isFormData: true);
-      await updateUserInfo(
-          userInfo: UserInformation.fromJson(response['user']));
+        endPoint: ApiEndpoints.updateProfile,
+        token: getUserData().token,
+        data: data,
+      );
+      // await updateUserInfo(
+      //     userInfo: UserInformation.fromJson(response['user']));
       return Right(response['user']);
     } on DioException catch (e) {
       if (e.response?.statusCode == 500) {

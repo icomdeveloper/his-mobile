@@ -65,9 +65,25 @@ final CommentsModel dummyComment = CommentsModel(
 );
 
 final UserInformation dummyUserInfo = UserInformation(
-  name: 'name name',
-  email: 'email@gmail.com',
+  name: 'Deleted User',
+  email: '',
   role: 'role',
+  profileImage: '',
+  phone: '',
+  emailVerifiedAt: '',
+  googleId: '',
+  appleId: '',
+  deletedAt: '',
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
+  fcmToken: '',
+  academicTitle: '',
+  jobDescription: '',
+  yearOfGraduation: '',
+  countryOfPractices: '',
+  institution: '',
+  department: '',
+  countryOfGraduation: '',
 );
 
 final List<CommentsModel> dummyCommentList = [

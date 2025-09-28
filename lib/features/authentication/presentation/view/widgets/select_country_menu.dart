@@ -5,14 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 
 class SelectCountryMenu extends StatefulWidget {
   const SelectCountryMenu({
     super.key,
     required this.flag,
+    this.isFromRegister = true,
+    this.countrySelectedBefore,
   });
   final bool flag;
-
+  final bool isFromRegister;
+  final String? countrySelectedBefore;
   @override
   State<SelectCountryMenu> createState() => _SelectCountryMenuState();
 }
@@ -20,6 +24,15 @@ class SelectCountryMenu extends StatefulWidget {
 class _SelectCountryMenuState extends State<SelectCountryMenu> {
   Country? selectedCountry;
   bool activeSelectedCountry = false;
+  String? countrySelectedBefore;
+  @override
+  void initState() {
+    if (widget.countrySelectedBefore != '') {
+      countrySelectedBefore = widget.countrySelectedBefore;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -59,11 +72,22 @@ class _SelectCountryMenuState extends State<SelectCountryMenu> {
             },
             onSelect: (Country country) {
               selectedCountry = country;
-              if (widget.flag) {
-                context.read<AuthCubit>().countryOfPractice.text = country.name;
+              if (widget.isFromRegister) {
+                if (widget.flag) {
+                  context.read<AuthCubit>().countryOfPractice.text =
+                      country.name;
+                } else {
+                  context.read<AuthCubit>().countryOfGraduation.text =
+                      country.name;
+                }
               } else {
-                context.read<AuthCubit>().countryOfGraduation.text =
-                    country.name;
+                if (widget.flag) {
+                  context.read<EditProfileCubit>().countryOfPractice.text =
+                      country.name;
+                } else {
+                  context.read<EditProfileCubit>().countryOfGraduation.text =
+                      country.name;
+                }
               }
               setState(() {});
             });
@@ -89,9 +113,13 @@ class _SelectCountryMenuState extends State<SelectCountryMenu> {
             width: 10,
           ),
           Text(
-            selectedCountry?.name ?? 'Select Country',
+            selectedCountry?.name ?? countrySelectedBefore ?? 'Select Country',
             style: Styles.regularPoppins12.copyWith(
-              color: AppColors.grey,
+              color: countrySelectedBefore != null
+                  ? Colors.black
+                  : selectedCountry?.name != null
+                      ? Colors.black
+                      : AppColors.grey,
             ),
           ),
           const Spacer(),

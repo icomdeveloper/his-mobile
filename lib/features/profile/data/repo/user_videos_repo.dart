@@ -5,6 +5,7 @@ import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/category/data/model/media_model.dart';
+import 'package:his/features/profile/data/model/user_form_model.dart';
 
 class UserVideosRepo {
   final ApiServices apiServices;
@@ -48,6 +49,22 @@ class UserVideosRepo {
       return left(ServerFailure.fromDioException(e));
     } catch (e) {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
+
+  Future<Either<Failure, UserFormModel>> userForm() async {
+    try {
+      final data = await apiServices.getMethod(
+          endPoint: '${ApiEndpoints.userForms}/${getUserData().userInfo!.id}',
+          token: getUserData().token);
+      return Right(UserFormModel.fromJson(data));
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return left(ServerFailure(errMesage: 'User form not found'));
+      }
+      return Left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return Left(ServerFailure(errMesage: 'Something went wrong , try again'));
     }
   }
 }

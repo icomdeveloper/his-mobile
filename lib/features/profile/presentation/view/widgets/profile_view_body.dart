@@ -106,13 +106,21 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                         final result = await Navigator.push(
                             context,
                             PageRouteBuilder(
-                                pageBuilder:
-                                    (_, animation, secondaryAnimation) =>
+                                pageBuilder: (_, animation,
+                                        secondaryAnimation) =>
+                                    MultiBlocProvider(
+                                      providers: [
                                         BlocProvider(
                                           create: (context) => EditProfileCubit(
                                               getIt<EditProfileRepo>()),
-                                          child: const EditProfileView(),
                                         ),
+                                        BlocProvider.value(
+                                          value:
+                                              context.read<GetUserInfoCubit>(),
+                                        ),
+                                      ],
+                                      child: const EditProfileView(),
+                                    ),
                                 transitionsBuilder: (context, animation,
                                         secondaryAnimation, child) =>
                                     SlideTransition(

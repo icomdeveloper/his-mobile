@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
@@ -11,6 +13,7 @@ import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/view/widgets/select_country_menu.dart';
 import 'package:his/features/home/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:his/features/profile/presentation/cubits/get_user_info_cubit/get_user_info_cubit.dart';
 
 import '../cubits/edit_profile_cubit/edit_profile_cubit.dart';
 
@@ -37,8 +40,8 @@ class _EditProfileViewState extends State<EditProfileView> {
     context.read<EditProfileCubit>().countryOfPractice.text =
         getUserData().userInfo?.countryOfPractices ?? '';
 
-    context.read<EditProfileCubit>().yearOfGraduation = DateTime.tryParse(
-        getUserData().userInfo?.yearOfGraduation.toString() ?? '');
+    context.read<EditProfileCubit>().yearOfGraduation =
+        getUserData().userInfo?.yearOfGraduation;
 
     context.read<EditProfileCubit>().jobDescription.text =
         getUserData().userInfo?.jobDescription ?? '';
@@ -130,8 +133,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                   const SizedBox(
                     height: 4,
                   ),
-                  const SelectCountryMenu(
+                  SelectCountryMenu(
                     flag: true,
+                    isFromRegister: false,
+                    countrySelectedBefore:
+                        context.read<EditProfileCubit>().countryOfPractice.text,
                   ),
                   const SizedBox(
                     height: 14,
@@ -224,11 +230,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                                 );
 
                                 if (datePicked != null) {
+                                  log(datePicked.toString().split(' ')[0]);
                                   context
-                                      .read<EditProfileCubit>()
-                                      .setYearOfGraduation(
-                                        datePicked!,
-                                      );
+                                          .read<EditProfileCubit>()
+                                          .yearOfGraduation =
+                                      datePicked!.toString().split(' ')[0];
+                                  setState(() {});
                                 }
                               },
                               child: Container(
@@ -241,17 +248,22 @@ class _EditProfileViewState extends State<EditProfileView> {
                                         borderSide: BorderSide(
                                             width: 1,
                                             color: AppColors.lightGrey))),
-                                child: Text(
-                                  context
-                                          .watch<EditProfileCubit>()
-                                          .yearOfGraduation
-                                          ?.year
-                                          .toString() ??
-                                      'YYYY',
-                                  style: Styles.semiBoldPoppins12.copyWith(
-                                    color: AppColors.grey,
-                                  ),
-                                ),
+                                child: context
+                                            .read<EditProfileCubit>()
+                                            .yearOfGraduation ==
+                                        null
+                                    ? Text(
+                                        'YYYY',
+                                        style:
+                                            Styles.semiBoldPoppins12.copyWith(
+                                          color: AppColors.grey,
+                                        ),
+                                      )
+                                    : Text(
+                                        context
+                                            .read<EditProfileCubit>()
+                                            .yearOfGraduation!,
+                                        style: Styles.semiBoldPoppins12),
                               ),
                             ),
                             const SizedBox(
@@ -262,8 +274,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                             const SizedBox(
                               height: 4,
                             ),
-                            const SelectCountryMenu(
+                            SelectCountryMenu(
                               flag: false,
+                              isFromRegister: false,
+                              countrySelectedBefore: context
+                                  .read<EditProfileCubit>()
+                                  .countryOfGraduation
+                                  .text,
                             ),
                           ])),
                   const SizedBox(
@@ -273,6 +290,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   BlocConsumer<EditProfileCubit, EditProfileState>(
                     listener: (context, state) async {
                       if (state is EditProfileSuccess) {
+                        await context.read<GetUserInfoCubit>().getUserInfo();
                         showCustomSnackBar(
                             message: 'Profile Updated',
                             context: context,

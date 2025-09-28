@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
+import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -46,7 +47,8 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final UserInformation userInformation = widget.comment.user!;
+    final UserInformation userInformation =
+        widget.comment.user ?? dummyUserInfo;
     return Column(
       children: [
         ListTile(
