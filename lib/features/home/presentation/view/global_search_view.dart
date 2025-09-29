@@ -121,15 +121,11 @@ class _GlobalSearchViewState extends State<GlobalSearchView> {
   void _onSearchChanged(String value) {
     query = value;
 
-    // Cancel previous timer
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
-    // Only trigger search after short delay
     _debounce = Timer(const Duration(milliseconds: 700), () {
       if (query.isEmpty) {
-        context
-            .read<GlobalSearchCubit>()
-            .clearResults(); // make this in cubit to reset state
+        context.read<GlobalSearchCubit>().clearResults();
       } else {
         context.read<GlobalSearchCubit>().search(query: query);
       }

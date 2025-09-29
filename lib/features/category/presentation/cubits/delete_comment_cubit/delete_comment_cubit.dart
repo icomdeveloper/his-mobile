@@ -15,4 +15,12 @@ class DeleteCommentCubit extends Cubit<DeleteCommentState> {
         (error) => emit(DeleteCommentFailure(errMesage: error.errMesage)),
         (success) => emit(DeleteCommentSuccess(message: success)));
   }
+
+  Future<void> deleteReply({required int replyId}) async {
+    emit(DeleteReplyLoading());
+    final result = await commentRepo.deleteComment(commentId: replyId);
+    if (isClosed) return;
+    result.fold((error) => emit(DeleteReplyFailure(errMesage: error.errMesage)),
+        (success) => emit(DeleteReplySuccess(message: success)));
+  }
 }

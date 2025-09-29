@@ -15,6 +15,7 @@ class CommentsCubit extends Cubit<CommentsState> {
   final CommentRepo commentRepo;
   TextEditingController commentController = TextEditingController();
   TextEditingController replyController = TextEditingController();
+  TextEditingController secondReplyController = TextEditingController();
 
   Future<void> addComment(
       {required int mediaId, required bool isPending}) async {
@@ -50,6 +51,29 @@ class CommentsCubit extends Cubit<CommentsState> {
       content: replyController.text,
     );
     replyController.clear();
+    Either<ServerFailure, ReplyModel> result;
+    if (!isPending) {
+      result = await commentRepo.addReply(reply: reply);
+    } else {
+      result = await commentRepo.addAdminReply(reply: reply);
+    }
+    if (isClosed) return;
+    result.fold((error) => emit(AddReplyFailure(message: error.errMesage)),
+        (reply) => emit(AddReplytSuccess(replyModel: reply)));
+  }
+
+  Future<void> addSecondReply(
+      {required int mediaId,
+      required int parentId,
+      required bool isPending}) async {
+    emit(AddReplyLoading());
+    final reply = AddCommentModel(
+      mediaId: mediaId,
+      userId: getUserData().userInfo!.id!,
+      parentId: parentId,
+      content: secondReplyController.text,
+    );
+    secondReplyController.clear();
     Either<ServerFailure, ReplyModel> result;
     if (!isPending) {
       result = await commentRepo.addReply(reply: reply);

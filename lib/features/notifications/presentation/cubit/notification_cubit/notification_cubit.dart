@@ -24,14 +24,12 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   /// Start polling every 15 seconds
   void startPolling({required BuildContext context}) {
-    // cancel previous timer if any
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 10), (_) {
       getNotifications(context: context);
     });
   }
 
-  /// Stop polling
   void stopPolling() {
     _timer?.cancel();
     _timer = null;

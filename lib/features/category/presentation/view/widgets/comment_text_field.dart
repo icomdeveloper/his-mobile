@@ -10,15 +10,18 @@ class CommentTextField extends StatelessWidget {
       {super.key,
       required this.controller,
       this.onTap,
-      this.autofocus = false});
+      this.autofocus = false,
+      this.onSubmitted});
   final TextEditingController controller;
   final void Function()? onTap;
   final bool autofocus;
+  final void Function(String)? onSubmitted;
   @override
   Widget build(BuildContext context) {
     return TextField(
       style: Styles.regularPoppins14,
       autofocus: autofocus,
+      onSubmitted: onSubmitted,
       controller: controller,
       decoration: InputDecoration(
           fillColor: const Color(0xffF7F7F7),

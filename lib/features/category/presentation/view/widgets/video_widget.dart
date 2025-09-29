@@ -387,6 +387,15 @@ class _VideoWidgetState extends State<VideoWidget> {
                         }
                       },
                       child: CommentTextField(
+                        onSubmitted: (value) {
+                          if (value.isEmpty) {
+                            return;
+                          }
+                          context.read<CommentsCubit>().addComment(
+                              mediaId: widget.mediaModel!.id!,
+                              isPending:
+                                  widget.mediaModel!.status! == 'pending');
+                        },
                         controller:
                             context.read<CommentsCubit>().commentController,
                         onTap: () {

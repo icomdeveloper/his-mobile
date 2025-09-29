@@ -27,10 +27,18 @@ class CommentWidget extends StatefulWidget {
     required this.comment,
     required this.status,
     this.onDeleteComment,
+    required this.controller,
+    required this.commentIndex,
+    this.onCommentDeleted,
   });
   final CommentsModel comment;
+  final int commentIndex;
   final String status;
   final ValueChanged<bool>? onDeleteComment;
+  final ValueChanged<int>? onCommentDeleted;
+
+  final ScrollController controller;
+
   @override
   State<CommentWidget> createState() => _CommentWidgetState();
 }
@@ -38,17 +46,17 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   bool showReplyTextField = false;
   late bool _isLiked;
+  late UserInformation userInformation;
   bool isDeleting = false;
   @override
   initState() {
     super.initState();
     _isLiked = widget.comment.isLiked ?? false;
+    userInformation = widget.comment.user ?? dummyUserInfo;
   }
 
   @override
   Widget build(BuildContext context) {
-    final UserInformation userInformation =
-        widget.comment.user ?? dummyUserInfo;
     return Column(
       children: [
         ListTile(
@@ -268,34 +276,43 @@ class _CommentWidgetState extends State<CommentWidget> {
               const SizedBox(
                 height: 10,
               ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    showReplyTextField = !showReplyTextField;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(Assets.assetsImagesReply),
-                    const SizedBox(
-                      width: 8,
+              widget.status == 'pending'
+                  ? const SizedBox.shrink()
+                  : InkWell(
+                      onTap: () {
+                        setState(() {
+                          showReplyTextField = !showReplyTextField;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(Assets.assetsImagesReply),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text('Reply',
+                              style: Styles.regularPoppins12
+                                  .copyWith(color: AppColors.grey)),
+                        ],
+                      ),
                     ),
-                    Text('Reply',
-                        style: Styles.regularPoppins12
-                            .copyWith(color: AppColors.grey)),
-                  ],
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
               widget.comment.replies?.isEmpty ?? true
                   ? const SizedBox.shrink()
-                  : RepliesListViewWidget(
-                      replies: widget.comment.replies,
-                    ),
+                  : widget.status == 'pending'
+                      ? const SizedBox.shrink()
+                      : RepliesListViewWidget(
+                          commentIndex: widget.commentIndex,
+                          replies: widget.comment.replies,
+                          controller: widget.controller,
+                          onCommentDeleted: (value) {
+                            widget.onCommentDeleted!(value);
+                          },
+                        ),
               showReplyTextField
                   ? Animate(
                       effects: const [
@@ -307,6 +324,12 @@ class _CommentWidgetState extends State<CommentWidget> {
                         ),
                       ],
                       child: CommentTextField(
+                          onSubmitted: (value) {
+                            context.read<CommentsCubit>().addReply(
+                                isPending: widget.status == 'pending',
+                                mediaId: widget.comment.mediaId!,
+                                parentId: widget.comment.id!);
+                          },
                           autofocus: true,
                           controller:
                               context.read<CommentsCubit>().replyController,

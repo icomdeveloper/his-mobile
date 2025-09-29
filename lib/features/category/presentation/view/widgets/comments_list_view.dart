@@ -90,8 +90,15 @@ class _CommentsListViewState extends State<CommentsListView> {
               child: BlocProvider(
                 create: (context) => DeleteCommentCubit(getIt<CommentRepo>()),
                 child: CommentWidget(
+                  commentIndex: index,
+                  controller: widget.controller,
                   status: widget.status,
                   comment: commentsList[index],
+                  onCommentDeleted: (value) {
+                    setState(() {
+                      widget.onCommentDeleted?.call(value);
+                    });
+                  },
                   onDeleteComment: (value) {
                     setState(() {
                       if (commentsList[index].replies != null &&
