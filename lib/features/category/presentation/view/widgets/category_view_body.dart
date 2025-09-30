@@ -39,6 +39,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
     selectedMonth =
         widget.categories.first.subcategories!.first.name.toString();
     yearIndex = 0;
+    monthListIndex = 0;
     monthId = widget.categories[0].subcategories!.first.id ?? 0;
     _searchController.addListener(_filterItems);
     // context
