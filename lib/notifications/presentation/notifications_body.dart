@@ -1,20 +1,23 @@
 // import 'package:flutter/material.dart';
-// import 'package:his/core/models/notifcation_model/notifcation_model.dart';
 // import 'package:his/core/utils/app_text_styles.dart';
-// import 'package:his/features/notifications/presentation/view/widgets/notification_item.dart';
+// import 'package:his/notifications/model/notifications_response.dart';
+// import 'package:his/notifications/presentation/notification_widget.dart';
 // import 'package:provider/provider.dart';
 
 // import '../../../../../core/helpers/notifications_count_provider.dart';
 
-// class NotificationScreen extends StatefulWidget {
-//   const NotificationScreen({super.key, required this.notifications});
-//   final List<NotifcationModel> notifications;
+// class NotificationsBody extends StatefulWidget {
+//   const NotificationsBody({
+//     super.key,
+//     required this.notifications,
+//   });
 
+//   final List<NotificationItem> notifications;
 //   @override
-//   State<NotificationScreen> createState() => _NotificationScreenState();
+//   State<NotificationsBody> createState() => _NotificationsBodyState();
 // }
 
-// class _NotificationScreenState extends State<NotificationScreen> {
+// class _NotificationsBodyState extends State<NotificationsBody> {
 //   @override
 //   initState() {
 //     super.initState();
@@ -60,7 +63,7 @@
 //                       const SizedBox(height: 12),
 //                   itemCount: todayList.length,
 //                   itemBuilder: (context, index) {
-//                     return NotificationItem(
+//                     return NotificationWidget(
 //                       item: todayList[index],
 //                     );
 //                   }),
@@ -83,7 +86,7 @@
 //                       const SizedBox(height: 12),
 //                   itemCount: yesterdayList.length,
 //                   itemBuilder: (context, index) {
-//                     return NotificationItem(item: yesterdayList[index]);
+//                     return NotificationWidget(item: yesterdayList[index]);
 //                   }),
 //               SliverToBoxAdapter(
 //                   child: pastList.isEmpty
@@ -104,25 +107,25 @@
 //                       const SizedBox(height: 12),
 //                   itemCount: pastList.length,
 //                   itemBuilder: (context, index) {
-//                     return NotificationItem(item: pastList[index]);
+//                     return NotificationWidget(item: pastList[index]);
 //                   }),
 //             ],
 //           ),
 //         ));
 //   }
 
-//   checkDates(NotifcationModel notification) {
+//   checkDates(NotificationItem notification) {
 //     final now = DateTime.now();
 //     final today = DateTime(now.year, now.month, now.day);
 //     final yesterday = today.subtract(const Duration(days: 1));
 
-//     if (notification.createdAt!.day == today.day &&
-//         notification.createdAt!.month == today.month &&
-//         notification.createdAt!.year == today.year) {
+//     if (notification.createdAt.day == today.day &&
+//         notification.createdAt.month == today.month &&
+//         notification.createdAt.year == today.year) {
 //       todayList.add(notification);
-//     } else if (notification.createdAt!.day == yesterday.day &&
-//         notification.createdAt!.month == yesterday.month &&
-//         notification.createdAt!.year == yesterday.year) {
+//     } else if (notification.createdAt.day == yesterday.day &&
+//         notification.createdAt.month == yesterday.month &&
+//         notification.createdAt.year == yesterday.year) {
 //       yesterdayList.add(notification);
 //     } else {
 //       pastList.add(notification);
@@ -130,6 +133,6 @@
 //   }
 // }
 
-// List<NotifcationModel> todayList = [];
-// List<NotifcationModel> yesterdayList = [];
-// List<NotifcationModel> pastList = [];
+// List<NotificationItem> todayList = [];
+// List<NotificationItem> yesterdayList = [];
+// List<NotificationItem> pastList = [];

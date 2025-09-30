@@ -25,6 +25,7 @@ import 'package:his/features/profile/data/repo/upload_article_repo.dart';
 import 'package:his/features/profile/data/repo/upload_video_repo.dart';
 import 'package:his/features/profile/data/repo/user_articles_repo.dart';
 import 'package:his/features/profile/data/repo/user_videos_repo.dart';
+import 'package:his/notifications/services/notifications_services.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -78,6 +79,7 @@ void setupGetIt() {
       GetUsersRepo(apiServices: getIt<ApiServices>()));
   getIt.registerSingleton<NotificationsRepo>(
       NotificationsRepo(apiServices: getIt<ApiServices>()));
+  getIt.registerSingleton<NotificationService>(NotificationService(setupDio()));
 }
 
 Dio setupDio() {

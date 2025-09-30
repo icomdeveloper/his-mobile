@@ -49,6 +49,7 @@ class _ReplyWidgetState extends State<ReplyWidget> {
   late bool _isLiked;
   late UserInformation userInformation;
   bool isDeleting = false;
+  bool showMoreReplies = false;
   @override
   initState() {
     super.initState();
@@ -310,7 +311,9 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                   itemCount: widget.reply.secondReplies == null ||
                           widget.reply.secondReplies!.isEmpty
                       ? 0
-                      : widget.reply.secondReplies!.length,
+                      : showMoreReplies
+                          ? widget.reply.secondReplies!.length
+                          : 1,
                   itemBuilder: (context, index) {
                     return MultiBlocProvider(
                       providers: [
@@ -330,6 +333,30 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                       ),
                     );
                   }),
+              if (widget.reply.secondReplies != null &&
+                  widget.reply.secondReplies!.length > 1)
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showMoreReplies = !showMoreReplies;
+                    });
+                  },
+                  child: Text(
+                    showMoreReplies
+                        ? 'Hide ${widget.reply.secondReplies!.length - 1} reply'
+                        : 'Show ${widget.reply.secondReplies!.length - 1} reply',
+                    style: Styles.semiBoldPoppins12.copyWith(
+                      fontSize: 11,
+                      color: AppColors.primaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              showReplyTextField
+                  ? SizedBox(
+                      height: 10.h,
+                    )
+                  : const SizedBox.shrink(),
               showReplyTextField
                   ? Animate(
                       effects: const [

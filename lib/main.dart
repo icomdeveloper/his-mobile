@@ -15,6 +15,7 @@ import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/deep_link_listener.dart';
 import 'package:his/features/main_screen/presentation/view/main_view.dart';
 import 'package:his/firebase_options.dart';
+
 import 'package:provider/provider.dart';
 
 import 'core/services/api_services.dart';
@@ -82,7 +83,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -108,8 +108,8 @@ class MyApp extends StatelessWidget {
             // home: AppEntryPoint(), // ✅ Entry point where we trigger update check
 
             /* initialRoute: Prefs.getBool(PrefsKeys.isOnBoardingSeen)
-                ? MainView.routeName
-                : OnBoardingView.routeName,*/
+                        ? MainView.routeName
+                        : OnBoardingView.routeName,*/
           ),
         ),
       ),

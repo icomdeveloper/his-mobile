@@ -21,6 +21,9 @@ class ChangePasswordView extends StatefulWidget {
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  bool hideCurrentPassword = true;
+  bool hidNewPassword = true;
+  bool hideConfirmPassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +44,23 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
+                    obscureText: hideCurrentPassword,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          hideCurrentPassword = !hideCurrentPassword;
+                        });
+                      },
+                      icon: hideCurrentPassword
+                          ? const Icon(
+                              Icons.visibility_off_outlined,
+                              size: 18,
+                            )
+                          : const Icon(
+                              Icons.visibility_outlined,
+                              size: 18,
+                            ),
+                    ),
                     validator: (password) {
                       if (password == null || password.isEmpty) {
                         return 'Please enter your current password';
@@ -68,6 +88,23 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
+                    obscureText: hidNewPassword,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          hidNewPassword = !hidNewPassword;
+                        });
+                      },
+                      icon: hidNewPassword
+                          ? const Icon(
+                              Icons.visibility_off_outlined,
+                              size: 18,
+                            )
+                          : const Icon(
+                              Icons.visibility_outlined,
+                              size: 18,
+                            ),
+                    ),
                     validator: (password) {
                       if (password == null || password.isEmpty) {
                         return 'Please enter your new password';
@@ -93,6 +130,23 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     height: 4,
                   ),
                   AuthenticationTextFormField(
+                    obscureText: hideConfirmPassword,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          hideConfirmPassword = !hideConfirmPassword;
+                        });
+                      },
+                      icon: hideConfirmPassword
+                          ? const Icon(
+                              Icons.visibility_off_outlined,
+                              size: 18,
+                            )
+                          : const Icon(
+                              Icons.visibility_outlined,
+                              size: 18,
+                            ),
+                    ),
                     validator: (confirmPassword) {
                       if (confirmPassword == null || confirmPassword.isEmpty) {
                         return 'Please confirm your password';

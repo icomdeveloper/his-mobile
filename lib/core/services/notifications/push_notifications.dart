@@ -5,8 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/services/shared_preferences.dart';
-import 'package:his/features/notifications/presentation/view/notification_view.dart';
 import 'package:his/main.dart';
+import 'package:his/notifications/presentation/notification_page.dart';
 
 class PushNotifications {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -147,7 +147,7 @@ class PushNotifications {
 
   static void _navigateToNotificationScreen(dynamic data) {
     navigatorKey.currentState?.pushNamed(
-      NotificationView.routeName,
+      NotificationsPage.routeName,
       arguments: data,
     );
   }

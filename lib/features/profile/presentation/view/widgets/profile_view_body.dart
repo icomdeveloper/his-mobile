@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/core/helpers/notifications_count_provider.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
-import 'package:his/features/notifications/presentation/cubit/notification_cubit/notification_cubit.dart';
-import 'package:his/features/notifications/presentation/view/notification_view.dart';
 import 'package:his/features/profile/data/repo/delete_user_repo.dart';
 import 'package:his/features/profile/data/repo/edit_profile_repo.dart';
 import 'package:his/features/profile/data/repo/reset_password_repo.dart';
@@ -27,7 +24,9 @@ import 'package:his/features/profile/presentation/view/help_center_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/delete_account_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/logout_widget.dart';
 import 'package:his/features/profile/presentation/view/widgets/user_data_row_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:his/notifications/bloc/notifications_bloc.dart';
+import 'package:his/notifications/bloc/notifications_state.dart';
+import 'package:his/notifications/presentation/notification_page.dart';
 
 import 'profile_user_info.dart';
 
@@ -44,6 +43,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
   void initState() {
     super.initState();
     context.read<GetUserInfoCubit>().getUserInfo();
+    context.read<NotificationCubit>().loadUnreadNotifications();
   }
 
   @override
@@ -249,32 +249,25 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                     },
                   ),
                   const SizedBox(height: 12),
-
-                  BlocListener<NotificationCubit, NotificationState>(
-                    listener: (context, state) {
-                      if (state is NotificationSuccess) {
-                        if (state.notificationList.isNotEmpty) {
-                          context
-                              .read<NotificationsCountProvider>()
-                              .addNotifications(state.notificationList.length);
-                        }
-                      }
-                    },
-                    child: Consumer<NotificationsCountProvider>(
-                      builder: (context, notifier, child) => UserDataRowWidget(
+                  BlocBuilder<NotificationCubit, NotificationState>(
+                    builder: (context, state) {
+                      return UserDataRowWidget(
                         title: 'Notifications',
                         prefixIcon: badges.Badge(
                           position:
                               badges.BadgePosition.topEnd(top: -5, end: -5),
                           badgeContent: Text(
-                            notifier.unreadCount.toString(),
+                            state is UnReadNotificationsSuccess
+                                ? state.data.total.toString()
+                                : '',
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 12),
                           ),
                           badgeStyle: const badges.BadgeStyle(
                             badgeColor: AppColors.primaryColor,
                           ),
-                          showBadge: notifier.unreadCount > 0,
+                          showBadge: state is UnReadNotificationsSuccess &&
+                              state.data.total! > 0,
                           child: Container(
                               padding: const EdgeInsets.all(12),
                               decoration: const ShapeDecoration(
@@ -301,27 +294,136 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => MultiBlocProvider(
-                                providers: [
-                                  BlocProvider.value(
-                                    value: context.read<NotificationCubit>(),
-                                  ),
-                                ],
-                                child: const NotificationView(),
-                              ),
-                              transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) =>
-                                  FadeTransition(
-                                opacity: animation,
-                                child: child,
+                            MaterialPageRoute(
+                              builder: (_) => BlocProvider.value(
+                                value: context.read<NotificationCubit>(),
+                                child: const NotificationsPage(),
                               ),
                             ),
                           );
                         },
-                      ),
-                    ),
-                  ),
+                      );
+                    },
+                  )
+
+                  // BlocBuilder<UnreadCountCubit, int>(
+                  //   builder: (context, count) {
+                  //     return UserDataRowWidget(
+                  //       title: 'Notifications',
+                  //       prefixIcon: badges.Badge(
+                  //         position:
+                  //             badges.BadgePosition.topEnd(top: -5, end: -5),
+                  //         badgeContent: Text(
+                  //           count.toString(),
+                  //           style: const TextStyle(
+                  //               color: Colors.white, fontSize: 12),
+                  //         ),
+                  //         badgeStyle: const badges.BadgeStyle(
+                  //           badgeColor: AppColors.primaryColor,
+                  //         ),
+                  //         showBadge: count > 0,
+                  //         child: Container(
+                  //             padding: const EdgeInsets.all(12),
+                  //             decoration: const ShapeDecoration(
+                  //               color: AppColors.lightPrimaryColor,
+                  //               shape: RoundedRectangleBorder(
+                  //                 borderRadius:
+                  //                     BorderRadius.all(Radius.circular(8)),
+                  //               ),
+                  //             ),
+                  //             child: SizedBox(
+                  //               width: 18,
+                  //               child: AspectRatio(
+                  //                 aspectRatio: 1,
+                  //                 child: SvgPicture.asset(
+                  //                   Assets.assetsImagesNotification,
+                  //                   colorFilter: const ColorFilter.mode(
+                  //                     AppColors.primaryColor,
+                  //                     BlendMode.srcIn,
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             )),
+                  //       ),
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (_) => const NotificationsPage(),
+                  //           ),
+                  //         ).then((_) {
+                  //           // reload count when returning (if needed)
+                  //           context.read<NotificationCubit>().loadNotifications(
+                  //                 refresh: true,
+                  //                 unreadCubit: context.read<UnreadCountCubit>(),
+                  //               );
+                  //         });
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+
+                  // UserDataRowWidget(
+                  //             title: 'Notifications',
+                  //             prefixIcon: badges.Badge(
+                  //               position:
+                  //                   badges.BadgePosition.topEnd(top: -5, end: -5),
+                  //               badgeContent: Text(
+                  //                 notifier.unreadCount.toString(),
+                  //                 style: const TextStyle(
+                  //                     color: Colors.white, fontSize: 12),
+                  //               ),
+                  //               badgeStyle: const badges.BadgeStyle(
+                  //                 badgeColor: AppColors.primaryColor,
+                  //               ),
+                  //               showBadge: notifier.unreadCount > 0,
+                  //               child: Container(
+                  //                   padding: const EdgeInsets.all(12),
+                  //                   decoration: const ShapeDecoration(
+                  //                     color: AppColors.lightPrimaryColor,
+                  //                     shape: RoundedRectangleBorder(
+                  //                       borderRadius:
+                  //                           BorderRadius.all(Radius.circular(8)),
+                  //                     ),
+                  //                   ),
+                  //                   child: SizedBox(
+                  //                     width: 18,
+                  //                     child: AspectRatio(
+                  //                       aspectRatio: 1,
+                  //                       child: SvgPicture.asset(
+                  //                         Assets.assetsImagesNotification,
+                  //                         colorFilter: const ColorFilter.mode(
+                  //                           AppColors.primaryColor,
+                  //                           BlendMode.srcIn,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   )),
+                  //             ),
+                  //             onTap: () {
+                  //               Navigator.push(
+                  //                 context,
+                  //                 PageRouteBuilder(
+                  //                   pageBuilder: (_, __, ___) => MultiBlocProvider(
+                  //                     providers: [
+                  //                       BlocProvider.value(
+                  //                         value: context.read<NotificationCubit>(),
+                  //                       ),
+                  //                     ],
+                  //                     child: const NotificationView(),
+                  //                   ),
+                  //                   transitionsBuilder: (context, animation,
+                  //                           secondaryAnimation, child) =>
+                  //                       FadeTransition(
+                  //                     opacity: animation,
+                  //                     child: child,
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             },
+                  //           ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -41,9 +41,9 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
     yearIndex = 0;
     monthId = widget.categories[0].subcategories!.first.id ?? 0;
     _searchController.addListener(_filterItems);
-    context
-        .read<MediaByCategoryCubit>()
-        .getMediaByCategory(categoryId: monthId, context: context);
+    // context
+    //     .read<MediaByCategoryCubit>()
+    //     .getMediaByCategory(categoryId: monthId, context: context);
   }
 
   void _filterItems() {

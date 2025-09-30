@@ -9,15 +9,17 @@ AppBar buildAppBar(BuildContext context,
     bool showBackButton = true,
     bool centerTitle = true,
     bool isEditAppear = false,
+    void Function()? onTapBack,
     VoidCallback? onTap}) {
   return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
       leading: showBackButton
           ? IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: onTapBack ??
+                  () {
+                    Navigator.pop(context);
+                  },
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
                 color: AppColors.grey,
