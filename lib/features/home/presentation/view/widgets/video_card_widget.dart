@@ -249,7 +249,7 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   height: 24,
                 ),
                 LikesAndCommentsWidget(
-                  isPending: widget.mediaModel.status == 'pending',
+                  isPending: widget.mediaModel.status != 'published',
                   onLikeChanged: (value) {
                     setState(() {
                       if (value) {
@@ -262,7 +262,8 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
                   },
                   mediaId: widget.mediaModel.id!,
                   isLiked: widget.mediaModel.isLiked ?? false,
-                  numberOfComments: widget.mediaModel.status != 'pending'
+                  numberOfComments: widget.mediaModel.status == 'published' ||
+                          widget.mediaModel.status == 'declined'
                       ? widget.mediaModel.commentsCount ?? 0
                       : widget.mediaModel.adminCommentsCount ?? 0,
                   numberOfLikes: likesCount,

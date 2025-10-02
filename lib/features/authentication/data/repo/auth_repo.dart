@@ -107,6 +107,27 @@ class AuthRepo {
     }
   }
 
+  Future<Either<ServerFailure, String>> forgetPassword(
+      {required String email}) async {
+    try {
+      var data = await apiServices.postMethodWithToken(
+        endPoint: ApiEndpoints.forgetPassword,
+        data: {
+          ApiEndpoints.email: email,
+        },
+      );
+      if (data["success"] == false) {
+        return left(ServerFailure(errMesage: data["message"]));
+      } else {
+        return right(data["message"]);
+      }
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+    }
+  }
+
   // Future<Either<ServerFailure, UserData>> signInWithApple() async {
   //   try {
   //     User user = await firebaseAuthServices.signInWithApple();

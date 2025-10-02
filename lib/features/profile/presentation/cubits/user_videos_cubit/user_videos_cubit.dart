@@ -15,15 +15,15 @@ class UserVideosCubit extends Cubit<UserVideosState> {
     if (isClosed) return;
     result.fold(
         (failure) => emit(GetUserVideosFailure(errMessage: failure.errMesage)),
-        (success) => emit(GetUserVideosSuccess(mediaList: success)));
+        (success) => emit(GetUserVideosSuccess(mediaMap: success)));
   }
 
-  Future<void> userPendingVideos() async {
-    emit(GetPendingLoading());
-    final result = await userVideosRepo.userVideosPending();
-    if (isClosed) return;
-    result.fold(
-        (failure) => emit(GetPendingFailure(errMessage: failure.errMesage)),
-        (success) => emit(GetPendingSuccess(mediaList: success)));
-  }
+  // Future<void> userPendingVideos() async {
+  //   emit(GetPendingLoading());
+  //   final result = await userVideosRepo.userVideosPending();
+  //   if (isClosed) return;
+  //   result.fold(
+  //       (failure) => emit(GetPendingFailure(errMessage: failure.errMesage)),
+  //       (success) => emit(GetPendingSuccess(mediaList: success)));
+  // }
 }

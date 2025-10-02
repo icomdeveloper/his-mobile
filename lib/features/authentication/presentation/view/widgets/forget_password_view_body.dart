@@ -3,34 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:his/constants.dart';
 import 'package:his/core/helpers/auth_vaildation.dart';
-import 'package:his/core/helpers/nav_bar_visibility_provider.dart';
-import 'package:his/core/services/shared_preferences.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
 import 'package:his/core/widgets/custom_text_button.dart';
 import 'package:his/core/widgets/show_custom_snack_bar.dart';
 import 'package:his/features/authentication/presentation/cubits/auth_Cubit/auth_cubit.dart';
-import 'package:his/features/authentication/presentation/view/forget_password_view.dart';
+import 'package:his/features/authentication/presentation/view/login_view.dart';
 import 'package:his/features/authentication/presentation/view/register_view.dart';
 import 'package:his/features/authentication/presentation/view/widgets/authentication_text_form_field.dart';
-import 'package:his/features/main_screen/presentation/view/main_view.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class LoginViewBody extends StatefulWidget {
-  const LoginViewBody({super.key});
+class ForgetPasswordViewBody extends StatefulWidget {
+  const ForgetPasswordViewBody({super.key});
 
   @override
-  State<LoginViewBody> createState() => _LoginViewBodyState();
+  State<ForgetPasswordViewBody> createState() => _ForgetPasswordViewBodyState();
 }
 
-class _LoginViewBodyState extends State<LoginViewBody> {
+class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  bool isPasswordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +40,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 100.h),
                 SizedBox(
                     width: 98.2.w,
                     child: AspectRatio(
@@ -58,7 +52,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 320.w),
-                  child: GradientText('Sign in to your account , Login Now !',
+                  child: GradientText('Forgot password',
                       style: Styles.semiBoldPoppins24,
                       gradientType: GradientType.linear,
                       stops: const [
@@ -76,7 +70,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 268.w),
                   child: Text(
-                    'Log in to stay connected and explore expert videos and articles ',
+                    'Please enter your email to reset the password',
                     style:
                         Styles.regularPoppins12.copyWith(color: AppColors.grey),
                   ),
@@ -84,123 +78,59 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 const SizedBox(
                   height: 32,
                 ),
-                const Text('Email Address / Phone Number',
-                    style: Styles.semiBoldPoppins12),
+                const Text('Email Address', style: Styles.semiBoldPoppins12),
                 const SizedBox(
                   height: 4,
                 ),
                 AuthenticationTextFormField(
                   validator: (email) {
                     if (email == null || email.isEmpty) {
-                      return 'Please enter an email address or phone number';
-                    } else if (isValidEmail(email) ||
-                        isValidPhoneNumber(email)) {
+                      return 'Please enter an email address';
+                    } else if (isValidEmail(email)) {
                       return null;
                     } else {
-                      return 'Please enter a valid email address or phone number';
+                      return 'Please enter a valid email address';
                     }
                   },
                   prefixIcon: SvgPicture.asset(
                     Assets.assetsImagesProfile,
                   ),
                   controller: context.read<AuthCubit>().emailController,
-                  hintText: 'Email Address / Phone Number',
+                  hintText: 'Enter your email',
                   textInputType: TextInputType.emailAddress,
                 ),
-                const SizedBox(
-                  height: 14,
-                ),
-                const Text(
-                  'password',
-                  style: Styles.semiBoldPoppins12,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                AuthenticationTextFormField(
-                    validator: (password) {
-                      if (password == null || password.isEmpty) {
-                        return 'Please enter your password';
-                      } else {
-                        return null;
-                      }
-                    },
-                    prefixIcon: SvgPicture.asset(Assets.assetsImagesPassword),
-                    controller: context.read<AuthCubit>().passwordController,
-                    hintText: 'Password',
-                    textInputType: TextInputType.visiblePassword,
-                    obscureText: isPasswordVisible,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                      icon: isPasswordVisible
-                          ? const Icon(
-                              Icons.visibility_off_outlined,
-                              size: 18,
-                            )
-                          : const Icon(
-                              Icons.visibility_outlined,
-                              size: 18,
-                            ),
-                    )),
-                SizedBox(height: 4.h),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(PageRouteBuilder(
-                          pageBuilder: (_, __, ___) =>
-                              const ForgetPasswordView(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) =>
-                                  FadeTransition(
-                                      opacity: animation, child: child)));
-                    },
-                    child: Text(
-                      'Forgot Password?',
-                      style: Styles.semiBoldPoppins12.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-                ),
+
                 const SizedBox(
                   height: 26,
                 ),
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
-                    if (state is LoginFailure) {
+                    if (state is ForgetPasswordFailure) {
                       showCustomSnackBar(
                           message: state.message, context: context);
                     }
-                    if (state is LoginSuccess) {
-                      Prefs.setBool(PrefsKeys.isLoggedIn, true);
-                      Provider.of<NavBarVisibilityProvider>(context,
-                              listen: false)
-                          .show();
-                      Navigator.pushReplacementNamed(
-                        context,
-                        MainView.routeName,
-                      );
+                    if (state is ForgetPasswordSuccess) {
+                      showCustomSnackBar(
+                          message: state.message,
+                          context: context,
+                          backgroundColor: const Color(0xFF0F8737));
+
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const LoginView()));
                     }
                   },
                   builder: (context, state) {
-                    return state is LoginLoading
+                    return state is ForgetPasswordLoading
                         ? const Center(
                             child: CircularProgressIndicator(
                             color: AppColors.primaryColor,
                           ))
                         : CustomTextButton(
-                            text: 'Log in',
+                            text: 'Reset Password',
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 formKey.currentState!.save();
-                                context
-                                    .read<AuthCubit>()
-                                    .loginWithEmailAndPassword();
+                                context.read<AuthCubit>().forgetPassword();
                               } else {
                                 autovalidateMode = AutovalidateMode.always;
                                 setState(() {});
