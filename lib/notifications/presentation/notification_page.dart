@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/notifications/bloc/notifications_bloc.dart';
 import 'package:his/notifications/bloc/notifications_state.dart';
@@ -41,7 +42,13 @@ class NotificationsPage extends StatelessWidget {
                 : (state is NotificationLoading
                     ? state.oldData
                     : (state as NotificationError).oldData);
-
+            if (notifications.isEmpty) {
+              return const Center(
+                  child: Text(
+                'You have No Notifications Yet',
+                style: Styles.semiBoldPoppins16,
+              ));
+            }
             return ListView.builder(
               itemCount: notifications.length +
                   (state is NotificationLoaded && state.hasMore ? 1 : 0),

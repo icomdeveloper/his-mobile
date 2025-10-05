@@ -9,6 +9,7 @@ import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/images_format.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -78,7 +79,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(
-                        imageUrl: userInformation.profileImage!,
+                        imageUrl: formatImageUrl(
+                            userInformation.profileImage ?? avatarImage),
                         placeholder: (context, url) =>
                             const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
@@ -91,8 +93,9 @@ class _CommentWidgetState extends State<CommentWidget> {
               }
             },
             child: CircleAvatar(
+              backgroundColor: Colors.grey.shade200,
               backgroundImage: CachedNetworkImageProvider(
-                userInformation.profileImage ?? avatarImage,
+                formatImageUrl(userInformation.profileImage ?? avatarImage),
               ),
               radius: 20.r,
             ),

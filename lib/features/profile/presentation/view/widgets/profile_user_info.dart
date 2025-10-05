@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/images_format.dart';
 import 'package:his/core/helpers/platformFile_to_file.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -86,9 +87,9 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
                                       child: CachedNetworkImage(
-                                        imageUrl: getUserData()
+                                        imageUrl: formatImageUrl(getUserData()
                                             .userInfo!
-                                            .profileImage!,
+                                            .profileImage!),
                                         errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),
                                         fit: BoxFit.cover,
@@ -136,9 +137,12 @@ class _ProfileUserInfoState extends State<ProfileUserInfo> {
                                   )
                                 : CircleAvatar(
                                     radius: 26.r,
-                                    backgroundColor: Colors.white,
-                                    backgroundImage: NetworkImage(
-                                        getUserData().userInfo!.profileImage!),
+                                    backgroundColor: Colors.grey.shade200,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      formatImageUrl(getUserData()
+                                          .userInfo!
+                                          .profileImage!),
+                                    ),
                                   ),
                           )
                         : InkWell(

@@ -28,14 +28,12 @@ class _BookmarksViewBodyState extends State<BookmarksViewBody> {
   @override
   initState() {
     super.initState();
-    BlocProvider.of<GetBookmarksCubit>(context)
-        .getBookmarksVideos(context: context);
 
     _searchController.addListener(_filterItems);
   }
 
   void _filterItems() {
-    String query = _searchController.text.toLowerCase();
+    String query = _searchController.text.trim().toLowerCase();
     setState(() {
       filteredMediaList = mediaList.where((item) {
         return item.title!.toLowerCase().contains(query);
