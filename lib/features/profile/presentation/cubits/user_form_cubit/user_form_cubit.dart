@@ -9,9 +9,9 @@ class UserFormCubit extends Cubit<UserFormState> {
   UserFormCubit(this.userVideosRepo) : super(UserFormInitial());
   final UserVideosRepo userVideosRepo;
 
-  Future<void> getUserForm() async {
+  Future<void> getUserForm({required String id}) async {
     emit(UserFormLoading());
-    final result = await userVideosRepo.userForm();
+    final result = await userVideosRepo.userForm(id: id);
     result.fold((l) => emit(UserFormFailure(errMesage: l.errMesage)),
         (r) => emit(UserFormSuccess(userFormModel: r)));
   }

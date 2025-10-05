@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:his/core/helpers/convert_drive_files.dart';
+import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -27,6 +29,9 @@ import 'package:his/features/category/presentation/view/widgets/pdf_view.dart';
 import 'package:his/features/category/presentation/view/widgets/show_image_widget.dart';
 import 'package:his/features/home/data/models/comments_model/comments_model.dart';
 import 'package:his/features/home/presentation/view/widgets/likes_and_comment_widget.dart';
+import 'package:his/features/profile/data/repo/user_videos_repo.dart';
+import 'package:his/features/profile/presentation/cubits/user_form_cubit/user_form_cubit.dart';
+import 'package:his/features/profile/presentation/view/form_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/edit_video_view_body.dart';
 import 'package:video_player/video_player.dart';
 
@@ -338,6 +343,44 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   thickness: 1,
                     //   height: 24,
                     // ),
+                    if (widget.mediaModel?.formId != null ||
+                        widget.mediaModel?.userId == getUserData().userInfo?.id)
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => BlocProvider(
+                                          create: (context) => UserFormCubit(
+                                              getIt<UserVideosRepo>())
+                                            ..getUserForm(
+                                                id: widget.mediaModel!.formId ??
+                                                    ''), // pass user id
+                                          child: FormView(
+                                              formId:
+                                                  widget.mediaModel!.formId ??
+                                                      ''),
+                                        ),
+                                    transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) =>
+                                        FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        )));
+                          },
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24.w, vertical: 10.h),
+                              backgroundColor: AppColors.lightPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.r)))),
+                          child: Text(
+                            'Show form',
+                            style: Styles.semiBoldPoppins14
+                                .copyWith(color: AppColors.primaryColor),
+                          )),
+                    const SizedBox(height: 12),
                     LikesAndCommentsWidget(
                       isPending: widget.mediaModel!.status != 'published',
                       isLiked: widget.mediaModel!.isLiked,

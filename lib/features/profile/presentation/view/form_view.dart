@@ -12,8 +12,8 @@ import 'package:his/features/profile/presentation/view/widgets/author_info.dart'
 import 'package:his/features/profile/presentation/view/widgets/form_item.dart';
 
 class FormView extends StatelessWidget {
-  const FormView({super.key});
-
+  const FormView({super.key, required this.formId});
+  final String formId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,9 @@ class FormView extends StatelessWidget {
                 return Center(
                     child: CustomErrorWidget(
                   errorMessage: state.errMesage,
-                  onTap: () => context.read<UserFormCubit>().getUserForm(),
+                  onTap: () {
+                    context.read<UserFormCubit>().getUserForm(id: formId);
+                  },
                 ));
               }
 

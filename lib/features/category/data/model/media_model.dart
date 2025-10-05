@@ -8,6 +8,8 @@ class MediaModel {
   String? filePath;
   String? pdf;
   String? thumbnailPath;
+  String? formId;
+  String? serialNumber;
   String? mention;
   dynamic assignedTo;
   bool? isFavorite;
@@ -43,6 +45,8 @@ class MediaModel {
     this.isFavorite,
     this.createdAt,
     this.updatedAt,
+    this.formId,
+    this.serialNumber,
     this.duration,
     this.commentsCount,
     this.adminCommentsCount,
@@ -59,6 +63,8 @@ class MediaModel {
         description: json['description'] as String?,
         filePath: json['file_path'] as String?,
         pdf: json['pdf'] as String?,
+        formId: json['form_id'] as String?,
+        serialNumber: json['serial_number'] as String?,
         duration: json['duration'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
         assignedTo: json['assigned_to'] as dynamic,
@@ -88,6 +94,8 @@ class MediaModel {
         filePath: json['file_path'] as String?,
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
+        formId: json['form_id'] as String?,
+        serialNumber: json['serial_number'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
         assignedTo: json['assigned_to'] as dynamic,
         mention: json['mention'] as String?,
@@ -115,6 +123,8 @@ class MediaModel {
         description: json['description'] as String?,
         filePath: json['file_path'] as String?,
         isLiked: json['is_liked'] as bool?,
+        formId: json['form_id'] as String?,
+        serialNumber: json['serial_number'] as String?,
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
@@ -146,6 +156,8 @@ class MediaModel {
         'pdf': pdf,
         'duration': duration,
         'thumbnail_path': thumbnailPath,
+        'form_id': formId,
+        'serial_number': serialNumber,
         'is_liked': isLiked,
         'image_path': image,
         'comments_count': commentsCount,
@@ -170,6 +182,8 @@ class MediaModel {
         views: mediaModel.views,
         description: mediaModel.description,
         assignedTo: mediaModel.assignedTo,
+        formId: mediaModel.formId,
+        serialNumber: mediaModel.serialNumber,
         mention: mediaModel.mention,
         isFavorite: mediaModel.isFavorite,
         filePath: mediaModel.filePath,

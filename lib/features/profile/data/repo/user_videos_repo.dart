@@ -91,10 +91,10 @@ class UserVideosRepo {
   //   }
   // }
 
-  Future<Either<Failure, UserFormModel>> userForm() async {
+  Future<Either<Failure, UserFormModel>> userForm({required String id}) async {
     try {
       final data = await apiServices.getMethod(
-          endPoint: '${ApiEndpoints.userForms}/${getUserData().userInfo!.id}',
+          endPoint: '${ApiEndpoints.userForms}/$id',
           token: getUserData().token);
       return Right(UserFormModel.fromJson(data));
     } on DioException catch (e) {
