@@ -16,6 +16,7 @@ class NotificationsRepo {
   NotificationsRepo({required this.apiServices});
 
   Future<dynamic> sendFCMToken() async {
+    print("getUserData().token) = ${getUserData().token}");
     final response = await apiServices.postMethodWithToken(
         endPoint: ApiEndpoints.notificationsFcmToken,
         data: {ApiEndpoints.fcmToken: Prefs.getString(PrefsKeys.fcmToken)},
