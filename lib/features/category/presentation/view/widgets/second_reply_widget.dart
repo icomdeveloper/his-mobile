@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/helpers/dummy_media.dart';
+import 'package:his/core/helpers/images_format.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/authentication/data/models/user_data/user_information.dart';
 import 'package:his/features/home/data/models/comments_model/reply_model.dart';
@@ -59,8 +60,8 @@ class _SecondReplyWidgetState extends State<SecondReplyWidget> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            widget.reply.user?.profileImage ?? avatarImage,
+                        imageUrl: formatImageUrl(
+                            userInformation.profileImage ?? avatarImage),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         fit: BoxFit.cover,
@@ -71,8 +72,9 @@ class _SecondReplyWidgetState extends State<SecondReplyWidget> {
               }
             },
             child: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(
-                  widget.reply.user?.profileImage ?? avatarImage),
+              backgroundColor: Colors.grey.shade200,
+              backgroundImage: CachedNetworkImageProvider(formatImageUrl(
+                  widget.reply.user?.profileImage ?? avatarImage)),
               radius: 12.r,
             ),
           ),

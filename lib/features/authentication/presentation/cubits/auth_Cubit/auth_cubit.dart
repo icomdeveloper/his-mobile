@@ -92,6 +92,15 @@ class AuthCubit extends Cubit<AuthState> {
         (success) => emit(RegisterSuccess(registerSuccessModel: success)));
   }
 
+  Future<void> forgetPassword() async {
+    emit(ForgetPasswordLoading());
+    var result = await authRepo.forgetPassword(email: emailController.text);
+    if (isClosed) return;
+    result.fold(
+        (error) => emit(ForgetPasswordFailure(message: error.errMesage)),
+        (success) => emit(ForgetPasswordSuccess(message: success)));
+  }
+
   Future<void> signInWithGoogle() async {
     emit(LoginLoading());
     var result = await authRepo.signInWithGoogle();

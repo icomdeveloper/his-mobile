@@ -4,8 +4,8 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/features/category/data/model/media_model.dart';
 import 'package:his/features/profile/presentation/view/widgets/pending_video_widget.dart';
 
-class PendingTabBar extends StatelessWidget {
-  const PendingTabBar({super.key, required this.mediaList});
+class DeclinedTabBar extends StatelessWidget {
+  const DeclinedTabBar({super.key, required this.mediaList});
   final List<MediaModel> mediaList;
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,14 @@ class PendingTabBar extends StatelessWidget {
           const SliverToBoxAdapter(
             child: Center(
               child: Text(
-                'You have no pending videos',
+                'You have no Declined videos',
                 style: Styles.semiBoldPoppins14,
               ),
             ),
           ),
         PendingVideosSliverList(
           mediaList: mediaList,
+          isIconAppear: false,
         )
       ],
     );

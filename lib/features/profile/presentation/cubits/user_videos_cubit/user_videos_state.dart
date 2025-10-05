@@ -5,21 +5,9 @@ sealed class UserVideosState {}
 
 final class UserVideosInitial extends UserVideosState {}
 
-final class GetPendingSuccess extends UserVideosState {
-  final List<MediaModel> mediaList;
-  GetPendingSuccess({required this.mediaList});
-}
-
-final class GetPendingFailure extends UserVideosState {
-  final String errMessage;
-  GetPendingFailure({required this.errMessage});
-}
-
-final class GetPendingLoading extends UserVideosState {}
-
 final class GetUserVideosSuccess extends UserVideosState {
-  final List<MediaModel> mediaList;
-  GetUserVideosSuccess({required this.mediaList});
+  final Map<String, List<MediaModel>> mediaMap;
+  GetUserVideosSuccess({required this.mediaMap});
 }
 
 final class GetUserVideosFailure extends UserVideosState {

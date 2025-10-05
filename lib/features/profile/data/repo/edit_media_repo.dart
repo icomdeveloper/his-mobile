@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:his/core/errors/failure.dart';
+import 'package:his/core/helpers/get_user_data.dart';
 import 'package:his/core/services/api_services.dart';
 import 'package:his/core/utils/api_endpoints.dart';
 import 'package:his/features/profile/data/model/edit_media_model.dart';
@@ -56,8 +57,11 @@ class EditMediaRepo {
         ));
       }
 
-      final data = await apiServices.postMethod(
-          endPoint: ApiEndpoints.editMedia, data: formData, isFormData: true);
+      final data = await apiServices.postMethodWithToken(
+        token: getUserData().token,
+        endPoint: ApiEndpoints.editMedia,
+        data: formData,
+      );
       return right(data['message']);
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));

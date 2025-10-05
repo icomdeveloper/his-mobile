@@ -10,8 +10,10 @@ class PendingVideosSliverList extends StatelessWidget {
   const PendingVideosSliverList({
     super.key,
     required this.mediaList,
+    this.isIconAppear = true,
   });
   final List<MediaModel> mediaList;
+  final bool isIconAppear;
   @override
   Widget build(BuildContext context) {
     return SliverList.separated(
@@ -19,19 +21,24 @@ class PendingVideosSliverList extends StatelessWidget {
         itemCount: mediaList.length,
         itemBuilder: (context, index) => VideoCardWidget(
               mediaModel: mediaList[index],
-              onIconTap: () {
-                showModalBottomSheet(
-                    showDragHandle: true,
-                    isScrollControlled: true,
-                    context: context,
-                    backgroundColor: Colors.white,
-                    builder: (context) => const PendingVideoBottomSheet());
-              },
-              topRightIcon: SvgPicture.asset(
-                Assets.assetsImagesInfo,
-                colorFilter: const ColorFilter.mode(
-                    AppColors.primaryColor, BlendMode.srcIn),
-              ),
+              onIconTap: isIconAppear
+                  ? () {
+                      showModalBottomSheet(
+                          showDragHandle: true,
+                          isScrollControlled: true,
+                          context: context,
+                          backgroundColor: Colors.white,
+                          builder: (context) =>
+                              const PendingVideoBottomSheet());
+                    }
+                  : null,
+              topRightIcon: isIconAppear
+                  ? SvgPicture.asset(
+                      Assets.assetsImagesInfo,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.primaryColor, BlendMode.srcIn),
+                    )
+                  : const SizedBox.shrink(),
               isDescriptionAppeared: false,
             ));
   }

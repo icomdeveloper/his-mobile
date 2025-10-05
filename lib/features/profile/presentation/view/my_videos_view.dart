@@ -7,6 +7,7 @@ import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/widgets/build_app_bar.dart';
 import 'package:his/features/profile/data/repo/user_videos_repo.dart';
 import 'package:his/features/profile/presentation/cubits/user_form_cubit/user_form_cubit.dart';
+import 'package:his/features/profile/presentation/cubits/user_videos_cubit/user_videos_cubit.dart';
 import 'package:his/features/profile/presentation/view/form_view.dart';
 import 'package:his/features/profile/presentation/view/widgets/my_videos_view_body.dart';
 
@@ -49,7 +50,10 @@ class MyVideosView extends StatelessWidget {
           },
         ),
       ),
-      body: const MyVideosViewBody(),
+      body: BlocProvider(
+        create: (context) => UserVideosCubit(getIt<UserVideosRepo>()),
+        child: const MyVideosViewBody(),
+      ),
     );
   }
 }

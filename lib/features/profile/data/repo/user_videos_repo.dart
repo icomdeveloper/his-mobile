@@ -12,38 +12,37 @@ class UserVideosRepo {
 
   UserVideosRepo({required this.apiServices});
 
-  Future<Either<Failure, List<MediaModel>>> userVideosPending() async {
+  Future<Either<Failure, Map<String, List<MediaModel>>>> userVideos() async {
     try {
       final data = await apiServices.getMethod(
-          endPoint: ApiEndpoints.userVideos,
+          endPoint: ApiEndpoints.newUserVideos,
           // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
           token: getUserData().token);
       Map<String, dynamic> mediaData = data['data'];
-      List<dynamic> pendingMediaData = mediaData['pending'];
-      if (pendingMediaData[0] is List) return const Right([]);
+      List<dynamic> pendingMediaData = mediaData['pending'][0];
+      List<dynamic> publishedMediaData = mediaData['published'][0];
+      List<dynamic> inReviewMediaData = mediaData['in_review'][0];
+      List<dynamic> inReviseMediaData = mediaData['revise'][0];
+      List<dynamic> declinedMediaData = mediaData['declined'][0];
 
-      List<MediaModel> list =
+      List<MediaModel> pendingList =
           pendingMediaData.map((e) => MediaModel.fromJson(e)).toList();
-      return right(list);
-    } on DioException catch (e) {
-      return left(ServerFailure.fromDioException(e));
-    } catch (e) {
-      return left(ServerFailure(errMesage: 'Something went wrong , try again'));
-    }
-  }
-
-  Future<Either<Failure, List<MediaModel>>> userVideos() async {
-    try {
-      final data = await apiServices.getMethod(
-          endPoint: ApiEndpoints.userVideos,
-          // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
-          token: getUserData().token);
-      Map<String, dynamic> mediaData = data['data'];
-      List<dynamic> publishedMediaData = mediaData['published'];
-      if (publishedMediaData[0] is List) return const Right([]);
-
-      List<MediaModel> list =
+      List<MediaModel> publishedList =
           publishedMediaData.map((e) => MediaModel.fromJson(e)).toList();
+      List<MediaModel> inReviewList =
+          inReviewMediaData.map((e) => MediaModel.fromJson(e)).toList();
+      List<MediaModel> inReviseList =
+          inReviseMediaData.map((e) => MediaModel.fromJson(e)).toList();
+      List<MediaModel> declinedList =
+          declinedMediaData.map((e) => MediaModel.fromJson(e)).toList();
+
+      Map<String, List<MediaModel>> list = {
+        'pending': pendingList,
+        'published': publishedList,
+        'in_review': inReviewList,
+        'revise': inReviseList,
+        'declined': declinedList,
+      };
       return right(list);
     } on DioException catch (e) {
       return left(ServerFailure.fromDioException(e));
@@ -51,6 +50,46 @@ class UserVideosRepo {
       return left(ServerFailure(errMesage: 'Something went wrong , try again'));
     }
   }
+
+  // Future<Either<Failure, List<MediaModel>>> userVideosPending() async {
+  //   try {
+  //     final data = await apiServices.getMethod(
+  //         endPoint: ApiEndpoints.userVideos,
+  //         // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
+  //         token: getUserData().token);
+  //     Map<String, dynamic> mediaData = data['data'];
+  //     List<dynamic> pendingMediaData = mediaData['pending'];
+  //     if (pendingMediaData[0] is List) return const Right([]);
+
+  //     List<MediaModel> list =
+  //         pendingMediaData.map((e) => MediaModel.fromJson(e)).toList();
+  //     return right(list);
+  //   } on DioException catch (e) {
+  //     return left(ServerFailure.fromDioException(e));
+  //   } catch (e) {
+  //     return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+  //   }
+  // }
+
+  // Future<Either<Failure, List<MediaModel>>> userVideos() async {
+  //   try {
+  //     final data = await apiServices.getMethod(
+  //         endPoint: ApiEndpoints.userVideos,
+  //         // data: {ApiEndpoints.userId: getUserData().userInfo!.id},
+  //         token: getUserData().token);
+  //     Map<String, dynamic> mediaData = data['data'];
+  //     List<dynamic> publishedMediaData = mediaData['published'];
+  //     if (publishedMediaData[0] is List) return const Right([]);
+
+  //     List<MediaModel> list =
+  //         publishedMediaData.map((e) => MediaModel.fromJson(e)).toList();
+  //     return right(list);
+  //   } on DioException catch (e) {
+  //     return left(ServerFailure.fromDioException(e));
+  //   } catch (e) {
+  //     return left(ServerFailure(errMesage: 'Something went wrong , try again'));
+  //   }
+  // }
 
   Future<Either<Failure, UserFormModel>> userForm() async {
     try {

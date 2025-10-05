@@ -48,7 +48,7 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
   }
 
   void _filterItems() {
-    String query = _searchController.text.toLowerCase();
+    String query = _searchController.text.trim().toLowerCase();
     setState(() {
       filteredMediaList = mediaList.where((item) {
         return item.title!.toLowerCase().contains(query);
@@ -106,6 +106,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                           monthId =
                               widget.categories[value].subcategories![0].id ??
                                   0;
+                          _searchController.clear();
+                          filteredMediaList = null;
                         });
                       } else {
                         setState(() {
@@ -117,6 +119,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                           monthListIndex = 0;
                           selectedMonth = widget.categories[value]
                               .subcategories![monthListIndex].name!;
+                          _searchController.clear();
+                          filteredMediaList = null;
                         });
                       }
                       log(selectedYear);
@@ -145,6 +149,8 @@ class _CategoryViewBodyState extends State<CategoryViewBody> {
                         monthId = widget
                             .categories[yearIndex].subcategories![value].id!;
                         monthListIndex = value;
+                        _searchController.clear();
+                        filteredMediaList = null;
                       });
                       context.read<MediaByCategoryCubit>().getMediaByCategory(
                           categoryId: monthId, context: context);

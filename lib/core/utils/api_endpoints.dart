@@ -64,6 +64,7 @@ abstract class ApiEndpoints {
   static const String viewscount = 'viewscount';
   static const String userArticles = 'user_articles';
   static const String userVideos = 'user_media';
+  static const String newUserVideos = 'user_media_web';
   static const String updateProfileImage = 'updateProfileImage';
 
   static const String mediaDetails = 'media_details';
@@ -97,4 +98,5 @@ abstract class ApiEndpoints {
   static const String deleteComment = "delete/comment";
   static const String commentId = "comment_id";
   static const String userForms = "user-forms";
+  static const String forgetPassword = "password/email";
 }

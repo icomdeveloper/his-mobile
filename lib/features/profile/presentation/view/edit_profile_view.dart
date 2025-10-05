@@ -262,7 +262,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                                     : Text(
                                         context
                                             .read<EditProfileCubit>()
-                                            .yearOfGraduation!,
+                                            .yearOfGraduation!
+                                            .split(' ')[0],
                                         style: Styles.semiBoldPoppins12),
                               ),
                             ),

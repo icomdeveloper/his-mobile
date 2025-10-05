@@ -36,3 +36,17 @@ final class RegisterFailure extends AuthState {
 
   RegisterFailure({required this.message});
 }
+
+final class ForgetPasswordLoading extends AuthState {}
+
+final class ForgetPasswordSuccess extends AuthState {
+  final String message;
+
+  ForgetPasswordSuccess({required this.message});
+}
+
+final class ForgetPasswordFailure extends AuthState {
+  final String message;
+
+  ForgetPasswordFailure({required this.message});
+}

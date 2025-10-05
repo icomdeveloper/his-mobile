@@ -9,6 +9,7 @@ import 'package:his/constants.dart';
 import 'package:his/core/helpers/calculate_time_ago.dart';
 import 'package:his/core/helpers/dummy_media.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/images_format.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_text_styles.dart';
 import 'package:his/core/utils/assets.dart';
@@ -83,8 +84,9 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            widget.reply.user?.profileImage ?? avatarImage,
+                        imageUrl: formatImageUrl(
+                          widget.reply.user?.profileImage ?? avatarImage,
+                        ),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         fit: BoxFit.cover,
@@ -95,8 +97,9 @@ class _ReplyWidgetState extends State<ReplyWidget> {
               }
             },
             child: CircleAvatar(
+              backgroundColor: Colors.grey.shade200,
               backgroundImage: CachedNetworkImageProvider(
-                  widget.reply.user?.profileImage ?? avatarImage),
+                  formatImageUrl(userInformation.profileImage ?? avatarImage)),
               radius: 12.r,
             ),
           ),

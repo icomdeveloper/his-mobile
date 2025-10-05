@@ -142,10 +142,13 @@ class _VideoWidgetState extends State<VideoWidget> {
                                   initChewieController();
                                   widget.isEdit
                                       ? null
-                                      : context
-                                          .read<ViewsCubit>()
-                                          .incrementViews(
-                                              mediaId: widget.mediaModel!.id!);
+                                      : widget.mediaModel!.status == 'published'
+                                          ? context
+                                              .read<ViewsCubit>()
+                                              .incrementViews(
+                                                  mediaId:
+                                                      widget.mediaModel!.id!)
+                                          : null;
                                   setState(() {
                                     started = true;
                                   });
@@ -336,7 +339,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   height: 24,
                     // ),
                     LikesAndCommentsWidget(
-                      isPending: widget.mediaModel!.status == 'pending',
+                      isPending: widget.mediaModel!.status != 'published',
                       isLiked: widget.mediaModel!.isLiked,
                       mediaId: widget.mediaModel!.id!,
                       numberOfComments: commentsCount,
