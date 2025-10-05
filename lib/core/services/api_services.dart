@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ApiServices {
-  String baseUrl = 'https://his.mc-apps.org/api/';
+  String baseUrl = 'https://admin.hypospadias-journals.com/api/';
   final Dio dio;
 
   ApiServices({required this.dio});
