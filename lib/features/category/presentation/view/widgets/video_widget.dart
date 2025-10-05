@@ -343,7 +343,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                     //   thickness: 1,
                     //   height: 24,
                     // ),
-                    if (widget.mediaModel?.formId != null ||
+                    if (widget.mediaModel?.formId != null &&
                         widget.mediaModel?.userId == getUserData().userInfo?.id)
                       TextButton(
                           onPressed: () {
