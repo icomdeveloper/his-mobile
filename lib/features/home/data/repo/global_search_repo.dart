@@ -23,7 +23,7 @@ class GlobalSearchRepo {
           token: getUserData().token);
       // String type = data['type'];
       // if (type == 'media') {
-      List<dynamic> dataList = data['data'];
+      List<dynamic> dataList = data['data'][0];
       List<MediaModel> mediaList =
           dataList.map((e) => MediaModel.fromJson(e)).toList();
       return Right(mediaList);
