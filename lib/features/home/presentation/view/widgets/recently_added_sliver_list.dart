@@ -8,7 +8,9 @@ class RecentlyAddedSliverList extends StatelessWidget {
   final List<MediaModel> recentlyAdded;
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(
+    return SliverList.separated(
+      separatorBuilder: (context, index) =>
+          const Divider(color: Color(0xFFEEEEEE), thickness: 2),
       itemCount: recentlyAdded.length,
       itemBuilder: (_, index) => RecentlyAddedWidget(
         mediaModel: recentlyAdded[index],

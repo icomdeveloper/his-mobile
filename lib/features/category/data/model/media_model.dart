@@ -1,3 +1,5 @@
+import 'package:his/features/authentication/data/models/user_data/user_information.dart';
+
 class MediaModel {
   int? id;
   int? categoryId;
@@ -10,6 +12,7 @@ class MediaModel {
   String? thumbnailPath;
   String? formId;
   String? serialNumber;
+  UserInformation? user;
   String? mention;
   dynamic assignedTo;
   bool? isFavorite;
@@ -37,6 +40,7 @@ class MediaModel {
     this.filePath,
     this.pdf,
     this.thumbnailPath,
+    this.user,
     this.status,
     this.isFeatured,
     this.isLiked,
@@ -65,6 +69,9 @@ class MediaModel {
         pdf: json['pdf'] as String?,
         formId: json['form_id'] as String?,
         serialNumber: json['serial_number'] as String?,
+        user: json['user'] == null
+            ? null
+            : UserInformation.fromJson(json['user'] as Map<String, dynamic>),
         duration: json['duration'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
         assignedTo: json['assigned_to'] as dynamic,
@@ -94,6 +101,9 @@ class MediaModel {
         filePath: json['file_path'] as String?,
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
+        user: json['user'] == null
+            ? null
+            : UserInformation.fromJson(json['user'] as Map<String, dynamic>),
         formId: json['form_id'] as String?,
         serialNumber: json['serial_number'] as String?,
         thumbnailPath: json['thumbnail_path'] as String,
@@ -124,6 +134,9 @@ class MediaModel {
         filePath: json['file_path'] as String?,
         isLiked: json['is_liked'] as bool?,
         formId: json['form_id'] as String?,
+        user: json['user'] == null
+            ? null
+            : UserInformation.fromJson(json['user'] as Map<String, dynamic>),
         serialNumber: json['serial_number'] as String?,
         pdf: json['pdf'] as String?,
         duration: json['duration'] as String?,
@@ -156,6 +169,7 @@ class MediaModel {
         'pdf': pdf,
         'duration': duration,
         'thumbnail_path': thumbnailPath,
+        'user': user?.toJson(),
         'form_id': formId,
         'serial_number': serialNumber,
         'is_liked': isLiked,
@@ -178,6 +192,7 @@ class MediaModel {
         title: mediaModel.title,
         commentsCount: mediaModel.commentsCount,
         adminCommentsCount: mediaModel.adminCommentsCount,
+        user: mediaModel.user,
         likesCount: mediaModel.likesCount,
         views: mediaModel.views,
         description: mediaModel.description,

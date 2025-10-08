@@ -2,7 +2,7 @@ String formatImageUrl(String path) {
   const baseUrl = 'https://his.mc-apps.org/';
 
   if (path.startsWith('http')) {
-    return path; // Already a full URL
+    return path; 
   } else {
     return '$baseUrl$path';
   }

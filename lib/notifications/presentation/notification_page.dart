@@ -29,7 +29,9 @@ class NotificationsPage extends StatelessWidget {
             if (state is NotificationInitial ||
                 state is UnReadNotificationsSuccess ||
                 state is UnReadNotificationsFailure) {
-              context.read<NotificationCubit>().loadNotifications();
+              context
+                  .read<NotificationCubit>()
+                  .loadNotifications(refresh: true);
               return const Center(child: CircularProgressIndicator());
             }
 

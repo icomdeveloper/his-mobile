@@ -11,8 +11,10 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:his/constants.dart';
 import 'package:his/core/helpers/convert_drive_files.dart';
 import 'package:his/core/helpers/get_user_data.dart';
+import 'package:his/core/helpers/images_format.dart';
 import 'package:his/core/services/get_it.dart';
 import 'package:his/core/utils/app_colors.dart';
 import 'package:his/core/utils/app_text_styles.dart';
@@ -186,28 +188,32 @@ class _VideoWidgetState extends State<VideoWidget> {
                 )
               : Column(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           showDetails = !showDetails;
                         });
                       },
-                      child: Row(
+                      child: Column(
                         children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 320.w),
-                            child: Text(
-                              widget.mediaModel?.title ?? '',
-                              style: Styles.semiBoldPoppins14,
-                            ),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: AppColors.lightGrey,
-                            radius: 10.r,
-                            child: SvgPicture.asset(showDetails
-                                ? Assets.assetsImagesArrowUp
-                                : Assets.assetsImagesArrowDown),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxWidth: 320.w),
+                                child: Text(
+                                  widget.mediaModel?.title ?? '',
+                                  style: Styles.semiBoldPoppins14,
+                                ),
+                              ),
+                              CircleAvatar(
+                                backgroundColor: AppColors.lightGrey,
+                                radius: 10.r,
+                                child: SvgPicture.asset(showDetails
+                                    ? Assets.assetsImagesArrowUp
+                                    : Assets.assetsImagesArrowDown),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -286,6 +292,59 @@ class _VideoWidgetState extends State<VideoWidget> {
                     const Divider(
                       color: AppColors.lightGrey,
                     ),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (widget.mediaModel?.user?.profileImage != null) {
+                              showDialog(
+                                context: context,
+                                builder: (_) => Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 24.w, vertical: 220.h),
+                                  padding: const EdgeInsets.all(24),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: CachedNetworkImage(
+                                      imageUrl: formatImageUrl(widget
+                                              .mediaModel?.user?.profileImage ??
+                                          avatarImage),
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                              Icons.error_outline_outlined),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColors.lightGrey,
+                            radius: 20.r,
+                            backgroundImage: CachedNetworkImageProvider(
+                              formatImageUrl(
+                                widget.mediaModel?.user?.profileImage ??
+                                    avatarImage,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.h),
+                        Text(
+                          "${widget.mediaModel?.user?.name} ",
+                          style: Styles.semiBoldPoppins12,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4.h),
                     widget.mediaModel?.pdf != null
                         ? InkWell(
                             onTap: () {
@@ -303,13 +362,17 @@ class _VideoWidgetState extends State<VideoWidget> {
                             ),
                           )
                         : const SizedBox.shrink(),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    widget.mediaModel?.pdf != null
+                        ? const SizedBox(
+                            height: 12,
+                          )
+                        : const SizedBox.shrink(),
                     widget.mediaModel?.image != null
                         ? ShowImageWidget(image: widget.mediaModel!.image!)
                         : const SizedBox.shrink(),
-                    const SizedBox(height: 12),
+                    widget.mediaModel?.image != null
+                        ? const SizedBox(height: 12)
+                        : const SizedBox.shrink(),
                     // Text(
                     //   'Admin Rating (1-5)',
                     //   style: Styles.semiBoldPoppins14
